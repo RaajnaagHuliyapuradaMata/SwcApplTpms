@@ -1,0 +1,25 @@
+Wichtig, zu wissen und ggf. zu prüfen:
+Die NV Blöcke sind ja 4 Byte orientiert (max. Alignment), parallel (union) dazu liegen ja die
+1 Byte großen Members (auch Arrays, aber alle uint8). Wenn nun das Alignment des OS aber 2 oder 4 Byte ist,
+dann passt ja die Zuordnung 1 Byte zu 4 byte nicht mehr, da ja dann 1 Byte Members auch 2 oder 4 Bytes belegen.
+Wenn dann über den Union zugegriffen wird, dann müssten "eigentlich"  die falschen Bytes im 4 Byte Block drin liegen
+
+Bsp.:
+1 Byte OS alignment
+M1,M2,M3,M4 & M5, alle 1 Byte
+Per Union über den 4Byte Block-Zugriff kann ich also auf M1,M2 M3 und M4 zugreifen.
+Wenn nun das OS Alignment aber 2 Byte groß ist, kann ich über per Union über den 4Byte Block-Zugriff
+nunr noch  auf M1 und M2 zugreifen, da sie ja jeweils 2 Byte belegen.
+
+Wichtig ist auch noch, dass immer nur Struct-Member direkt zugewiesen (kopiert) werden, nie der ganze Struct mittels Zuweisung.
+Grund: Im NvM ist ja die tatsächliche Byte-größe eines Structs hinterlegt, ohne Alignement-Zugabe!
+Bei einer dirketen Struct-Zuweissung (struct1 = struct2;) wird aber vom Linker das Alignment berücksichtigt, d.h. im NvM würden ggf.
+Bytes überschrieben weren.
+
+Noch ein Punkt: Big oder Little-Endian:
+Bei explizieten Konvertierungen von uint32 auf uint8, um byteweise per Pointer darauf zugreifen zu können, muss die Orientierung der Daten
+beachtet werdewn: Intel oder Motorola.
+Geschieht z.B. bei der Funktion "PutDataEE()" -> hier werden u.a. darum darum die Members direkt zugeordnet. Der andere Grund snd die Gaps
+wegen. des Alignements
+
+Braun ENTS4, 01.12.2014
