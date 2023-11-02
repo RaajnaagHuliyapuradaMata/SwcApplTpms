@@ -1,5 +1,4 @@
-#ifndef HUF_CAN_IF_HEADER_
-#define HUF_CAN_IF_HEADER_
+#pragma once
 
 #define VEHSTATE_VEHICLE_SPEED_HYST_ID                                ((uint8)0)
 #define VEHSTATE_REDIAG_ACTIVE_HYST_ID                                ((uint8)1)
@@ -45,6 +44,3 @@ extern uint8   ReceiveGetTrefTemperature      (sint8*   pODTemp);
 extern boolean ReceiveGetVehicleSpeedValidity (void);
 extern uint8   ReceiveGetFmmotmax             (uint8*   pucFmmotmaxPressure);
 extern void    OperateAtmosphericPressure     (void);
-
-#endif
-
