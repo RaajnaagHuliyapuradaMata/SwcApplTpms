@@ -1,0 +1,34 @@
+
+
+#ifndef _RTE_COMPILER_CFG_H
+#define _RTE_COMPILER_CFG_H
+
+#define RTE_CODE
+
+#define RTE_VAR_NOINIT
+
+#define RTE_CONST
+
+#define RTE_CTAPHUFTPMSSWC_APPL_VAR
+
+#define RTE_CTAPHUFTPMSSWC_APPL_DATA
+
+#define RTE_CTAPHUFTPMSSWC_APPL_CODE
+
+#define RTE_CTAPHUFTPMSSWC_APPL_CONST
+
+#define CtApHufTpmsSWC_CODE
+
+#define CtApHufTpmsSWC_CONST
+
+#define CtApHufTpmsSWC_VAR_NOINIT
+
+#define CtApHufTpmsSWC_VAR_INIT
+
+#define CtApHufTpmsSWC_VAR_ZERO_INIT
+
+#define RTE_CONST_DEFAULT_RTE_CALPRM_GROUP
+
+#define RTE_VAR_DEFAULT_RTE_PIM_GROUP
+
+#endif
