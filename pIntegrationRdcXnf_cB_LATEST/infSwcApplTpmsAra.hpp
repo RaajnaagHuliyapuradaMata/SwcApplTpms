@@ -125,10 +125,14 @@ typedef struct{
       ,  CONSTP2VAR(Type_System_tTemperature_DegC_s16,         SWCAPPLTPMS_APPL_DATA, AUTOMATIC) lcptrtTemperatureAir
    );
 
+   FUNC(void, SWCAPPLTPMS_CODE) (*get_relative_time)(
+      CONSTP2VAR(Type_infAraSwcApplTpms_eQualitySignal,     SWCAPPLTPMS_APPL_DATA, AUTOMATIC) lcptreQualitySignal
+		   , uint32*                                const
+   );
+
    void                                  (*get_vehicle_state            )(Type_infAraSwcApplTpms_eQualitySignal*           const, Type_infAraSwcApplTpms_eStateVehicle*  const              );
    void                                  (*get_vehicle_velocity         )(Type_infAraSwcApplTpms_eQualitySignal*           const, uint16*                                const              );
    void                                  (*get_odometer                 )(Type_infAraSwcApplTpms_eQualitySignal*           const, uint32*                                const              );
-   void                                  (*get_relative_time            )(Type_infAraSwcApplTpms_eQualitySignal*           const, uint32*                                const              );
    void                                  (*get_nvm_block_addresses      )(Type_infAraSwcApplTpms_stAddressesBlockNvM*      const                                                            );
    void                                  (*get_nvm_block_error_status   )(Dtms_nvm_block_ids_et,                                  Type_infAraSwcApplTpms_eReqNvM*        const              );
    void                                  (*set_check_control_message    )(Type_infSwcApplTpmsAra_stCcm*                    const                                                            );

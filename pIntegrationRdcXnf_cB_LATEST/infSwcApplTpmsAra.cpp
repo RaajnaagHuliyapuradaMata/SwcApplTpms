@@ -79,20 +79,20 @@ FUNC(void, SWCAPPLTPMS_CODE) infSwcApplTpmsAra_vRunnable(void){
    //TBD: Delete test code - "Receivers"
    (void)infSwcApplTpmsAra_pstContext->get_rdci_coding_parameters (&SwcApplTpms_stContext.stReceivers.stParameterCodingTpms);
    (void)infSwcApplTpmsAra_pstContext->get_rdci_coding_erfs_caf   (&SwcApplTpms_stContext.stReceivers.stCodingErfsCaf);
+         infSwcApplTpmsAra_pstContext->get_date_and_time          (&SwcApplTpms_stContext.stReceivers.eQualitySignalDateAndTime,         &SwcApplTpms_stContext.stReceivers.stDateAndTime);
          infSwcApplTpmsAra_pstContext->get_altitude               (&SwcApplTpms_stContext.stReceivers.eQualitySignalAltitude,            &SwcApplTpms_stContext.stReceivers.tAltitude, &SwcApplTpms_stContext.stReceivers.tErrorAltitude);
          infSwcApplTpmsAra_pstContext->get_atmospheric_pressure   (&SwcApplTpms_stContext.stReceivers.eQualitySignalPressureAtmospheric, &SwcApplTpms_stContext.stReceivers.tPressureAtmospheric);
+         infSwcApplTpmsAra_pstContext->get_vehicle_gear           (&SwcApplTpms_stContext.stReceivers.eQualitySignalGearVehicle,         &SwcApplTpms_stContext.stReceivers.eGearVehicle);
+   SwcApplTpms_stContext.stReceivers.eDtcSuppressionNetwork = infSwcApplTpmsAra_pstContext->get_network_dtc_suppression();
+   SwcApplTpms_stContext.stReceivers.eStatusNetwork         = infSwcApplTpmsAra_pstContext->get_network_status();
+         infSwcApplTpmsAra_pstContext->get_air_temperature        (&SwcApplTpms_stContext.stReceivers.eQualitySignalTemperatureAir,      &SwcApplTpms_stContext.stReceivers.tTemperatureAir);
 
          infSwcApplTpmsAra_pstContext->get_vehicle_state          (&SwcApplTpms_stContext.stReceivers.eQualitySignalStateVehicle,        &SwcApplTpms_stContext.stReceivers.eStateVehicle);
          infSwcApplTpmsAra_pstContext->get_vehicle_velocity       (&SwcApplTpms_stContext.stReceivers.eQualitySignalVelocityVehicle,     &SwcApplTpms_stContext.stReceivers.u16VelocityVehicle);
          infSwcApplTpmsAra_pstContext->get_odometer               (&SwcApplTpms_stContext.stReceivers.eQualitySignalOdometer,            &SwcApplTpms_stContext.stReceivers.u32Odometer);
-         infSwcApplTpmsAra_pstContext->get_air_temperature        (&SwcApplTpms_stContext.stReceivers.eQualitySignalTemperatureAir,      &SwcApplTpms_stContext.stReceivers.tTemperatureAir);
-         infSwcApplTpmsAra_pstContext->get_date_and_time          (&SwcApplTpms_stContext.stReceivers.eQualitySignalDateAndTime,         &SwcApplTpms_stContext.stReceivers.stDateAndTime);
          infSwcApplTpmsAra_pstContext->get_relative_time          (&SwcApplTpms_stContext.stReceivers.eQualitySignalTimeRelative,        &SwcApplTpms_stContext.stReceivers.u32TimeRelative);
-         infSwcApplTpmsAra_pstContext->get_vehicle_gear           (&SwcApplTpms_stContext.stReceivers.eQualitySignalGearVehicle,         &SwcApplTpms_stContext.stReceivers.eGearVehicle);
          infSwcApplTpmsAra_pstContext->get_nvm_block_addresses    (&SwcApplTpms_stContext.stReceivers.stAddressesBlockNvM);
          infSwcApplTpmsAra_pstContext->get_nvm_block_error_status (0, &SwcApplTpms_stContext.stReceivers.aeListReqNvM[0]); //TBD: request vs status? (per block id - total len configured?)
-   SwcApplTpms_stContext.stReceivers.eStatusNetwork         = infSwcApplTpmsAra_pstContext->get_network_status();
-   SwcApplTpms_stContext.stReceivers.eDtcSuppressionNetwork = infSwcApplTpmsAra_pstContext->get_network_dtc_suppression();
 
    //TBD: Delete test code - "Senders"
          infSwcApplTpmsAra_pstContext->set_check_control_message    (&SwcApplTpms_stContext.stSenders.stCcm);
