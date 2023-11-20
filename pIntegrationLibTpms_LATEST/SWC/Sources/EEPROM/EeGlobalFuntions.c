@@ -12,6 +12,9 @@
 #endif
 
 void CheckMemoryReserveEE(Rte_Instance self){
+#ifdef _EcuVirtual
+   UNUSED(self);
+#else
   uint16 ushTotalMem;
   uint16 ushMaxUsedMem;
   uint16 ushOfcBits = 0;
@@ -75,5 +78,6 @@ void CheckMemoryReserveEE(Rte_Instance self){
       assert(ushOfcBits == 0);
     #endif
   #endif
+#endif
 }
 

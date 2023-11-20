@@ -40,7 +40,11 @@ void PUTucWarnStatusBlockInitializeEE( Rte_Instance self, uint8 ucNvmInitialize)
 }
 
 void GETucWsEE( Rte_Instance self, uint8 * x){
+#ifdef _EcuVirtual
+  if( x != NULL_PTR){
+#else
   if( x != NULL){
+#endif
     *x = ((tWarnStatusNvmBlockType *) (void *) Rte_Pim_NvmRdciWarnStatusBlock_NVBlock_MirrorBlock( self)->Data)->ucWS;
   }
 }
@@ -56,14 +60,22 @@ void PUTucWsEE( Rte_Instance self, uint8 x, boolean bUpdateOnEvent){
 }
 
 void GETtCdEE( Rte_Instance self, tCalibrationTab * x){
+#ifdef _EcuVirtual
+  if( x != NULL_PTR){
+#else
   if( x != NULL){
+#endif
     *x = ((tWarnStatusNvmBlockType *) (void *) Rte_Pim_NvmRdciWarnStatusBlock_NVBlock_MirrorBlock( self)->Data)->tCD;
   }
 }
 
 void PUTtCdInitValEE( Rte_Instance self, boolean bUpdateOnEvent){
   tCalibrationTab tCalInit =  {
+#ifdef _EcuVirtual
+      0,
+#else
       { 0                              },
+#endif
       { 0, 0, 0, 0                     },
       { { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
       { { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
@@ -77,7 +89,11 @@ void PUTtCdInitValEE( Rte_Instance self, boolean bUpdateOnEvent){
 }
 
 void PUTtCdEE( Rte_Instance self, const tCalibrationTab * x, boolean bUpdateOnEvent){
+#ifdef _EcuVirtual
+  if( x != NULL_PTR){
+#else
   if( x != NULL){
+#endif
     if( bUpdateOnEvent == TRUE){
       SetWarnStatusBlockUpdateFlagEE();
     }else{
@@ -90,7 +106,11 @@ void PUTtCdEE( Rte_Instance self, const tCalibrationTab * x, boolean bUpdateOnEv
 
 void GETucTsEE( Rte_Instance self, uint8 * x)
 {
+#ifdef _EcuVirtual
+  if( x != NULL_PTR)
+#else
   if( x != NULL)
+#endif
   {
     *x = ((tWarnStatusNvmBlockType *) (void *) Rte_Pim_NvmRdciWarnStatusBlock_NVBlock_MirrorBlock( self)->Data)->ucTS;
   }
@@ -116,7 +136,11 @@ void GETaucCbEE( Rte_Instance self, WarnConfigArrayType * x)
 {
   uint8 ucHistPos;
 
+#ifdef _EcuVirtual
+  if( x != NULL_PTR)
+#else
   if( x != NULL)
+#endif
   {
     for ( ucHistPos = 0; ucHistPos < sizeof(WarnConfigArrayType); ucHistPos++)
     {
@@ -136,7 +160,11 @@ void PUTaucCbEE( Rte_Instance self, const WarnConfigArrayType * x, boolean bUpda
 {
   uint8 ucHistPos;
 
+#ifdef _EcuVirtual
+  if( x != NULL_PTR)
+#else
   if( x != NULL)
+#endif
   {
     for( ucHistPos = 0; ucHistPos < sizeof(WarnConfigArrayType); ucHistPos++)
     {
@@ -160,7 +188,11 @@ void GETaucWarnTypeArrayEE( Rte_Instance self, WarnBitArrayType * x)
 {
   uint8 ucHistPos, ucAttrTyp;
 
+#ifdef _EcuVirtual
+  if( x != NULL_PTR)
+#else
   if( x != NULL)
+#endif
   {
     for ( ucHistPos = 0; ucHistPos < cAnzRad; ucHistPos++)
     {
@@ -188,7 +220,11 @@ void PUTaucWarnTypeArrayEE( Rte_Instance self, const WarnBitArrayType * x, boole
 {
   uint8 ucHistPos, ucAttrTyp;
 
+#ifdef _EcuVirtual
+  if( x != NULL_PTR)
+#else
   if( x != NULL)
+#endif
   {
     for( ucHistPos = 0; ucHistPos < cAnzRad; ucHistPos++)
     {
@@ -215,7 +251,11 @@ void GETaushShortTimerEE( Rte_Instance self, ShortTimerArrayType * x)
 {
   uint8 ucHistPos;
 
+#ifdef _EcuVirtual
+  if( x != NULL_PTR)
+#else
   if( x != NULL)
+#endif
   {
     for ( ucHistPos = 0; ucHistPos < cAnzRad; ucHistPos++)
     {
@@ -235,7 +275,11 @@ void PUTaushShortTimerEE( Rte_Instance self, const ShortTimerArrayType * x, bool
 {
   uint8 ucHistPos;
 
+#ifdef _EcuVirtual
+  if( x != NULL_PTR)
+#else
   if( x != NULL)
+#endif
   {
     for( ucHistPos = 0; ucHistPos < cAnzRad; ucHistPos++)
     {
@@ -259,7 +303,11 @@ void GETaushLongTimerEE( Rte_Instance self, LongTimerArrayType * x)
 {
   uint8 ucHistPos;
 
+#ifdef _EcuVirtual
+  if( x != NULL_PTR)
+#else
   if( x != NULL)
+#endif
   {
     for ( ucHistPos = 0; ucHistPos < cAnzRad; ucHistPos++)
     {
@@ -279,7 +327,11 @@ void PUTaushLongTimerEE( Rte_Instance self, const LongTimerArrayType * x, boolea
 {
   uint8 ucHistPos;
 
+#ifdef _EcuVirtual
+  if( x != NULL_PTR)
+#else
   if( x != NULL)
+#endif
   {
     for( ucHistPos = 0; ucHistPos < cAnzRad; ucHistPos++)
     {

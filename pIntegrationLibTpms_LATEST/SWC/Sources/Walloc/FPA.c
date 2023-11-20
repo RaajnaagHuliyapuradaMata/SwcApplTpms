@@ -311,7 +311,11 @@ static void GenerateAbsoluteCompareValuesFPA(uint8 ucSlot)
   static const char filename[] = "zo_statistik.csv";
   static boolean bFirst = TRUE;
   char line[110] = {"Slot; ID; WPos; CurTick; CurTooth; DistRefVal; dN1; dN2; AvgdN1; AvgdN2; Dev1; Dev2; CmpVal1; CmpVal2;"};
-                   /
+  uint8 ucPos, ucLen;
+  uint8 j;
+  #endif    
+  
+  uint16 ushCurrentTooth;
   uint16 ushDistRefVal;
   uint16 ushDistStandard;
   uint16 ushDistShadow;

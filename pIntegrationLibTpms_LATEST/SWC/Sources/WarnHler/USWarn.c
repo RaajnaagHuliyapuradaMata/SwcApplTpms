@@ -175,7 +175,11 @@ static void ClearWarntypeBit( uint8 ucWType, uint8 ucId, uint8 ucMode)
 
       for ( ucWTCount = 0; ucWTCount < ucMaxWarnTypeWNc; ucWTCount++)
       {
+#ifdef _EcuVirtual
+        if( fpt2WnTypeCallbackClearWnBit[ucWTCount] != NULL_PTR)
+#else
         if( fpt2WnTypeCallbackClearWnBit[ucWTCount] != NULL)
+#endif
         {
           (void) fpt2WnTypeCallbackClearWnBit[ucWTCount] ( ucLoop);
         }
@@ -189,7 +193,11 @@ static void ClearWarntypeBit( uint8 ucWType, uint8 ucId, uint8 ucMode)
 
     for ( ucWTCount = 0; ucWTCount < ucMaxWarnTypeWNc; ucWTCount++)
     {
+#ifdef _EcuVirtual
+      if( fpt2WnTypeCallbackClearWnBit[ucWTCount] != NULL_PTR)
+#else
       if( fpt2WnTypeCallbackClearWnBit[ucWTCount] != NULL)
+#endif
       {
         (void) fpt2WnTypeCallbackClearWnBit[ucWTCount] ( ucId);
       }
@@ -353,7 +361,11 @@ static uint8 ucGenWNVector( Rte_Instance self, uint8* pucData)
 
     for ( ucLoop = 0; ucLoop < ucMaxWarnTypeWNc; ucLoop++)
     {
+#ifdef _EcuVirtual
+      if( fpt2WnType[ucLoop] != NULL_PTR)
+#else
       if( fpt2WnType[ucLoop] != NULL)
+#endif
       {
         ucResult = fpt2WnType[ucLoop]( &tLWD, ucWarnStateWN, ucLoop);
 

@@ -791,6 +791,10 @@ FUNC(void, CtApHufTpmsSWC_CODE) RExitRDCiBye(Rte_Instance self)
   Rte_IWrite_RExitRDCiBye_PpFrPdu_WITR_TYP_TYR_WID_WITR_TYP_TYR(self, Rte_InitValue_PpFrPdu_WITR_TYP_TYR_WID_WITR_TYP_TYR);
   Rte_IWrite_RExitRDCiBye_PpFrPdu_WITR_TYP_TYR_WITR_TYP_TYR_ID2(self, Rte_InitValue_PpFrPdu_WITR_TYP_TYR_WITR_TYP_TYR_ID2);
 #endif
+#ifdef _EcuVirtual
+   UNUSED(self);
+#else
+#endif
 
 }
 
@@ -803,6 +807,10 @@ FUNC(void, CtApHufTpmsSWC_CODE) RInitRDCiStartup(Rte_Instance self)
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagFunktionenReifendruckkontrolle_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
 
+#ifdef _EcuVirtual
+   UNUSED(self);
+#else
+#endif
   return RTE_E_OK;
 
 }
@@ -810,6 +818,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagFunktionenReifendruckkont
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagFunktionenReifendruckkontrolle_ReadData(Rte_Instance self, P2VAR(ImpTypeValDcm_FunktionenReifendruckkontrolleReadDataType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
 {
 
+#ifdef _EcuVirtual
+   UNUSED(self);
+#else
+#endif
   return RTE_E_OK;
 
 }
@@ -829,6 +841,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcAktuelleAussentemperat
     ucRetVal = RTE_E_OK;
   }
 
+#ifdef _EcuVirtual
+   UNUSED(self);
+#else
+#endif
   return ucRetVal;
 
 }
@@ -865,6 +881,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcAussendruck_ConditionC
     ucRetVal = RTE_E_OK;
   }
 
+#ifdef _EcuVirtual
+   UNUSED(self);
+#else
+#endif
   return ucRetVal;
 
 }
@@ -2887,14 +2907,35 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmSteuernRdcErfsEcoNeueReifenVo
 
         if(ucRetVal != RTE_E_OK)
         {
-          /
+          *ErrorCode = RTE_E_OK;
+          ucRetVal = RTE_E_PiServiceDcmSteuernRdcErfsEcoNeueReifenVorgeben_DCM_E_PENDING;
+        }
+      }
+      else
+      {
+        *ErrorCode = DCM_E_REQUESTOUTOFRANGE;
+        ucRetVal = RTE_E_PiServiceDcmSteuernRdcErfsEcoNeueReifenVorgeben_E_NOT_OK;
+      }
+    }
+
+    if ( ucRetVal == RTE_E_OK )
+    {
+      (void) Rte_Call_CpNvmRdciErfsEcoBlock_GetErrorStatus( self, &ucNvmReqResult );
+
+      if (ucNvmReqResult == NVM_REQ_OK )
+      {
         ucDataIndex = 0xFF;
         *ErrorCode = RTE_E_OK;
       }
       else
       {
         *ErrorCode = RTE_E_OK;
-        /
+        ucRetVal = RTE_E_PiServiceDcmSteuernRdcErfsEcoNeueReifenVorgeben_DCM_E_PENDING;
+      }
+    }
+  }
+
+  return ucRetVal;
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmSteuernRdcErfsEcoReifentabelleVorgeben_WriteData(Rte_Instance self, P2CONST(uint8, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_DATA) Data, ImpTypeRefDcm_OpStatusType OpStatus, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
@@ -2940,7 +2981,27 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmSteuernRdcErfsEcoReifentabell
           }
           DataIndex++;
         }
-        /
+        ucRetVal = RTE_E_PiServiceDcmSteuernRdcErfsEcoReifentabelleVorgeben_DCM_E_PENDING;
+      }
+      else
+      {         
+        DataIndex = 0x00;
+
+        if (ucGetCRdciErfsPlacardSourceCD() == BMW_FACTORY_HO)
+        {
+          i = CopyDiagTyreListToTyreList( self );
+          CompCurTyrSelWithTyreListEntries( self, i );
+        }
+      }
+    }
+    else
+    {
+      *ErrorCode = DCM_E_REQUESTOUTOFRANGE; 
+      ucRetVal = RTE_E_PiServiceDcmSteuernRdcErfsEcoReifentabelleVorgeben_E_NOT_OK;
+    }
+  }
+
+  return ucRetVal;
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmSteuernRdcErfsTsaDatenVorgeben_WriteData(Rte_Instance self, P2CONST(uint8, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_DATA) Data, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
