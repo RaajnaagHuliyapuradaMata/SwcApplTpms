@@ -42,37 +42,37 @@ extern "C"
 #define cWT_WNindex_map              { cucIX_Ppanne,    cucIX_Pmin,     cucIX_Pwarn,        cucIX_PwarnTol,       cucIX_Pvorw,        cucIX_5,  cucIX_DHW,        cucIX_FT     }
 #define cWT_WNvector_map             { cucWN_Ppanne,    cucWN_Pmin,     cucWN_Pwarn,        cucWN_PwarnTol,       cucWN_Pvorw,        cucWN_5,  cucWN_DHW,        cucWN_FT     }
 
-#ifdef _EcuVirtual
+#ifdef _SwcApplTpms_CLAR_LCI
 #define cAllWT_function              { bWT_Ppanne,      bWT_Pmin,       bWT_Pwarn,          bWT_PwarnTol,         bWT_Pvorw,          NULL_PTR,     bWT_DHW,          bWT_FT       }
 #else
 #define cAllWT_function              { bWT_Ppanne,      bWT_Pmin,       bWT_Pwarn,          bWT_PwarnTol,         bWT_Pvorw,          NULL,     bWT_DHW,          bWT_FT       }
 #endif
 
-#ifdef _EcuVirtual
+#ifdef _SwcApplTpms_CLAR_LCI
 #define cWT_WNcallbackClearWnBit_map { NULL_PTR,            NULL_PTR,           NULL_PTR,               NULL_PTR,                 NULL_PTR,               NULL_PTR,     ResetPresRefDHW,  NULL_PTR         }
 #else
 #define cWT_WNcallbackClearWnBit_map { NULL,            NULL,           NULL,               NULL,                 NULL,               NULL,     ResetPresRefDHW,  NULL         }
 #endif
 
-#ifdef _EcuVirtual
+#ifdef _SwcApplTpms_CLAR_LCI
 #define cWT_WNcallbackSetWnBit_map   { NULL_PTR,            NULL_PTR,           NULL_PTR,               NULL_PTR,                 NULL_PTR,               NULL_PTR,     NULL_PTR,             NULL_PTR         }
 #else
 #define cWT_WNcallbackSetWnBit_map   { NULL,            NULL,           NULL,               NULL,                 NULL,               NULL,     NULL,             NULL         }
 #endif
 
-#ifdef _EcuVirtual
+#ifdef _SwcApplTpms_CLAR_LCI
 #define cWT_WNcallbackTimerInit_map  { NULL_PTR,            NULL_PTR,           TimerInitPWARN,     TimerInitPWARNTOL,    TimerInitPVORW,     NULL_PTR,     TimerInitDHW,     NULL_PTR         }
 #else
 #define cWT_WNcallbackTimerInit_map  { NULL,            NULL,           TimerInitPWARN,     TimerInitPWARNTOL,    TimerInitPVORW,     NULL,     TimerInitDHW,     NULL         }
 #endif
 
-#ifdef _EcuVirtual
+#ifdef _SwcApplTpms_CLAR_LCI
 #define cWT_WNcallbackTimerCount_map { NULL_PTR,            NULL_PTR,           TimerCountPWARN,    TimerCountPWARNTOL,   TimerCountPVORW,    NULL_PTR,     TimerCountDHW,    NULL_PTR         }
 #else
 #define cWT_WNcallbackTimerCount_map { NULL,            NULL,           TimerCountPWARN,    TimerCountPWARNTOL,   TimerCountPVORW,    NULL,     TimerCountDHW,    NULL         }
 #endif
 
-#ifdef _EcuVirtual
+#ifdef _SwcApplTpms_CLAR_LCI
 #define cWT_WNcallbackTimerStop_map  { NULL_PTR,            NULL_PTR,           TimerStopAllPWARN,  TimerStopAllPWARNTOL, TimerStopAllPVORW,  NULL_PTR,     TimerStopAllDHW,  NULL_PTR         }
 #else
 #define cWT_WNcallbackTimerStop_map  { NULL,            NULL,           TimerStopAllPWARN,  TimerStopAllPWARNTOL, TimerStopAllPVORW,  NULL,     TimerStopAllDHW,  NULL         }

@@ -15,7 +15,7 @@ void TimerWT( Rte_Instance self, uint8 ucAction)
     case ucCountc:
       for ( ucWTCount = 0; ucWTCount < ucMaxWarnTypeWNc; ucWTCount++)
       {
-#ifdef _EcuVirtual
+#ifdef _SwcApplTpms_CLAR_LCI
         if( fpt2WnTypeCallbackCount[ucWTCount] != NULL_PTR)
 #else
         if( fpt2WnTypeCallbackCount[ucWTCount] != NULL)
@@ -29,7 +29,7 @@ void TimerWT( Rte_Instance self, uint8 ucAction)
     case ucIniTimec:
       for ( ucWTCount = 0; ucWTCount < ucMaxWarnTypeWNc; ucWTCount++)
       {
-#ifdef _EcuVirtual
+#ifdef _SwcApplTpms_CLAR_LCI
         if( fpt2WnTypeCallbackInit[ucWTCount] != NULL_PTR)
 #else
         if( fpt2WnTypeCallbackInit[ucWTCount] != NULL)
@@ -53,7 +53,7 @@ void TimerStopWT(void)
 
   for ( ucLoop = 0; ucLoop < ucMaxWarnTypeWNc; ucLoop++)
   {
-#ifdef _EcuVirtual
+#ifdef _SwcApplTpms_CLAR_LCI
     if( fpt2WnTypeCallbackStop[ucLoop] != NULL_PTR)
 #else
     if( fpt2WnTypeCallbackStop[ucLoop] != NULL)

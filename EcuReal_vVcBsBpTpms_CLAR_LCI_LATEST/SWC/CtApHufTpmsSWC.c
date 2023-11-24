@@ -13,7 +13,7 @@
 /* certain responsibilities, if you distribute copies of the software, or if  */
 /* you modify it: responsibilities to respect the freedom of others.          */
 /*                                                                            */
-/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/* All rights reserved. Copyright ï¿½ 1982 Raajnaag HULIYAPURADA MATA           */
 /*                                                                            */
 /* Always refer latest software version from:                                 */
 /* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
@@ -800,35 +800,29 @@ FUNC(void, CtApHufTpmsSWC_CODE) RExitRDCiBye(Rte_Instance self)
 
 FUNC(void, CtApHufTpmsSWC_CODE) RInitRDCiStartup(Rte_Instance self)
 {
-
   InitSWC( self);
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagFunktionenReifendruckkontrolle_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
 #ifdef _EcuVirtual
    UNUSED(self);
 #else
 #endif
   return RTE_E_OK;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagFunktionenReifendruckkontrolle_ReadData(Rte_Instance self, P2VAR(ImpTypeValDcm_FunktionenReifendruckkontrolleReadDataType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
 {
-
 #ifdef _EcuVirtual
    UNUSED(self);
 #else
 #endif
   return RTE_E_OK;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcAktuelleAussentemperatur_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -846,29 +840,24 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcAktuelleAussentemperat
 #else
 #endif
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcAktuelleAussentemperatur_ReadData(Rte_Instance self, P2VAR(ImpTypeValDcm_RdcAktuelleAussentemperaturReadDataType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
   {
-
     ucRetVal = RTE_E_PiServiceDcmRdcAktuelleAussentemperatur_E_NOT_OK;
   }else{
     *Data = (uint8) GETscTAmbValEE( self);
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcAussendruck_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -886,12 +875,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcAussendruck_ConditionC
 #else
 #endif
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcAussendruck_ReadData(Rte_Instance self, P2VAR(uint8, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
 {
-
   uint16 ushPamb;
 
   Std_ReturnType ucRetVal = RTE_E_OK;
@@ -907,12 +894,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcAussendruck_ReadData(R
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcInaktivStatus_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -926,12 +911,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcInaktivStatus_Conditio
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcInaktivStatus_ReadData(Rte_Instance self, P2VAR(ImpTypeValDcm_RdcInaktivStatusReadDataType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -953,12 +936,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcInaktivStatus_ReadData
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcKalibrierungStatus_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -972,7 +953,6 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcKalibrierungStatus_Con
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcKalibrierungStatus_ReadData(Rte_Instance self, P2VAR(ImpTypeValDcm_RdcKalibrierungStatusReadDataType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
@@ -998,12 +978,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcKalibrierungStatus_Rea
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcKonfiguration_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -1017,12 +995,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcKonfiguration_Conditio
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcKonfiguration_ReadData(Rte_Instance self, P2VAR(ImpTypeValDcm_RdcKonfigurationReadDataType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -1059,12 +1035,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcKonfiguration_ReadData
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcPosition_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -1078,12 +1052,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcPosition_ConditionChec
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcPosition_ReadData(Rte_Instance self, P2VAR(ImpTypeValDcm_RdcPositionReadDataType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
   uint8 ucDtcNumber;
 
@@ -1100,12 +1072,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcPosition_ReadData(Rte_
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReferenzAussentemperatur_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -1119,12 +1089,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReferenzAussentemperat
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReferenzAussentemperatur_ReadData(Rte_Instance self, P2VAR(ImpTypeValDcm_RdcReferenzAussentemperaturReadDataType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -1136,12 +1104,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReferenzAussentemperat
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckHl_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -1155,12 +1121,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckHl_Conditio
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckHl_ReadData(Rte_Instance self, P2VAR(uint8, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
   PhySensorTyrePresType ucPress;
   uint8  ucHistId;
@@ -1168,7 +1132,6 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckHl_ReadData
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
   {
-
     ucRetVal = RTE_E_PiServiceDcmRdcReifendruckHl_E_NOT_OK;
   }else{
     ucHistId = ucGetColOfWP( cRadPosHL);
@@ -1191,17 +1154,14 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckHl_ReadData
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckHr_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
   {
-
     *ErrorCode = DCM_E_CONDITIONSNOTCORRECT;
     ucRetVal = RTE_E_PiServiceDcmRdcReifendruckHr_E_NOT_OK;
   }else{
@@ -1210,12 +1170,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckHr_Conditio
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckHr_ReadData(Rte_Instance self, P2VAR(uint8, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
   PhySensorTyrePresType ucPress;
   uint8 ucHistId;
@@ -1246,12 +1204,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckHr_ReadData
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckVl_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -1265,12 +1221,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckVl_Conditio
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckVl_ReadData(Rte_Instance self, P2VAR(uint8, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
   PhySensorTyrePresType ucPress;
   uint8 ucHistId;
@@ -1301,12 +1255,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckVl_ReadData
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckVr_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -1320,12 +1272,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckVr_Conditio
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckVr_ReadData(Rte_Instance self, P2VAR(uint8, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
   PhySensorTyrePresType ucPress;
   uint8 ucHistId;
@@ -1356,12 +1306,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifendruckVr_ReadData
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifentemperaturHl_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -1375,12 +1323,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifentemperaturHl_Con
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifentemperaturHl_ReadData(Rte_Instance self, P2VAR(ImpTypeValDcm_RdcReifentemperaturHlReadDataType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
   PhySensorTyreTempType scTemp;
   uint8 ucHistId;
@@ -1402,12 +1348,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifentemperaturHl_Rea
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifentemperaturHr_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -1421,12 +1365,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifentemperaturHr_Con
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifentemperaturHr_ReadData(Rte_Instance self, P2VAR(ImpTypeValDcm_RdcReifentemperaturHrReadDataType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
   PhySensorTyreTempType scTemp;
   uint8 ucHistId;
@@ -1448,12 +1390,10 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifentemperaturHr_Rea
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifentemperaturVl_ConditionCheckRead(Rte_Instance self, P2VAR(ImpTypeRefDcm_NegativeResponseCodeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorCode)
 {
-
   Std_ReturnType ucRetVal = RTE_E_OK;
 
   if( ucReifenPannenerkennung_aktiv != (uint8) AKTIV_RDC)
@@ -1466,7 +1406,6 @@ FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifentemperaturVl_Con
   }
 
   return ucRetVal;
-
 }
 
 FUNC(Std_ReturnType, CtApHufTpmsSWC_CODE) ROpInvDcmDiagRdcReifentemperaturVl_ReadData(Rte_Instance self, P2VAR(ImpTypeValDcm_RdcReifentemperaturVlReadDataType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data)
@@ -6058,7 +5997,11 @@ static uint8 InitTyreList( Rte_Instance self)
     {
       pTyreListPtr = Rte_Prm_RpCalPrmRDCi_CRdciErfsReifenEco( self);
 
+#ifdef D_SwcApplTpms_CLAR_LCI
       if(pTyreListPtr != NULL)
+#else
+      if(pTyreListPtr != NULL_PTR)
+#endif
       {
 
         for (i = 0; i < TYRE_LIST_MAX_ELEMENTS; i++)

@@ -76,7 +76,7 @@ uint8   ucGetCRdciParkSupWarningThNcValueCD(void)             { return tCodingDa
 
 void PutCRdciTPrewarnNcCD( boolean bCRdciTPrewarnNc)                                                   { tCodingDataCD.bCRdciTPrewarnNc                            = bCRdciTPrewarnNc                            ; }
 void PutCRdciMaxThresholdCD( boolean bCRdciMaxThreshold)                                               { tCodingDataCD.bCRdciMaxThreshold                          = bCRdciMaxThreshold                          ; }
-void PutCRdciPrewarnEnableCD( boolean bCRdciPrewarnEnable)                                              { tCodingDataCD.bCRdciPrewarnEnable                         = bCRdciPrewarnEnable                         ; }
+void PutCRdciPrewarnEnableCD( boolean bCRdciPrewarnEnable)                                             { tCodingDataCD.bCRdciPrewarnEnable                         = bCRdciPrewarnEnable                         ; }
 void PutCRdciStatInitCD( boolean bCRdciStatInit)                                                       { tCodingDataCD.bCRdciStatInit                              = bCRdciStatInit                              ; }
 void PutCRdciNumPrewarnDetectCD( boolean bCRdciNumPrewarnDetect)                                       { tCodingDataCD.bCRdciNumPrewarnDetect                      = bCRdciNumPrewarnDetect                      ; }
 void PutCRdciPrewarnIgnitionCD( boolean bCRdciPrewarnIgnition)                                         { tCodingDataCD.bCRdciPrewarnIgnition                       = bCRdciPrewarnIgnition                       ; }

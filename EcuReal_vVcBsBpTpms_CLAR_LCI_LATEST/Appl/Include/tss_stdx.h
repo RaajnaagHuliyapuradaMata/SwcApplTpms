@@ -16,7 +16,7 @@ typedef sint8  PhySensorTyreTempType;
 #define cRadPosHR     ((uint8) 3)
 #define cRadPosUndef  ((uint8) 4)
 
-#ifdef _EcuVirtual
+#ifdef _SwcApplTpms_CLAR_LCI
 #else
 #ifndef NULL
 #define NULL        ((void *)  0)
