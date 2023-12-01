@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ccmX_h
+#define ccmX_h
 
 #ifdef __cplusplus
 extern "C"
@@ -88,4 +89,6 @@ extern uint16 ushGetCcNumberOfIxCCM(uint8 ucIx);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

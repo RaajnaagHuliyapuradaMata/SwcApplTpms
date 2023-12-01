@@ -1,4 +1,5 @@
-#pragma once
+#ifndef Rte_CtApHufTpmsSWC_h
+#define Rte_CtApHufTpmsSWC_h
 
 # ifdef __cplusplus
 extern "C"
@@ -3750,3 +3751,4 @@ FUNC(void, CtApHufTpmsSWC_CODE) ROpInvNvmRdciZomBlock2_NvMNotifyJobFinished_JobF
 }
 # endif
 
+#endif

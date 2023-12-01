@@ -1,4 +1,5 @@
-#pragma once
+#ifndef StatusReLesenDruckcodierung_h
+#define StatusReLesenDruckcodierung_h
 
 # ifdef __cplusplus
 extern "C"
@@ -18,4 +19,6 @@ typedef struct{
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

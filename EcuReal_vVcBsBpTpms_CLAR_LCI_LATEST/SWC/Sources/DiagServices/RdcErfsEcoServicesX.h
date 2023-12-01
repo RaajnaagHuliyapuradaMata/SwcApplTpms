@@ -1,5 +1,3 @@
-
-
 #ifndef _rdcerfsecoservices_X_H
 #define _rdcerfsecoservices_X_H
 

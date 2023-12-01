@@ -1,4 +1,4 @@
-#pragma once
+#ifndef _statusrdcextparksupervisionlesen_X_H
 #define _statusrdcextparksupervisionlesen_X_H
 
 # ifdef __cplusplus
@@ -49,4 +49,6 @@ extern void GetStatusRdcExtParkSupervisionLesen(Rte_Instance self, uint8 *pucDat
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

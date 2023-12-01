@@ -1,5 +1,3 @@
-
-
 #ifndef _rdctsaservices_H
 #define _rdctsaservices_H
 

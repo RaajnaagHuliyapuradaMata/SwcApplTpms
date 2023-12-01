@@ -1,4 +1,5 @@
-#pragma once
+#ifndef StatusReLesenDruckcodierungX_h
+#define StatusReLesenDruckcodierungX_h
 
 # ifdef __cplusplus
 extern "C"
@@ -16,4 +17,6 @@ extern void GetStatusReLesenDruckcodierungDS( uint8* pucData);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

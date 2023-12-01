@@ -1,5 +1,3 @@
-
-
 #ifndef _statusrdclesen_X_H
 #define _statusrdclesen_X_H
 

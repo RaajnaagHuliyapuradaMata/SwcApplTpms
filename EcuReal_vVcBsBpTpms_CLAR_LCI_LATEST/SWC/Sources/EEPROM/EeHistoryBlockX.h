@@ -1,4 +1,5 @@
-#pragma once
+#ifndef EeHistoryBlockX_h
+#define EeHistoryBlockX_h
 
 # ifdef __cplusplus
 extern "C"
@@ -49,4 +50,6 @@ extern uint8 GetRfIfStateMachineFromNvmZOMirrorblockEE(Rte_Instance self);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

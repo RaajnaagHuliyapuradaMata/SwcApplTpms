@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FPA_X_h
+#define FPA_X_h
 
 # ifdef __cplusplus
 extern "C"
@@ -50,3 +51,5 @@ extern uint8 ucGetAllocAbsoluteMinValueFPA(void);
 # ifdef __cplusplus
 }
 # endif
+
+#endif

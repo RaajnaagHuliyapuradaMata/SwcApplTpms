@@ -1,5 +1,3 @@
-
-
 #ifndef _steuernradelektronikvorgeben_X_H
 #define _steuernradelektronikvorgeben_X_H
 

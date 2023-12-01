@@ -1,4 +1,5 @@
-#pragma once
+#ifndef EeZomBlockX_h
+#define EeZomBlockX_h
 
 # ifdef __cplusplus
 extern "C"
@@ -50,4 +51,6 @@ extern boolean bGetZomBlock2UpdateFlagEE(void);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

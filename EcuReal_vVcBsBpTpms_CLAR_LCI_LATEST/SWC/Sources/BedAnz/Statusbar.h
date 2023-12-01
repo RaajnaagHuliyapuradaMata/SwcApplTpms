@@ -1,4 +1,5 @@
-#pragma once
+#ifndef Statusbar_h
+#define Statusbar_h
 
 #ifdef __cplusplus
 extern "C"
@@ -43,3 +44,5 @@ static void JumpTo254SBR(Rte_Instance self);
 # ifdef __cplusplus
 }
 # endif
+
+#endif

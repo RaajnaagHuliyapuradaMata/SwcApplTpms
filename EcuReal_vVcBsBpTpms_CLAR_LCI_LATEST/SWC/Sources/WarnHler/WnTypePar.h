@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WnTypePar_h
+#define WnTypePar_h
 
 #ifdef __cplusplus
 extern "C"
@@ -192,3 +193,4 @@ extern void   GetTimerValPWARNTOL( uint8 ucZomPos, uint8* ucTimState, uint16* us
 }
 #endif
 
+#endif

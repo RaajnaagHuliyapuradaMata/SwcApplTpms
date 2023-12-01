@@ -1,4 +1,5 @@
-#pragma once
+#ifndef eRFS_X_h
+#define eRFS_X_h
 
 #ifdef __cplusplus
 extern "C"
@@ -62,4 +63,6 @@ extern boolean CalcDiagTyreListCrcAndCompare( const uint8* Data);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

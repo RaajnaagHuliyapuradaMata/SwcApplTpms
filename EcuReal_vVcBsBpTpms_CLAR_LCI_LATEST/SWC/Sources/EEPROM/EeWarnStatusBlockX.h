@@ -1,4 +1,5 @@
-#pragma once
+#ifndef EeWarnStatusBlockX_h
+#define EeWarnStatusBlockX_h
 
 # ifdef __cplusplus
 extern "C"
@@ -74,4 +75,6 @@ extern void                   PUTulCoolingCaptTimeEE(Rte_Instance self, uint32 x
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

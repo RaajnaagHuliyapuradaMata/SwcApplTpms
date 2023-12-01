@@ -1,4 +1,5 @@
-#pragma once
+#ifndef walloc_manager_h
+#define walloc_manager_h
 
 # ifdef __cplusplus
 extern "C"
@@ -30,3 +31,5 @@ static void ProcessCalOnErFinishWAM(void);
 # ifdef __cplusplus
 }
 # endif
+
+#endif

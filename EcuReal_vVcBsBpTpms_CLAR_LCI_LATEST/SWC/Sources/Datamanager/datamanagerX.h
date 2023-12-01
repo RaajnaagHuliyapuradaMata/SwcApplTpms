@@ -1,4 +1,5 @@
-#pragma once
+#ifndef datamanagerX_h
+#define datamanagerX_h
 
 #ifdef __cplusplus
 extern "C"
@@ -156,4 +157,6 @@ extern void DeleteReIdLatelyProcBufDM(void);
 extern void WriteReIdLatelyProcBufDM(const uint32 ReID);
 #ifdef __cplusplus
 }
+#endif
+
 #endif

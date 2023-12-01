@@ -1,5 +1,3 @@
-
-
 #ifndef _seasrcpadj_X_H
 #define _seasrcpadj_X_H
 

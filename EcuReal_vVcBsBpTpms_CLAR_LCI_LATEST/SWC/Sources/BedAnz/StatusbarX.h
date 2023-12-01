@@ -1,4 +1,5 @@
-#pragma once
+#ifndef StatusbarX_h
+#define StatusbarX_h
 
 #ifdef __cplusplus
 extern "C"
@@ -17,3 +18,5 @@ extern void SetStatusBarActivityToGoSBR(void);
 # ifdef __cplusplus
 }
 # endif
+
+#endif

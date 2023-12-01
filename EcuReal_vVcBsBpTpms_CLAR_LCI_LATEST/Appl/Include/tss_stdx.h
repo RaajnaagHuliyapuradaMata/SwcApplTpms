@@ -1,4 +1,5 @@
-#pragma once
+#ifndef tss_stdx_h
+#define tss_stdx_h
 
 #include "Std_Types.h"
 
@@ -67,3 +68,5 @@ typedef sint8  PhySensorTyreTempType;
 #define cEnable      ( (uint8) 0x01)
 #define cMaskLoNibble ( (uint8) 0x0Fu)
 #define cMaskHiNibble ( (uint8) 0xF0u)
+
+#endif

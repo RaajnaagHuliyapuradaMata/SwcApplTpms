@@ -1,4 +1,5 @@
-#pragma once
+#ifndef EeCommonBlockX_h
+#define EeCommonBlockX_h
 
 # ifdef __cplusplus
 extern "C"
@@ -142,4 +143,6 @@ extern void   PUTslOATavgEE(Rte_Instance self, sint32 x);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

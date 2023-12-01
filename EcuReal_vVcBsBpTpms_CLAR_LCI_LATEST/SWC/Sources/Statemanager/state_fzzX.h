@@ -1,4 +1,5 @@
-#pragma once
+#ifndef state_fzzX_h
+#define state_fzzX_h
 
 #ifdef __cplusplus
 extern "C"
@@ -64,4 +65,6 @@ extern boolean bPwfIsFahrenFZZ(void);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

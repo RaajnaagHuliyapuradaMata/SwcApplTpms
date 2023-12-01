@@ -1,4 +1,5 @@
-#pragma once
+#ifndef InfoTyre_h
+#define InfoTyre_h
 
 #ifdef __cplusplus
 extern "C"
@@ -91,4 +92,6 @@ static void CalcCoolingDownDataITY( uint16 ushElapsedCoolingTime);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

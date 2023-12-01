@@ -1,4 +1,5 @@
-#pragma once
+#ifndef HS_Kalibrierereignis_h
+#define HS_Kalibrierereignis_h
 
 # ifdef __cplusplus
 extern "C"
@@ -15,4 +16,6 @@ extern "C"
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

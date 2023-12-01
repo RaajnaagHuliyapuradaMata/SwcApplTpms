@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WallocX_h
+#define WallocX_h
 
 # ifdef __cplusplus
 extern "C"
@@ -161,4 +162,6 @@ extern uint8* pucGetNewWheelPosOfIdWAL_debug(Rte_Instance self, uint8 * pucPermS
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

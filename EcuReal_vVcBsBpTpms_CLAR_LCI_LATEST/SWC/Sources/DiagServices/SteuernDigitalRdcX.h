@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SteuernDigitalRdcX_h
+#define SteuernDigitalRdcX_h
 
 #ifdef __cplusplus
 extern "C"
@@ -27,4 +28,6 @@ extern uint8 ucPutSteuernDigitalRdcDS(Rte_Instance self, uint8 ucFunctionNo, uin
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

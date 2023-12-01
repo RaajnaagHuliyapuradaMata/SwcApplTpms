@@ -1,4 +1,5 @@
-#pragma once
+#ifndef abs_lin_h
+#define abs_lin_h
 
 # ifdef __cplusplus
 extern "C"
@@ -26,3 +27,5 @@ static void RollDetectionABS(void);
 # ifdef __cplusplus
 }
 # endif
+
+#endif

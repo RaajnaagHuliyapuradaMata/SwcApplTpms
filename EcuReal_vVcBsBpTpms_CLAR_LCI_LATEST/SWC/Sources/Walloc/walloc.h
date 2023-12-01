@@ -1,4 +1,5 @@
-#pragma once
+#ifndef walloc_h
+#define walloc_h
 
 # ifdef __cplusplus
 extern "C"
@@ -71,3 +72,5 @@ static uint8 ucCheckPermutationWAL(Rte_Instance self, const uint32 aulNewHistory
 # ifdef __cplusplus
 }
 # endif
+
+#endif

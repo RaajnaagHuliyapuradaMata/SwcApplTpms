@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SeasRcpAdj_h
+#define SeasRcpAdj_h
 
 # ifdef __cplusplus
 extern "C"
@@ -20,4 +21,6 @@ static void CyclicOATSampleFuncSRA(uint16 ushCurSpeed, Rte_Instance self);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

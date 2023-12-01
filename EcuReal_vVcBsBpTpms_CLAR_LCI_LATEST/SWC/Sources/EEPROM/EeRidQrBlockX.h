@@ -1,5 +1,3 @@
-
-
 #ifndef _ee_rid_qr_block_X_H
 #define _ee_rid_qr_block_X_H
 

@@ -1,5 +1,3 @@
-
-
 #ifndef _wu_monitoring_X_H
 #define _wu_monitoring_X_H
 
@@ -91,81 +89,43 @@ extern "C"
 #define cRE_STATUS_INVALID    (uint8) 0xffu
 
 extern void InitWUM(Rte_Instance self);
-
 extern void ResetWUM(Rte_Instance self, uint8 ucSlots, uint8 ucWLowBatt, uint8 ucWDtcs);
-
 extern void SwitchUnspecificToSpecificErrorsWUM(Rte_Instance self);
-
 extern void SwitchSpecificToUnspecificErrorsWUM(Rte_Instance self);
-
 extern void ProcessWuMonitoringWUM(Rte_Instance self, ImpTypeRecCddRdcData rdcData, uint8 ucTelType);
-
 extern void WuMonitoringTimerTickWUM(Rte_Instance self);
-
 extern void SetWheelUnitErrorWUM(Rte_Instance self, uint32 ulDtcBit);
-
 extern void ClearWheelUnitErrorWUM(Rte_Instance self, uint32 ulDtcBit);
-
 extern void ClearWheelUnitErrChangedFlagWUM( uint32 ulDtcBit);
-
 extern void ClearWheelUnitErrChangedFlagsWUM(void);
-
 extern uint32 ulGetWheelUnitErrorsWUM( boolean bUseFilter);
-
 extern uint32 ulGetWheelUnitErrChangedFlagsWUM(void);
-
 extern boolean bGetWheelUnitErrorWUM( uint32 ulErrorBit);
-
 extern uint8 ucGetYieldRateWUM( uint8 ucCol);
-
 extern void SetWheelUnitGoodCounterWUM( uint8 ucCol, uint16 ushVal);
-
 extern void SetWheelUnitMissingCounterWUM( uint8 ucCol, uint16 ushVal);
-
 extern uint16 ushGetWheelUnitGoodCounterWUM( uint8 ucCol);
-
 extern uint16 ushGetWheelUnitMissingCounterWUM( uint8 ucCol);
-
 extern uint8 ucGetSingleFailTimerValueWUM( uint8 ucCol);
-
 extern uint8 ucGetReMuteStatusWUM(void);
-
 extern uint8 ucGetReDefectStatusWUM(void);
-
 extern boolean bGetReMuteStatusBySlotWUM( uint8 ucSlot);
-
 extern boolean bGetReDefectStatusBySlotWUM( uint8 ucSlot);
-
 extern uint16 ushGetReDefectCounterBySlotWUM( uint8 ucSlot);
-
 extern boolean bGetLocalisationPossibilityWUM(void);
-
 extern void SetWumActivityStatusWUM(Rte_Instance self, uint8 ucStatus, uint8 ucEvaluation);
-
 extern uint8 ucSetAutolocErrorStatusWUM(Rte_Instance self, uint8 ucStatus);
-
 extern void SetAutoLearnErrorStatusWUM(Rte_Instance self, uint8 ucStatus);
-
 extern uint8 ucGetAutoLocFailedCounterWUM(void);
-
 extern void RfInterferenceInLastCycleDetectedWUM(Rte_Instance self);
-
 extern void ClearMuteWUM(Rte_Instance self, uint8 ucCol, uint8 ucWP);
-
 extern void ClearAllSpecificMutesWUM(Rte_Instance self);
-
 extern uint16 ushGetMuteTimerValueWUM( uint8 ucCol);
-
 extern uint16 ushGetGatewayAntennaTimerValueWUM(void);
-
 extern uint8 ucGetLoBatCounterValueWUM( uint8 ucCol);
-
 extern uint8 ucGetWumActivityStatusWUM(void);
-
 extern boolean bSystemInactiveByRfInterferenceWUM(void);
-
 extern boolean bPrio1ErrorIsSetWUM(void);
-
 extern void ClearErrorConditionsWUM(Rte_Instance self, uint8 ucWP, uint8 ucParamToClear);
 
 # ifdef __cplusplus

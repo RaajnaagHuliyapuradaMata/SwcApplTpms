@@ -1,5 +1,3 @@
-
-
 #ifndef _ee_history_block_H
 #define _ee_history_block_H
 

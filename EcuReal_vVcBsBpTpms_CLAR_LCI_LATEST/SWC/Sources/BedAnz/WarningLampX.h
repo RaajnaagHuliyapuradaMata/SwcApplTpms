@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WarningLampX_h
+#define WarningLampX_h
 
 #ifdef __cplusplus
 extern "C"
@@ -57,4 +58,6 @@ extern uint16 ushGetBlinkingTimeWL(void);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

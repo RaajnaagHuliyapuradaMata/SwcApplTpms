@@ -1,4 +1,5 @@
-#pragma once
+#ifndef USWarn_h
+#define USWarn_h
 
 #ifdef __cplusplus
 extern "C"
@@ -49,4 +50,6 @@ static uint8 ucWarnManagerDs_TimerStopWM(void);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

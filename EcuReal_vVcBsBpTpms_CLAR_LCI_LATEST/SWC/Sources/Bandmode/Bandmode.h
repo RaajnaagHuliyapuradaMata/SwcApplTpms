@@ -1,4 +1,5 @@
-#pragma once
+#ifndef Bandmode_h
+#define Bandmode_h
 
 # ifdef __cplusplus
 extern "C"
@@ -21,4 +22,6 @@ static void SaveRidDataAndCompareInBM (Rte_Instance self);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

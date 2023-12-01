@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SecondaryDTCX_h
+#define SecondaryDTCX_h
 
 # ifdef __cplusplus
 extern "C"
@@ -54,4 +55,6 @@ extern void SecondaryDtcFiFoWriteEntrySCD( uint8 ucDtc, uint8 ucPos);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

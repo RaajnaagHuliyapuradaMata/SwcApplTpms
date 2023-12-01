@@ -1,4 +1,5 @@
-#pragma once
+#ifndef crc16X_h
+#define crc16X_h
 
 # ifdef __cplusplus
 extern "C"
@@ -13,3 +14,5 @@ extern uint8 ucCalcCrc8( const uint8 *pui8Buffer, uint8 ui8MessageLen);
 # ifdef __cplusplus
 }
 # endif
+
+#endif

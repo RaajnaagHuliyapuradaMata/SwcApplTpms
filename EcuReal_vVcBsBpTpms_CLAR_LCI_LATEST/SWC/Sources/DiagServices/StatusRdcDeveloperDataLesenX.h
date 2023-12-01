@@ -1,5 +1,3 @@
-
-
 #ifndef _statusrdcdeveloperdatalesen_X_H
 #define _statusrdcdeveloperdatalesen_X_H
 

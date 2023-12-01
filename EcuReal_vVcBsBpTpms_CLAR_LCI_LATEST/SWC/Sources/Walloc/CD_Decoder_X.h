@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CD_Decoder_X_h
+#define CD_Decoder_X_h
 
 # ifdef __cplusplus
 extern "C"
@@ -156,3 +157,5 @@ typedef tPreBuf tRFTelType;
  # ifdef __cplusplus
 }
 # endif
+
+#endif

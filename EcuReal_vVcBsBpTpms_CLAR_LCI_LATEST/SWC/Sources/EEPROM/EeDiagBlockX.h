@@ -1,4 +1,5 @@
-#pragma once
+#ifndef EeDiagBlockX_h
+#define EeDiagBlockX_h
 
 # ifdef __cplusplus
 extern "C"
@@ -144,4 +145,6 @@ extern void PUTtExtParkSupWakeupTimeDateEE(Rte_Instance self, Rdci_UHRZEIT_DATUM
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

@@ -1,5 +1,3 @@
-
-
 #ifndef _steuerndigitalrdc_H
 #define _steuerndigitalrdc_H
 

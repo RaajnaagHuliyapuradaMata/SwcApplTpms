@@ -1,4 +1,5 @@
-#pragma once
+#ifndef InfoTyreX_h
+#define InfoTyreX_h
 
 #ifdef __cplusplus
 extern "C"
@@ -66,4 +67,6 @@ extern uint8   GetStChangeTimeITY          (void);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef InitializationX_h
+#define InitializationX_h
 
 #ifdef __cplusplus
 extern "C"
@@ -28,4 +29,6 @@ extern void CalcTinitDM(Rte_Instance self, uint8 ucPReifenInit, sint8 scTReifenI
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

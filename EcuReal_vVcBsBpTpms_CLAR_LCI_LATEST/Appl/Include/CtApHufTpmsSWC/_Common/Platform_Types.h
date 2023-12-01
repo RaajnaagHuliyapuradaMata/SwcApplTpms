@@ -1,4 +1,5 @@
-#pragma once
+#ifndef Platform_Types_h
+#define Platform_Types_h
 
 #define COMMONASR_CANOEEMU_IMPL_PLATFORMTYPES_VERSION 0x0401
 #define COMMONASR_CANOEEMU_IMPL_PLATFORMTYPES_RELEASE_VERSION 0x00
@@ -50,3 +51,5 @@ typedef unsigned long         uint32_least;
 
 typedef float                 float32;
 typedef double                float64;
+
+#endif

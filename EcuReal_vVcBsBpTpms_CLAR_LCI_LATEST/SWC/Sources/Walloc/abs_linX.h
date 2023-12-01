@@ -1,4 +1,5 @@
-#pragma once
+#ifndef abs_linX_h
+#define abs_linX_h
 
 # ifdef __cplusplus
 extern "C"
@@ -55,3 +56,5 @@ extern void GetLastAbsTicks(tABS_DATA* ushLastAbsVals);
 # ifdef __cplusplus
 }
 # endif
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BreakTireX_h
+#define BreakTireX_h
 
 #ifdef __cplusplus
 extern "C"
@@ -29,4 +30,6 @@ extern void    PwfChangeParken2WohnenBT(void);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

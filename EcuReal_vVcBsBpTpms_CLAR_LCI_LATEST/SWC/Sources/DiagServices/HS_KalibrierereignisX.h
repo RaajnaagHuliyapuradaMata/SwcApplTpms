@@ -1,4 +1,5 @@
-#pragma once
+#ifndef HS_KalibrierereignisX_h
+#define HS_KalibrierereignisX_h
 
 # ifdef __cplusplus
 extern "C"
@@ -45,4 +46,6 @@ extern uint8 ucGetCalibrationRootCauseDS(Rte_Instance self);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

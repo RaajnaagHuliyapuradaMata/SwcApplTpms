@@ -1,4 +1,5 @@
-#pragma once
+#ifndef datamanager_h
+#define datamanager_h
 
 # ifdef __cplusplus
 extern "C"
@@ -40,3 +41,5 @@ void TransferWarnStateToTpmsMsgManOnCycEventDM(Rte_Instance self);
 # ifdef __cplusplus
 }
 # endif
+
+#endif

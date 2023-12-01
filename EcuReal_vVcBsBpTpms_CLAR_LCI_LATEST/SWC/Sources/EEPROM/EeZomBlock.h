@@ -1,4 +1,5 @@
-#pragma once
+#ifndef EeZomBlock_h
+#define EeZomBlock_h
 
 # ifdef __cplusplus
 extern "C"
@@ -12,4 +13,6 @@ static void PUTtZomEE(Rte_Instance self, uint8 x, uint16 i);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

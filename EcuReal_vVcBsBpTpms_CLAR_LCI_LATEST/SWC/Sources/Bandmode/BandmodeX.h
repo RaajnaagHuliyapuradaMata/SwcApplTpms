@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BandmodeX_h
+#define BandmodeX_h
 
 # ifdef __cplusplus
 extern "C"
@@ -37,4 +38,6 @@ extern void CountWheelElectronicDataBM( uint8 ucWheelPos);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

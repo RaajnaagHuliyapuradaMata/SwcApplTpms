@@ -1,4 +1,5 @@
-#pragma once
+#ifndef USWarnX_h
+#define USWarnX_h
 
 #ifdef __cplusplus
 extern "C"
@@ -108,4 +109,6 @@ extern uint8 GetDropIsoCodVal(void);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

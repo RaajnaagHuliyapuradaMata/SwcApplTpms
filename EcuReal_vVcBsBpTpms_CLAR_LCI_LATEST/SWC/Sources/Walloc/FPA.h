@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FPA_h
+#define FPA_h
 
 # ifdef __cplusplus
 extern "C"
@@ -56,3 +57,5 @@ extern void TESTPrintFPAZOMSlot(uint8 ucSlot);
 # ifdef __cplusplus
 }
 # endif
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef state_bzX_h
+#define state_bzX_h
 
 #ifdef __cplusplus
 extern "C"
@@ -30,4 +31,6 @@ extern uint16 ushGetBetriebszustandBZ( uint16 ushBitMask);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

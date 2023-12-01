@@ -1,4 +1,5 @@
-#pragma once
+#ifndef StatusRdcMessdatenblockX_h
+#define StatusRdcMessdatenblockX_h
 
 # ifdef __cplusplus
 extern "C"
@@ -29,4 +30,6 @@ extern void GetStatusRdcMessdatenblockDS(Rte_Instance self, uint8 ucBlockNo, uin
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

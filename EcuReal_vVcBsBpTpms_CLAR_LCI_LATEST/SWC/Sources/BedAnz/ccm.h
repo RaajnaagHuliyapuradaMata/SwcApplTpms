@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ccm_h
+#define ccm_h
 
 #ifdef __cplusplus
 extern "C"
@@ -27,4 +28,6 @@ static void StopCCM( uint8 ucCcmIx);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

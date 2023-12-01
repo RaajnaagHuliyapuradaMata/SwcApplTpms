@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CodingDataX_h
+#define CodingDataX_h
 
 #ifdef __cplusplus
 extern "C"
@@ -197,4 +198,6 @@ extern void RestartSystemAfterCodingCD(Rte_Instance self);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

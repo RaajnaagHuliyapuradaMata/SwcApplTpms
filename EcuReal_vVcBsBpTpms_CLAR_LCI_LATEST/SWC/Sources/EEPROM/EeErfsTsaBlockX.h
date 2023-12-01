@@ -1,5 +1,3 @@
-
-
 #ifndef _ee_erfs_tsa_block_X_H
 #define _ee_erfs_tsa_block_X_H
 

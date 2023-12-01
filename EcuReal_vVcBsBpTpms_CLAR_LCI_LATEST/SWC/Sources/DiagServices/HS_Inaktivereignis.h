@@ -1,5 +1,3 @@
-
-
 #ifndef _hs_inaktivereignis_H
 #define _hs_inaktivereignis_H
 

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef state_zkX_h
+#define state_zkX_h
 
 #ifdef __cplusplus
 extern "C"
@@ -37,4 +38,6 @@ extern void ClearWpChangedBitsZK(void);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

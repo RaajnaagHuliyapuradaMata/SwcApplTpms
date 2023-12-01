@@ -1,4 +1,5 @@
-#pragma once
+#ifndef Walloc_IF_h
+#define Walloc_IF_h
 
 # ifdef __cplusplus
 extern "C"
@@ -27,3 +28,5 @@ extern uint16 ushGetAbsTickDifference( uint16 ushLeftVal, uint16 ushRightVal);
 # ifdef __cplusplus
 }
 # endif
+
+#endif
