@@ -202,7 +202,7 @@ uint8 GetTyreListMember( uint8 Element, uint8 Member)
 	return(TyreList[Element].TyreData[Member]);
 }
 
-uint8 CopyDiagTyreListToTyreList ( Rte_Instance self)
+uint8 CopyDiagTyreListToTyreList (Rte_Instance self)
 {
 	uint8 i,j, TyreListEntrySize;
   uint8 MaxTyreIndex = L_OL_TYP_TYR_SignalUngueltig;
@@ -227,7 +227,7 @@ uint8 CopyDiagTyreListToTyreList ( Rte_Instance self)
    if(bConCheck == TRUE)
 	 {
      MaxTyreIndex += 1;
-     PUTInvalidTyreListEE( self, FALSE);
+     PUTInvalidTyreListEE(self, FALSE);
 	 }
    else
 	 {

@@ -94,12 +94,12 @@ typedef struct{
     sint8  ascEnvTemp[cAnzRad];
 }tCalibrationTab;
 
-extern uint8 ucWarnManagerWN( Rte_Instance self, uint8 ucAction, uint8* pucData);
-extern uint8 ucTPMSMsgManagerTM( Rte_Instance self, uint8 ucAction, uint8* pucData);
-extern void TimerWT( Rte_Instance self, uint8 ucAction);
+extern uint8 ucWarnManagerWN(Rte_Instance self, uint8 ucAction, uint8* pucData);
+extern uint8 ucTPMSMsgManagerTM(Rte_Instance self, uint8 ucAction, uint8* pucData);
+extern void TimerWT(Rte_Instance self, uint8 ucAction);
 extern void TimerStopWT(void);
-extern uint8 ucUSWAlgoParaWN( Rte_Instance self, uint8 ucAction, const uint8* pucData);
-extern void InitUSWAlgo( Rte_Instance self, const uint8* ptWPos);
+extern uint8 ucUSWAlgoParaWN(Rte_Instance self, uint8 ucAction, const uint8* pucData);
+extern void InitUSWAlgo(Rte_Instance self, const uint8* ptWPos);
 extern uint32 GETulWarnOutTM(void);
 extern uint32 GETulWarnAttrOutTM(void);
 extern uint8  GETucWarningGroupTM( uint8 ucWarningGroup);

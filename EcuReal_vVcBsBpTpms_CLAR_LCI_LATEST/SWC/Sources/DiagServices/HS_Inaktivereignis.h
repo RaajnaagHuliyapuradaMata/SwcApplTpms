@@ -23,8 +23,8 @@ typedef struct{
 }
 tHsInaktivereignisType;
 
-static uint8 SaveInaktivereignisDS( Rte_Instance self, uint8 ucErrorCode);
-static void IeFiFoShiftDS( Rte_Instance self);
+static uint8 SaveInaktivereignisDS(Rte_Instance self, uint8 ucErrorCode);
+static void IeFiFoShiftDS(Rte_Instance self);
 
 #ifdef __cplusplus
 }

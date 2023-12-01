@@ -12,8 +12,8 @@ extern "C"
 
 #include "Rte_CtApHufTpmsSWC.h"
 
-extern void PutErfsEcoNeuerReifenEE( Rte_Instance self, const uint8* pucData);
-extern void PutErfsEcoReifenTabelleEE( Rte_Instance self, const uint8* pucData, const uint8 ucElement);
+extern void PutErfsEcoNeuerReifenEE(Rte_Instance self, const uint8* pucData);
+extern void PutErfsEcoReifenTabelleEE(Rte_Instance self, const uint8* pucData, const uint8 ucElement);
 
 #ifdef __cplusplus
 }

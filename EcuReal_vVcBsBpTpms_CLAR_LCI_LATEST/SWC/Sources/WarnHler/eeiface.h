@@ -10,8 +10,8 @@ extern "C"
 
 #include "wntypepar.h"
 
-extern void GetDataEE( Rte_Instance self, uint8 ucId, void * pRamAdr);
-extern void PutDataEE( Rte_Instance self, uint8 ucId, const void * pRamAdr, boolean bUpdateOnEvent);
+extern void GetDataEE(Rte_Instance self, uint8 ucId, void * pRamAdr);
+extern void PutDataEE(Rte_Instance self, uint8 ucId, const void * pRamAdr, boolean bUpdateOnEvent);
 
 #ifdef __cplusplus
 }

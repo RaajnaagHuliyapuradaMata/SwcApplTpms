@@ -18,20 +18,20 @@ static uint8 ucPinitTinitDM[cAnzRad]          = {
                                                   cInvalidREpressure
 };
 
-void StartInitializationProcessDM( Rte_Instance self){
-  InitRatedValuesDM( self);
-  ResetWarningsUSWIF( self);
-  (void) ucSetPminFzgAsSetPressureUSWIF( self);
+void StartInitializationProcessDM(Rte_Instance self){
+  InitRatedValuesDM(self);
+  ResetWarningsUSWIF(self);
+  (void) ucSetPminFzgAsSetPressureUSWIF(self);
 }
 
-void InitRatedValuesDM( Rte_Instance self){
+void InitRatedValuesDM(Rte_Instance self){
   uint8 ucLoop;
   for( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
-    SetNewRatedValueDM( self, cInvalidREpressure, cInvalidREtemperature, ucLoop);
+    SetNewRatedValueDM(self, cInvalidREpressure, cInvalidREtemperature, ucLoop);
   }
 }
 
-void ReStorePinitTinitDM( Rte_Instance self){
+void ReStorePinitTinitDM(Rte_Instance self){
   uint8  ucLoop;
   uint8  ucPSollKalt;
   sint8  scTSollKalt;
@@ -40,17 +40,17 @@ void ReStorePinitTinitDM( Rte_Instance self){
   uint16 ushMSoll_l;
   uint8  ucEnvP_l;
   for( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
-    if( ucGetPTSollUSWIF( self, &ucPSollKalt, &scTSollKalt, &ucPSollWarm, &scTSollWarm, &ushMSoll_l, &ucEnvP_l, ucLoop) == cRetOk){
+    if( ucGetPTSollUSWIF(self, &ucPSollKalt, &scTSollKalt, &ucPSollWarm, &scTSollWarm, &ushMSoll_l, &ucEnvP_l, ucLoop) == cRetOk){
       if( (ucPSollKalt == cInvalidREpressure) || (scTSollKalt == cInvalidREtemperature)){
         ucPinitTinitDM[ucLoop] = ucGetPminFzgDM();
-        scTinitDM[ucLoop]      = GETscTAinitValEE( self);
+        scTinitDM[ucLoop]      = GETscTAinitValEE(self);
       }else{
         ucPinitTinitDM[ucLoop] = ucPSollKalt;
         scTinitDM[ucLoop]      = scTSollKalt;
       }
     }else{
       ucPinitTinitDM[ucLoop] = ucGetPminFzgDM();
-      scTinitDM[ucLoop]      = GETscTAinitValEE( self);
+      scTinitDM[ucLoop]      = GETscTAinitValEE(self);
     }
   }
 }
@@ -65,7 +65,7 @@ uint8 ucGetPWarnMinDM(void){
   return ucRetVal;
 }
 
-void SetNewRatedValueDM( Rte_Instance self, uint8 ucRatedPres, sint8 scRatedTemp, uint8 ucHistCol){
+void SetNewRatedValueDM(Rte_Instance self, uint8 ucRatedPres, sint8 scRatedTemp, uint8 ucHistCol){
   sint8 scTAmb;
   if(ucHistCol < cAnzRad){
     if( (ucRatedPres == cInvalidREpressure) || (scRatedTemp == cInvalidREtemperature)){
@@ -74,22 +74,22 @@ void SetNewRatedValueDM( Rte_Instance self, uint8 ucRatedPres, sint8 scRatedTemp
     }
     else{
 	    if( (ucPinitTinitDM[ucHistCol] == cInvalidREpressure) || (scTinitDM[ucHistCol] == cInvalidREtemperature)){
-        scTAmb = GETscTAmbValEE( self);
-        PUTscTAinitValEE( self, scTAmb);
-			  CalcTinitDM( self, ucRatedPres, scRatedTemp, ucGetCRdciTRefShiftCD(), scTAmb, &ucPinitTinitDM[ucHistCol], &scTinitDM[ucHistCol]);
+        scTAmb = GETscTAmbValEE(self);
+        PUTscTAinitValEE(self, scTAmb);
+			  CalcTinitDM(self, ucRatedPres, scRatedTemp, ucGetCRdciTRefShiftCD(), scTAmb, &ucPinitTinitDM[ucHistCol], &scTinitDM[ucHistCol]);
 	    }
     }
 	}
 }
 
-void SetAllNewRatedValueDM( Rte_Instance self){
+void SetAllNewRatedValueDM(Rte_Instance self){
   uint8 ucLoop;
   for ( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
-    SetNewRatedValueDM( self, ucGetRePressureRelDM( ucLoop), scGetReTemperatureCentDM( ucLoop), ucLoop);
+    SetNewRatedValueDM(self, ucGetRePressureRelDM( ucLoop), scGetReTemperatureCentDM( ucLoop), ucLoop);
   }
 }
 
-void CalcTinitDM( Rte_Instance self, uint8 ucPReifenInit, sint8 scTReifenInit, uint8 ucTRefShift, sint8 scTAinit, uint8* pucPinit, sint8* pscTinit){
+void CalcTinitDM(Rte_Instance self, uint8 ucPReifenInit, sint8 scTReifenInit, uint8 ucTRefShift, sint8 scTAinit, uint8* pucPinit, sint8* pscTinit){
   sint16 sshTinit;
   if( (ucTRefShift == (uint8) 0xFF) || (scTAinit == cInvalidOutdoorTemperature)){
     *pucPinit = ucPReifenInit;
@@ -112,7 +112,7 @@ void CalcTinitDM( Rte_Instance self, uint8 ucPReifenInit, sint8 scTReifenInit, u
       }
     }
 
-    *pucPinit = (uint8) (((((((uint32) (ucPReifenInit + GETucPAmbValEE( self)) * (uint32) (*pscTinit + 273)) * 10) / (uint32) (scTReifenInit + 273)) + 5) / 10) - GETucPAmbValEE( self));
+    *pucPinit = (uint8) (((((((uint32) (ucPReifenInit + GETucPAmbValEE(self)) * (uint32) (*pscTinit + 273)) * 10) / (uint32) (scTReifenInit + 273)) + 5) / 10) - GETucPAmbValEE(self));
   }
 }
 
@@ -148,7 +148,7 @@ uint8 ucGetPminFzgDM(void){
   return ucPminFzg;
 }
 
-uint8 ErPlausiInitPressINIT( Rte_Instance self, boolean bER, boolean bCalcPinitTinit){
+uint8 ErPlausiInitPressINIT(Rte_Instance self, boolean bER, boolean bCalcPinitTinit){
   uint8   ucRet = TRUE;
   uint8   ucLoop;
   uint8   uxMaxInitPress = 0x00;
@@ -156,12 +156,12 @@ uint8 ErPlausiInitPressINIT( Rte_Instance self, boolean bER, boolean bCalcPinitT
   boolean bFlag = FALSE;
   if( bER == TRUE){
     if( bCalcPinitTinit == TRUE){
-      SetAllNewRatedValueDM( self);
+      SetAllNewRatedValueDM(self);
       bFlag = TRUE;
     }else{
       for ( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
         if( (ucPinitTinitDM[ucLoop] == cInvalidREpressure) || (scTinitDM[ucLoop] == cInvalidREtemperature)){
-          SetNewRatedValueDM( self, ucGetRePressureRelDM(ucLoop), scGetReTemperatureCentDM(ucLoop), ucLoop);
+          SetNewRatedValueDM(self, ucGetRePressureRelDM(ucLoop), scGetReTemperatureCentDM(ucLoop), ucLoop);
           bFlag = TRUE;
         }
       }
@@ -181,7 +181,7 @@ uint8 ErPlausiInitPressINIT( Rte_Instance self, boolean bER, boolean bCalcPinitT
           }
           if(ucPinitTinitDM[ucLoop] < ucPMin){
             if(ucPinitTinitDM[ucLoop] < (ucPMin - ucGetCRdciDpToIPminCD())){
-              PUTPlausiInitErrorEE( self, TRUE);
+              PUTPlausiInitErrorEE(self, TRUE);
             }
             ucPinitTinitDM[ucLoop] = ucPMin;
             ucRet = FALSE;
@@ -189,22 +189,22 @@ uint8 ErPlausiInitPressINIT( Rte_Instance self, boolean bER, boolean bCalcPinitT
         }
       }
       for ( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
-        (void) ucCfgReInitSingleUSWIF( self, ucPinitTinitDM[ucLoop], scTinitDM[ucLoop], ucLoop, cRadPosUndef);
-        NotificationITY( self, cNotifyRcpChangedITY, ucLoop);
+        (void) ucCfgReInitSingleUSWIF(self, ucPinitTinitDM[ucLoop], scTinitDM[ucLoop], ucLoop, cRadPosUndef);
+        NotificationITY(self, cNotifyRcpChangedITY, ucLoop);
       }
     }
   }
   return ucRet;
 }
 
-uint8 ZoPlausiInitPressINIT( Rte_Instance self, boolean bZO, uint8 ucTyreIndex){
+uint8 ZoPlausiInitPressINIT(Rte_Instance self, boolean bZO, uint8 ucTyreIndex){
   uint8   ucRet = TRUE;
   uint8   ucLoop;
   uint8   ucPMin, ucDiff;
   uint8   ucPInitAtPos[cAnzRad];
   if( bZO == TRUE){
     if( ucTyreIndex == OP_SLCTN_TYR_AVLB_AndererReifen){
-      ucRet = ErPlausiInitPressINIT( self, bGetBitBetriebszustandBZ(cEIGENRAD), FALSE);
+      ucRet = ErPlausiInitPressINIT(self, bGetBitBetriebszustandBZ(cEIGENRAD), FALSE);
       ucPInitAtPos[cRadPosVL] = ucPinitTinitDM[ucGetColOfWP(cRadPosVL)];
       ucPInitAtPos[cRadPosVR] = ucPinitTinitDM[ucGetColOfWP(cRadPosVR)];
       ucPInitAtPos[cRadPosHL] = ucPinitTinitDM[ucGetColOfWP(cRadPosHL)];
@@ -250,7 +250,7 @@ uint8 ZoPlausiInitPressINIT( Rte_Instance self, boolean bZO, uint8 ucTyreIndex){
         }
         if(ucPInitAtPos[ucLoop] < ucPMin){
           if(ucPInitAtPos[ucLoop] < (ucPMin - ucGetCRdciDpToIPminCD())){
-            PUTPlausiInitErrorEE( self, TRUE);
+            PUTPlausiInitErrorEE(self, TRUE);
           }
           ucPInitAtPos[ucLoop] = ucPMin;
           ucRet = FALSE;
@@ -258,16 +258,16 @@ uint8 ZoPlausiInitPressINIT( Rte_Instance self, boolean bZO, uint8 ucTyreIndex){
         ucPinitTinitDM[ucGetColOfWP(ucLoop)] = ucPInitAtPos[ucLoop];
       }
       for( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
-        (void) ucCfgReInitSingleUSWIF( self, ucPinitTinitDM[ucLoop], scTinitDM[ucLoop], ucLoop, ucGetWPOfColWAL( ucLoop));
-        NotificationITY( self, cNotifyRcpChangedITY, ucLoop);
+        (void) ucCfgReInitSingleUSWIF(self, ucPinitTinitDM[ucLoop], scTinitDM[ucLoop], ucLoop, ucGetWPOfColWAL( ucLoop));
+        NotificationITY(self, cNotifyRcpChangedITY, ucLoop);
       }
     }else{
       for( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
         if( (ucPinitTinitDM[ucLoop] == cInvalidREpressure) || (scTinitDM[ucLoop] == cInvalidREtemperature)){
-          ReStorePinitTinitDM( self);
+          ReStorePinitTinitDM(self);
         }
-        (void) ucCfgReInitSingleUSWIF( self, ucPinitTinitDM[ucLoop], scTinitDM[ucLoop], ucLoop, ucGetWPOfColWAL( ucLoop));
-        NotificationITY( self, cNotifyRcpChangedITY, ucLoop);
+        (void) ucCfgReInitSingleUSWIF(self, ucPinitTinitDM[ucLoop], scTinitDM[ucLoop], ucLoop, ucGetWPOfColWAL( ucLoop));
+        NotificationITY(self, cNotifyRcpChangedITY, ucLoop);
       }
     }
   }

@@ -164,7 +164,7 @@ static void TimerStopPVORW( uint8 ucIdX)
   ushTimerCounterSecPVORW[ucIdX] = ushTIMER_INIT_VALUEc;
 }
 
-void TimerInitPVORW( Rte_Instance self)
+void TimerInitPVORW(Rte_Instance self)
 {
   uint8 ucLoop;
 
@@ -187,10 +187,10 @@ void TimerInitPVORW( Rte_Instance self)
     }
   }
 
-  PutWarnBitsToNvmWN( self);
+  PutWarnBitsToNvmWN(self);
 }
 
-void TimerCountPVORW( Rte_Instance self)
+void TimerCountPVORW(Rte_Instance self)
 {
   uint8 ucLoop;
   uint8 ucRet;
@@ -215,7 +215,7 @@ void TimerCountPVORW( Rte_Instance self)
     }
   }
 
-  PutWarnBitsToNvmWN( self);
+  PutWarnBitsToNvmWN(self);
 }
 
 void GetTimerValPVORW( uint8 ucZomPos, uint8* ucTimState, uint16* ushTimCnt)

@@ -16,27 +16,27 @@ uint8 ucThCTol = 0;
 uint8 ucThNCTol = 0;
 uint8 ucSaturierungAktiv = 0;
 
-static void ChangeWNParaSubSet( Rte_Instance self){
+static void ChangeWNParaSubSet(Rte_Instance self){
   if(tPSSA.ucAccess == ucRdParaSubSetc){
-    (void) ucWarnManagerWN( self, ucDiagServicec, &tPSSA.ucAccess);
+    (void) ucWarnManagerWN(self, ucDiagServicec, &tPSSA.ucAccess);
     tPSSA.ucAccess = ucRdWnValidTMc;
-    (void) ucTPMSMsgManagerTM( self, ucDiagServicec, &tPSSA.ucAccess);
+    (void) ucTPMSMsgManagerTM(self, ucDiagServicec, &tPSSA.ucAccess);
     tPSSA.ucAccess = 0;
   }
   if(tPSSA.ucAccess == ucWrParaSubSetc){
-    (void) ucWarnManagerWN( self, ucDiagServicec,&tPSSA.ucAccess);
+    (void) ucWarnManagerWN(self, ucDiagServicec,&tPSSA.ucAccess);
     tPSSA.ucAccess = ucWrWnValidTMc;
-    (void) ucTPMSMsgManagerTM( self, ucDiagServicec, &tPSSA.ucAccess);
+    (void) ucTPMSMsgManagerTM(self, ucDiagServicec, &tPSSA.ucAccess);
     tPSSA.ucAccess = ucRdParaSubSetc;
-    (void) ucWarnManagerWN( self, ucDiagServicec,&tPSSA.ucAccess);
+    (void) ucWarnManagerWN(self, ucDiagServicec,&tPSSA.ucAccess);
   }
 }
 
-uint8 ucUSWAlgoParaWN( Rte_Instance self, uint8 ucAction, const uint8* pucData){
+uint8 ucUSWAlgoParaWN(Rte_Instance self, uint8 ucAction, const uint8* pucData){
   uint8 ucRet = 0;
   switch( ucAction){
     case ucWrParaBytec:
-      ucRet = ucUSWAlgoPara_WrParaByteWN( self, pucData);
+      ucRet = ucUSWAlgoPara_WrParaByteWN(self, pucData);
     break;
 
     case ucWrParaThresc:
@@ -51,10 +51,10 @@ uint8 ucUSWAlgoParaWN( Rte_Instance self, uint8 ucAction, const uint8* pucData){
   return( ucRet);
 }
 
-static uint8 ucUSWAlgoPara_WrParaByteWN( Rte_Instance self, const uint8* pucData){
+static uint8 ucUSWAlgoPara_WrParaByteWN(Rte_Instance self, const uint8* pucData){
   uint8 ucReturn = 0;
   tPSSA.ucAccess = ucRdParaSubSetc;
-  ChangeWNParaSubSet( self);
+  ChangeWNParaSubSet(self);
   tPSSA.ucParaByte[ucIxWnCfgc] = pucData[0];
   if( (pucData[2] & cUSWAlgo_ParaByte1_EU) == cUSWAlgo_ParaByte1_EU){
     tPSSA.ucParaByte[ucIxWnCfgc] |= cUSWAlgo_ParaByte1_EU;
@@ -65,7 +65,7 @@ static uint8 ucUSWAlgoPara_WrParaByteWN( Rte_Instance self, const uint8* pucData
   }
   tPSSA.ucParaByte[ucIxMsCfgc] = pucData[1];
   tPSSA.ucAccess = ucWrParaSubSetc;
-  ChangeWNParaSubSet( self);
+  ChangeWNParaSubSet(self);
   return ucReturn;
 }
 
@@ -130,36 +130,36 @@ static uint8 ucUSWAlgoPara_WrParaThresWN( const uint8* pucData){
   return ucResult;
 }
 
-void InitUSWAlgo( Rte_Instance self, const uint8* ptWPos){
+void InitUSWAlgo(Rte_Instance self, const uint8* ptWPos){
   uint8 aucDgServWN[6], aucDgServTM[6], ucLoop;
   aucDgServWN[0] = ucEuroCodec;
-  (void) ucWarnManagerWN( self, ucPorInitc, aucDgServWN);
+  (void) ucWarnManagerWN(self, ucPorInitc, aucDgServWN);
   aucDgServTM[0] = 0x00;
   aucDgServTM[1] = 0x00;
   aucDgServTM[2] = 0x00;
-  (void) ucTPMSMsgManagerTM( self, ucPorInitc, aucDgServTM);
-  TimerWT( self, ucIniTimec);
+  (void) ucTPMSMsgManagerTM(self, ucPorInitc, aucDgServTM);
+  TimerWT(self, ucIniTimec);
   aucDgServWN[0] = ucGetWarnVectorsc;
   aucDgServWN[1] = ucWarnBitIxWNc;
-  (void) ucWarnManagerWN( self, ucDiagServicec, aucDgServWN);
+  (void) ucWarnManagerWN(self, ucDiagServicec, aucDgServWN);
   aucDgServTM[0] = ucPutWarnVectorSetc;
   aucDgServTM[1] = ucWarnBitIxWNc;
   for ( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
     aucDgServTM[2 + ucLoop] = aucDgServWN[2 + ucLoop];
   }
-  (void) ucTPMSMsgManagerTM( self, ucDiagServicec, aucDgServTM);
+  (void) ucTPMSMsgManagerTM(self, ucDiagServicec, aucDgServTM);
   aucDgServWN[0] = ucGetWarnVectorsc;
   aucDgServWN[1] = ucWarnBitTonnageIxWNc;
-  (void) ucWarnManagerWN( self, ucDiagServicec, aucDgServWN);
+  (void) ucWarnManagerWN(self, ucDiagServicec, aucDgServWN);
   aucDgServTM[0] = ucPutWarnVectorSetc;
   aucDgServTM[1] = ucWarnBitTonnageIxWNc;
   for ( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
     aucDgServTM[2 + ucLoop] = aucDgServWN[2 + ucLoop];
   }
-  (void) ucTPMSMsgManagerTM( self, ucDiagServicec, aucDgServTM);
+  (void) ucTPMSMsgManagerTM(self, ucDiagServicec, aucDgServTM);
   aucDgServTM[0] = ucNewPositionsc;
   for ( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
     aucDgServTM[1 + ucLoop] = ptWPos[ucLoop];
   }
-  (void) ucTPMSMsgManagerTM( self, ucDiagServicec, aucDgServTM);
+  (void) ucTPMSMsgManagerTM(self, ucDiagServicec, aucDgServTM);
 }

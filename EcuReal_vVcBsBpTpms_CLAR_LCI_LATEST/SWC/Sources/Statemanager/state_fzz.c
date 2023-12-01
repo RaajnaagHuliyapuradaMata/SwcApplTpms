@@ -231,29 +231,19 @@ void SETFehlerspeicherSperreFZZ( Rdci_ST_ILK_ERRM_FZM_Type fssperre)
   }
 }
 
-uint8 ucGetFlexrayStatusFZZ(void)
-{
-  return ucFlexrayStatus;
-}
-
-uint8 ucGetStatusConditionVehicleFZZ(void)
-{
-  return ucStatusConditionVehicleFZZ;
-}
-
-uint8 ucGetStatusLastConditionVehicleFZZ(void)
-{
-  return ucStatusLastConditionVehicleFZZ;
-}
+uint8 ucGetFlexrayStatusFZZ              (void){return ucFlexrayStatus;}
+uint8 ucGetStatusConditionVehicleFZZ     (void){return ucStatusConditionVehicleFZZ;}
+uint8 ucGetStatusLastConditionVehicleFZZ (void){return ucStatusLastConditionVehicleFZZ;}
 
 void PutStatusConditionVehicleFZZ( uint8 ucStatusConditionVehicle)
 {
   ucStatusLastConditionVehicleFZZ = ucStatusConditionVehicleFZZ;
   ucStatusConditionVehicleFZZ = ucStatusConditionVehicle;
-  if(( ucStatusConditionVehicle  == ST_CON_VEH_Pruefen_Analyse_Diagnose)
-   || ( ucStatusConditionVehicle  == ST_CON_VEH_Fahrbereitschaft_herstellen)
-   || ( ucStatusConditionVehicle  == ST_CON_VEH_Fahren)
-   || ( ucStatusConditionVehicle  == ST_CON_VEH_Fahrbereitschaft_beenden))
+  if(
+      (ucStatusConditionVehicle  == ST_CON_VEH_Pruefen_Analyse_Diagnose)
+   || (ucStatusConditionVehicle  == ST_CON_VEH_Fahrbereitschaft_herstellen)
+   || (ucStatusConditionVehicle  == ST_CON_VEH_Fahren)
+   || (ucStatusConditionVehicle  == ST_CON_VEH_Fahrbereitschaft_beenden))
   {
     EvTerminal15OnFZZ();
   }

@@ -34,8 +34,8 @@ static void CompareTyreDimToErfsDM(const uint8* pConvRidData, uint8* pIxArray);
 static void CompareLoadIxToErfsDM(const uint8* pConvRidData, uint8* pIxArray);
 static void CompareSpeedIxToErfsDM(const uint8* pConvRidData, uint8* pIxArray);
 static boolean ComparePressValOfMatchingErfsEntriesDM(const uint8* pIxArray);
-void CheckTirePressureDM( Rte_Instance self, uint8 ucSlotNo, uint8 ucWheelPos, PhySensorTyrePresType ucPressure, sint8 scTemperature);
-void TransferWarnStateToTpmsMsgManOnCycEventDM( Rte_Instance self);
+void CheckTirePressureDM(Rte_Instance self, uint8 ucSlotNo, uint8 ucWheelPos, PhySensorTyrePresType ucPressure, sint8 scTemperature);
+void TransferWarnStateToTpmsMsgManOnCycEventDM(Rte_Instance self);
 
 # ifdef __cplusplus
 }

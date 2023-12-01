@@ -4,10 +4,10 @@
 
 #include "eeiface.h"
 
-void TimerWT( Rte_Instance self, uint8 ucAction)
+void TimerWT(Rte_Instance self, uint8 ucAction)
 {
-  void (*const fpt2WnTypeCallbackInit[]) ( Rte_Instance self)  = cWT_WNcallbackTimerInit_map;
-  void (*const fpt2WnTypeCallbackCount[]) ( Rte_Instance self) = cWT_WNcallbackTimerCount_map;
+  void (*const fpt2WnTypeCallbackInit[]) (Rte_Instance self)  = cWT_WNcallbackTimerInit_map;
+  void (*const fpt2WnTypeCallbackCount[]) (Rte_Instance self) = cWT_WNcallbackTimerCount_map;
   uint8 ucWTCount;
 
   switch (ucAction)
@@ -21,7 +21,7 @@ void TimerWT( Rte_Instance self, uint8 ucAction)
         if( fpt2WnTypeCallbackCount[ucWTCount] != NULL)
 #endif
         {
-          fpt2WnTypeCallbackCount[ucWTCount]( self);
+          fpt2WnTypeCallbackCount[ucWTCount](self);
         }
       }
     break;
@@ -35,7 +35,7 @@ void TimerWT( Rte_Instance self, uint8 ucAction)
         if( fpt2WnTypeCallbackInit[ucWTCount] != NULL)
 #endif
         {
-          fpt2WnTypeCallbackInit[ucWTCount]( self);
+          fpt2WnTypeCallbackInit[ucWTCount](self);
         }
       }
     break;

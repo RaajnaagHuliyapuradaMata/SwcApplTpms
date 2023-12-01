@@ -15,25 +15,25 @@ static uint8 ucStateMachine = cNoDisplay;
 static uint8 ucTickDelay = cTickOff;
 static uint8 ucSbrActivityStatus = cSbrWaitAt_0;
 
-void InitSBR( Rte_Instance self)
+void InitSBR(Rte_Instance self)
 {
 
-  if(GETTyreSelectionActiveEE( self) == FALSE)
+  if(GETTyreSelectionActiveEE(self) == FALSE)
   {
-    if(GETucStatusbarEE( self) != QU_RDC_INIT_DISP_KeineAnzeigeDesInitialierungsbalkens)
+    if(GETucStatusbarEE(self) != QU_RDC_INIT_DISP_KeineAnzeigeDesInitialierungsbalkens)
     {
-      PUTucStatusbarEE( self, QU_RDC_INIT_DISP_KeineAnzeigeDesInitialierungsbalkens);
+      PUTucStatusbarEE(self, QU_RDC_INIT_DISP_KeineAnzeigeDesInitialierungsbalkens);
       SetZoHistoryBlockUpdateFlagEE();
     }
     ucStateMachine = cNoDisplay;
   }
 }
 
-void ContinueSBR( Rte_Instance self)
+void ContinueSBR(Rte_Instance self)
 {
   uint8 ucValue;
 
-  ucValue = GETucStatusbarEE( self);
+  ucValue = GETucStatusbarEE(self);
 
   if(bGetBitFahrzeugzustandFZZ(cLONG_PARK) == FALSE)
   {
@@ -44,7 +44,7 @@ void ContinueSBR( Rte_Instance self)
 
       if(ucValue >= 50)
       {
-        PUTucStatusbarEE( self, 1);
+        PUTucStatusbarEE(self, 1);
       }
     }
     else
@@ -53,7 +53,7 @@ void ContinueSBR( Rte_Instance self)
 
       if((ucValue < 50) || (ucValue >= 100))
       {
-        PUTucStatusbarEE( self, 50);
+        PUTucStatusbarEE(self, 50);
       }
     }
   }
@@ -61,32 +61,32 @@ void ContinueSBR( Rte_Instance self)
   else
   {
 
-    if(((GETLastLocStateEE( self) & cER_FINISH) != cER_FINISH) && (ucValue < 50))
+    if(((GETLastLocStateEE(self) & cER_FINISH) != cER_FINISH) && (ucValue < 50))
     {
-      PUTucStatusbarEE( self, 1);
+      PUTucStatusbarEE(self, 1);
       ucStateMachine = cSlowTo49;
     }
 
     else
     {
-      PUTucStatusbarEE( self, 50);
+      PUTucStatusbarEE(self, 50);
       ucStateMachine = cSlowTo99;
       ucSbrActivityStatus = cSbrWaitForEr;
     }
   }
 
-  SetTickDelaySBR( self);
+  SetTickDelaySBR(self);
 }
 
-void StartSBR( Rte_Instance self)
+void StartSBR(Rte_Instance self)
 {
-  PUTucStatusbarEE( self, 0);
+  PUTucStatusbarEE(self, 0);
   ucSbrActivityStatus = cSbrWaitAt_0;
-  SetTickDelaySBR( self);
+  SetTickDelaySBR(self);
   ucStateMachine = cSlowTo49;
 }
 
-void StatusbarTimerTickSBR( Rte_Instance self)
+void StatusbarTimerTickSBR(Rte_Instance self)
 {
   Rdci_ST_TYR_Type statTyre;
 
@@ -97,7 +97,7 @@ void StatusbarTimerTickSBR( Rte_Instance self)
 
     if(bGetBitBetriebszustandBZ(cZO_TIMEOUT) == TRUE)
     {
-      JumpTo254SBR( self);
+      JumpTo254SBR(self);
     }
 
     else
@@ -106,12 +106,12 @@ void StatusbarTimerTickSBR( Rte_Instance self)
       {
         if(bGetBitBetriebszustandBZ(cER_FINISH) == FALSE)
         {
-          if(GETucStatusbarEE( self) < 49)
+          if(GETucStatusbarEE(self) < 49)
           {
             if(ucCountTickDelay() == 0)
             {
-              IncValueSBR( self);
-              SetTickDelaySBR( self);
+              IncValueSBR(self);
+              SetTickDelaySBR(self);
             }
           }
         }
@@ -128,28 +128,28 @@ void StatusbarTimerTickSBR( Rte_Instance self)
     GetStTyrITY(&statTyre.QU_FN_TYR_INFO, &statTyre.QU_TPL, &statTyre.QU_TFAI);
     if((statTyre.QU_TPL != cNoWarningActive) && (statTyre.QU_TPL != cWarningModuleNotReady))
     {
-      JumpTo50SBR( self);
+      JumpTo50SBR(self);
     }
 
     else if(bGetBitBetriebszustandBZ(cZO_TIMEOUT) == TRUE)
     {
-      JumpTo254SBR( self);
+      JumpTo254SBR(self);
     }
 
     else
     {
-      JumpToNextDecadeSBR( self);
-      if(GETucStatusbarEE( self) == 50)
+      JumpToNextDecadeSBR(self);
+      if(GETucStatusbarEE(self) == 50)
       {
 
         if(bGetBitBetriebszustandBZ(cLOC_NOT_POSSIBLE) == TRUE)
         {
-          JumpTo254SBR( self);
+          JumpTo254SBR(self);
         }
         else
         {
           ucStateMachine = cSlowTo99;
-          SetTickDelaySBR( self);
+          SetTickDelaySBR(self);
         }
       }
       else
@@ -163,12 +163,12 @@ void StatusbarTimerTickSBR( Rte_Instance self)
 
     if(bGetBitBetriebszustandBZ(cZO_TIMEOUT) == TRUE)
     {
-      JumpTo254SBR( self);
+      JumpTo254SBR(self);
     }
 
     else if(bGetBitBetriebszustandBZ(cLOC_NOT_POSSIBLE) == TRUE)
     {
-      JumpTo254SBR( self);
+      JumpTo254SBR(self);
     }
 
     else if(bGetBitBetriebszustandBZ(cLOC_INTERRUPTED) == TRUE)
@@ -189,12 +189,12 @@ void StatusbarTimerTickSBR( Rte_Instance self)
       {
         if(bGetBitBetriebszustandBZ(cZO_FINISH) == FALSE)
         {
-          if(GETucStatusbarEE( self) < 99)
+          if(GETucStatusbarEE(self) < 99)
           {
             if(ucCountTickDelay() == 0)
             {
-              IncValueSBR( self);
-              SetTickDelaySBR( self);
+              IncValueSBR(self);
+              SetTickDelaySBR(self);
             }
           }
         }
@@ -212,13 +212,13 @@ void StatusbarTimerTickSBR( Rte_Instance self)
     GetStTyrITY(&statTyre.QU_FN_TYR_INFO, &statTyre.QU_TPL, &statTyre.QU_TFAI);
     if((statTyre.QU_TPL != cNoWarningActive) && (statTyre.QU_TPL != cWarningModuleNotReady))
     {
-      JumpTo100SBR( self);
+      JumpTo100SBR(self);
     }
 
     else
     {
-      JumpToNextDecadeSBR( self);
-      if(GETucStatusbarEE( self) == 100)
+      JumpToNextDecadeSBR(self);
+      if(GETucStatusbarEE(self) == 100)
       {
         ucStateMachine = cWait100;
       }
@@ -227,7 +227,7 @@ void StatusbarTimerTickSBR( Rte_Instance self)
     break;
 
     case cWait100:
-    PUTucStatusbarEE( self, QU_RDC_INIT_DISP_InitialisierungAbgeschlossen);
+    PUTucStatusbarEE(self, QU_RDC_INIT_DISP_InitialisierungAbgeschlossen);
     SetZoHistoryBlockUpdateFlagEE();
     ucStateMachine = cFinish;
     ucTickDelay = cTickDelay_8sec;
@@ -236,7 +236,7 @@ void StatusbarTimerTickSBR( Rte_Instance self)
     case cFinish:
     if(ucCountTickDelay() == 0)
     {
-      PUTucStatusbarEE( self, QU_RDC_INIT_DISP_KeineAnzeigeDesInitialierungsbalkens);
+      PUTucStatusbarEE(self, QU_RDC_INIT_DISP_KeineAnzeigeDesInitialierungsbalkens);
       SetZoHistoryBlockUpdateFlagEE();
       ucStateMachine = cNoDisplay;
     }
@@ -323,12 +323,12 @@ static boolean bStatusbarActiveSBR(void)
   return bRetVal;
 }
 
-static void SetTickDelaySBR( Rte_Instance self)
+static void SetTickDelaySBR(Rte_Instance self)
 {
   uint32* pulHistory;
   uint16 ushEigenrad;
 
-  if(GETucStatusbarEE( self) < 50)
+  if(GETucStatusbarEE(self) < 50)
   {
 
     pulHistory = GetPointerToHistoryIdSetWAL();
@@ -404,9 +404,9 @@ static uint8 ucCountTickDelay(void)
   return ucTickDelay;
 }
 
-static void JumpToNextDecadeSBR( Rte_Instance self)
+static void JumpToNextDecadeSBR(Rte_Instance self)
 {
-  uint8 ucVal = GETucStatusbarEE( self);
+  uint8 ucVal = GETucStatusbarEE(self);
 
   if(ucVal < 100)
   {
@@ -415,41 +415,41 @@ static void JumpToNextDecadeSBR( Rte_Instance self)
       ucVal++;
     } while ((ucVal % 10) > 0);
 
-    PUTucStatusbarEE( self, ucVal);
+    PUTucStatusbarEE(self, ucVal);
   }
 }
 
-static void JumpTo50SBR( Rte_Instance self)
+static void JumpTo50SBR(Rte_Instance self)
 {
-  PUTucStatusbarEE( self, 50);
+  PUTucStatusbarEE(self, 50);
   SetZoHistoryBlockUpdateFlagEE();
   ucStateMachine = cSlowTo99;
-  SetTickDelaySBR( self);
+  SetTickDelaySBR(self);
 }
 
-static void JumpTo100SBR( Rte_Instance self)
+static void JumpTo100SBR(Rte_Instance self)
 {
-  PUTucStatusbarEE( self, 100);
+  PUTucStatusbarEE(self, 100);
   SetZoHistoryBlockUpdateFlagEE();
   ucStateMachine = cWait100;
   ucTickDelay = cTickDelay_1sec;
 }
 
-static void JumpTo254SBR( Rte_Instance self)
+static void JumpTo254SBR(Rte_Instance self)
 {
-  PUTucStatusbarEE( self, QU_RDC_INIT_DISP_KeineAnzeigeDesInitialierungsbalkens);
+  PUTucStatusbarEE(self, QU_RDC_INIT_DISP_KeineAnzeigeDesInitialierungsbalkens);
   SetZoHistoryBlockUpdateFlagEE();
   ucStateMachine = cNoDisplay;
   ucTickDelay = cTickOff;
 }
 
-static void IncValueSBR( Rte_Instance self)
+static void IncValueSBR(Rte_Instance self)
 {
-  uint8 ucValue = GETucStatusbarEE( self);
+  uint8 ucValue = GETucStatusbarEE(self);
   if(ucValue < 100)
   {
     ucValue++;
   }
-  PUTucStatusbarEE( self, ucValue);
+  PUTucStatusbarEE(self, ucValue);
 }
 

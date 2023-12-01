@@ -33,12 +33,12 @@ extern "C"
 static boolean bStatusbarActiveSBR(void);
 static boolean bCheckAllocConditionSBR(void);
 static uint8 ucCountTickDelay(void);
-static void SetTickDelaySBR( Rte_Instance self);
-static void JumpToNextDecadeSBR( Rte_Instance self);
-static void IncValueSBR( Rte_Instance self);
-static void JumpTo100SBR( Rte_Instance self);
-static void JumpTo50SBR( Rte_Instance self);
-static void JumpTo254SBR( Rte_Instance self);
+static void SetTickDelaySBR(Rte_Instance self);
+static void JumpToNextDecadeSBR(Rte_Instance self);
+static void IncValueSBR(Rte_Instance self);
+static void JumpTo100SBR(Rte_Instance self);
+static void JumpTo50SBR(Rte_Instance self);
+static void JumpTo254SBR(Rte_Instance self);
 
 # ifdef __cplusplus
 }

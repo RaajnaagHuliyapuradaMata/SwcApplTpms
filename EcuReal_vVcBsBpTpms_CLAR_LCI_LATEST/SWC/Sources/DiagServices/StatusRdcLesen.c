@@ -8,7 +8,7 @@
 #include "BandmodeX.h"
 #include "InfoTyreX.h"
 
-void GetStatusRdcLesenDS( Rte_Instance self, uint8* pucData)
+void GetStatusRdcLesenDS(Rte_Instance self, uint8* pucData)
 {
   uint8         ucHardWarning;
   uint8         ucWarningState;
@@ -29,7 +29,7 @@ void GetStatusRdcLesenDS( Rte_Instance self, uint8* pucData)
     pucData[cucIxStatDtcInactive]         = (uint8) FALSE;
   }
   pucData[cucIxStatDtcInactive] |= (uint8) (ushGetStateBM() & cushAllReceptionBitsBM);
-  pucData[cucIxStatKalAnforderungAktiv] = (uint8) GETTyreSelectionActiveEE( self);
+  pucData[cucIxStatKalAnforderungAktiv] = (uint8) GETTyreSelectionActiveEE(self);
   pucData[cucIxStatRadZuordnungTimeout] = (uint8) bGetBitBetriebszustandBZ( cZO_TIMEOUT);
   pucData[cucIxStatBandmodeAktiv]       = (uint8) bGetBandmodeBM();
 

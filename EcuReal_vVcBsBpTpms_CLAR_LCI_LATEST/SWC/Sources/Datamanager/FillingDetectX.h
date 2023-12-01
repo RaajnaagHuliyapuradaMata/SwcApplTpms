@@ -12,8 +12,8 @@ extern "C"
 
 #include "Rte_CtApHufTpmsSWC.h"
 
-void StartFillingDetectionFID( Rte_Instance self);
-boolean ProcessFillingDetectionFID( Rte_Instance self, uint8 ucSlot);
+void StartFillingDetectionFID(Rte_Instance self);
+boolean ProcessFillingDetectionFID(Rte_Instance self, uint8 ucSlot);
 
 # ifdef __cplusplus
 }

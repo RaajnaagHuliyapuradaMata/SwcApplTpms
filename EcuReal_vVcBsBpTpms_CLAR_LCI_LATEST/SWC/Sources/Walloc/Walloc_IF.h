@@ -16,8 +16,8 @@ extern "C"
 #define cPermutationState ((uint8) 6)
 #define cMaxTeLen sizeof(tRFTelType)
 
-extern void GetWADataEE( Rte_Instance self, uint8 ucId, uint8 *pRamAdr, uint16 ucLen);
-extern void PutWADataEE( Rte_Instance self, uint8 ucId, const uint8 *pRamAdr, uint16 ucLen);
+extern void GetWADataEE(Rte_Instance self, uint8 ucId, uint8 *pRamAdr, uint16 ucLen);
+extern void PutWADataEE(Rte_Instance self, uint8 ucId, const uint8 *pRamAdr, uint16 ucLen);
 extern void CancelWATO(void);
 extern uint8 ucGetABSTick( uint16* p2aushABS);
 extern uint8 ucGetSpeed(void);

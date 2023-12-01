@@ -57,23 +57,23 @@ extern "C"
 #else
 static uint32 FilterSubsequentErrorsNWM( uint32 ulErrorBits);
 
-static uint8 CheckRDC_DT_PCKG12_AliveNWM( Rte_Instance self, uint8 ucAlive1, uint8 ucAlive2, uint8 DpNo);
-static uint8 CheckRDC_DT_PCKG12_SignalNWM( Rte_Instance self, uint16 ushRdcMesTstmp, uint8 DpNo);
-static uint8 CheckA_TEMP_SignalNWM( Rte_Instance self, Rdci_TEMP_EX_Type tempEx);
-static uint8 CheckEINHEITEN_BN2020_SignalNWM( Rte_Instance self, Rdci_UN_AIP_Type unitAip, Rdci_UN_TEMP_Type unitTemp);
-static uint8 CheckCON_VEH_SignalNWM( Rte_Instance self, Rdci_CON_VEH_Type conVeh);
-static uint8 CheckCON_VEH_CrcNWM( Rte_Instance self, Rdci_CON_VEH_Type conVeh);
-static uint8 CheckCON_VEH_AliveNWM( Rte_Instance self, uint8 ucAlive);
-static uint8 CheckBN2020_RELATIVZEIT_SignalNWM( Rte_Instance self, Rdci_T_SEC_COU_REL_Type relTime);
-static uint8 CheckDT_PT_1_SignalNWM( Rte_Instance self, Rdci_AIP_ENG_DRV_Type aip);
-static uint8 CheckUHRZEIT_DATUM_SignalNWM( Rte_Instance self, Rdci_UHRZEIT_DATUM_Type timeDate);
-static uint8 CheckWMOM_DRV_4_SignalNWM( Rte_Instance self, Rdci_WMOM_DRV_4_Type wmom);
-static uint8 CheckKILOMETERSTAND_SignalNWM( Rte_Instance self, Rdci_MILE_KM_Type mileKm);
-static uint8 CheckNMEARawData2Part2_SignalNWM( Rte_Instance self, Rdci_GNSSPositionAltitude_Type GNSSPositionAltitude);
-static uint8 CheckNMEARawData2Part3_SignalNWM( Rte_Instance self, Rdci_GNSSErrorAltitudeMeters_Type GNSSErrorAltitudeMeters);
-static uint8 CheckV_VEH_SigQualifNWM( Rte_Instance self, Rdci_V_VEH_Type vVeh);
-static uint8 CheckV_VEH_CrcNWM( Rte_Instance self, Rdci_V_VEH_Type vVeh);
-static uint8 CheckV_VEH_AliveNWM( Rte_Instance self, uint8 ucAlive);
+static uint8 CheckRDC_DT_PCKG12_AliveNWM(Rte_Instance self, uint8 ucAlive1, uint8 ucAlive2, uint8 DpNo);
+static uint8 CheckRDC_DT_PCKG12_SignalNWM(Rte_Instance self, uint16 ushRdcMesTstmp, uint8 DpNo);
+static uint8 CheckA_TEMP_SignalNWM(Rte_Instance self, Rdci_TEMP_EX_Type tempEx);
+static uint8 CheckEINHEITEN_BN2020_SignalNWM(Rte_Instance self, Rdci_UN_AIP_Type unitAip, Rdci_UN_TEMP_Type unitTemp);
+static uint8 CheckCON_VEH_SignalNWM(Rte_Instance self, Rdci_CON_VEH_Type conVeh);
+static uint8 CheckCON_VEH_CrcNWM(Rte_Instance self, Rdci_CON_VEH_Type conVeh);
+static uint8 CheckCON_VEH_AliveNWM(Rte_Instance self, uint8 ucAlive);
+static uint8 CheckBN2020_RELATIVZEIT_SignalNWM(Rte_Instance self, Rdci_T_SEC_COU_REL_Type relTime);
+static uint8 CheckDT_PT_1_SignalNWM(Rte_Instance self, Rdci_AIP_ENG_DRV_Type aip);
+static uint8 CheckUHRZEIT_DATUM_SignalNWM(Rte_Instance self, Rdci_UHRZEIT_DATUM_Type timeDate);
+static uint8 CheckWMOM_DRV_4_SignalNWM(Rte_Instance self, Rdci_WMOM_DRV_4_Type wmom);
+static uint8 CheckKILOMETERSTAND_SignalNWM(Rte_Instance self, Rdci_MILE_KM_Type mileKm);
+static uint8 CheckNMEARawData2Part2_SignalNWM(Rte_Instance self, Rdci_GNSSPositionAltitude_Type GNSSPositionAltitude);
+static uint8 CheckNMEARawData2Part3_SignalNWM(Rte_Instance self, Rdci_GNSSErrorAltitudeMeters_Type GNSSErrorAltitudeMeters);
+static uint8 CheckV_VEH_SigQualifNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh);
+static uint8 CheckV_VEH_CrcNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh);
+static uint8 CheckV_VEH_AliveNWM(Rte_Instance self, uint8 ucAlive);
 #endif
 
 # ifdef __cplusplus

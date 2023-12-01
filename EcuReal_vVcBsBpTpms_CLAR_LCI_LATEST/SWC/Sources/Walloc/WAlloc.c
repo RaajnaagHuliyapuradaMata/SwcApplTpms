@@ -222,11 +222,11 @@ static void AlignZomWAL(uint16 ushERSlot)
           for (k = 0; k < (uint8) sizeof(struct ZOMSlot); k++)
           {
 
-			      *(((uint8 *) &tempZom) + k) = *(((uint8 *) &tZOM[i]) + k);
+			      *(((uint8*) &tempZom) + k) = *(((uint8*) &tZOM[i]) + k);
 
-            *(((uint8 *) &tZOM[i]) + k) = *(((uint8 *) &tZOM[j]) + k);
+            *(((uint8*) &tZOM[i]) + k) = *(((uint8*) &tZOM[j]) + k);
 
-            *(((uint8 *) &tZOM[j]) + k) = *(((uint8 *) &tempZom) + k);
+            *(((uint8*) &tZOM[j]) + k) = *(((uint8*) &tempZom) + k);
 
           }
           ushERSlot |= (1U<<i);
@@ -267,11 +267,11 @@ static void AlignInfoZomWAL(uint16 ushERSlot)
           for (k = 0; k < (uint8) sizeof(struct ZOMInfoSlot); k++)
           {
 
-			      *(((uint8 *) &tempInfoZom) + k) = *(((uint8 *) &tZOMInfo[i]) + k);
+			      *(((uint8*) &tempInfoZom) + k) = *(((uint8*) &tZOMInfo[i]) + k);
 
-            *(((uint8 *) &tZOMInfo[i]) + k) = *(((uint8 *) &tZOMInfo[j]) + k);
+            *(((uint8*) &tZOMInfo[i]) + k) = *(((uint8*) &tZOMInfo[j]) + k);
 
-			      *(((uint8 *) &tZOMInfo[j]) + k) = *(((uint8 *) &tempInfoZom) + k);
+			      *(((uint8*) &tZOMInfo[j]) + k) = *(((uint8*) &tempInfoZom) + k);
           }
           ushERSlot |= (1U<<i);
           ushERSlot &= ~(1U<<j);
@@ -543,7 +543,7 @@ static uint8 ucPutInZOM(const tRFTelType *ptInputWA)
   return(ucIx);
 }
 
-static uint8 ucSetHistory( Rte_Instance self, uint8 ucType)
+static uint8 ucSetHistory(Rte_Instance self, uint8 ucType)
 {
   uint8 i,j;
   uint8 ucRet = 0x0f;
@@ -552,8 +552,8 @@ static uint8 ucSetHistory( Rte_Instance self, uint8 ucType)
   uint8 ucPermStateEE;
   uint32 ulTemp;
 
-  GetWADataEE( self, cHistoryIDSet, (uint8 *) aulHistoryID, (uint8) sizeof(aulHistoryID));
-  GetWADataEE( self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
+  GetWADataEE(self, cHistoryIDSet, (uint8*) aulHistoryID, (uint8) sizeof(aulHistoryID));
+  GetWADataEE(self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
 
   for (i = 0; i < cMaxLR; i++)
   {
@@ -607,7 +607,7 @@ static uint8 ucSetHistory( Rte_Instance self, uint8 ucType)
 
       if(ucPermState != 0)
       {
-        GetWADataEE( self, cPermutationState, &ucPermStateEE, sizeof(ucPermStateEE));
+        GetWADataEE(self, cPermutationState, &ucPermStateEE, sizeof(ucPermStateEE));
         if(ucPermState == ucPermStateEE)
         {
 
@@ -617,7 +617,7 @@ static uint8 ucSetHistory( Rte_Instance self, uint8 ucType)
         else
         {
 
-          GetWADataEE(self, cHistoryIDSet, (uint8 *)aulHistoryID, (uint8) sizeof(aulHistoryID));
+          GetWADataEE(self, cHistoryIDSet, (uint8*)aulHistoryID, (uint8) sizeof(aulHistoryID));
           GetWADataEE(self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
 
           PutWADataEE(self, cPermutationState, &ucPermState, sizeof(ucPermState));
@@ -650,8 +650,8 @@ static uint8 ucSetHistory( Rte_Instance self, uint8 ucType)
       ucRet = ucType;
     }
 
-    PutWADataEE( self, cHistoryIDSet, (uint8 *) aulHistoryID, (uint8) sizeof(aulHistoryID));
-    PutWADataEE( self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
+    PutWADataEE(self, cHistoryIDSet, (uint8*) aulHistoryID, (uint8) sizeof(aulHistoryID));
+    PutWADataEE(self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
 
     for (i=0; i<cMaxLR; i++)
     {
@@ -693,8 +693,8 @@ static uint8 ucCheckPermutationWAL(Rte_Instance self, const uint32 aulNewHistory
   uint32  aulOldHistoryID[cMaxLR];
   uint8   aucOldHistoryWP[cMaxLR];
 
-  GetWADataEE( self, cHistoryIDSet, (uint8 *) aulOldHistoryID, (uint8) sizeof(aulOldHistoryID));
-  GetWADataEE( self, cHistoryWPSet, aucOldHistoryWP, (uint8) sizeof(aucOldHistoryWP));
+  GetWADataEE(self, cHistoryIDSet, (uint8*) aulOldHistoryID, (uint8) sizeof(aulOldHistoryID));
+  GetWADataEE(self, cHistoryWPSet, aucOldHistoryWP, (uint8) sizeof(aucOldHistoryWP));
 
   for (ucOldHistLoop = 0; ucOldHistLoop < cMaxLR; ucOldHistLoop++)
   {
@@ -757,15 +757,15 @@ uint8 * pucGetNewWheelPosOfIdWAL_debug(Rte_Instance self, uint8 * pucPermState)
   return &aucNewWheelPosOfIdWAL[0];
 }
 
-static uint8 ucSetHistoryPartialWAL( Rte_Instance self, uint8 ucType, uint8 ucNoOfErs)
+static uint8 ucSetHistoryPartialWAL(Rte_Instance self, uint8 ucType, uint8 ucNoOfErs)
 {
   uint8 i,j;
   uint8 ucRet = 0x0f;
   uint8 ucZomIdChanges=0;
   uint32 ulTemp;
 
-  GetWADataEE( self, cHistoryIDSet, (uint8 *) aulHistoryID, (uint8) sizeof(aulHistoryID));
-  GetWADataEE( self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
+  GetWADataEE(self, cHistoryIDSet, (uint8*) aulHistoryID, (uint8) sizeof(aulHistoryID));
+  GetWADataEE(self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
 
   for (i = 0; i < cMaxLR; i++)
   {
@@ -828,8 +828,8 @@ static uint8 ucSetHistoryPartialWAL( Rte_Instance self, uint8 ucType, uint8 ucNo
       ucRet = ucType;
     }
 
-    PutWADataEE( self, cHistoryIDSet, (uint8 *) aulHistoryID, (uint8) sizeof(aulHistoryID));
-    PutWADataEE( self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
+    PutWADataEE(self, cHistoryIDSet, (uint8*) aulHistoryID, (uint8) sizeof(aulHistoryID));
+    PutWADataEE(self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
 
     for (i=0; i<cMaxLR; i++)
     {
@@ -1135,16 +1135,16 @@ uint32* GetPointerToHistoryIdSetWAL(void){
   return (aulHistoryID);
 }
 
-void ClearHistoryWPs( Rte_Instance self){
+void ClearHistoryWPs(Rte_Instance self){
   uint8 i;
   for (i=0; i<cMaxLR; i++){
     aucHistoryWP[i] = cWheelPos_NA;
     ucWAState |= (uint8)(0x10 << i);
   }
-  PutWADataEE( self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
+  PutWADataEE(self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
 }
 
-uint8 ucSetHistoryID( Rte_Instance self, uint32 ulID, uint8 ucWP){
+uint8 ucSetHistoryID(Rte_Instance self, uint32 ulID, uint8 ucWP){
   uint8 i;
   uint8 ucSlot;
   uint8 ucOldWP;
@@ -1159,8 +1159,8 @@ uint8 ucSetHistoryID( Rte_Instance self, uint32 ulID, uint8 ucWP){
         aulHistoryID[i] = 0;
         aucHistoryWP[i] = cWheelPos_NA;
       }
-      PutWADataEE( self, cHistoryIDSet, (uint8 *) aulHistoryID, (uint8) sizeof(aulHistoryID));
-      PutWADataEE( self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
+      PutWADataEE(self, cHistoryIDSet, (uint8*) aulHistoryID, (uint8) sizeof(aulHistoryID));
+      PutWADataEE(self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
       ucWAState = 0xf0;
       ucRetVal = 0xff;
     }
@@ -1200,8 +1200,8 @@ uint8 ucSetHistoryID( Rte_Instance self, uint32 ulID, uint8 ucWP){
         }
         ucHistoryIdChanges = ucRetVal;
       }
-      PutWADataEE( self, cHistoryIDSet, (uint8 *) aulHistoryID, (uint8) sizeof(aulHistoryID));
-      PutWADataEE( self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
+      PutWADataEE(self, cHistoryIDSet, (uint8*) aulHistoryID, (uint8) sizeof(aulHistoryID));
+      PutWADataEE(self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
     }
   }
   return ucRetVal;
@@ -1293,13 +1293,13 @@ void TickAbsoluteLearnTimerWAL(void){
   }
 }
 
-uint8 ucLearnID( Rte_Instance self, const tRFTelType* ptInputWA){
+uint8 ucLearnID(Rte_Instance self, const tRFTelType* ptInputWA){
   uint16 ushHelp;
   uint8  ucZomPos;
   boolean bHelp = FALSE;
   if(bGetZOState() == TRUE){
     if((tWAPar.ucWACtrl & cWACtrlCyclic) > 0){
-		  (void)InitWAL( self, cRestartLearnLocate);
+		  (void)InitWAL(self, cRestartLearnLocate);
 	  }
 
 #ifdef Test_LOG_ENABLE
@@ -1323,7 +1323,7 @@ uint8 ucLearnID( Rte_Instance self, const tRFTelType* ptInputWA){
               AlignZomWAL(ushHelp);
               AlignInfoZomWAL(ushHelp);
 				      ucZomPos = ucGetZOMPosOfID(&ptInputWA->Header.ulID);
-              SetWAStateZOChange(ucSetHistory( self, (uint8)cWAStateER));
+              SetWAStateZOChange(ucSetHistory(self, (uint8)cWAStateER));
             }
           }
           if(bGetERState() == TRUE){
@@ -1333,7 +1333,7 @@ uint8 ucLearnID( Rte_Instance self, const tRFTelType* ptInputWA){
             if(ucSearchWheelPositionsWAL(ucZomPos, ptInputWA) == 1){
               if(bGetERState() == TRUE){
                 CancelWATO();
-                SetWAStateZOChange( ucSetHistory( self, (uint8)cWAStateZO));
+                SetWAStateZOChange( ucSetHistory(self, (uint8)cWAStateZO));
                 ucWAState |= cWAStateZO;
               }
             }
@@ -1344,9 +1344,9 @@ uint8 ucLearnID( Rte_Instance self, const tRFTelType* ptInputWA){
       }
     }
   }
-  PutWADataEE( self, cAllocState, (uint8*)&ucWAState, sizeof(ucWAState));
-  PutWADataEE( self, cIDChangeBits, (uint8*)&ucHistoryIdChanges, sizeof(ucHistoryIdChanges));
-  PutWADataEE( self, cZOMContent, (uint8*)&tZOM, (uint16)sizeof(tZOM));
+  PutWADataEE(self, cAllocState, (uint8*)&ucWAState, sizeof(ucWAState));
+  PutWADataEE(self, cIDChangeBits, (uint8*)&ucHistoryIdChanges, sizeof(ucHistoryIdChanges));
+  PutWADataEE(self, cZOMContent, (uint8*)&tZOM, (uint16)sizeof(tZOM));
   return(ucWAState);
 }
 
@@ -1376,7 +1376,7 @@ static boolean bFinishIfWheelsAreInDriveMode(void){
   return bRetVal;
 }
 
-uint8 ucWATO( Rte_Instance self, uint8* ucOpenPositions){
+uint8 ucWATO(Rte_Instance self, uint8* ucOpenPositions){
   uint8 ucRet = 0;
   uint16 ushSlots = 0;
   uint8 ucNrOfErs;
@@ -1389,7 +1389,7 @@ uint8 ucWATO( Rte_Instance self, uint8* ucOpenPositions){
     }
     else if(ucNrOfErs < cMaxLR){
       if(ucIdsAreHistoricWAL(ushSlots) < ucNrOfErs){
-        PartialAllocationWAL( self, ushSlots, ucNrOfErs, ucOpenPositions);
+        PartialAllocationWAL(self, ushSlots, ucNrOfErs, ucOpenPositions);
       }
       ucRet = 0x09;
     }
@@ -1399,11 +1399,11 @@ uint8 ucWATO( Rte_Instance self, uint8* ucOpenPositions){
         ucWAState |= cWAStateER;
         AlignZomWAL(ushSlots);
         AlignInfoZomWAL(ushSlots);
-        SetWAStateZOChange(ucSetHistory( self, (uint8)cWAStateER));
-        PutWADataEE( self, cAllocState, (uint8*)&ucWAState, sizeof(ucWAState));
-        PutWADataEE( self, cIDChangeBits, (uint8*)&ucHistoryIdChanges, sizeof(ucHistoryIdChanges));
-        PutWADataEE( self, cZOMContent, (uint8*)&tZOM, (uint16)sizeof(tZOM));
-        if(ucForceAutolocationWAL( self) == 1){
+        SetWAStateZOChange(ucSetHistory(self, (uint8)cWAStateER));
+        PutWADataEE(self, cAllocState, (uint8*)&ucWAState, sizeof(ucWAState));
+        PutWADataEE(self, cIDChangeBits, (uint8*)&ucHistoryIdChanges, sizeof(ucHistoryIdChanges));
+        PutWADataEE(self, cZOMContent, (uint8*)&tZOM, (uint16)sizeof(tZOM));
+        if(ucForceAutolocationWAL(self) == 1){
           ucRet = 0x00;
         }
         else{
@@ -1421,7 +1421,7 @@ uint8 ucWATO( Rte_Instance self, uint8* ucOpenPositions){
         }
         else{
           if(ucIdsAreHistoricWAL(ushSlots) < ucNrOfErs){
-            PartialAllocationWAL( self, ushSlots, ucNrOfErs, ucOpenPositions);
+            PartialAllocationWAL(self, ushSlots, ucNrOfErs, ucOpenPositions);
           }
           ucRet = 0x09;
         }
@@ -1430,7 +1430,7 @@ uint8 ucWATO( Rte_Instance self, uint8* ucOpenPositions){
     else {  }
   }
   else{
-    if(ucForceAutolocationWAL( self) == 1){
+    if(ucForceAutolocationWAL(self) == 1){
       ucRet = 0x00;
     }
     else{
@@ -1441,27 +1441,27 @@ uint8 ucWATO( Rte_Instance self, uint8* ucOpenPositions){
   return (ucRet);
 }
 
-static uint8 ucForceAutolocationWAL( Rte_Instance self){
+static uint8 ucForceAutolocationWAL(Rte_Instance self){
   uint8 ucRetVal;
   ucRetVal = ucLocateWheelPositionsFPA(TRUE);
   if(ucRetVal == 1){
-    SetWAStateZOChange(ucSetHistory( self, (uint8)cWAStateZO));
+    SetWAStateZOChange(ucSetHistory(self, (uint8)cWAStateZO));
     ucWAState |= cWAStateZO;
-    PutWADataEE( self, cAllocState, (uint8*)&ucWAState, sizeof(ucWAState));
-    PutWADataEE( self, cIDChangeBits, (uint8*)&ucHistoryIdChanges, sizeof(ucHistoryIdChanges));
-    PutWADataEE( self, cZOMContent, (uint8*)&tZOM, (uint16)sizeof(tZOM));
+    PutWADataEE(self, cAllocState, (uint8*)&ucWAState, sizeof(ucWAState));
+    PutWADataEE(self, cIDChangeBits, (uint8*)&ucHistoryIdChanges, sizeof(ucHistoryIdChanges));
+    PutWADataEE(self, cZOMContent, (uint8*)&tZOM, (uint16)sizeof(tZOM));
   }
   return ucRetVal;
 }
 
-static void PartialAllocationWAL( Rte_Instance self, uint16 ushSlots, uint8 ucNrOfErs, uint8* ucOpenPositions){
+static void PartialAllocationWAL(Rte_Instance self, uint16 ushSlots, uint8 ucNrOfErs, uint8* ucOpenPositions){
   AlignZomWAL(ushSlots);
   AlignInfoZomWAL(ushSlots);
-  (void) ucSetHistoryPartialWAL( self, cWAStateER, ucNrOfErs);
+  (void) ucSetHistoryPartialWAL(self, cWAStateER, ucNrOfErs);
   if((ucGetHistoryState() & cHiStateZG) != cHiStateZG){
     *ucOpenPositions = ucLocateWheelPositionsPartialFPA(ucNrOfBitSet16(ushSlots));
     if(*ucOpenPositions > 0){
-      (void) ucSetHistoryPartialWAL( self, cWAStateZO, ucNrOfErs);
+      (void) ucSetHistoryPartialWAL(self, cWAStateZO, ucNrOfErs);
     }
   }
 }
@@ -1479,7 +1479,7 @@ static void DeleteForeignWheelsWAL(void){
   }
 }
 
-uint8 InitWAL( Rte_Instance self, boolean bClearZom){
+uint8 InitWAL(Rte_Instance self, boolean bClearZom){
   uint8 i;
   if(bClearZom == cRestartLearnLocate){
     ucWAState &= (uint8) ~(cWAStateZO);
@@ -1490,17 +1490,17 @@ uint8 InitWAL( Rte_Instance self, boolean bClearZom){
     ucHistoryIdChanges = 0;
     CancelWATO();
     ClearZomWAL(cSumWE);
-    PutWADataEE( self, cZOMContent, (const uint8*)tZOM, (uint16)sizeof(tZOM));
-    PutWADataEE( self, cAllocState, (const uint8*)&ucWAState, (uint8)sizeof(ucWAState));
-    PutWADataEE( self, cIDChangeBits, (const uint8*)&ucHistoryIdChanges, (uint8)sizeof(ucHistoryIdChanges));
+    PutWADataEE(self, cZOMContent, (const uint8*)tZOM, (uint16)sizeof(tZOM));
+    PutWADataEE(self, cAllocState, (const uint8*)&ucWAState, (uint8)sizeof(ucWAState));
+    PutWADataEE(self, cIDChangeBits, (const uint8*)&ucHistoryIdChanges, (uint8)sizeof(ucHistoryIdChanges));
   }
   else{
-    GetWADataEE( self, cZOMContent, (uint8*) &tZOM, (uint16) sizeof(tZOM));
-    GetWADataEE( self, cAllocState, &ucWAState, sizeof(ucWAState));
-    GetWADataEE( self, cIDChangeBits, &ucHistoryIdChanges, sizeof(ucHistoryIdChanges));
+    GetWADataEE(self, cZOMContent, (uint8*) &tZOM, (uint16) sizeof(tZOM));
+    GetWADataEE(self, cAllocState, &ucWAState, sizeof(ucWAState));
+    GetWADataEE(self, cIDChangeBits, &ucHistoryIdChanges, sizeof(ucHistoryIdChanges));
     InitABS();
   }
-  GetWADataEE( self, cWAParameter, (uint8*) &tWAPar , (uint8) sizeof(tWAParameter));
+  GetWADataEE(self, cWAParameter, (uint8*) &tWAPar , (uint8) sizeof(tWAParameter));
   if(tWAPar.ucWAParInitialized != cWAParInitialized){
     tWAPar.ucWACtrl = ucDefWACtrl;
     tWAPar.ucWAParInitialized = cWAParInitialized;
@@ -1515,14 +1515,14 @@ uint8 InitWAL( Rte_Instance self, boolean bClearZom){
       aulHistoryID[i] = 0;
       aucHistoryWP[i] = cWheelPos_NA;
     }
-    PutWADataEE( self, cWAParameter, (uint8 *) &tWAPar , (uint8) sizeof(tWAParameter));
-    PutWADataEE( self, cHistoryIDSet, (uint8 *) aulHistoryID, (uint8) sizeof(aulHistoryID));
-    PutWADataEE( self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
+    PutWADataEE(self, cWAParameter, (uint8*) &tWAPar , (uint8) sizeof(tWAParameter));
+    PutWADataEE(self, cHistoryIDSet, (uint8*) aulHistoryID, (uint8) sizeof(aulHistoryID));
+    PutWADataEE(self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
   }
   else
   {
-    GetWADataEE( self, cHistoryIDSet, (uint8 *) aulHistoryID, (uint8) sizeof(aulHistoryID));
-    GetWADataEE( self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
+    GetWADataEE(self, cHistoryIDSet, (uint8*) aulHistoryID, (uint8) sizeof(aulHistoryID));
+    GetWADataEE(self, cHistoryWPSet, aucHistoryWP, (uint8) sizeof(aucHistoryWP));
     if((tWAPar.ucWACtrl & cWACtrlFixc) > 0)
     {
       RestoreHistory();

@@ -22,7 +22,7 @@ extern "C"
 #define cResetRefPoint_SpeedOk (uint8)0x02
 
 static boolean bLearningWheelPosActiveWAM( uint8 ucSpeedThreshold);
-static void SetLearnStateWAM( Rte_Instance self, uint8 ucWAState);
+static void SetLearnStateWAM(Rte_Instance self, uint8 ucWAState);
 static void SetDrivingDirectionWAM(void);
 static void StartCalOnErFinishWAM(void);
 static void ProcessCalOnErFinishWAM(void);

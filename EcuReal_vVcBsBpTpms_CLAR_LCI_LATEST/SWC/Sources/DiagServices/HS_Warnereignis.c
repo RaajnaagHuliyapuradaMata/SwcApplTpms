@@ -33,13 +33,13 @@ static uint32 ulMileage0_We3 = 0;
 static uint32 ulMileage100_We3 = 0;
 static uint32 ulMileage160_We3 = 0;
 
-void InitFastaWarnEventsDS( Rte_Instance self)
+void InitFastaWarnEventsDS(Rte_Instance self)
 {
   ulLastWSB = GETulWarnOutTM();
-  ucLastWarnOut = ucGetWarnOutStateBT( self);
+  ucLastWarnOut = ucGetWarnOutStateBT(self);
 }
 
-void ProcessFastaWarnEventsDS( Rte_Instance self)
+void ProcessFastaWarnEventsDS(Rte_Instance self)
 {
   uint32 ulWSB;
   uint8  ucWarnOut;
@@ -51,7 +51,7 @@ void ProcessFastaWarnEventsDS( Rte_Instance self)
   uint8  ucNoOfGroupsToCheck;
 
   ulWSB = GETulWarnOutTM();
-  ucWarnOut = ucGetWarnOutStateBT( self);
+  ucWarnOut = ucGetWarnOutStateBT(self);
 
   if(ulLastWSB == 0xffffffffU)
   {
@@ -75,12 +75,12 @@ void ProcessFastaWarnEventsDS( Rte_Instance self)
       if( ucWarningType == 0)
       {
 
-        (void)SaveWarnereignisDS( self, ucPosition, cEventTypePanne);
+        (void)SaveWarnereignisDS(self, ucPosition, cEventTypePanne);
       }
       else if( ucWarningType == 1)
       {
 
-       (void) SaveWarnereignisDS( self, ucPosition, cEventTypeWarn);
+       (void) SaveWarnereignisDS(self, ucPosition, cEventTypeWarn);
       }
       else
       {
@@ -88,12 +88,12 @@ void ProcessFastaWarnEventsDS( Rte_Instance self)
         if( (ucWarnOut & cBtWsBreakTirePw) == cBtWsBreakTirePw)
         {
 
-          (void) SaveWarnereignisDS( self, ucPosition, cEventTypePanne);
+          (void) SaveWarnereignisDS(self, ucPosition, cEventTypePanne);
         }
         else
         {
 
-          (void) SaveWarnereignisDS( self, ucPosition, cEventTypeWarn);
+          (void) SaveWarnereignisDS(self, ucPosition, cEventTypeWarn);
         }
       }
     }
@@ -107,14 +107,14 @@ void ProcessFastaWarnEventsDS( Rte_Instance self)
 
         ucPosition = ucFindFirstBitInLoNibbleDS( (ucWarnOut & cMaskLoNibble));
 
-        (void) SaveWarnereignisDS( self, ucPosition, cEventTypePanne);
+        (void) SaveWarnereignisDS(self, ucPosition, cEventTypePanne);
       }
       else if( ucWarningType == 1)
       {
 
         ucPosition = ucFindFirstBitInLoNibbleDS( (ucWarnOut & cMaskLoNibble));
 
-        (void) SaveWarnereignisDS( self, ucPosition, cEventTypeWarn);
+        (void) SaveWarnereignisDS(self, ucPosition, cEventTypeWarn);
       }
       else
       {
@@ -131,7 +131,7 @@ void ProcessFastaWarnEventsDS( Rte_Instance self)
     ucPosition = ucCheckWarningGroup( ulLastWSB, ulWSB, cGroupMask_D, cFindBitSet);
     if(ucPosition < cMaxLR)
     {
-      (void) SaveWarnereignisWeichDS( self, ucPosition);
+      (void) SaveWarnereignisWeichDS(self, ucPosition);
     }
 
     ulGroupsToCheck[0] = cGroupMask_A;
@@ -147,7 +147,7 @@ void ProcessFastaWarnEventsDS( Rte_Instance self)
       if(ucPosition < cMaxLR)
       {
         i = ucNoOfGroupsToCheck;
-        (void) SaveWarnereignisRuecknahmeDS( self, ucPosition);
+        (void) SaveWarnereignisRuecknahmeDS(self, ucPosition);
       }
       else
       {
@@ -212,7 +212,7 @@ static uint8 ucNoOfActivePreWarningsDS(void)
   return ucRetVal;
 }
 
-static uint8 SaveWarnereignisDS( Rte_Instance self, uint8 ucPos, uint8 ucWarningType)
+static uint8 SaveWarnereignisDS(Rte_Instance self, uint8 ucPos, uint8 ucWarningType)
 {
   Rdci_UHRZEIT_DATUM_Type timeDate;
   Rdci_MILE_KM_Type mileKm;
@@ -233,7 +233,7 @@ static uint8 SaveWarnereignisDS( Rte_Instance self, uint8 ucPos, uint8 ucWarning
     #endif
   #endif
 
-  ucCounterWarn = GetHsWarnereignis_1_CounterEE( self);
+  ucCounterWarn = GetHsWarnereignis_1_CounterEE(self);
 
   if(ucCounterWarn == 0xff)
   {
@@ -297,7 +297,7 @@ static uint8 SaveWarnereignisDS( Rte_Instance self, uint8 ucPos, uint8 ucWarning
     break;
   }
 
-  timeDate = GETtTimeDateEE( self);
+  timeDate = GETtTimeDateEE(self);
   GetDateStringDM(timeDate.DISP_DATE_YR, (uint8)timeDate.DISP_DATE_MON, (uint8)timeDate.DISP_DATE_DAY, cTempBuffer, sizeof(cTempBuffer));
   for (i=0; i<8; i++)
   {
@@ -309,7 +309,7 @@ static uint8 SaveWarnereignisDS( Rte_Instance self, uint8 ucPos, uint8 ucWarning
     cData[i+8] = cTempBuffer[i];
   }
 
-  mileKm = GETulMileKmEE( self);
+  mileKm = GETulMileKmEE(self);
   cData[16] = (uint8)((mileKm >> 24) & 0xffU);
   cData[17] = (uint8)((mileKm >> 16) & 0xffU);
   cData[18] = (uint8)((mileKm >> 8) & 0xffU);
@@ -324,10 +324,10 @@ static uint8 SaveWarnereignisDS( Rte_Instance self, uint8 ucPos, uint8 ucWarning
     ucSlot = ucGetColOfWP(ucPos);
   }
 
-  cData[20] = (uint8) (GETscTAinitValEE( self) + 40);
-  cData[21] = (uint8) (GETscTAmbValEE( self) + 40);
+  cData[20] = (uint8) (GETscTAinitValEE(self) + 40);
+  cData[21] = (uint8) (GETscTAmbValEE(self) + 40);
 
-  ucTemp = GETucPAmbValEE( self);
+  ucTemp = GETucPAmbValEE(self);
   ushTemp = Change25mBarToHpa(ucTemp);
   cData[22] = (uint8)((ushTemp >> 8) & 0xffU);
   cData[23] = (uint8)(ushTemp & 0xffU);
@@ -349,7 +349,7 @@ static uint8 SaveWarnereignisDS( Rte_Instance self, uint8 ucPos, uint8 ucWarning
     if(ucTemp < cMaxLR)
     {
       cData[26 + (6 * i)] = ucTemp;
-      ucTemp = GetQrIxOfWheelPos( self, ucTemp);
+      ucTemp = GetQrIxOfWheelPos(self, ucTemp);
       ucTemp <<= 4;
       ucTemp &= 0xf0u;
       cData[26 + (6 * i)] |= ucTemp;
@@ -359,7 +359,7 @@ static uint8 SaveWarnereignisDS( Rte_Instance self, uint8 ucPos, uint8 ucWarning
       cData[26 + (6 * i)] = 0x05;
     }
 
-    (void)ucGetPTSollUSWIF( self, &ucPcold, &scTcold, &ucPwarm, &scTwarm, &ushM, &ucPamb, i);
+    (void)ucGetPTSollUSWIF(self, &ucPcold, &scTcold, &ucPwarm, &scTwarm, &ushM, &ucPamb, i);
     if(ucPwarm == cInvalidREpressure)
     {
       ushTemp = 0xffffu;
@@ -400,32 +400,32 @@ static uint8 SaveWarnereignisDS( Rte_Instance self, uint8 ucPos, uint8 ucWarning
 
   for (i=0; i<sizeof(cData); i++)
   {
-    PutHsWarnereignis_3_EE( self, GetHsWarnereignis_2_EE( self, i), i, cSAVE_ON_EVENT);
+    PutHsWarnereignis_3_EE(self, GetHsWarnereignis_2_EE(self, i), i, cSAVE_ON_EVENT);
   }
-  PutWe3ZomSlotEE( self, GetWe2ZomSlotEE( self));
+  PutWe3ZomSlotEE(self, GetWe2ZomSlotEE(self));
   ShiftMileageDS(2);
 
   for (i=0; i<sizeof(cData); i++)
   {
-    PutHsWarnereignis_2_EE( self, GetHsWarnereignis_1_EE( self, i), i, cSAVE_ON_EVENT);
+    PutHsWarnereignis_2_EE(self, GetHsWarnereignis_1_EE(self, i), i, cSAVE_ON_EVENT);
   }
-  PutWe2ZomSlotEE( self, GetWe1ZomSlotEE( self));
+  PutWe2ZomSlotEE(self, GetWe1ZomSlotEE(self));
   ShiftMileageDS(1);
 
   for (i=0; i<sizeof(cData); i++)
   {
-    PutHsWarnereignis_1_EE( self, cData[i], i, cSAVE_ON_EVENT);
+    PutHsWarnereignis_1_EE(self, cData[i], i, cSAVE_ON_EVENT);
   }
-  PutWe1ZomSlotEE( self, ucSlot);
-  ulMileage0_We1 = GETulMileKmEE( self);
-  ulMileage100_We1 = GETulMileKmEE( self);
-  ulMileage160_We1 = GETulMileKmEE( self);
+  PutWe1ZomSlotEE(self, ucSlot);
+  ulMileage0_We1 = GETulMileKmEE(self);
+  ulMileage100_We1 = GETulMileKmEE(self);
+  ulMileage160_We1 = GETulMileKmEE(self);
 
   ucRetVal = 0;
   return ucRetVal;
 }
 
-void CountDrivenKilometersWithWarningDS( Rte_Instance self)
+void CountDrivenKilometersWithWarningDS(Rte_Instance self)
 {
   uint16 ushSpeed;
   uint8  ucSpeed;
@@ -442,7 +442,7 @@ void CountDrivenKilometersWithWarningDS( Rte_Instance self)
     ucSpeed = 0;
     ushSpeed = 0;
   }
-  SaveHighestSpeedWithActiveWarningDS( self, ucSpeed);
+  SaveHighestSpeedWithActiveWarningDS(self, ucSpeed);
 
   switch (ucSpeedState)
   {
@@ -450,9 +450,9 @@ void CountDrivenKilometersWithWarningDS( Rte_Instance self)
     case (uint8)0:
     if(ushSpeed > 0)
     {
-      ulMileage0_We1 = GETulMileKmEE( self);
-      ulMileage0_We2 = GETulMileKmEE( self);
-      ulMileage0_We3 = GETulMileKmEE( self);
+      ulMileage0_We1 = GETulMileKmEE(self);
+      ulMileage0_We2 = GETulMileKmEE(self);
+      ulMileage0_We3 = GETulMileKmEE(self);
       ucSpeedState = 1;
     }
     break;
@@ -460,15 +460,15 @@ void CountDrivenKilometersWithWarningDS( Rte_Instance self)
     case (uint8)1:
     if(ushSpeed > 100)
     {
-      CumulateKilometers_0_to_100_DS( self);
-      ulMileage100_We1 = GETulMileKmEE( self);
-      ulMileage100_We2 = GETulMileKmEE( self);
-      ulMileage100_We3 = GETulMileKmEE( self);
+      CumulateKilometers_0_to_100_DS(self);
+      ulMileage100_We1 = GETulMileKmEE(self);
+      ulMileage100_We2 = GETulMileKmEE(self);
+      ulMileage100_We3 = GETulMileKmEE(self);
       ucSpeedState = 2;
     }
     else if(ushSpeed == 0)
     {
-      CumulateKilometers_0_to_100_DS( self);
+      CumulateKilometers_0_to_100_DS(self);
       ucSpeedState = 0;
     }
     else {}
@@ -477,18 +477,18 @@ void CountDrivenKilometersWithWarningDS( Rte_Instance self)
     case (uint8)2:
     if(ushSpeed > 160)
     {
-      CumulateKilometers_100_to_160_DS( self);
-      ulMileage160_We1 = GETulMileKmEE( self);
-      ulMileage160_We2 = GETulMileKmEE( self);
-      ulMileage160_We3 = GETulMileKmEE( self);
+      CumulateKilometers_100_to_160_DS(self);
+      ulMileage160_We1 = GETulMileKmEE(self);
+      ulMileage160_We2 = GETulMileKmEE(self);
+      ulMileage160_We3 = GETulMileKmEE(self);
       ucSpeedState = 3;
     }
     else if(ushSpeed <= 100)
     {
-      CumulateKilometers_100_to_160_DS( self);
-      ulMileage0_We1 = GETulMileKmEE( self);
-      ulMileage0_We2 = GETulMileKmEE( self);
-      ulMileage0_We3 = GETulMileKmEE( self);
+      CumulateKilometers_100_to_160_DS(self);
+      ulMileage0_We1 = GETulMileKmEE(self);
+      ulMileage0_We2 = GETulMileKmEE(self);
+      ulMileage0_We3 = GETulMileKmEE(self);
       ucSpeedState = 1;
     }
     else {}
@@ -497,73 +497,73 @@ void CountDrivenKilometersWithWarningDS( Rte_Instance self)
     default:
     if(ushSpeed <= 160)
     {
-      CumulateKilometers_160_to_max_DS( self);
-      ulMileage100_We1 = GETulMileKmEE( self);
-      ulMileage100_We2 = GETulMileKmEE( self);
-      ulMileage100_We3 = GETulMileKmEE( self);
+      CumulateKilometers_160_to_max_DS(self);
+      ulMileage100_We1 = GETulMileKmEE(self);
+      ulMileage100_We2 = GETulMileKmEE(self);
+      ulMileage100_We3 = GETulMileKmEE(self);
       ucSpeedState = 2;
     }
     break;
   }
 }
 
-void ReadWarnereignis_1_DS( Rte_Instance self, uint8 * paucData)
+void ReadWarnereignis_1_DS(Rte_Instance self, uint8 * paucData)
 {
   uint8 i;
 
   for (i=0; i<cNvmRdciDiagBlock1HsWarn_1_Size; i++)
   {
-    paucData[i] = GetHsWarnereignis_1_EE( self, i);
+    paucData[i] = GetHsWarnereignis_1_EE(self, i);
   }
 }
 
-void ReadWarnereignis_2_DS( Rte_Instance self, uint8 * paucData)
+void ReadWarnereignis_2_DS(Rte_Instance self, uint8 * paucData)
 {
   uint8 i;
 
   for (i=0; i<cNvmRdciDiagBlock1HsWarn_1_Size; i++)
   {
-    paucData[i] = GetHsWarnereignis_2_EE( self, i);
+    paucData[i] = GetHsWarnereignis_2_EE(self, i);
   }
 }
 
-void ReadWarnereignis_3_DS( Rte_Instance self, uint8 * paucData)
+void ReadWarnereignis_3_DS(Rte_Instance self, uint8 * paucData)
 {
   uint8 i;
 
   for (i=0; i<cNvmRdciDiagBlock1HsWarn_1_Size; i++)
   {
-    paucData[i] = GetHsWarnereignis_3_EE( self, i);
+    paucData[i] = GetHsWarnereignis_3_EE(self, i);
   }
 }
 
-static void WriteWarnereignis_1_DS( Rte_Instance self, const uint8* aucData, uint8 ucSize)
+static void WriteWarnereignis_1_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize)
 {
   uint8 i;
 
   for (i=0; i<ucSize; i++)
   {
-    PutHsWarnereignis_1_EE( self, aucData[i], i, cSAVE_ON_SHUTDOWN);
+    PutHsWarnereignis_1_EE(self, aucData[i], i, cSAVE_ON_SHUTDOWN);
   }
 }
 
-static void WriteWarnereignis_2_DS( Rte_Instance self, const uint8* aucData, uint8 ucSize)
+static void WriteWarnereignis_2_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize)
 {
   uint8 i;
 
   for (i=0; i<ucSize; i++)
   {
-    PutHsWarnereignis_2_EE( self, aucData[i], i, cSAVE_ON_SHUTDOWN);
+    PutHsWarnereignis_2_EE(self, aucData[i], i, cSAVE_ON_SHUTDOWN);
   }
 }
 
-static void WriteWarnereignis_3_DS( Rte_Instance self, const uint8* aucData, uint8 ucSize)
+static void WriteWarnereignis_3_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize)
 {
   uint8 i;
 
   for (i=0; i<ucSize; i++)
   {
-    PutHsWarnereignis_3_EE( self, aucData[i], i, cSAVE_ON_SHUTDOWN);
+    PutHsWarnereignis_3_EE(self, aucData[i], i, cSAVE_ON_SHUTDOWN);
   }
 }
 
@@ -589,83 +589,83 @@ static void ShiftMileageDS(uint8 ucEventNumber)
   }
 }
 
-static boolean bWarnereignis1ActiveDS( Rte_Instance self)
+static boolean bWarnereignis1ActiveDS(Rte_Instance self)
 {
   boolean bRetVal = FALSE;
-  if(GetWe1ZomSlotEE( self) != 255)
+  if(GetWe1ZomSlotEE(self) != 255)
   {
     bRetVal = TRUE;
   }
   return bRetVal;
 }
 
-static boolean bWarnereignis2ActiveDS( Rte_Instance self)
+static boolean bWarnereignis2ActiveDS(Rte_Instance self)
 {
   boolean bRetVal = FALSE;
-  if(GetWe2ZomSlotEE( self) != 255)
+  if(GetWe2ZomSlotEE(self) != 255)
   {
     bRetVal = TRUE;
   }
   return bRetVal;
 }
 
-static boolean bWarnereignis3ActiveDS( Rte_Instance self)
+static boolean bWarnereignis3ActiveDS(Rte_Instance self)
 {
   boolean bRetVal = FALSE;
-  if(GetWe3ZomSlotEE( self) != 255)
+  if(GetWe3ZomSlotEE(self) != 255)
   {
     bRetVal = TRUE;
   }
   return bRetVal;
 }
 
-static void SaveHighestSpeedWithActiveWarningDS( Rte_Instance self, uint8 ucVMax)
+static void SaveHighestSpeedWithActiveWarningDS(Rte_Instance self, uint8 ucVMax)
 {
   uint8 ucData[cNvmRdciDiagBlock1HsWarn_1_Size];
 
-  if(bWarnereignis1ActiveDS( self) == TRUE)
+  if(bWarnereignis1ActiveDS(self) == TRUE)
   {
-    ReadWarnereignis_1_DS( self, ucData);
+    ReadWarnereignis_1_DS(self, ucData);
     if(ucVMax > ucData[57])
     {
       ucData[57] = ucVMax;
-      WriteWarnereignis_1_DS( self, ucData, sizeof(ucData));
+      WriteWarnereignis_1_DS(self, ucData, sizeof(ucData));
     }
 
   }
 
-  if(bWarnereignis2ActiveDS( self) == TRUE)
+  if(bWarnereignis2ActiveDS(self) == TRUE)
   {
-    ReadWarnereignis_2_DS( self, ucData);
+    ReadWarnereignis_2_DS(self, ucData);
     if(ucVMax > ucData[57])
     {
       ucData[57] = ucVMax;
-      WriteWarnereignis_2_DS( self, ucData, sizeof(ucData));
+      WriteWarnereignis_2_DS(self, ucData, sizeof(ucData));
     }
 
   }
 
-  if(bWarnereignis3ActiveDS( self) == TRUE)
+  if(bWarnereignis3ActiveDS(self) == TRUE)
   {
-    ReadWarnereignis_3_DS( self, ucData);
+    ReadWarnereignis_3_DS(self, ucData);
     if(ucVMax > ucData[57])
     {
       ucData[57] = ucVMax;
-      WriteWarnereignis_3_DS( self, ucData, sizeof(ucData));
+      WriteWarnereignis_3_DS(self, ucData, sizeof(ucData));
     }
   }
 }
 
-static void CumulateKilometers_0_to_100_DS( Rte_Instance self)
+static void CumulateKilometers_0_to_100_DS(Rte_Instance self)
 {
   uint32  ulDiff;
   uint8   ucData[cNvmRdciDiagBlock1HsWarn_1_Size];
   uint16  ushTemp;
 
-  if(bWarnereignis1ActiveDS( self) == TRUE)
+  if(bWarnereignis1ActiveDS(self) == TRUE)
   {
-    ulDiff = GETulMileKmEE( self) - ulMileage0_We1;
-    ReadWarnereignis_1_DS( self, ucData);
+    ulDiff = GETulMileKmEE(self) - ulMileage0_We1;
+    ReadWarnereignis_1_DS(self, ucData);
     ushTemp = (uint16)((uint16)(ucData[51]) << 8) + (uint16)(ucData[52]);
     if((ushTemp + (uint16)ulDiff) < 0xffffu)
     {
@@ -673,13 +673,13 @@ static void CumulateKilometers_0_to_100_DS( Rte_Instance self)
     }
     ucData[51] = (uint8)((ushTemp >> 8) & 0xffu);
     ucData[52] = (uint8)(ushTemp & 0xffu);
-    WriteWarnereignis_1_DS( self, ucData, sizeof(ucData));
+    WriteWarnereignis_1_DS(self, ucData, sizeof(ucData));
   }
 
-  if(bWarnereignis2ActiveDS( self) == TRUE)
+  if(bWarnereignis2ActiveDS(self) == TRUE)
   {
-    ulDiff = GETulMileKmEE( self) - ulMileage0_We2;
-    ReadWarnereignis_2_DS( self, ucData);
+    ulDiff = GETulMileKmEE(self) - ulMileage0_We2;
+    ReadWarnereignis_2_DS(self, ucData);
     ushTemp = (uint16)((uint16)(ucData[51]) << 8) + (uint16)(ucData[52]);
     if((ushTemp + (uint16)ulDiff) < 0xffffu)
     {
@@ -687,13 +687,13 @@ static void CumulateKilometers_0_to_100_DS( Rte_Instance self)
     }
     ucData[51] = (uint8)((ushTemp >> 8) & 0xffu);
     ucData[52] = (uint8)(ushTemp & 0xffu);
-    WriteWarnereignis_2_DS( self, ucData, sizeof(ucData));
+    WriteWarnereignis_2_DS(self, ucData, sizeof(ucData));
   }
 
-  if(bWarnereignis3ActiveDS( self) == TRUE)
+  if(bWarnereignis3ActiveDS(self) == TRUE)
   {
-    ulDiff = GETulMileKmEE( self) - ulMileage0_We3;
-    ReadWarnereignis_3_DS( self, ucData);
+    ulDiff = GETulMileKmEE(self) - ulMileage0_We3;
+    ReadWarnereignis_3_DS(self, ucData);
     ushTemp = (uint16)((uint16)(ucData[51]) << 8) + (uint16)(ucData[52]);
     if((ushTemp + (uint16)ulDiff) < 0xffffu)
     {
@@ -701,20 +701,20 @@ static void CumulateKilometers_0_to_100_DS( Rte_Instance self)
     }
     ucData[51] = (uint8)((ushTemp >> 8) & 0xffu);
     ucData[52] = (uint8)(ushTemp & 0xffu);
-    WriteWarnereignis_3_DS( self, ucData, sizeof(ucData));
+    WriteWarnereignis_3_DS(self, ucData, sizeof(ucData));
   }
 }
 
-static void CumulateKilometers_100_to_160_DS( Rte_Instance self)
+static void CumulateKilometers_100_to_160_DS(Rte_Instance self)
 {
   uint32  ulDiff;
   uint8   ucData[cNvmRdciDiagBlock1HsWarn_1_Size];
   uint16  ushTemp;
 
-  if(bWarnereignis1ActiveDS( self) == TRUE)
+  if(bWarnereignis1ActiveDS(self) == TRUE)
   {
-    ulDiff = GETulMileKmEE( self) - ulMileage100_We1;
-    ReadWarnereignis_1_DS( self, ucData);
+    ulDiff = GETulMileKmEE(self) - ulMileage100_We1;
+    ReadWarnereignis_1_DS(self, ucData);
     ushTemp = (uint16)((uint16)(ucData[53]) << 8) + (uint16)(ucData[54]);
     if((ushTemp + (uint16)ulDiff) < 0xffffu)
     {
@@ -722,13 +722,13 @@ static void CumulateKilometers_100_to_160_DS( Rte_Instance self)
     }
     ucData[53] = (uint8)((ushTemp >> 8) & 0xffu);
     ucData[54] = (uint8)(ushTemp & 0xffu);
-    WriteWarnereignis_1_DS( self, ucData, sizeof(ucData));
+    WriteWarnereignis_1_DS(self, ucData, sizeof(ucData));
   }
 
-  if(bWarnereignis2ActiveDS( self) == TRUE)
+  if(bWarnereignis2ActiveDS(self) == TRUE)
   {
-    ulDiff = GETulMileKmEE( self) - ulMileage100_We2;
-    ReadWarnereignis_2_DS( self, ucData);
+    ulDiff = GETulMileKmEE(self) - ulMileage100_We2;
+    ReadWarnereignis_2_DS(self, ucData);
     ushTemp = ((uint16)(ucData[53]) << 8) + (uint16)(ucData[54]);
     if((ushTemp + (uint16)ulDiff) < 0xffffu)
     {
@@ -736,13 +736,13 @@ static void CumulateKilometers_100_to_160_DS( Rte_Instance self)
     }
     ucData[53] = (uint8)((ushTemp >> 8) & 0xffu);
     ucData[54] = (uint8)(ushTemp & 0xffu);
-    WriteWarnereignis_2_DS( self, ucData, sizeof(ucData));
+    WriteWarnereignis_2_DS(self, ucData, sizeof(ucData));
   }
 
-  if(bWarnereignis3ActiveDS( self) == TRUE)
+  if(bWarnereignis3ActiveDS(self) == TRUE)
   {
-    ulDiff = GETulMileKmEE( self) - ulMileage100_We3;
-    ReadWarnereignis_3_DS( self, ucData);
+    ulDiff = GETulMileKmEE(self) - ulMileage100_We3;
+    ReadWarnereignis_3_DS(self, ucData);
     ushTemp = (uint16)((uint16)(ucData[53]) << 8) + (uint16)(ucData[54]);
     if((ushTemp + (uint16)ulDiff) < 0xffffu)
     {
@@ -750,20 +750,20 @@ static void CumulateKilometers_100_to_160_DS( Rte_Instance self)
     }
     ucData[53] = (uint8)((ushTemp >> 8) & 0xffu);
     ucData[54] = (uint8)(ushTemp & 0xffu);
-    WriteWarnereignis_3_DS( self, ucData, sizeof(ucData));
+    WriteWarnereignis_3_DS(self, ucData, sizeof(ucData));
   }
 }
 
-static void CumulateKilometers_160_to_max_DS( Rte_Instance self)
+static void CumulateKilometers_160_to_max_DS(Rte_Instance self)
 {
   uint32  ulDiff;
   uint8   ucData[cNvmRdciDiagBlock1HsWarn_1_Size];
   uint16  ushTemp;
 
-  if(bWarnereignis1ActiveDS( self) == TRUE)
+  if(bWarnereignis1ActiveDS(self) == TRUE)
   {
-    ulDiff = GETulMileKmEE( self) - ulMileage160_We1;
-    ReadWarnereignis_1_DS( self, ucData);
+    ulDiff = GETulMileKmEE(self) - ulMileage160_We1;
+    ReadWarnereignis_1_DS(self, ucData);
     ushTemp = (uint16)((uint16)(ucData[55]) << 8) + (uint16)(ucData[56]);
     if((ushTemp + (uint16)ulDiff) < 0xffffu)
     {
@@ -771,13 +771,13 @@ static void CumulateKilometers_160_to_max_DS( Rte_Instance self)
     }
     ucData[55] = (uint8)((ushTemp >> 8) & 0xffu);
     ucData[56] = (uint8)(ushTemp & 0xffu);
-    WriteWarnereignis_1_DS( self, ucData, sizeof(ucData));
+    WriteWarnereignis_1_DS(self, ucData, sizeof(ucData));
   }
 
-  if(bWarnereignis2ActiveDS( self) == TRUE)
+  if(bWarnereignis2ActiveDS(self) == TRUE)
   {
-    ulDiff = GETulMileKmEE( self) - ulMileage160_We2;
-    ReadWarnereignis_2_DS( self, ucData);
+    ulDiff = GETulMileKmEE(self) - ulMileage160_We2;
+    ReadWarnereignis_2_DS(self, ucData);
     ushTemp = (uint16)((uint16)(ucData[55]) << 8) + (uint16)(ucData[56]);
     if((ushTemp + (uint16)ulDiff) < 0xffffu)
     {
@@ -785,13 +785,13 @@ static void CumulateKilometers_160_to_max_DS( Rte_Instance self)
     }
     ucData[55] = (uint8)((ushTemp >> 8) & 0xffu);
     ucData[56] = (uint8)(ushTemp & 0xffu);
-    WriteWarnereignis_2_DS( self, ucData, sizeof(ucData));
+    WriteWarnereignis_2_DS(self, ucData, sizeof(ucData));
   }
 
-  if(bWarnereignis3ActiveDS( self) == TRUE)
+  if(bWarnereignis3ActiveDS(self) == TRUE)
   {
-    ulDiff = GETulMileKmEE( self) - ulMileage160_We3;
-    ReadWarnereignis_3_DS( self, ucData);
+    ulDiff = GETulMileKmEE(self) - ulMileage160_We3;
+    ReadWarnereignis_3_DS(self, ucData);
     ushTemp = (uint16)((uint16)(ucData[55]) << 8) + (uint16)(ucData[56]);
     if((ushTemp + (uint16)ulDiff) < 0xffffu)
     {
@@ -799,11 +799,11 @@ static void CumulateKilometers_160_to_max_DS( Rte_Instance self)
     }
     ucData[55] = (uint8)((ushTemp >> 8) & 0xffu);
     ucData[56] = (uint8)(ushTemp & 0xffu);
-    WriteWarnereignis_3_DS( self, ucData, sizeof(ucData));
+    WriteWarnereignis_3_DS(self, ucData, sizeof(ucData));
   }
 }
 
-static uint8 SaveWarnereignisWeichDS( Rte_Instance self, uint8 ucPos)
+static uint8 SaveWarnereignisWeichDS(Rte_Instance self, uint8 ucPos)
 {
   Rdci_UHRZEIT_DATUM_Type timeDate;
   Rdci_MILE_KM_Type mileKm;
@@ -825,7 +825,7 @@ static uint8 SaveWarnereignisWeichDS( Rte_Instance self, uint8 ucPos)
     #endif
   #endif
 
-  ucCounterWarnWeich = GetHsWarnereignisWeich_1_CounterEE( self);
+  ucCounterWarnWeich = GetHsWarnereignisWeich_1_CounterEE(self);
 
   if(ucCounterWarnWeich == 0xff)
   {
@@ -889,7 +889,7 @@ static uint8 SaveWarnereignisWeichDS( Rte_Instance self, uint8 ucPos)
     }
   }
 
-  timeDate = GETtTimeDateEE( self);
+  timeDate = GETtTimeDateEE(self);
   GetDateStringDM(timeDate.DISP_DATE_YR, (uint8)timeDate.DISP_DATE_MON, (uint8)timeDate.DISP_DATE_DAY, cTempBuffer, sizeof(cTempBuffer));
   for (i=0; i<8; i++)
   {
@@ -901,7 +901,7 @@ static uint8 SaveWarnereignisWeichDS( Rte_Instance self, uint8 ucPos)
     cData[i+8] = cTempBuffer[i];
   }
 
-  mileKm = GETulMileKmEE( self);
+  mileKm = GETulMileKmEE(self);
   cData[16] = (uint8)((mileKm >> 24) & 0xffU);
   cData[17] = (uint8)((mileKm >> 16) & 0xffU);
   cData[18] = (uint8)((mileKm >> 8) & 0xffU);
@@ -916,10 +916,10 @@ static uint8 SaveWarnereignisWeichDS( Rte_Instance self, uint8 ucPos)
     ucSlot = ucGetColOfWP(ucPos);
   }
 
-  cData[20] = (uint8) (GETscTAinitValEE( self) + 40);
-  cData[21] = (uint8) (GETscTAmbValEE( self) + 40);
+  cData[20] = (uint8) (GETscTAinitValEE(self) + 40);
+  cData[21] = (uint8) (GETscTAmbValEE(self) + 40);
 
-  ucTemp = GETucPAmbValEE( self);
+  ucTemp = GETucPAmbValEE(self);
   ushTemp = Change25mBarToHpa(ucTemp);
   cData[22] = (uint8)((ushTemp >> 8) & 0xffU);
   cData[23] = (uint8)(ushTemp & 0xffU);
@@ -966,7 +966,7 @@ static uint8 SaveWarnereignisWeichDS( Rte_Instance self, uint8 ucPos)
     if(ucTemp < cMaxLR)
     {
       cData[26 + (6 * i)] = ucTemp;
-      ucTemp = GetQrIxOfWheelPos( self, ucTemp);
+      ucTemp = GetQrIxOfWheelPos(self, ucTemp);
       ucTemp <<= 4;
       ucTemp &= 0xf0u;
       cData[26 + (6 * i)] |= ucTemp;
@@ -1012,17 +1012,17 @@ static uint8 SaveWarnereignisWeichDS( Rte_Instance self, uint8 ucPos)
 
   for (i=0; i<sizeof(cData); i++)
   {
-    PutHsWarnereignisWeich_3_EE( self, GetHsWarnereignisWeich_2_EE( self, i), i);
+    PutHsWarnereignisWeich_3_EE(self, GetHsWarnereignisWeich_2_EE(self, i), i);
   }
 
   for (i=0; i<sizeof(cData); i++)
   {
-    PutHsWarnereignisWeich_2_EE( self, GetHsWarnereignisWeich_1_EE( self, i), i);
+    PutHsWarnereignisWeich_2_EE(self, GetHsWarnereignisWeich_1_EE(self, i), i);
   }
 
   for (i=0; i<sizeof(cData); i++)
   {
-    PutHsWarnereignisWeich_1_EE( self, cData[i], i);
+    PutHsWarnereignisWeich_1_EE(self, cData[i], i);
   }
 
   ucRetVal = 0;
@@ -1030,40 +1030,40 @@ static uint8 SaveWarnereignisWeichDS( Rte_Instance self, uint8 ucPos)
   return ucRetVal;
 }
 
-void ReadWarnereignisWeich_1_DS( Rte_Instance self, uint8* aucData)
+void ReadWarnereignisWeich_1_DS(Rte_Instance self, uint8* aucData)
 {
   uint8* pData = (uint8*)(&aucData[0]);
   uint8 i;
 
   for (i=0; i<cNvmRdciDiagBlock1HsWeich_1_Size; i++)
   {
-    pData[i] = GetHsWarnereignisWeich_1_EE( self, i);
+    pData[i] = GetHsWarnereignisWeich_1_EE(self, i);
   }
 }
 
-void ReadWarnereignisWeich_2_DS( Rte_Instance self, uint8* aucData)
+void ReadWarnereignisWeich_2_DS(Rte_Instance self, uint8* aucData)
 {
   uint8* pData = (uint8*)(&aucData[0]);
   uint8 i;
 
   for (i=0; i<cNvmRdciDiagBlock1HsWeich_1_Size; i++)
   {
-    pData[i] = GetHsWarnereignisWeich_2_EE( self, i);
+    pData[i] = GetHsWarnereignisWeich_2_EE(self, i);
   }
 }
 
-void ReadWarnereignisWeich_3_DS( Rte_Instance self, uint8* aucData)
+void ReadWarnereignisWeich_3_DS(Rte_Instance self, uint8* aucData)
 {
   uint8* pData = (uint8*)(&aucData[0]);
   uint8 i;
 
   for (i=0; i<cNvmRdciDiagBlock1HsWeich_1_Size; i++)
   {
-    pData[i] = GetHsWarnereignisWeich_3_EE( self, i);
+    pData[i] = GetHsWarnereignisWeich_3_EE(self, i);
   }
 }
 
-static uint8 SaveWarnereignisRuecknahmeDS( Rte_Instance self, uint8 ucPos)
+static uint8 SaveWarnereignisRuecknahmeDS(Rte_Instance self, uint8 ucPos)
 {
   Rdci_UHRZEIT_DATUM_Type timeDate;
   Rdci_MILE_KM_Type mileKm;
@@ -1085,7 +1085,7 @@ static uint8 SaveWarnereignisRuecknahmeDS( Rte_Instance self, uint8 ucPos)
     #endif
   #endif
 
-  ucCounterWarnRuecknahme = GetHsWarnereignisRuecknahmeCounterEE( self);
+  ucCounterWarnRuecknahme = GetHsWarnereignisRuecknahmeCounterEE(self);
   if(ucCounterWarnRuecknahme == 0xff)
   {
     ucCounterWarnRuecknahme = 1;
@@ -1139,7 +1139,7 @@ static uint8 SaveWarnereignisRuecknahmeDS( Rte_Instance self, uint8 ucPos)
     break;
   }
 
-  timeDate = GETtTimeDateEE( self);
+  timeDate = GETtTimeDateEE(self);
   GetDateStringDM(timeDate.DISP_DATE_YR, (uint8)timeDate.DISP_DATE_MON, (uint8)timeDate.DISP_DATE_DAY, cTempBuffer, sizeof(cTempBuffer));
   for (i=0; i<8; i++)
   {
@@ -1151,7 +1151,7 @@ static uint8 SaveWarnereignisRuecknahmeDS( Rte_Instance self, uint8 ucPos)
     cData[i+8] = cTempBuffer[i];
   }
 
-  mileKm = GETulMileKmEE( self);
+  mileKm = GETulMileKmEE(self);
   cData[16] = (uint8)((mileKm >> 24) & 0xffU);
   cData[17] = (uint8)((mileKm >> 16) & 0xffU);
   cData[18] = (uint8)((mileKm >> 8) & 0xffU);
@@ -1166,9 +1166,9 @@ static uint8 SaveWarnereignisRuecknahmeDS( Rte_Instance self, uint8 ucPos)
     ucSlot = ucGetColOfWP(ucPos);
   }
 
-  cData[20] = (uint8) (GETscTAinitValEE( self) + 40);
-  cData[21] = (uint8) (GETscTAmbValEE( self) + 40);
-  ucTemp = GETucPAmbValEE( self);
+  cData[20] = (uint8) (GETscTAinitValEE(self) + 40);
+  cData[21] = (uint8) (GETscTAmbValEE(self) + 40);
+  ucTemp = GETucPAmbValEE(self);
   ushTemp = Change25mBarToHpa(ucTemp);
   cData[22] = (uint8) ((ushTemp >> 8) & 0xffU);
   cData[23] = (uint8) (ushTemp & 0xffU);
@@ -1215,7 +1215,7 @@ static uint8 SaveWarnereignisRuecknahmeDS( Rte_Instance self, uint8 ucPos)
     if(ucTemp < cMaxLR)
     {
       cData[26 + (6 * i)] = ucTemp;
-      ucTemp = GetQrIxOfWheelPos( self, ucTemp);
+      ucTemp = GetQrIxOfWheelPos(self, ucTemp);
       ucTemp <<= 4;
       ucTemp &= 0xf0u;
       cData[26 + (6 * i)] |= ucTemp;
@@ -1225,7 +1225,7 @@ static uint8 SaveWarnereignisRuecknahmeDS( Rte_Instance self, uint8 ucPos)
       cData[26 + (6 * i)] = 0x05;
     }
 
-    (void)ucGetPTSollUSWIF( self, &ucPcold, &scTcold, &ucPwarm, &scTwarm, &ushM, &ucPamb, i);
+    (void)ucGetPTSollUSWIF(self, &ucPcold, &scTcold, &ucPwarm, &scTwarm, &ushM, &ucPamb, i);
     if(ucPwarm == cInvalidREpressure)
     {
       ushTemp = 0xffffu;
@@ -1261,20 +1261,20 @@ static uint8 SaveWarnereignisRuecknahmeDS( Rte_Instance self, uint8 ucPos)
 
   for (i=0; i<sizeof(cData); i++)
   {
-    PutHsWarnereignisRuecknahmeEE( self, cData[i], i);
+    PutHsWarnereignisRuecknahmeEE(self, cData[i], i);
   }
 
-  if( GetWe1ZomSlotEE( self) == ucSlot)
+  if( GetWe1ZomSlotEE(self) == ucSlot)
   {
-    PutWe1ZomSlotEE( self, 0xffu);
+    PutWe1ZomSlotEE(self, 0xffu);
   }
-  if(GetWe2ZomSlotEE( self) == ucSlot)
+  if(GetWe2ZomSlotEE(self) == ucSlot)
   {
-    PutWe2ZomSlotEE( self, 0xffu);
+    PutWe2ZomSlotEE(self, 0xffu);
   }
-  if(GetWe3ZomSlotEE( self) == ucSlot)
+  if(GetWe3ZomSlotEE(self) == ucSlot)
   {
-    PutWe3ZomSlotEE( self, 0xffu);
+    PutWe3ZomSlotEE(self, 0xffu);
   }
   else {}
 
@@ -1282,13 +1282,13 @@ static uint8 SaveWarnereignisRuecknahmeDS( Rte_Instance self, uint8 ucPos)
   return ucRetVal;
 }
 
-void ReadWarnereignisRuecknahmeDS( Rte_Instance self, uint8 * paucData)
+void ReadWarnereignisRuecknahmeDS(Rte_Instance self, uint8 * paucData)
 {
   uint8 i;
 
   for (i=0; i<cNvmRdciDiagBlock1HsWRueck_Size; i++)
   {
-    paucData[i] = GetHsWarnereignisRuecknahmeEE( self, i);
+    paucData[i] = GetHsWarnereignisRuecknahmeEE(self, i);
   }
 }
 

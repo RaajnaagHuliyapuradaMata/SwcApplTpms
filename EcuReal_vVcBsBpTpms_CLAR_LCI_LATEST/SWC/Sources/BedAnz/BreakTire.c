@@ -11,19 +11,19 @@
 static uint8  ucActBreakTireStateBT = cBtWsBreakTireInit;
 static uint8  ucOldPrewarnStateBT   = 0;
 
-void InitBT( Rte_Instance self)
+void InitBT(Rte_Instance self)
 {
-  SetBreakTireStateBT( self);
+  SetBreakTireStateBT(self);
   ucOldPrewarnStateBT = (GETucWarningGroupTM( cucWT_GrpPvorw) & (uint8) 0x0F);
 }
 
-void SetBreakTireStateBT( Rte_Instance self)
+void SetBreakTireStateBT(Rte_Instance self)
 {
 
-  ucActBreakTireStateBT = ucGetWarnOutStateBT( self);
+  ucActBreakTireStateBT = ucGetWarnOutStateBT(self);
 }
 
-uint8 ucGetWarnOutStateBT( Rte_Instance self)
+uint8 ucGetWarnOutStateBT(Rte_Instance self)
 {
   uint8 ucResult   = cBtWsBreakTireInit;
   uint8 ucResultLo = cBtWsBreakTireInit;
@@ -41,7 +41,7 @@ uint8 ucGetWarnOutStateBT( Rte_Instance self)
   uint8 aucWbitTonnage[cAnzRad];
   uint8 aucWbitAirMass[cAnzRad];
 
-  (void) ucGetWarnBitIdIntIFH( self, aucWarnVector);
+  (void) ucGetWarnBitIdIntIFH(self, aucWarnVector);
   ucPannenwarnung = 0;
   for( ucHistSlot = 0; ucHistSlot < cAnzRad; ucHistSlot++)
   {
@@ -63,8 +63,8 @@ uint8 ucGetWarnOutStateBT( Rte_Instance self)
   if( bGetCRdciFastDeflateEnableCD() == TRUE)
   {
 
-    (void) ucGetWarnBitTonnageIdIntIFH( self, aucWbitTonnage);
-    (void) ucGetWarnBitAirMassIdIntIFH( self, aucWbitAirMass);
+    (void) ucGetWarnBitTonnageIdIntIFH(self, aucWbitTonnage);
+    (void) ucGetWarnBitAirMassIdIntIFH(self, aucWbitAirMass);
 
     for( ucHistSlot = 0; ucHistSlot < cAnzRad; ucHistSlot++)
     {

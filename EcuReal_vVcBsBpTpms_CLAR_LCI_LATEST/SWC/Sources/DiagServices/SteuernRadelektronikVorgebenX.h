@@ -12,7 +12,7 @@ extern "C"
 
 #include "Rte_CtApHufTpmsSWC.h"
 
-extern uint8 ucPutSteuernRadelektronikVorgebenDS( Rte_Instance self, uint32 ulReId, uint8 ucRadPos);
+extern uint8 ucPutSteuernRadelektronikVorgebenDS(Rte_Instance self, uint32 ulReId, uint8 ucRadPos);
 
 #ifdef __cplusplus
 }

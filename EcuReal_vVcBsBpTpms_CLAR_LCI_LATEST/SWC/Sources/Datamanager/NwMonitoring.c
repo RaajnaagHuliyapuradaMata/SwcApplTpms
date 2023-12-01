@@ -19,27 +19,27 @@ static tNwMonitoringData tNwMonitoring;
 #ifdef _EcuVirtual
 static uint32 FilterSubsequentErrorsNWM( uint32 ulErrorBits);
 
-static uint8 CheckRDC_DT_PCKG12_AliveNWM( Rte_Instance self, uint8 ucAlive1, uint8 ucAlive2, uint8 DpNo);
-static uint8 CheckRDC_DT_PCKG12_SignalNWM( Rte_Instance self, uint16 ushRdcMesTstmp, uint8 DpNo);
-static uint8 CheckA_TEMP_SignalNWM( Rte_Instance self, Rdci_TEMP_EX_Type tempEx);
-static uint8 CheckEINHEITEN_BN2020_SignalNWM( Rte_Instance self, Rdci_UN_AIP_Type unitAip, Rdci_UN_TEMP_Type unitTemp);
-static uint8 CheckCON_VEH_SignalNWM( Rte_Instance self, Rdci_CON_VEH_Type conVeh);
-static uint8 CheckCON_VEH_CrcNWM( Rte_Instance self, Rdci_CON_VEH_Type conVeh);
-static uint8 CheckCON_VEH_AliveNWM( Rte_Instance self, uint8 ucAlive);
-static uint8 CheckBN2020_RELATIVZEIT_SignalNWM( Rte_Instance self, Rdci_T_SEC_COU_REL_Type relTime);
-static uint8 CheckDT_PT_1_SignalNWM( Rte_Instance self, Rdci_AIP_ENG_DRV_Type aip);
-static uint8 CheckUHRZEIT_DATUM_SignalNWM( Rte_Instance self, Rdci_UHRZEIT_DATUM_Type timeDate);
-static uint8 CheckWMOM_DRV_4_SignalNWM( Rte_Instance self, Rdci_WMOM_DRV_4_Type wmom);
-static uint8 CheckKILOMETERSTAND_SignalNWM( Rte_Instance self, Rdci_MILE_KM_Type mileKm);
-static uint8 CheckNMEARawData2Part2_SignalNWM( Rte_Instance self, Rdci_GNSSPositionAltitude_Type GNSSPositionAltitude);
-static uint8 CheckNMEARawData2Part3_SignalNWM( Rte_Instance self, Rdci_GNSSErrorAltitudeMeters_Type GNSSErrorAltitudeMeters);
-static uint8 CheckV_VEH_SigQualifNWM( Rte_Instance self, Rdci_V_VEH_Type vVeh);
-static uint8 CheckV_VEH_CrcNWM( Rte_Instance self, Rdci_V_VEH_Type vVeh);
-static uint8 CheckV_VEH_AliveNWM( Rte_Instance self, uint8 ucAlive);
+static uint8 CheckRDC_DT_PCKG12_AliveNWM(Rte_Instance self, uint8 ucAlive1, uint8 ucAlive2, uint8 DpNo);
+static uint8 CheckRDC_DT_PCKG12_SignalNWM(Rte_Instance self, uint16 ushRdcMesTstmp, uint8 DpNo);
+static uint8 CheckA_TEMP_SignalNWM(Rte_Instance self, Rdci_TEMP_EX_Type tempEx);
+static uint8 CheckEINHEITEN_BN2020_SignalNWM(Rte_Instance self, Rdci_UN_AIP_Type unitAip, Rdci_UN_TEMP_Type unitTemp);
+static uint8 CheckCON_VEH_SignalNWM(Rte_Instance self, Rdci_CON_VEH_Type conVeh);
+static uint8 CheckCON_VEH_CrcNWM(Rte_Instance self, Rdci_CON_VEH_Type conVeh);
+static uint8 CheckCON_VEH_AliveNWM(Rte_Instance self, uint8 ucAlive);
+static uint8 CheckBN2020_RELATIVZEIT_SignalNWM(Rte_Instance self, Rdci_T_SEC_COU_REL_Type relTime);
+static uint8 CheckDT_PT_1_SignalNWM(Rte_Instance self, Rdci_AIP_ENG_DRV_Type aip);
+static uint8 CheckUHRZEIT_DATUM_SignalNWM(Rte_Instance self, Rdci_UHRZEIT_DATUM_Type timeDate);
+static uint8 CheckWMOM_DRV_4_SignalNWM(Rte_Instance self, Rdci_WMOM_DRV_4_Type wmom);
+static uint8 CheckKILOMETERSTAND_SignalNWM(Rte_Instance self, Rdci_MILE_KM_Type mileKm);
+static uint8 CheckNMEARawData2Part2_SignalNWM(Rte_Instance self, Rdci_GNSSPositionAltitude_Type GNSSPositionAltitude);
+static uint8 CheckNMEARawData2Part3_SignalNWM(Rte_Instance self, Rdci_GNSSErrorAltitudeMeters_Type GNSSErrorAltitudeMeters);
+static uint8 CheckV_VEH_SigQualifNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh);
+static uint8 CheckV_VEH_CrcNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh);
+static uint8 CheckV_VEH_AliveNWM(Rte_Instance self, uint8 ucAlive);
 #else
 #endif
 
-void InitNWM( Rte_Instance self)
+void InitNWM(Rte_Instance self)
 {
   uint32 ulLastNwmErrorState;
   uint32 j;
@@ -86,7 +86,7 @@ void InitNWM( Rte_Instance self)
   tNwMonitoring.tMonV_VEH.ucAliveErrorTimeout = cV_VEH_ALIVE_TOUT;
   tNwMonitoring.tMonV_VEH.ucCrcErrorTimeout = cV_VEH_CRC_TOUT;
   tNwMonitoring.tMonV_VEH.ucSigQualifErrorTimeout = cV_VEH_SIGQUALIF_TOUT;
-  ulLastNwmErrorState = GETulNwmErrorsEE( self);
+  ulLastNwmErrorState = GETulNwmErrorsEE(self);
 
   for (j=0; j<32; j++){
     if((ulLastNwmErrorState & (uint32)(1<<j)) == (uint32)(1<<j)){
@@ -98,7 +98,7 @@ void InitNWM( Rte_Instance self)
   ulNetworkErrors |= ulLastNwmErrorState;
 }
 
-void TimerTickNWM( Rte_Instance self){
+void TimerTickNWM(Rte_Instance self){
   static uint8 ucSecond = 10;
   if(bGetBandmodeBM() == TRUE){
     return;
@@ -298,7 +298,7 @@ void TimerTickNWM( Rte_Instance self){
   }
 }
 
-uint8 CheckRDC_DT_PCKG12_MsgNWM( Rte_Instance self, const ImpTypeRecCddRdcData* rdcData){
+uint8 CheckRDC_DT_PCKG12_MsgNWM(Rte_Instance self, const ImpTypeRecCddRdcData* rdcData){
   uint8 ucRetVal = cNoError;
   uint8 i,DpIx;
   if(bGetBandmodeBM() == TRUE){
@@ -319,135 +319,135 @@ uint8 CheckRDC_DT_PCKG12_MsgNWM( Rte_Instance self, const ImpTypeRecCddRdcData* 
     tNwMonitoring.tMonRDC_DT_PCKG[DpIx].ushSignalErrorTimeout = cRDC_DT_PCKG12_SIG_TOUT;
     for (i=0; i<cMaxLR; i++){
       if(bGetReMuteStatusBySlotWUM(i) == FALSE){
-        ClearMuteWUM( self, i, ucGetWPOfColWAL(i));
+        ClearMuteWUM(self, i, ucGetWPOfColWAL(i));
       }
     }
   }
   else{
     (void)ResetDataPackageErrorIndNWM(self, cDP_TO_SHIFT, DpIx);
   }
-  ucRetVal |= CheckRDC_DT_PCKG12_AliveNWM( self, rdcData->ALIV_RDC_DT_PCK_1, rdcData->ALIV_RDC_DT_PCK_2, rdcData->DP_NO);
-  ucRetVal |= CheckRDC_DT_PCKG12_SignalNWM( self, rdcData->RDC_MES_TSTMP, rdcData->DP_NO);
+  ucRetVal |= CheckRDC_DT_PCKG12_AliveNWM(self, rdcData->ALIV_RDC_DT_PCK_1, rdcData->ALIV_RDC_DT_PCK_2, rdcData->DP_NO);
+  ucRetVal |= CheckRDC_DT_PCKG12_SignalNWM(self, rdcData->RDC_MES_TSTMP, rdcData->DP_NO);
   return ucRetVal;
 }
 
-uint8 CheckA_TEMP_MsgNWM( Rte_Instance self, Rdci_TEMP_EX_Type tempEx){
+uint8 CheckA_TEMP_MsgNWM(Rte_Instance self, Rdci_TEMP_EX_Type tempEx){
   if(bGetBandmodeBM() == TRUE){
     return cNoError;
   }
   tNwMonitoring.tMonA_TEMP.ucMsgTimeout = cA_TEMP_MSG_TOUT;
   if(bGetNetworkErrorNWM(cNetwork_A_TEMP_MsgMissing) == TRUE){
-    ClearNetworkErrorNWM( self, cNetwork_A_TEMP_MsgMissing);
+    ClearNetworkErrorNWM(self, cNetwork_A_TEMP_MsgMissing);
     tNwMonitoring.tMonA_TEMP.ucSignalErrorTimeout = cA_TEMP_SIG_TOUT;
   }
-  return CheckA_TEMP_SignalNWM( self, tempEx);
+  return CheckA_TEMP_SignalNWM(self, tempEx);
 }
 
-uint8 CheckEINHEITEN_BN2020_MsgNWM( Rte_Instance self, Rdci_UN_AIP_Type unitAipData, Rdci_UN_TEMP_Type unitTempData){
+uint8 CheckEINHEITEN_BN2020_MsgNWM(Rte_Instance self, Rdci_UN_AIP_Type unitAipData, Rdci_UN_TEMP_Type unitTempData){
   if(bGetBandmodeBM() == TRUE){
     return cNoError;
   }
   tNwMonitoring.tMonEINH_BN2020.ucMsgTimeout = cEINHEITEN_BN2020_MSG_TOUT;
-  ClearNetworkErrorNWM( self, cNetwork_EINHEITEN_MsgMissing);
-  return CheckEINHEITEN_BN2020_SignalNWM( self, unitAipData, unitTempData);
+  ClearNetworkErrorNWM(self, cNetwork_EINHEITEN_MsgMissing);
+  return CheckEINHEITEN_BN2020_SignalNWM(self, unitAipData, unitTempData);
 }
 
-uint8 CheckCON_VEH_MsgNWM( Rte_Instance self, Rdci_CON_VEH_Type conVeh){
+uint8 CheckCON_VEH_MsgNWM(Rte_Instance self, Rdci_CON_VEH_Type conVeh){
   uint8 retVal = cNoError;
   if(bGetBandmodeBM() == TRUE){
     return cNoError;
   }
   tNwMonitoring.tMonCON_VEH.ucMsgTimeout = cCON_VEH_MSG_TOUT;
-  ClearNetworkErrorNWM( self, cNetwork_CON_VEH_MsgMissing);
-  retVal |= CheckCON_VEH_SignalNWM( self, conVeh);
-  retVal |= CheckCON_VEH_CrcNWM( self, conVeh);
-  retVal |= CheckCON_VEH_AliveNWM( self, conVeh.ALIV_CON_VEH);
+  ClearNetworkErrorNWM(self, cNetwork_CON_VEH_MsgMissing);
+  retVal |= CheckCON_VEH_SignalNWM(self, conVeh);
+  retVal |= CheckCON_VEH_CrcNWM(self, conVeh);
+  retVal |= CheckCON_VEH_AliveNWM(self, conVeh.ALIV_CON_VEH);
   return retVal;
 }
 
-uint8 CheckV_VEH_MsgNWM( Rte_Instance self, Rdci_V_VEH_Type vVeh){
+uint8 CheckV_VEH_MsgNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh){
   uint8 retVal = cNoError;
   if(bGetBandmodeBM() == TRUE){
     return cNoError;
   }
   tNwMonitoring.tMonV_VEH.ucMsgTimeout = cV_VEH_MSG_TOUT;
   if(bGetNetworkErrorNWM(cNetwork_V_VEH_MsgMissing) == TRUE){
-    ClearNetworkErrorNWM( self, cNetwork_V_VEH_MsgMissing);
+    ClearNetworkErrorNWM(self, cNetwork_V_VEH_MsgMissing);
     tNwMonitoring.tMonV_VEH.ucSigQualifErrorTimeout = cV_VEH_SIGQUALIF_TOUT;
     tNwMonitoring.tMonV_VEH.ucAliveErrorTimeout = cV_VEH_ALIVE_TOUT;
     tNwMonitoring.tMonV_VEH.ucCrcErrorTimeout = cV_VEH_CRC_TOUT;
   }
-  retVal |= CheckV_VEH_SigQualifNWM( self, vVeh);
-  retVal |= CheckV_VEH_CrcNWM( self, vVeh);
-  retVal |= CheckV_VEH_AliveNWM( self, vVeh.ALIV_V_VEH);
+  retVal |= CheckV_VEH_SigQualifNWM(self, vVeh);
+  retVal |= CheckV_VEH_CrcNWM(self, vVeh);
+  retVal |= CheckV_VEH_AliveNWM(self, vVeh.ALIV_V_VEH);
   return retVal;
 }
 
-uint8 CheckBN2020_RELATIVZEIT_MsgNWM( Rte_Instance self, Rdci_T_SEC_COU_REL_Type relTime){
+uint8 CheckBN2020_RELATIVZEIT_MsgNWM(Rte_Instance self, Rdci_T_SEC_COU_REL_Type relTime){
   if(bGetBandmodeBM() == TRUE){
     return cNoError;
   }
   tNwMonitoring.tMonRELATIVZEIT.ucMsgTimeout = cBN2020_RELATIVZEIT_MSG_TOUT;
   if(bGetNetworkErrorNWM(cNetwork_RELATIVZEIT_MsgMissing) == TRUE){
-    ClearNetworkErrorNWM( self, cNetwork_RELATIVZEIT_MsgMissing);
+    ClearNetworkErrorNWM(self, cNetwork_RELATIVZEIT_MsgMissing);
     tNwMonitoring.tMonRELATIVZEIT.ucSignalErrorTimeout = cBN2020_RELATIVZEIT_SIG_TOUT;
   }
-  return (CheckBN2020_RELATIVZEIT_SignalNWM( self, relTime));
+  return (CheckBN2020_RELATIVZEIT_SignalNWM(self, relTime));
 }
 
-uint8 CheckDT_PT_1_MsgNWM( Rte_Instance self, Rdci_AIP_ENG_DRV_Type aip){
+uint8 CheckDT_PT_1_MsgNWM(Rte_Instance self, Rdci_AIP_ENG_DRV_Type aip){
   if(bGetBandmodeBM() == TRUE){
     return cNoError;
   }
   tNwMonitoring.tMonDT_PT_1.ucMsgTimeout = cDT_PT_1_MSG_TOUT;
   if(bGetNetworkErrorNWM(cNetwork_DT_PT_1_MsgMissing) == TRUE){
-    ClearNetworkErrorNWM( self, cNetwork_DT_PT_1_MsgMissing);
+    ClearNetworkErrorNWM(self, cNetwork_DT_PT_1_MsgMissing);
     tNwMonitoring.tMonDT_PT_1.ucSignalErrorTimeout = cDT_PT_1_SIG_TOUT;
   }
-  return (CheckDT_PT_1_SignalNWM( self, aip));
+  return (CheckDT_PT_1_SignalNWM(self, aip));
 }
 
-uint8 CheckNMEARawData2Part2_MsgNWM( Rte_Instance self, Rdci_GNSSPositionAltitude_Type GNSSPositionAltitude){
+uint8 CheckNMEARawData2Part2_MsgNWM(Rte_Instance self, Rdci_GNSSPositionAltitude_Type GNSSPositionAltitude){
   if(bGetBandmodeBM() == TRUE){
     return cNoError;
   }
   tNwMonitoring.tMonNMEARawData2Part2.ucMsgTimeout = cNMEARawData2Part2_MSG_TOUT;
   if(bGetNetworkErrorNWM(cNetwork_NMEARawData2Part2_MsgMissing) == TRUE){
-    ClearNetworkErrorNWM( self, cNetwork_NMEARawData2Part2_MsgMissing);
+    ClearNetworkErrorNWM(self, cNetwork_NMEARawData2Part2_MsgMissing);
     tNwMonitoring.tMonNMEARawData2Part2.ucSignalErrorTimeout = cNMEARawData2Part2_SIG_TOUT;
   }
-  return CheckNMEARawData2Part2_SignalNWM( self, GNSSPositionAltitude);
+  return CheckNMEARawData2Part2_SignalNWM(self, GNSSPositionAltitude);
 }
 
-uint8 CheckNMEARawData2Part3_MsgNWM( Rte_Instance self, Rdci_GNSSErrorAltitudeMeters_Type GNSSErrorAltitudeMeters){
+uint8 CheckNMEARawData2Part3_MsgNWM(Rte_Instance self, Rdci_GNSSErrorAltitudeMeters_Type GNSSErrorAltitudeMeters){
   if(bGetBandmodeBM() == TRUE){
     return cNoError;
   }
   tNwMonitoring.tMonNMEARawData2Part3.ucMsgTimeout = cNMEARawData2Part3_MSG_TOUT;
   if(bGetNetworkErrorNWM(cNetwork_NMEARawData2Part3_MsgMissing) == TRUE){
-    ClearNetworkErrorNWM( self, cNetwork_NMEARawData2Part3_MsgMissing);
+    ClearNetworkErrorNWM(self, cNetwork_NMEARawData2Part3_MsgMissing);
     tNwMonitoring.tMonNMEARawData2Part3.ucSignalErrorTimeout = cNMEARawData2Part3_SIG_TOUT;
   }
-  return CheckNMEARawData2Part3_SignalNWM( self, GNSSErrorAltitudeMeters);
+  return CheckNMEARawData2Part3_SignalNWM(self, GNSSErrorAltitudeMeters);
 }
 
-uint8 CheckUHRZEIT_DATUM_MsgNWM( Rte_Instance self, Rdci_UHRZEIT_DATUM_Type timeDate){
+uint8 CheckUHRZEIT_DATUM_MsgNWM(Rte_Instance self, Rdci_UHRZEIT_DATUM_Type timeDate){
   if(bGetBandmodeBM() == TRUE){
     return cNoError;
   }
-  return ( CheckUHRZEIT_DATUM_SignalNWM( self, timeDate));
+  return ( CheckUHRZEIT_DATUM_SignalNWM(self, timeDate));
 }
 
-uint8 CheckWMOM_DRV_4_MsgNWM( Rte_Instance self, Rdci_WMOM_DRV_4_Type wmom){
+uint8 CheckWMOM_DRV_4_MsgNWM(Rte_Instance self, Rdci_WMOM_DRV_4_Type wmom){
   if(bGetBandmodeBM() == TRUE){
     return cNoError;
   }
   tNwMonitoring.tMonWMOM_DRV_4.ucMsgTimeout = cWMOM_DRV_4_MSG_TOUT;
   if(bGetNetworkErrorNWM(cNetwork_WMOM_DRV_4_MsgMissing) == TRUE){
-    ClearNetworkErrorNWM( self, cNetwork_WMOM_DRV_4_MsgMissing);
+    ClearNetworkErrorNWM(self, cNetwork_WMOM_DRV_4_MsgMissing);
     tNwMonitoring.tMonWMOM_DRV_4.ucSignalErrorTimeout = cWMOM_DRV_4_SIG_TOUT;
   }
-  return CheckWMOM_DRV_4_SignalNWM( self, wmom);
+  return CheckWMOM_DRV_4_SignalNWM(self, wmom);
 }
 
 uint8 CheckFZZSTD_MsgNWM( Rdci_ST_ILK_ERRM_FZM_Type fzzstd){
@@ -459,11 +459,11 @@ uint8 CheckFZZSTD_MsgNWM( Rdci_ST_ILK_ERRM_FZM_Type fzzstd){
   return ucRetVal;
 }
 
-uint8 CheckKILOMETERSTAND_MsgNWM( Rte_Instance self, Rdci_MILE_KM_Type mileKm){
+uint8 CheckKILOMETERSTAND_MsgNWM(Rte_Instance self, Rdci_MILE_KM_Type mileKm){
   if(bGetBandmodeBM() == TRUE){
     return cNoError;
   }
-  return CheckKILOMETERSTAND_SignalNWM( self, mileKm);
+  return CheckKILOMETERSTAND_SignalNWM(self, mileKm);
 }
 
 uint32 ulGetNetworkErrorsNWM(void){
@@ -474,10 +474,10 @@ uint32 ulGetNetworkErrChangedFlagsNWM(void){
   return ulNetworkErrChangedFlags;
 }
 
-void ClearNetworkErrorNWM( Rte_Instance self, uint32 ulDtcBit){
+void ClearNetworkErrorNWM(Rte_Instance self, uint32 ulDtcBit){
   if((ulNetworkErrors & ulDtcBit) == ulDtcBit){
     ulNetworkErrors ^= ulDtcBit;
-    PUTulNwmErrorsEE( self, ulNetworkErrors);
+    PUTulNwmErrorsEE(self, ulNetworkErrors);
   }
 }
 
@@ -500,10 +500,10 @@ boolean bGetNetworkErrorNWM(uint32 ulDtcBit){
   }
 }
 
-void SetNetworkErrorNWM( Rte_Instance self, uint32 ulDtcBit){
+void SetNetworkErrorNWM(Rte_Instance self, uint32 ulDtcBit){
   if((ulNetworkErrors & ulDtcBit) == 0){
     ulNetworkErrors |= ulDtcBit;
-    PUTulNwmErrorsEE( self, ulNetworkErrors);
+    PUTulNwmErrorsEE(self, ulNetworkErrors);
   }
 }
 
@@ -587,7 +587,7 @@ void ClearErrorConditionsNWM(uint8 ucParamToClear){
   }
 }
 
-static uint8 CheckRDC_DT_PCKG12_AliveNWM( Rte_Instance self, uint8 ucAlive1, uint8 ucAlive2, uint8 DpNo){
+static uint8 CheckRDC_DT_PCKG12_AliveNWM(Rte_Instance self, uint8 ucAlive1, uint8 ucAlive2, uint8 DpNo){
   static uint8 ucLastAlive[2] = { 0x0Fu,0x0Fu };
   uint8 ucRetVal = cNoError;
   uint8 DpIx;
@@ -619,7 +619,7 @@ static uint8 CheckRDC_DT_PCKG12_AliveNWM( Rte_Instance self, uint8 ucAlive1, uin
         if(tNwMonitoring.tMonRDC_DT_PCKG[DpIx].ucAliveErrorCounter < cRDC_DT_PCKG12_ALV_CNT){
           tNwMonitoring.tMonRDC_DT_PCKG[DpIx].ucAliveErrorCounter++;
           if(tNwMonitoring.tMonRDC_DT_PCKG[DpIx].ucAliveErrorCounter == cRDC_DT_PCKG12_ALV_CNT){
-            SetNetworkErrorNWM( self, cNetwork_RDC_DT_PCKG_AliveError);
+            SetNetworkErrorNWM(self, cNetwork_RDC_DT_PCKG_AliveError);
             SetDataPackageErrorIndNWM(cDP_AE_SHIFT, DpIx);
           }
         }
@@ -646,7 +646,7 @@ static uint8 CheckRDC_DT_PCKG12_AliveNWM( Rte_Instance self, uint8 ucAlive1, uin
   return ucRetVal;
 }
 
-static uint8 CheckRDC_DT_PCKG12_SignalNWM( Rte_Instance self, uint16 ushRdcMesTstmp, uint8 DpNo){
+static uint8 CheckRDC_DT_PCKG12_SignalNWM(Rte_Instance self, uint16 ushRdcMesTstmp, uint8 DpNo){
   uint8 ucRetVal = cSignalError;
   uint8 DpIx;
   if(0x34 == DpNo){
@@ -665,20 +665,20 @@ static uint8 CheckRDC_DT_PCKG12_SignalNWM( Rte_Instance self, uint16 ushRdcMesTs
   return ucRetVal;
 }
 
-static uint8 CheckA_TEMP_SignalNWM( Rte_Instance self, Rdci_TEMP_EX_Type tempEx){
+static uint8 CheckA_TEMP_SignalNWM(Rte_Instance self, Rdci_TEMP_EX_Type tempEx){
   uint8 ucRetVal = cNoError;
   if(tempEx >= 0xfbu){
     ucRetVal = cSignalError;
   }
   else{
     tNwMonitoring.tMonA_TEMP.ucSignalErrorTimeout = cA_TEMP_SIG_TOUT;
-    ClearNetworkErrorNWM( self, cNetwork_A_TEMP_SignalError);
+    ClearNetworkErrorNWM(self, cNetwork_A_TEMP_SignalError);
     ucRetVal = cNoError;
   }
   return ucRetVal;
 }
 
-static uint8 CheckEINHEITEN_BN2020_SignalNWM( Rte_Instance self, Rdci_UN_AIP_Type unitAip, Rdci_UN_TEMP_Type unitTemp){
+static uint8 CheckEINHEITEN_BN2020_SignalNWM(Rte_Instance self, Rdci_UN_AIP_Type unitAip, Rdci_UN_TEMP_Type unitTemp){
   uint8 ucRetVal = cNoError;
   if((unitAip == ePRESSURE_UNIT_INVALID) || (unitAip == 4) || (unitAip == 5) || (unitAip == 6)
     || (unitTemp == eTEMPERATURE_UNIT_INVALID)){
@@ -687,20 +687,20 @@ static uint8 CheckEINHEITEN_BN2020_SignalNWM( Rte_Instance self, Rdci_UN_AIP_Typ
       if((bGetBitFahrzeugzustandFZZ(cNW_DTC_LOCKED) == FALSE) && (ucGetStatusConditionVehicleFZZ() >= ST_CON_VEH_Pruefen_Analyse_Diagnose)){
         tNwMonitoring.tMonEINH_BN2020.ucSignalErrorCounter++;
         if(tNwMonitoring.tMonEINH_BN2020.ucSignalErrorCounter == cEINHEITEN_BN2020_SIG_CNT){
-          SetNetworkErrorNWM( self, cNetwork_EINHEITEN_SignalError);
+          SetNetworkErrorNWM(self, cNetwork_EINHEITEN_SignalError);
         }
       }
     }
   }
   else{
     tNwMonitoring.tMonEINH_BN2020.ucSignalErrorCounter = 0;
-    ClearNetworkErrorNWM( self, cNetwork_EINHEITEN_SignalError);
+    ClearNetworkErrorNWM(self, cNetwork_EINHEITEN_SignalError);
     ucRetVal = cNoError;
   }
   return ucRetVal;
 }
 
-static uint8 CheckCON_VEH_SignalNWM( Rte_Instance self, Rdci_CON_VEH_Type conVeh){
+static uint8 CheckCON_VEH_SignalNWM(Rte_Instance self, Rdci_CON_VEH_Type conVeh){
   uint8 ucRetVal = cNoError;
   boolean bSignalIsBad = FALSE;
   if((conVeh.ST_CON_VEH == ST_CON_VEH_Signal_unbefuellt)
@@ -732,20 +732,20 @@ static uint8 CheckCON_VEH_SignalNWM( Rte_Instance self, Rdci_CON_VEH_Type conVeh
       if(bGetBitFahrzeugzustandFZZ(cNW_DTC_LOCKED) == FALSE){
         tNwMonitoring.tMonCON_VEH.ucSignalErrorCounter++;
         if(tNwMonitoring.tMonCON_VEH.ucSignalErrorCounter == cCON_VEH_SIG_CNT){
-          SetNetworkErrorNWM( self, cNetwork_CON_VEH_SignalError);
+          SetNetworkErrorNWM(self, cNetwork_CON_VEH_SignalError);
         }
       }
     }
   }
   else{
     tNwMonitoring.tMonCON_VEH.ucSignalErrorCounter = 0;
-    ClearNetworkErrorNWM( self, cNetwork_CON_VEH_SignalError);
+    ClearNetworkErrorNWM(self, cNetwork_CON_VEH_SignalError);
     ucRetVal = cNoError;
   }
   return ucRetVal;
 }
 
-static uint8 CheckCON_VEH_CrcNWM( Rte_Instance self, Rdci_CON_VEH_Type conVeh){
+static uint8 CheckCON_VEH_CrcNWM(Rte_Instance self, Rdci_CON_VEH_Type conVeh){
   uint8 ucRetVal = cNoError;
   if((conVeh.CRC_CON_VEH != E2E_STATUS_OK) && (conVeh.CRC_CON_VEH != E2E_STATUS_NO_NEW_DATA)){
     ucRetVal = cCrcError;
@@ -753,20 +753,20 @@ static uint8 CheckCON_VEH_CrcNWM( Rte_Instance self, Rdci_CON_VEH_Type conVeh){
       if(bGetBitFahrzeugzustandFZZ(cNW_DTC_LOCKED) == FALSE){
         tNwMonitoring.tMonCON_VEH.ucCrcErrorCounter++;
         if(tNwMonitoring.tMonCON_VEH.ucCrcErrorCounter == cCON_VEH_CRC_CNT){
-          SetNetworkErrorNWM( self, cNetwork_CON_VEH_CrcError);
+          SetNetworkErrorNWM(self, cNetwork_CON_VEH_CrcError);
         }
       }
     }
   }
   else{
     tNwMonitoring.tMonCON_VEH.ucCrcErrorCounter = 0;
-    ClearNetworkErrorNWM( self, cNetwork_CON_VEH_CrcError);
+    ClearNetworkErrorNWM(self, cNetwork_CON_VEH_CrcError);
     ucRetVal = cNoError;
   }
   return ucRetVal;
 }
 
-static uint8 CheckCON_VEH_AliveNWM( Rte_Instance self, uint8 ucAlive){
+static uint8 CheckCON_VEH_AliveNWM(Rte_Instance self, uint8 ucAlive){
   static uint8 ucLastAlive = 0xf;
   uint8 ucRetVal = cNoError;
   if((ucAlive == 0xf) || (ucAlive == ucLastAlive)){
@@ -775,21 +775,21 @@ static uint8 CheckCON_VEH_AliveNWM( Rte_Instance self, uint8 ucAlive){
       if(bGetBitFahrzeugzustandFZZ(cNW_DTC_LOCKED) == FALSE){
         tNwMonitoring.tMonCON_VEH.ucAliveErrorCounter++;
         if(tNwMonitoring.tMonCON_VEH.ucAliveErrorCounter == cCON_VEH_ALV_CNT){
-          SetNetworkErrorNWM( self, cNetwork_CON_VEH_AliveError);
+          SetNetworkErrorNWM(self, cNetwork_CON_VEH_AliveError);
         }
       }
     }
   }
   else{
     tNwMonitoring.tMonCON_VEH.ucAliveErrorCounter = 0;
-    ClearNetworkErrorNWM( self, cNetwork_CON_VEH_AliveError);
+    ClearNetworkErrorNWM(self, cNetwork_CON_VEH_AliveError);
     ucLastAlive = ucAlive;
     ucRetVal = cNoError;
   }
   return ucRetVal;
 }
 
-static uint8 CheckV_VEH_SigQualifNWM( Rte_Instance self, Rdci_V_VEH_Type vVeh){
+static uint8 CheckV_VEH_SigQualifNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh){
   uint8 ucRetVal = cNoError;
   boolean bSignalIsBad = FALSE;
   if(vVeh.V_VEH_COG == 0xffffu){
@@ -808,26 +808,26 @@ static uint8 CheckV_VEH_SigQualifNWM( Rte_Instance self, Rdci_V_VEH_Type vVeh){
   }
   else{
     tNwMonitoring.tMonV_VEH.ucSigQualifErrorTimeout = cV_VEH_SIGQUALIF_TOUT;
-    ClearNetworkErrorNWM( self, cNetwork_V_VEH_SigQualifError);
+    ClearNetworkErrorNWM(self, cNetwork_V_VEH_SigQualifError);
     ucRetVal = cNoError;
   }
   return ucRetVal;
 }
 
-static uint8 CheckV_VEH_CrcNWM( Rte_Instance self, Rdci_V_VEH_Type vVeh){
+static uint8 CheckV_VEH_CrcNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh){
   uint8 ucRetVal = cNoError;
   if((vVeh.CRC_V_VEH != E2E_STATUS_OK) && (vVeh.CRC_V_VEH != E2E_STATUS_NO_NEW_DATA)){
     ucRetVal = cCrcError;
   }
   else{
     tNwMonitoring.tMonV_VEH.ucCrcErrorTimeout = cV_VEH_CRC_TOUT;
-    ClearNetworkErrorNWM( self, cNetwork_V_VEH_CrcError);
+    ClearNetworkErrorNWM(self, cNetwork_V_VEH_CrcError);
     ucRetVal = cNoError;
   }
   return ucRetVal;
 }
 
-static uint8 CheckV_VEH_AliveNWM( Rte_Instance self, uint8 ucAlive){
+static uint8 CheckV_VEH_AliveNWM(Rte_Instance self, uint8 ucAlive){
   static uint8 ucLastAlive = 0xf;
   uint8 ucRetVal = cNoError;
   if((ucAlive == 0xf) || (ucAlive == ucLastAlive)){
@@ -835,79 +835,79 @@ static uint8 CheckV_VEH_AliveNWM( Rte_Instance self, uint8 ucAlive){
   }
   else{
     tNwMonitoring.tMonV_VEH.ucAliveErrorTimeout = cV_VEH_ALIVE_TOUT;
-    ClearNetworkErrorNWM( self, cNetwork_V_VEH_AliveError);
+    ClearNetworkErrorNWM(self, cNetwork_V_VEH_AliveError);
     ucLastAlive = ucAlive;
     ucRetVal = cNoError;
   }
   return ucRetVal;
 }
 
-static uint8 CheckBN2020_RELATIVZEIT_SignalNWM( Rte_Instance self, Rdci_T_SEC_COU_REL_Type relTime){
+static uint8 CheckBN2020_RELATIVZEIT_SignalNWM(Rte_Instance self, Rdci_T_SEC_COU_REL_Type relTime){
   uint8 ucRetVal = cNoError;
   if(relTime == 0xffffffffU){
     ucRetVal = cSignalError;
   }
   else{
     tNwMonitoring.tMonRELATIVZEIT.ucSignalErrorTimeout = cBN2020_RELATIVZEIT_SIG_TOUT;
-    ClearNetworkErrorNWM( self, cNetwork_RELATIVZEIT_SignalError);
+    ClearNetworkErrorNWM(self, cNetwork_RELATIVZEIT_SignalError);
     ucRetVal = cNoError;
   }
   return ucRetVal;
 }
 
-static uint8 CheckWMOM_DRV_4_SignalNWM( Rte_Instance self, Rdci_WMOM_DRV_4_Type wmom){
+static uint8 CheckWMOM_DRV_4_SignalNWM(Rte_Instance self, Rdci_WMOM_DRV_4_Type wmom){
   uint8 ucRetVal = cNoError;
   if((wmom.ST_DRVDIR_DVCH == 0x01) || (wmom.ST_DRVDIR_DVCH == 0x03) || (wmom.ST_DRVDIR_DVCH > GEAR_REVERSE)){
     ucRetVal = cSignalError;
   }
   else{
     tNwMonitoring.tMonWMOM_DRV_4.ucSignalErrorTimeout = cWMOM_DRV_4_SIG_TOUT;
-    ClearNetworkErrorNWM( self, cNetwork_WMOM_DRV_4_SignalError);
+    ClearNetworkErrorNWM(self, cNetwork_WMOM_DRV_4_SignalError);
     ucRetVal = cNoError;
   }
   return ucRetVal;
 }
 
-static uint8 CheckDT_PT_1_SignalNWM( Rte_Instance self, Rdci_AIP_ENG_DRV_Type aip){
+static uint8 CheckDT_PT_1_SignalNWM(Rte_Instance self, Rdci_AIP_ENG_DRV_Type aip){
   uint8  ucRetVal = cNoError;
   if((aip == 0) || (aip == 0xffu)){
     ucRetVal = cSignalError;
   }
   else{
     tNwMonitoring.tMonDT_PT_1.ucSignalErrorTimeout = cDT_PT_1_SIG_TOUT;
-    ClearNetworkErrorNWM( self, cNetwork_DT_PT_1_SignalError);
+    ClearNetworkErrorNWM(self, cNetwork_DT_PT_1_SignalError);
     ucRetVal = cNoError;
   }
   return ucRetVal;
 }
 
-static uint8 CheckNMEARawData2Part2_SignalNWM( Rte_Instance self, Rdci_GNSSPositionAltitude_Type GNSSPositionAltitude){
+static uint8 CheckNMEARawData2Part2_SignalNWM(Rte_Instance self, Rdci_GNSSPositionAltitude_Type GNSSPositionAltitude){
   uint8 ucRetVal = cNoError;
   if( GNSSPositionAltitude > (Rdci_GNSSPositionAltitude_Type) 65530){
     ucRetVal = cSignalError;
   }
   else{
     tNwMonitoring.tMonNMEARawData2Part2.ucSignalErrorTimeout = cNMEARawData2Part2_SIG_TOUT;
-    ClearNetworkErrorNWM( self, cNetwork_NMEARawData2Part2_SignalError);
+    ClearNetworkErrorNWM(self, cNetwork_NMEARawData2Part2_SignalError);
     ucRetVal = cNoError;
   }
   return ucRetVal;
 }
 
-static uint8 CheckNMEARawData2Part3_SignalNWM( Rte_Instance self, Rdci_GNSSErrorAltitudeMeters_Type GNSSErrorAltitudeMeters){
+static uint8 CheckNMEARawData2Part3_SignalNWM(Rte_Instance self, Rdci_GNSSErrorAltitudeMeters_Type GNSSErrorAltitudeMeters){
   uint8 ucRetVal = cNoError;
   if( GNSSErrorAltitudeMeters > (Rdci_GNSSErrorAltitudeMeters_Type) 65000){
     ucRetVal = cSignalError;
   }
   else{
     tNwMonitoring.tMonNMEARawData2Part3.ucSignalErrorTimeout = cNMEARawData2Part3_SIG_TOUT;
-    ClearNetworkErrorNWM( self, cNetwork_NMEARawData2Part3_SignalError);
+    ClearNetworkErrorNWM(self, cNetwork_NMEARawData2Part3_SignalError);
     ucRetVal = cNoError;
   }
   return ucRetVal;
 }
 
-static uint8 CheckUHRZEIT_DATUM_SignalNWM( Rte_Instance self, Rdci_UHRZEIT_DATUM_Type timeDate){
+static uint8 CheckUHRZEIT_DATUM_SignalNWM(Rte_Instance self, Rdci_UHRZEIT_DATUM_Type timeDate){
   uint8 ucRetVal = cNoError;
   if((timeDate.DISP_DATE_DAY < 1)
   ||  (timeDate.DISP_DATE_DAY > 31)
@@ -928,17 +928,17 @@ static uint8 CheckUHRZEIT_DATUM_SignalNWM( Rte_Instance self, Rdci_UHRZEIT_DATUM
   }
   else{
     tNwMonitoring.tMonUHRZEIT_DATUM.ushSignalErrorTimeout = cUHRZEIT_DATUM_SIG_TOUT_OFF;
-    ClearNetworkErrorNWM( self, cNetwork_UHRZEIT_DATUM_SignalError);
+    ClearNetworkErrorNWM(self, cNetwork_UHRZEIT_DATUM_SignalError);
     ucRetVal = cNoError;
   }
   return ucRetVal;
 }
 
-static uint8 CheckKILOMETERSTAND_SignalNWM( Rte_Instance self, Rdci_MILE_KM_Type mileKm){
+static uint8 CheckKILOMETERSTAND_SignalNWM(Rte_Instance self, Rdci_MILE_KM_Type mileKm){
   uint8 ucRetVal = cNoError;
   if(mileKm != 0xffffffU){
     tNwMonitoring.tMonKILOMETERSTAND.ushSignalErrorTimeout = cKILOMETERSTAND_SIG_TOUT_OFF;
-    ClearNetworkErrorNWM( self, cNetwork_KILOMETERSTAND_SignalError);
+    ClearNetworkErrorNWM(self, cNetwork_KILOMETERSTAND_SignalError);
     ucRetVal = cNoError;
   }
   else{

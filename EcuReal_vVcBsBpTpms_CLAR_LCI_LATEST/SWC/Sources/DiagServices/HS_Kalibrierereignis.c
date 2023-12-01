@@ -16,17 +16,17 @@
   #endif
 #endif
 
-void SetCalibrationRootCauseDS( Rte_Instance self, uint8 ucRootCause)
+void SetCalibrationRootCauseDS(Rte_Instance self, uint8 ucRootCause)
 {
-  PUTucCalibrationRootCauseEE( self, ucRootCause);
+  PUTucCalibrationRootCauseEE(self, ucRootCause);
 }
 
-uint8 ucGetCalibrationRootCauseDS( Rte_Instance self)
+uint8 ucGetCalibrationRootCauseDS(Rte_Instance self)
 {
-  return GETucCalibrationRootCauseEE( self);
+  return GETucCalibrationRootCauseEE(self);
 }
 
-uint8 SaveCalibrationEventDS( Rte_Instance self)
+uint8 SaveCalibrationEventDS(Rte_Instance self)
 {
   Rdci_UHRZEIT_DATUM_Type timeDate;
   Rdci_MILE_KM_Type mileKm;
@@ -47,12 +47,12 @@ uint8 SaveCalibrationEventDS( Rte_Instance self)
     #endif
   #endif
 
-  ucCalStatus = ucGetCalibrationRootCauseDS( self);
+  ucCalStatus = ucGetCalibrationRootCauseDS(self);
   ucCalStatusBackup = ucCalStatus;
 
   if((ucCalStatus != cCalNvmError) && (ucCalStatus != cCalInvalid))
   {
-    if(GETSelectedTyreIndexEE( self) == OP_SLCTN_TYR_AVLB_AndererReifen)
+    if(GETSelectedTyreIndexEE(self) == OP_SLCTN_TYR_AVLB_AndererReifen)
     {
       ucCalStatus = cCalOtherTyre;
     }
@@ -79,10 +79,10 @@ uint8 SaveCalibrationEventDS( Rte_Instance self)
 
   }
 
-  else if(GETTyreSelectionActiveEE( self) == FALSE)
+  else if(GETTyreSelectionActiveEE(self) == FALSE)
   {
 
-    if(GETTyreSelectionBckgrdEE( self) == TRUE)
+    if(GETTyreSelectionBckgrdEE(self) == TRUE)
     {
       if(bGetBitBetriebszustandBZ(cER_FINISH) == FALSE)
       {
@@ -99,14 +99,14 @@ uint8 SaveCalibrationEventDS( Rte_Instance self)
       else
       {
         ucRetVal = 0;
-        SetCalibrationRootCauseDS( self, cCalInvalid);
+        SetCalibrationRootCauseDS(self, cCalInvalid);
       }
     }
 
     else
     {
       ucRetVal = 0;
-      SetCalibrationRootCauseDS( self, cCalInvalid);
+      SetCalibrationRootCauseDS(self, cCalInvalid);
     }
   }
 
@@ -123,22 +123,22 @@ uint8 SaveCalibrationEventDS( Rte_Instance self)
     }
     else if(bGetBitBetriebszustandBZ(cZO_FINISH) == FALSE)
     {
-      SetCalibrationRootCauseDS( self, ucCalStatusBackup);
+      SetCalibrationRootCauseDS(self, ucCalStatusBackup);
     }
     else if(bGetBitBetriebszustandBZ(cZWANGSZUORDNUNG) == TRUE)
     {
-      SetCalibrationRootCauseDS( self, ucCalStatusBackup);
+      SetCalibrationRootCauseDS(self, ucCalStatusBackup);
     }
     else
     {
-      SetCalibrationRootCauseDS( self, cCalInvalid);
+      SetCalibrationRootCauseDS(self, cCalInvalid);
     }
   }
 
   if(ucRetVal == 0)
   {
 
-    ucCounterKalib = GetHsKalibrierereignis_1_CounterEE( self);
+    ucCounterKalib = GetHsKalibrierereignis_1_CounterEE(self);
     if(ucCounterKalib == 0xff)
     {
       ucCounterKalib = 1;
@@ -159,7 +159,7 @@ uint8 SaveCalibrationEventDS( Rte_Instance self)
     }
     else
     {
-      ucTemp = GETPlausiInitErrorEE( self);
+      ucTemp = GETPlausiInitErrorEE(self);
     }
     switch (ucTemp)
     {
@@ -192,7 +192,7 @@ uint8 SaveCalibrationEventDS( Rte_Instance self)
 
     cData[1] = ucCalStatus;
 
-    timeDate = GETtTimeDateEE( self);
+    timeDate = GETtTimeDateEE(self);
     GetDateStringDM(timeDate.DISP_DATE_YR, (uint8)timeDate.DISP_DATE_MON, (uint8)timeDate.DISP_DATE_DAY, cTempBuffer, sizeof(cTempBuffer));
     for (i=0; i<8; i++)
     {
@@ -204,13 +204,13 @@ uint8 SaveCalibrationEventDS( Rte_Instance self)
       cData[i+10] = cTempBuffer[i];
     }
 
-    mileKm = GETulMileKmEE( self);
+    mileKm = GETulMileKmEE(self);
     cData[18] = (uint8)((mileKm >> 24) & 0xffU);
     cData[19] = (uint8)((mileKm >> 16) & 0xffU);
     cData[20] = (uint8)((mileKm >> 8) & 0xffU);
     cData[21] = (uint8)(mileKm & 0xffU);
-    cData[22] = (uint8) (GETscTAinitValEE( self) + 40);
-    ucTemp = GETucPAmbValEE( self);
+    cData[22] = (uint8) (GETscTAinitValEE(self) + 40);
+    ucTemp = GETucPAmbValEE(self);
     ushTemp = Change25mBarToHpa(ucTemp);
     cData[23] = (uint8)((ushTemp >> 8) & 0xffU);
     cData[24] = (uint8)(ushTemp & 0xffU);
@@ -221,7 +221,7 @@ uint8 SaveCalibrationEventDS( Rte_Instance self)
       if(ucTemp < cMaxLR)
       {
         cData[25 + (6 * i)] = ucTemp;
-        ucTemp = GetQrIxOfWheelPos( self, ucTemp);
+        ucTemp = GetQrIxOfWheelPos(self, ucTemp);
         ucTemp <<= 4;
         ucTemp &= 0xf0u;
         cData[25 + (6 * i)] |= ucTemp;
@@ -250,7 +250,7 @@ uint8 SaveCalibrationEventDS( Rte_Instance self)
       }
       cData[28 + (6 * i)] = (uint8)scTemp + 50;
 
-      (void)ucGetPTSollUSWIF( self, &ucPcold, &scTcold, &ucPwarm, &scTwarm, &ushM, &ucPamb, i);
+      (void)ucGetPTSollUSWIF(self, &ucPcold, &scTcold, &ucPwarm, &scTwarm, &ushM, &ucPamb, i);
       if(ucPcold == cInvalidREpressure)
       {
         ushTemp = 0xffffu;
@@ -267,17 +267,17 @@ uint8 SaveCalibrationEventDS( Rte_Instance self)
 
     for (i=0; i<sizeof(cData); i++)
     {
-      PutHsKalibrierereignis_3_EE( self, GetHsKalibrierereignis_2_EE( self, i), i);
+      PutHsKalibrierereignis_3_EE(self, GetHsKalibrierereignis_2_EE(self, i), i);
     }
 
     for (i=0; i<sizeof(cData); i++)
     {
-      PutHsKalibrierereignis_2_EE( self, GetHsKalibrierereignis_1_EE( self, i), i);
+      PutHsKalibrierereignis_2_EE(self, GetHsKalibrierereignis_1_EE(self, i), i);
     }
 
     for (i=0; i<sizeof(cData); i++)
     {
-      PutHsKalibrierereignis_1_EE( self, cData[i], i);
+      PutHsKalibrierereignis_1_EE(self, cData[i], i);
     }
 
     ucRetVal = 0;
@@ -285,28 +285,28 @@ uint8 SaveCalibrationEventDS( Rte_Instance self)
   return ucRetVal;
 }
 
-void ReadCalibrationEventDS( Rte_Instance self, uint8 * paucData)
+void ReadCalibrationEventDS(Rte_Instance self, uint8 * paucData)
 {
   uint8 i;
 
   for ( i = 0; i < cSizeKalibrierereignis; i++)
   {
-    paucData[i] = GetHsKalibrierereignis_1_EE( self, i);
+    paucData[i] = GetHsKalibrierereignis_1_EE(self, i);
   }
 
   for ( i = 0; i < cSizeKalibrierereignis; i++)
   {
-    paucData[cSizeKalibrierereignis + i] = GetHsKalibrierereignis_2_EE( self, i);
+    paucData[cSizeKalibrierereignis + i] = GetHsKalibrierereignis_2_EE(self, i);
   }
 
   for ( i = 0; i < cSizeKalibrierereignis; i++)
   {
-    paucData[(2 * cSizeKalibrierereignis) + i] = GetHsKalibrierereignis_3_EE( self, i);
+    paucData[(2 * cSizeKalibrierereignis) + i] = GetHsKalibrierereignis_3_EE(self, i);
   }
 }
 
-uint8 GetLatestCalibrationRootCauseDS( Rte_Instance self)
+uint8 GetLatestCalibrationRootCauseDS(Rte_Instance self)
 {
-  return (GetHsKalibrierereignis_1_RootCauseEE( self));
+  return (GetHsKalibrierereignis_1_RootCauseEE(self));
 }
 

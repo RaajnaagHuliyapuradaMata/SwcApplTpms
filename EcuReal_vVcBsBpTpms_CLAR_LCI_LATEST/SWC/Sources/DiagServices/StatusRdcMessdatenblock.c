@@ -11,7 +11,7 @@
 #include "InfoTyreX.h"
 #include "RdcTsaServicesX.h"
 
-void GetStatusRdcMessdatenblockDS( Rte_Instance self, uint8 ucBlockNo, uint8* pucData){
+void GetStatusRdcMessdatenblockDS(Rte_Instance self, uint8 ucBlockNo, uint8* pucData){
   uint32                ulReID;
   uint16                ushTempVal, ushM;
   PhySensorTyrePresType ucPress, ucPcold, ucPwarm, ucPamb;
@@ -30,7 +30,7 @@ void GetStatusRdcMessdatenblockDS( Rte_Instance self, uint8 ucBlockNo, uint8* pu
     ucWheelPos = ucGetWPOfColWAL( ucBlockNo);
     if( ucWheelPos < cRadPosUndef){
       pucData[cucIxStatRadPositionNr]                   = ucWheelPos;
-      ucTemp = GetQrIxOfWheelPos( self, ucWheelPos);
+      ucTemp = GetQrIxOfWheelPos(self, ucWheelPos);
       ucTemp <<= 4;
       ucTemp &= 0xf0u;
       pucData[cucIxStatRadPositionNr]                  |= ucTemp;
@@ -52,7 +52,7 @@ void GetStatusRdcMessdatenblockDS( Rte_Instance self, uint8 ucBlockNo, uint8* pu
     }else{
       pucData[cucIxStatLetzterReifentemperaturwertWert] = (uint8) (scGetReTemperatureCentDM( ucBlockNo) + 50);
     }
-    if( ucGetPTSollUSWIF( self, &ucPcold, &scTcold, &ucPwarm, &scTwarm, &ushM, &ucPamb, ucBlockNo) == cRetError){
+    if( ucGetPTSollUSWIF(self, &ucPcold, &scTcold, &ucPwarm, &scTwarm, &ushM, &ucPamb, ucBlockNo) == cRetError){
       pucData[cucIxStatSolldruckWert + 0]               = (uint8) (((uint16) -9999 >> 8) & 0x00FFu);
       pucData[cucIxStatSolldruckWert + 1]               = (uint8) (((uint16) -9999 >> 0) & 0x00FFu);
     }else{
@@ -70,8 +70,8 @@ void GetStatusRdcMessdatenblockDS( Rte_Instance self, uint8 ucBlockNo, uint8* pu
     pucData[cucIxStatGutempfaengeWert + 1]              = (uint8) (ushTempVal        & 0x00FFu);
     pucData[cucIxStatAusbeuteWert]                      = ucGetYieldRateWUM( ucBlockNo);
     pucData[cucIxStatRssiPegelWert + 0]                 = 0x00;
-    pucData[cucIxStatRssiPegelWert + 1]                 = GETucLastSNRFromNvmMirrorEE( self, ucBlockNo);
-    ucBattLevel = GETucLastBatteryStateFromNvmMirrorEE( self, ucBlockNo);
+    pucData[cucIxStatRssiPegelWert + 1]                 = GETucLastSNRFromNvmMirrorEE(self, ucBlockNo);
+    ucBattLevel = GETucLastBatteryStateFromNvmMirrorEE(self, ucBlockNo);
     if(ucBattLevel == 0xff){
       pucData[cucIxStatRestlebensdauerWert + 0]         = (uint8) (((uint16) -999 >> 8) & 0x00FFu);
       pucData[cucIxStatRestlebensdauerWert + 1]         = (uint8) (((uint16) -999 >> 0) & 0x00FFu);
@@ -79,7 +79,7 @@ void GetStatusRdcMessdatenblockDS( Rte_Instance self, uint8 ucBlockNo, uint8* pu
       pucData[cucIxStatRestlebensdauerWert + 0]         = 0;
       pucData[cucIxStatRestlebensdauerWert + 1]         = ucBattLevel;
     }
-    pucData[cucIxStatRadelektronikStatus] = GETucWheelSensorStatusFromNvmMirrorEE( self, ucBlockNo);
+    pucData[cucIxStatRadelektronikStatus] = GETucWheelSensorStatusFromNvmMirrorEE(self, ucBlockNo);
     ucHardWarning  = GETucWarningGroupTM( cucWT_GrpPanne);
     ucHardWarning |= GETucWarningGroupTM( cucWT_GrpPmin);
     ucHardWarning |= GETucWarningGroupTM( cucWT_GrpPwarn);
@@ -99,16 +99,16 @@ void GetStatusRdcMessdatenblockDS( Rte_Instance self, uint8 ucBlockNo, uint8* pu
         pucData[cucIxStatHarteWarnungAktiv]             = 0x01;
       }
     }
-    ucTemp = GETucLastPosChangedInfoFromNvmMirrorEE( self);
+    ucTemp = GETucLastPosChangedInfoFromNvmMirrorEE(self);
     pucData[cucIxStatPosChanged]                        = (ucTemp >> ucBlockNo) & 0x01;
-    pucData[cucIxStatFolgeausfallWert]                  = GETucTimeSinceLastRecEventFromNvmMirrorEE( self, ucBlockNo);
+    pucData[cucIxStatFolgeausfallWert]                  = GETucTimeSinceLastRecEventFromNvmMirrorEE(self, ucBlockNo);
     if(ulReID == 0){
       pucData[cucIxStatReHersteller]                      = 0xff;
     }
     else{
       pucData[cucIxStatReHersteller]                      = (uint8) ((ulReID >> 28) & 0x0000000Fu);
     }
-    ushM = GETushLastPalStatusEE( self, ucBlockNo);
+    ushM = GETushLastPalStatusEE(self, ucBlockNo);
     ushTempVal = (ushM & 0x00C0u) >> 6;
     if(ushTempVal == 0x01){
       pucData[cucIxStatRadelektronikSendemode] = 0x06;

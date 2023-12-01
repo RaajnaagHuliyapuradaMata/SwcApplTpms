@@ -20,8 +20,8 @@ typedef sint16 TAmbientFilterValueType;
 
 typedef uint8  TAmbientFilterFactorValueType;
 
-extern void InitTAF( Rte_Instance self);
-extern void CyclicTAF( Rte_Instance self);
+extern void InitTAF(Rte_Instance self);
+extern void CyclicTAF(Rte_Instance self);
 
 #ifdef __cplusplus
 }

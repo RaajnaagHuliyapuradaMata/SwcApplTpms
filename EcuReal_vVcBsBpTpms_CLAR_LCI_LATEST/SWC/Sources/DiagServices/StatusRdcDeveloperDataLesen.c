@@ -20,20 +20,20 @@
 
 static uint8 ucDeveloperDataMuxChannelDS = cStatusRdcDeveloperDataLesen_MuxChannelDefValue;
 
-void GetStatusRdcDeveloperDataLesenDS( Rte_Instance self, uint8* pucData)
+void GetStatusRdcDeveloperDataLesenDS(Rte_Instance self, uint8* pucData)
 {
   switch( ucDeveloperDataMuxChannelDS)
   {
   case cStatusRdcDeveloperDataLesen_MuxChannel0:
-    GetStatusRdcDevDataLesen_Ch0DS( self, pucData);
+    GetStatusRdcDevDataLesen_Ch0DS(self, pucData);
     break;
 
   case cStatusRdcDeveloperDataLesen_MuxChannel1:
-    GetStatusRdcDevDataLesen_Ch1DS( self, pucData);
+    GetStatusRdcDevDataLesen_Ch1DS(self, pucData);
     break;
 
   case cStatusRdcDeveloperDataLesen_MuxChannel2:
-    GetStatusRdcDevDataLesen_Ch2DS( self, pucData);
+    GetStatusRdcDevDataLesen_Ch2DS(self, pucData);
     break;
 
   case cStatusRdcDeveloperDataLesen_MuxChannel3:
@@ -93,7 +93,7 @@ void GetStatusRdcDeveloperDataLesenDS( Rte_Instance self, uint8* pucData)
     break;
 
   default:
-    GetStatusRdcDevDataLesen_Ch0DS( self, pucData);
+    GetStatusRdcDevDataLesen_Ch0DS(self, pucData);
     break;
   }
 }
@@ -119,7 +119,7 @@ uint8 ucGetDeveloperDataMuxChannelDS(void)
   return ucDeveloperDataMuxChannelDS;
 }
 
-static void GetStatusRdcDevDataLesen_Ch0DS( Rte_Instance self, uint8* pucData)
+static void GetStatusRdcDevDataLesen_Ch0DS(Rte_Instance self, uint8* pucData)
 {
   uint32 ulDWord;
   uint16 ushWord;
@@ -132,9 +132,9 @@ static void GetStatusRdcDevDataLesen_Ch0DS( Rte_Instance self, uint8* pucData)
   pucData[3] = (uint8) ((ulDWord >>  8) & 0x000000FFu);
   pucData[4] = (uint8) ((ulDWord >>  0) & 0x000000FFu);
 
-  pucData[5] = GETucUnAipEE( self);
-  pucData[6] = GETucUnTempEE( self);
-  pucData[7] = GETucUnMileEE( self);
+  pucData[5] = GETucUnAipEE(self);
+  pucData[6] = GETucUnTempEE(self);
+  pucData[7] = GETucUnMileEE(self);
 
   ushWord = ushGetBetriebszustandBZ( cBZ_ALLE_BITS);
   pucData[8] = (uint8) ((ushWord >>  8) & 0x00FFu);
@@ -147,24 +147,24 @@ static void GetStatusRdcDevDataLesen_Ch0DS( Rte_Instance self, uint8* pucData)
   pucData[12] = (uint8) ((ushWord >>  8) & 0x00FFu);
   pucData[13] = (uint8) ((ushWord >>  0) & 0x00FFu);
 
-  pucData[14] = (uint8) GETscTAinitValEE( self);
-  pucData[15] = (uint8) GETscTAmbValEE( self);
+  pucData[14] = (uint8) GETscTAinitValEE(self);
+  pucData[15] = (uint8) GETscTAmbValEE(self);
 
-  if( GETsshTAmbFiltValEE( self) < 0)
+  if( GETsshTAmbFiltValEE(self) < 0)
   {
-    pucData[16] = (uint8) ((GETsshTAmbFiltValEE( self) - 50) / 100);
+    pucData[16] = (uint8) ((GETsshTAmbFiltValEE(self) - 50) / 100);
   }else{
-    pucData[16] = (uint8) ((GETsshTAmbFiltValEE( self) + 50) / 100);
+    pucData[16] = (uint8) ((GETsshTAmbFiltValEE(self) + 50) / 100);
   }
 
-  pucData[17] = GETucTAmbFiltFactValEE( self);
-  pucData[18] = GETucPAmbValEE( self);
+  pucData[17] = GETucTAmbFiltFactValEE(self);
+  pucData[18] = GETucPAmbValEE(self);
 
   pucData[19] = 0xFF;
   pucData[20] = 0xFF;
 }
 
-static void GetStatusRdcDevDataLesen_Ch1DS( Rte_Instance self, uint8* pucData){
+static void GetStatusRdcDevDataLesen_Ch1DS(Rte_Instance self, uint8* pucData){
   uint32 ulDWord;
   uint16 ushWord;
   pucData[0] = cStatusRdcDeveloperDataLesen_MuxChannel1;
@@ -172,7 +172,7 @@ static void GetStatusRdcDevDataLesen_Ch1DS( Rte_Instance self, uint8* pucData){
   pucData[2] = ucGetIdChangedBitsZK();
   pucData[3] = ucGetStopCounter();
 
-  ulDWord = GETulTimestampEE( self);
+  ulDWord = GETulTimestampEE(self);
   pucData[4] = (uint8) ((ulDWord >> 24) & 0x000000FFu);
   pucData[5] = (uint8) ((ulDWord >> 16) & 0x000000FFu);
   pucData[6] = (uint8) ((ulDWord >>  8) & 0x000000FFu);
@@ -195,14 +195,14 @@ static void GetStatusRdcDevDataLesen_Ch1DS( Rte_Instance self, uint8* pucData){
   pucData[20] = 0xFF;
 }
 
-static void GetStatusRdcDevDataLesen_Ch2DS( Rte_Instance self, uint8* pucData)
+static void GetStatusRdcDevDataLesen_Ch2DS(Rte_Instance self, uint8* pucData)
 {
   uint8               ucData[cAnzRad];
   WarnConfigArrayType aucCb;
 
   pucData[0] = cStatusRdcDeveloperDataLesen_MuxChannel2;
 
-  if( ucGetWarnBitIdIntIFH( self, ucData) == 0x00)
+  if( ucGetWarnBitIdIntIFH(self, ucData) == 0x00)
   {
     pucData[1] = ucData[0];
     pucData[2] = ucData[1];
@@ -215,7 +215,7 @@ static void GetStatusRdcDevDataLesen_Ch2DS( Rte_Instance self, uint8* pucData)
     pucData[4] = 0xFF;
   }
 
-  if( ucGetWarnBitTonnageIdIntIFH( self, ucData) == 0x00)
+  if( ucGetWarnBitTonnageIdIntIFH(self, ucData) == 0x00)
   {
     pucData[5] = ucData[0];
     pucData[6] = ucData[1];
@@ -228,7 +228,7 @@ static void GetStatusRdcDevDataLesen_Ch2DS( Rte_Instance self, uint8* pucData)
     pucData[8] = 0xFF;
   }
 
-  if( ucGetWarnBitAirMassIdIntIFH( self, ucData) == 0x00)
+  if( ucGetWarnBitAirMassIdIntIFH(self, ucData) == 0x00)
   {
     pucData[9]  = ucData[0];
     pucData[10] = ucData[1];
@@ -241,10 +241,10 @@ static void GetStatusRdcDevDataLesen_Ch2DS( Rte_Instance self, uint8* pucData)
     pucData[12] = 0xFF;
   }
 
-  GETucWsEE( self, &pucData[13]);
-  GETucTsEE( self, &pucData[14]);
+  GETucWsEE(self, &pucData[13]);
+  GETucTsEE(self, &pucData[14]);
 
-  GETaucCbEE( self, &aucCb);
+  GETaucCbEE(self, &aucCb);
   pucData[15] = aucCb[0];
   pucData[16] = aucCb[1];
 

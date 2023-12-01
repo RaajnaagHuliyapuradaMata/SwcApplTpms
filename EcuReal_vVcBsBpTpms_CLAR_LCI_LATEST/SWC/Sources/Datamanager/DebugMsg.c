@@ -57,7 +57,7 @@ uint8 CreateSetOfEventSpecificDataDBG(const ImpTypeRecCddRdcData* rdcData){
   #endif
 }
 
-void GetDebugMessageContentDBG( Rte_Instance self, uint8* pucBuffer){
+void GetDebugMessageContentDBG(Rte_Instance self, uint8* pucBuffer){
   static uint8 ucMuxID = 0;
   static uint8 ucTransmitState = TRANSMIT_EVENT_SPEC_DATA;
   static uint8 ucEvSpecDataAvailable = cNoDataAvailable;
@@ -75,7 +75,7 @@ void GetDebugMessageContentDBG( Rte_Instance self, uint8* pucBuffer){
   else if(ucTransmitState == TRANSMIT_SYS_SPEC_DATA){
     pucBuffer[0] = ucMuxID;
     pucBuffer[16] = ucMuxID;
-    if(GetNextSystemSpecificDataBlockDBG( self, pucBuffer) == 0){
+    if(GetNextSystemSpecificDataBlockDBG(self, pucBuffer) == 0){
       if(ucEvSpecDataAvailable == cDataAvailable){
         ucTransmitState = REPEAT_EVENT_SPEC_DATA;
         ucMuxID++;
@@ -287,20 +287,20 @@ static void GetNextEventSpecificDataBlock32DBG( uint8* pucBuffer, uint8* ucMuxID
   }
 }
 
-static uint8 GetNextSystemSpecificDataBlockDBG( Rte_Instance self, uint8* pucBuffer)
+static uint8 GetNextSystemSpecificDataBlockDBG(Rte_Instance self, uint8* pucBuffer)
 {
   #if(DEBUG_MESSAGE_SIZE == 16)
   return (GetNextSystemSpecificDataBlock16DBG(pucBuffer));
   #endif
 
   #if(DEBUG_MESSAGE_SIZE == 32)
-  return ( GetNextSystemSpecificDataBlock32DBG( self, pucBuffer));
+  return ( GetNextSystemSpecificDataBlock32DBG(self, pucBuffer));
   #endif
 
 }
 
 #if(DEBUG_MESSAGE_SIZE == 32)
-static uint8  GetNextSystemSpecificDataBlock32DBG( Rte_Instance self, uint8* pucBuffer)
+static uint8  GetNextSystemSpecificDataBlock32DBG(Rte_Instance self, uint8* pucBuffer)
 {
   uint32  ulValue,  ulValue1;
   uint16  ushValue, ushValue1;
@@ -376,7 +376,7 @@ static uint8  GetNextSystemSpecificDataBlock32DBG( Rte_Instance self, uint8* puc
 
     case (uint8)1:
 
-      (void) ucGetWarnVectorIdExtIFH( self, aucValue);
+      (void) ucGetWarnVectorIdExtIFH(self, aucValue);
       for( i = 0; i < cAnzRad; i++)
       {
         pucBuffer[1 + i] = aucValue[i];
@@ -384,7 +384,7 @@ static uint8  GetNextSystemSpecificDataBlock32DBG( Rte_Instance self, uint8* puc
 
       for( i = 0; i < cAnzRad; i++)
       {
-        (void) ucGetPTSollUSWIF( self, &ucValue, &scValue, &ucValue1, &scValue1, &ushValue, &ucValue1, i);
+        (void) ucGetPTSollUSWIF(self, &ucValue, &scValue, &ucValue1, &scValue1, &ushValue, &ucValue1, i);
         pucBuffer[5 + i] = ucValue;
       }
 
@@ -414,13 +414,13 @@ static uint8  GetNextSystemSpecificDataBlock32DBG( Rte_Instance self, uint8* puc
       pucBuffer[22] = (uint8)((ushValue >>  8) & 0xff);
       pucBuffer[23] = (uint8)((ushValue >>  0) & 0xff);
 
-      pucBuffer[24] = GETucPAmbValEE( self);
+      pucBuffer[24] = GETucPAmbValEE(self);
 
       ushValue = GETushSpeedFZZ();
       pucBuffer[25] = (uint8)((ushValue >>  8) & 0xff);
       pucBuffer[26] = (uint8)((ushValue >>  0) & 0xff);
 
-      pucBuffer[27] = (uint8) GETscTAmbValEE( self);
+      pucBuffer[27] = (uint8) GETscTAmbValEE(self);
 
       pucBuffer[28]= ucGetStatusLastConditionVehicleFZZ();
       pucBuffer[29]= ucGetStatusConditionVehicleFZZ();
@@ -500,10 +500,10 @@ static uint8  GetNextSystemSpecificDataBlock32DBG( Rte_Instance self, uint8* puc
     pucBuffer[10] = (uint8)((ulValue >> 16) & 0xff);
     pucBuffer[11] = (uint8)((ulValue >>  8) & 0xff);
     pucBuffer[12] = (uint8)((ulValue >>  0) & 0xff);
-    ushValue = GETushFbd4AliveTimerEE( self);
+    ushValue = GETushFbd4AliveTimerEE(self);
     pucBuffer[13] = (uint8)((ushValue >>  8) & 0xff);
     pucBuffer[14] = (uint8)((ushValue >>  0) & 0xff);
-    pucBuffer[15] = GetRfIfStateMachineFromNvmZOMirrorblockEE( self);
+    pucBuffer[15] = GetRfIfStateMachineFromNvmZOMirrorblockEE(self);
     ushValue = ushGetMuteTimerValueWUM(0);
     pucBuffer[17] = (uint8)((ushValue >>  8) & 0xff);
     pucBuffer[18] = (uint8)((ushValue >>  0) & 0xff);
@@ -550,19 +550,19 @@ static uint8  GetNextSystemSpecificDataBlock32DBG( Rte_Instance self, uint8* puc
       pucBuffer[10] = (uint8)((ushValue >>  8) & 0xff);
       pucBuffer[11] = (uint8)((ushValue >>  0) & 0xff);
       pucBuffer[12] = tNwMonData.tMonRELATIVZEIT.ucMsgTimeout;
-      pucBuffer[13] = GETSelectedTyreIndexEE( self);
-      pucBuffer[14] = GETSelectedSuTyreIndexEE( self);
-      pucBuffer[15] = GETSelectedWiTyreIndexEE( self);
+      pucBuffer[13] = GETSelectedTyreIndexEE(self);
+      pucBuffer[14] = GETSelectedSuTyreIndexEE(self);
+      pucBuffer[15] = GETSelectedWiTyreIndexEE(self);
       for( i = 0; i < cAnzRad; i++){
         GetTimerValPWARN( i, &ucTimerState, &ushValue);
         pucBuffer[17 + (2 * i)] = (uint8)((ushValue >>  8) & 0xff);
         pucBuffer[18 + (2 * i)] = (uint8)((ushValue >>  0) & 0xff);
       }
-      (void) ucGetWarnBitIdIntIFH( self, aucValue);
+      (void) ucGetWarnBitIdIntIFH(self, aucValue);
       for( i = 0; i < cAnzRad; i++){
         pucBuffer[25 + i] = aucValue[i];
       }
-      scValue = GETscTAinitValEE( self);
+      scValue = GETscTAinitValEE(self);
       pucBuffer[29] = (uint8) scValue;
       pucBuffer[30] = ucGetBreakTireStateBT();
       pucBuffer[31] = GetSecondaryErrorsSCD();
@@ -586,7 +586,7 @@ static uint8  GetNextSystemSpecificDataBlock32DBG( Rte_Instance self, uint8* puc
         pucBuffer[18 + (2 * i)] = (uint8)((ushValue >>  0) & 0xff);
       }
       for( i = 0; i < cAnzRad; i++){
-        (void) ucGetPTSollUSWIF( self, &ucValue, &scValue, &ucValue1, &scValue1, &ushValue, &ucValue1, i);
+        (void) ucGetPTSollUSWIF(self, &ucValue, &scValue, &ucValue1, &scValue1, &ushValue, &ucValue1, i);
         pucBuffer[25 + i] = (uint8) scValue;
       }
       pucBuffer[29] = ucWriteErrorCounterForNvmWarnstatusBlock;
@@ -609,14 +609,14 @@ static uint8  GetNextSystemSpecificDataBlock32DBG( Rte_Instance self, uint8* puc
       pucBuffer[10] = (uint8) ((ulValue1 >>  0) & 0xff);
       pucBuffer[11] = ucValue2;
       for( i = 0; i < cAnzRad; i++){
-        (void) ucGetPTSollUSWIF( self, &ucValue, &scValue, &ucValue1, &scValue1, &ushValue, &ucValue2, i);
+        (void) ucGetPTSollUSWIF(self, &ucValue, &scValue, &ucValue1, &scValue1, &ushValue, &ucValue2, i);
         pucBuffer[12 + i] = ucValue1;
       }
-      (void) ucGetWarnBitTonnageIdIntIFH( self, aucValue);
+      (void) ucGetWarnBitTonnageIdIntIFH(self, aucValue);
       for( i = 0; i < cAnzRad; i++){
         pucBuffer[17 + i] = aucValue[i];
       }
-      (void) ucGetWarnBitAirMassIdIntIFH( self, aucValue);
+      (void) ucGetWarnBitAirMassIdIntIFH(self, aucValue);
       for( i = 0; i < cAnzRad; i++){
         pucBuffer[21 + i] = aucValue[i];
       }
@@ -645,7 +645,7 @@ static uint8  GetNextSystemSpecificDataBlock32DBG( Rte_Instance self, uint8* puc
       pucBuffer[10] = (uint8) ((ulValue1 >>  0) & 0xff);
       pucBuffer[11] = ucValue2;
       for( i = 0; i < cAnzRad; i++){
-        (void) ucGetPTSollUSWIF( self, &ucValue, &scValue, &ucValue1, &scValue1, &ushValue, &ucValue2, i);
+        (void) ucGetPTSollUSWIF(self, &ucValue, &scValue, &ucValue1, &scValue1, &ushValue, &ucValue2, i);
         pucBuffer[12 + i] = (uint8) scValue1;
       }
       GetTimerValDHW( 1, &ucValue, &ucValue1, &ushValue, &ushValue1);
@@ -679,21 +679,21 @@ static uint8  GetNextSystemSpecificDataBlock32DBG( Rte_Instance self, uint8* puc
         pucBuffer[2] = (uint8) ((ushValue >>  8) & 0xff);
         pucBuffer[3] = (uint8) ((ushValue >>  0) & 0xff);
       }
-      if(cInvalidTemperatureWord != GETsshTAmbFiltValEE( self)){
-        if( GETsshTAmbFiltValEE( self) < 0){
-          pucBuffer[4] = (uint8) ((GETsshTAmbFiltValEE( self) - 50) / 100);
+      if(cInvalidTemperatureWord != GETsshTAmbFiltValEE(self)){
+        if( GETsshTAmbFiltValEE(self) < 0){
+          pucBuffer[4] = (uint8) ((GETsshTAmbFiltValEE(self) - 50) / 100);
         }else{
-          pucBuffer[4] = (uint8) ((GETsshTAmbFiltValEE( self) + 50) / 100);
+          pucBuffer[4] = (uint8) ((GETsshTAmbFiltValEE(self) + 50) / 100);
         }
       }
       else{
         pucBuffer[4] = cInvalidREtemperature;
       }
-      pucBuffer[5] = GETucAipGpsStateEE( self);
-      ushValue = GETushGpsTioTicksEE( self);
+      pucBuffer[5] = GETucAipGpsStateEE(self);
+      ushValue = GETushGpsTioTicksEE(self);
       pucBuffer[6] = (uint8) ((ushValue >>  8) & 0xffu);
       pucBuffer[7] = (uint8) ((ushValue >>  0) & 0xffu);
-      sshAltMeter = (sint16) ((GETushPositionAltitudeEE( self) + 5) / 10) - 1000;
+      sshAltMeter = (sint16) ((GETushPositionAltitudeEE(self) + 5) / 10) - 1000;
       if( sshAltMeter < 0){
         sshAltMeter = 0;
       }
@@ -727,9 +727,9 @@ static uint8  GetNextSystemSpecificDataBlock32DBG( Rte_Instance self, uint8* puc
       pucBuffer[26] = (uint8) ((ulValue >>  0) & 0xff);
       pucBuffer[27] = ucGetActualStateWL();
       pucBuffer[28] = ucGetNokCounterCCM();
-      pucBuffer[29] = ucGetInitByContiEventCounterEE( self);
-      pucBuffer[30] = ucGetInitByHufEventCounterEE( self);
-      pucBuffer[31] = ucGetCodingDataChangeEventCounterEE( self);
+      pucBuffer[29] = ucGetInitByContiEventCounterEE(self);
+      pucBuffer[30] = ucGetInitByHufEventCounterEE(self);
+      pucBuffer[31] = ucGetCodingDataChangeEventCounterEE(self);
       ucMessageNr = 0;
       ucRetVal = 0;
     break;

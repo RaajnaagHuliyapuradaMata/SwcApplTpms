@@ -17,7 +17,7 @@ extern "C"
 
 extern uint8 CreateSetOfEventSpecificDataDBG( const ImpTypeRecCddRdcData* rdcData);
 
-extern void GetDebugMessageContentDBG( Rte_Instance self, uint8* pucBuffer);
+extern void GetDebugMessageContentDBG(Rte_Instance self, uint8* pucBuffer);
 
 extern void SetSwcRunTimeDBG( uint8 ucRunTime);
 

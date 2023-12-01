@@ -34,7 +34,7 @@ static uint16 ushAbsTicks[4];
 static uint8  ucCalOnErFinish = cCalOnErFinishIsInactive;
 static uint8  ucTGCountAtCalOnErFinish[cMaxLR] = {0xffu, 0xffu, 0xffu, 0xffu};
 
-void SetVehicleSpeedWAM( Rte_Instance self, Rdci_V_VEH_Type vspeed)
+void SetVehicleSpeedWAM(Rte_Instance self, Rdci_V_VEH_Type vspeed)
 {
   uint16 ushSpeed;
 
@@ -43,7 +43,7 @@ void SetVehicleSpeedWAM( Rte_Instance self, Rdci_V_VEH_Type vspeed)
   ushSpeed = vspeed.V_VEH_COG >> 6;
   SETSpeedFZZ(ushSpeed);
 
-  CountDrivenKilometersWithWarningDS( self);
+  CountDrivenKilometersWithWarningDS(self);
 }
 
 void SetGearWAM(Rdci_WMOM_DRV_4_Type wmomDriveInfo)
@@ -160,7 +160,7 @@ void SetAbsDataWAM(ImpTypeRecCddAbsData absData)
   }
 }
 
-void ProcessAllocationWAM( Rte_Instance self, ImpTypeRecCddRdcData rdcData)
+void ProcessAllocationWAM(Rte_Instance self, ImpTypeRecCddRdcData rdcData)
 {
   uint32      ulTempTimeStmp;
   #if(WORKAROUND_STBMB == 1)
@@ -290,7 +290,7 @@ void ProcessAllocationWAM( Rte_Instance self, ImpTypeRecCddRdcData rdcData)
 
     if(bUseTelegramForWalloc == TRUE)
     {
-      SetLearnStateWAM( self, ucLearnID( self, &inputWA));
+      SetLearnStateWAM(self, ucLearnID(self, &inputWA));
     }
   }
 
@@ -366,350 +366,235 @@ static boolean bLearningWheelPosActiveWAM(uint8 ucSpeedThreshold)
   return( bLearnActive);
 }
 
-static void SetLearnStateWAM( Rte_Instance self, uint8 ucWAState)
-{
-  uint8 i;
-
-  if((bGetBitBetriebszustandBZ(cZO_FINISH) == FALSE) && ((ucWAState & cWAStateZO) == cWAStateZO))
-  {
-	  if((ucWAState & cWAStateER) == cWAStateER)
-    {
-      SetBitBetriebszustandBZ(cEIGENRAD | cZUGEORDNET);
-      SetBitBetriebszustandBZ(cZO_FINISH | cER_FINISH);
-      SetAutoLearnErrorStatusWUM( self, cAUTOLEARN_SUCCESSFUL);
-      ClearBitBetriebszustandBZ(cTEILEIGENRAD);
-      (void) ucSetAutolocErrorStatusWUM( self, cAUTOLOC_SUCCESSFUL);
-
-      SetHistoryChangeBitsDM( self);
-
-      (void)NewPositionsUSWIF( self);
-      (void)ucCfgPSollMinUSWIF( self);
-
-      if(bErAndZoAtOnce == TRUE)
-      {
-
-        if(ucGetIdChangedBitsZK() > 0)
-        {
-
-          ResetWUM( self, ucGetIdChangedBitsZK(), cWithoutLowBat, cWithoutWuRelatedDtcs);
-          DeleteRidDataOfHisColRID( self, 0x0F);
-
-          CopyPressAndTempFromZOMDM( self);
-
-          if(GETTyreSelectionActiveEE( self) == TRUE)
-          {
-            (void) ErPlausiInitPressINIT( self, bGetBitBetriebszustandBZ(cEIGENRAD), TRUE);
-          }
-        }
-
-        for (i=0; i<cMaxLR; i++)
-        {
-          ClearMuteWUM( self, i, i);
-        }
+static void SetLearnStateWAM(Rte_Instance self, uint8 ucWAState){
+   uint8 i;
+   if((bGetBitBetriebszustandBZ(cZO_FINISH) == FALSE) && ((ucWAState & cWAStateZO) == cWAStateZO)){
+      if(cWAStateER == (ucWAState & cWAStateER)){
+         SetBitBetriebszustandBZ(cEIGENRAD | cZUGEORDNET);
+         SetBitBetriebszustandBZ(cZO_FINISH | cER_FINISH);
+         SetAutoLearnErrorStatusWUM(self, cAUTOLEARN_SUCCESSFUL);
+         ClearBitBetriebszustandBZ(cTEILEIGENRAD);
+         (void) ucSetAutolocErrorStatusWUM(self, cAUTOLOC_SUCCESSFUL);
+         SetHistoryChangeBitsDM(self);
+         (void)NewPositionsUSWIF(self);
+         (void)ucCfgPSollMinUSWIF(self);
+         if(TRUE == bErAndZoAtOnce){
+            if(ucGetIdChangedBitsZK() > 0){
+               ResetWUM(self, ucGetIdChangedBitsZK(), cWithoutLowBat, cWithoutWuRelatedDtcs);
+               DeleteRidDataOfHisColRID(self, 0x0F);
+               CopyPressAndTempFromZOMDM(self);
+               if(TRUE == GETTyreSelectionActiveEE(self)){
+                  (void) ErPlausiInitPressINIT(self, bGetBitBetriebszustandBZ(cEIGENRAD), TRUE);
+               }
+            }
+            for(i=0; i<cMaxLR; i++){
+               ClearMuteWUM(self, i, i);
+            }
+         }
+         SwitchUnspecificToSpecificErrorsWUM(self);
+         PUTucLastPosChangedInformationToNvmMirrorEE(self, ucGetIdChangedBitsZK() | ucGetWpChangedBitsZK());
+         PUTLastLocStateEE(self, ushGetBetriebszustandBZ(cBZ_ALLE_BITS));
+         SetStWheelTypeChangedAtLocDM(ucGetIdChangedBitsZK(), ucGetWpChangedBitsZK());
+         SaveRidDataAndCompareRID(self);
+         i = GETTyreSelectionBckgrdEE(self);
+         i |= GETTyreSelectionActiveEE(self);
+         if(TRUE == i){
+            SetSolldruckDM(self, GETSelectedLoadStateEE(self), GETSelectedTyreIndexEE(self));
+            (void) ZoPlausiInitPressINIT(self, bGetBitBetriebszustandBZ(cZUGEORDNET), GETSelectedTyreIndexEE(self));
+            (void) SaveCalibrationEventDS(self);
+            PUTTyreSelectionActiveEE(self, FALSE);
+            if(FALSE == bGetBitBetriebszustandBZ(cZWANGSZUORDNUNG)){
+               if(0x00 == GETucPermutationStateFromNvmEE(self)){
+                  PUTTyreSelectionBckgrdEE(self, FALSE);
+               }
+            }
+         }
+         else{
+            CheckTyreChangedDM(self);
+         }
       }
-
-      SwitchUnspecificToSpecificErrorsWUM( self);
-
-      PUTucLastPosChangedInformationToNvmMirrorEE( self, ucGetIdChangedBitsZK() | ucGetWpChangedBitsZK());
-      PUTLastLocStateEE( self, ushGetBetriebszustandBZ(cBZ_ALLE_BITS));
-
-      SetStWheelTypeChangedAtLocDM(ucGetIdChangedBitsZK(), ucGetWpChangedBitsZK());
-
-      SaveRidDataAndCompareRID( self);
-
-      i = GETTyreSelectionBckgrdEE( self);
-      i |= GETTyreSelectionActiveEE( self);
-
-      if(i == TRUE)
-      {
-        SetSolldruckDM( self, GETSelectedLoadStateEE( self), GETSelectedTyreIndexEE( self));
-        (void) ZoPlausiInitPressINIT( self, bGetBitBetriebszustandBZ(cZUGEORDNET), GETSelectedTyreIndexEE( self));
-
-        (void) SaveCalibrationEventDS( self);
-        PUTTyreSelectionActiveEE( self, FALSE);
-
-        if(bGetBitBetriebszustandBZ(cZWANGSZUORDNUNG) == FALSE)
-        {
-          if(GETucPermutationStateFromNvmEE(self) == 0x00)
-          {
-            PUTTyreSelectionBckgrdEE(self, FALSE);
-          }
-        }
+   }
+   else if(FALSE == (bGetBitBetriebszustandBZ(cER_FINISH)) && (cWAStateER == (ucWAState & cWAStateER))){
+      SetBitBetriebszustandBZ(cEIGENRAD);
+      SetBitBetriebszustandBZ(cER_FINISH);
+      SetAutoLearnErrorStatusWUM(self, cAUTOLEARN_SUCCESSFUL);
+      if(TRUE == bGetBitBetriebszustandBZ(cTEILEIGENRAD)){
+         ClearHistoryWPs(self);
+         SwitchSpecificToUnspecificErrorsWUM(self);
+         for(i=0; i<cMaxLR; i++){
+            ClearMuteWUM(self, i, i);
+         }
+         ClearBitBetriebszustandBZ(cTEILEIGENRAD);
       }
-
-      else
-      {
-        CheckTyreChangedDM( self);
+      bErAndZoAtOnce = FALSE;
+      (void) NewPositionsUSWIF(self);
+      (void) ucCfgPSollMinUSWIF(self);
+      if((ucWAState & 0xf0u) > 0){
+         SetHistoryChangeBitsDM(self);
+         ResetWUM(self, ucGetIdChangedBitsZK(), cWithLowBat, cWithoutWuRelatedDtcs);
+         DeleteRidDataOfHisColRID(self, 0x0F);
+         if(ucNrOfBitSet8(ucGetIdChangedBitsZK()) > 1){
+            ClearBitBetriebszustandBZ(cZUGEORDNET);
+            SwitchSpecificToUnspecificErrorsWUM(self);
+            (void)ucSetPminFzgAsSetPressureUSWIF(self);
+         }
+         CopyPressAndTempFromZOMDM(self);
       }
-    }
-  }
-
-  else if((bGetBitBetriebszustandBZ(cER_FINISH) == FALSE) && ((ucWAState & cWAStateER) == cWAStateER))
-	{
-		SetBitBetriebszustandBZ(cEIGENRAD);
-    SetBitBetriebszustandBZ(cER_FINISH);
-    SetAutoLearnErrorStatusWUM( self, cAUTOLEARN_SUCCESSFUL);
-
-    if(bGetBitBetriebszustandBZ(cTEILEIGENRAD) == TRUE)
-    {
-      ClearHistoryWPs( self);
-      SwitchSpecificToUnspecificErrorsWUM( self);
-      for (i=0; i<cMaxLR; i++)
-      {
-        ClearMuteWUM( self, i, i);
+      PUTucLastPosChangedInformationToNvmMirrorEE(self, ucGetIdChangedBitsZK());
+      PUTLastLocStateEE(self, ushGetBetriebszustandBZ(cBZ_ALLE_BITS));
+      if(TRUE == GETTyreSelectionActiveEE(self)){
+         (void) ErPlausiInitPressINIT(self, bGetBitBetriebszustandBZ(cEIGENRAD), TRUE);
       }
-      ClearBitBetriebszustandBZ(cTEILEIGENRAD);
-    }
-
-    bErAndZoAtOnce = FALSE;
-
-    (void) NewPositionsUSWIF( self);
-    (void) ucCfgPSollMinUSWIF( self);
-
-    if((ucWAState & 0xf0u) > 0)
-    {
-      SetHistoryChangeBitsDM( self);
-      ResetWUM( self, ucGetIdChangedBitsZK(), cWithLowBat, cWithoutWuRelatedDtcs);
-      DeleteRidDataOfHisColRID( self, 0x0F);
-
-      if(ucNrOfBitSet8(ucGetIdChangedBitsZK()) > 1)
-      {
-        ClearBitBetriebszustandBZ(cZUGEORDNET);
-        SwitchSpecificToUnspecificErrorsWUM( self);
-
-        (void)ucSetPminFzgAsSetPressureUSWIF( self);
+      else{
+         if(FALSE == GETTyreSelectionBckgrdEE(self)){
+            CheckTyreChangedDM(self);
+         }
+         else{
+            ReStorePinitTinitDM(self);
+         }
       }
-
-      CopyPressAndTempFromZOMDM( self);
-    }
-
-    PUTucLastPosChangedInformationToNvmMirrorEE( self, ucGetIdChangedBitsZK());
-    PUTLastLocStateEE( self, ushGetBetriebszustandBZ(cBZ_ALLE_BITS));
-
-    if(GETTyreSelectionActiveEE( self) == TRUE)
-    {
-      (void) ErPlausiInitPressINIT( self, bGetBitBetriebszustandBZ(cEIGENRAD), TRUE);
-    }
-    else
-    {
-      if(GETTyreSelectionBckgrdEE( self) == FALSE)
-      {
-        CheckTyreChangedDM( self);
-      }else{
-        ReStorePinitTinitDM( self);
+   }
+   else{
+   }
+   if(TRUE == bGetBitBetriebszustandBZ(cER_FINISH)){
+      if(FALSE == bGetLocalisationPossibilityWUM()){
+         SetBitBetriebszustandBZ(cLOC_NOT_POSSIBLE);
+         ClearHistoryWPs(self);
+         ClearBitBetriebszustandBZ(cZUGEORDNET);
+         SwitchSpecificToUnspecificErrorsWUM(self);
+         SetWheelUnitErrorWUM(self, cAllocWuLocalisationFailed);
+         PUTLastLocStateEE(self, ushGetBetriebszustandBZ(cBZ_ALLE_BITS));
+         if(TRUE == GETTyreSelectionActiveEE(self)){
+            (void)SaveCalibrationEventDS(self);
+            PUTTyreSelectionActiveEE(self, FALSE);
+         }
       }
-    }
-  }
-  else {}
-
-  if(bGetBitBetriebszustandBZ(cER_FINISH) == TRUE)
-  {
-    if(bGetLocalisationPossibilityWUM() == FALSE)
-    {
-      SetBitBetriebszustandBZ(cLOC_NOT_POSSIBLE);
-      ClearHistoryWPs( self);
-      ClearBitBetriebszustandBZ(cZUGEORDNET);
-      SwitchSpecificToUnspecificErrorsWUM( self);
-      SetWheelUnitErrorWUM( self, cAllocWuLocalisationFailed);
-      PUTLastLocStateEE( self, ushGetBetriebszustandBZ(cBZ_ALLE_BITS));
-      if( GETTyreSelectionActiveEE( self) == TRUE)
-      {
-        (void)SaveCalibrationEventDS( self);
-        PUTTyreSelectionActiveEE( self, FALSE);
+      else if(cWAStateBreak == (ucWAState & cWAStateBreak)){
+         SetBitBetriebszustandBZ(cLOC_INTERRUPTED);
+         SaveRidDataAndCompareRID(self);
+         if(TRUE == GETTyreSelectionActiveEE(self)){
+            SetSolldruckDM(self, GETSelectedLoadStateEE(self), GETSelectedTyreIndexEE(self));
+            (void) ZoPlausiInitPressINIT(self, bGetBitBetriebszustandBZ(cZUGEORDNET), GETSelectedTyreIndexEE(self));
+            (void)NewPositionsUSWIF(self);
+            (void)ucCfgPSollMinUSWIF(self);
+            (void)SaveCalibrationEventDS(self);
+            PUTTyreSelectionActiveEE(self, FALSE);
+         }
       }
-    }
-
-    else if((ucWAState & cWAStateBreak) == cWAStateBreak)
-    {
-      SetBitBetriebszustandBZ(cLOC_INTERRUPTED);
-      SaveRidDataAndCompareRID( self);
-      if(GETTyreSelectionActiveEE( self) == TRUE)
-      {
-        SetSolldruckDM( self, GETSelectedLoadStateEE( self), GETSelectedTyreIndexEE( self));
-        (void) ZoPlausiInitPressINIT( self, bGetBitBetriebszustandBZ(cZUGEORDNET), GETSelectedTyreIndexEE( self));
-
-        (void)NewPositionsUSWIF( self);
-        (void)ucCfgPSollMinUSWIF( self);
-        (void)SaveCalibrationEventDS( self);
-        PUTTyreSelectionActiveEE( self, FALSE);
+      else{
+         if(TRUE == GETTyreSelectionActiveEE(self)){
+            ProcessCalOnErFinishWAM();
+            if(cCalOnErFinishTriggerPlausi == ucCalOnErFinish){
+               (void) ErPlausiInitPressINIT(self, bGetBitBetriebszustandBZ(cEIGENRAD), TRUE);
+               ucCalOnErFinish = cCalOnErFinishIsInactive;
+            }
+         }
       }
-    }
-
-    else
-    {
-
-      if(GETTyreSelectionActiveEE( self) == TRUE)
-      {
-        ProcessCalOnErFinishWAM();
-        if(ucCalOnErFinish == cCalOnErFinishTriggerPlausi)
-        {
-          (void) ErPlausiInitPressINIT( self, bGetBitBetriebszustandBZ(cEIGENRAD), TRUE);
-          ucCalOnErFinish = cCalOnErFinishIsInactive;
-        }
-      }
-    }
-  }
+   }
 }
 
-void WatoTickWAM( Rte_Instance self)
-{
-  uint8 ucWaErrorCode;
-  uint8 ucOpenWheelPositions = 0;
+void WatoTickWAM(Rte_Instance self){
+   uint8 ucWaErrorCode;
+   uint8 ucOpenWheelPositions = 0;
+   if(TRUE == bLearningWheelPosActiveWAM(cFAHRZEUG_LERNT)){
+      TickAbsoluteLearnTimerWAL();
+      TickSingleRELearnTimerWAL();
+   }
+   switch(ucWatoState){
+      case WATO_STATE_HALT:
+         if(TRUE == bLearningWheelPosActiveWAM(cRS_VTHRES)){
+            ucWatoState = WATO_STATE_RUN;
+         }
+         break;
 
-  if(bLearningWheelPosActiveWAM(cFAHRZEUG_LERNT) == TRUE)
-  {
-    TickAbsoluteLearnTimerWAL();
-    TickSingleRELearnTimerWAL();
-  }
+      case WATO_STATE_RUN:
+         if(FALSE == bLearningWheelPosActiveWAM(cRS_VTHRES)){
+            ucWatoState = WATO_STATE_HALT;
+         }
+         break;
 
-  switch (ucWatoState)
-  {
-
-    case WATO_STATE_HALT:
-    if(bLearningWheelPosActiveWAM(cRS_VTHRES) == TRUE)
-    {
-      ucWatoState = WATO_STATE_RUN;
-    }
-    break;
-
-    case WATO_STATE_RUN:
-    if(bLearningWheelPosActiveWAM(cRS_VTHRES) == FALSE)
-    {
-      ucWatoState = WATO_STATE_HALT;
-    }
-    break;
-
-    case WATO_STATE_STOP:
-    default:
-    return;
-    break;
-
-  }
-
-  if(ucWatoState == WATO_STATE_RUN)
-  {
-    ucWatoTimeoutValue--;
-    PUTWatoEE( self, ucWatoTimeoutValue);
-    PutWATOTimeWAL(ucWatoTimeoutValue);
-
-    if(ucWatoTimeoutValue == 0)
-    {
-      ucWatoState = WATO_STATE_STOP;
-
-      ucWaErrorCode = ucWATO( self, &ucOpenWheelPositions);
-
-      if(ucWaErrorCode > 0)
-      {
-        SetBitBetriebszustandBZ(cZO_TIMEOUT);
-
-        if((ucWaErrorCode & 0x01) == 0x01)
-        {
-          SetAutoLearnErrorStatusWUM( self, cAUTOLEARN_FAILED);
-
-          if((ucWaErrorCode & 0x08) == 0x08)
-          {
-            if(ucOpenWheelPositions > 0)
-            {
-
-              SetHistoryChangeBitsDM( self);
-              ResetWUM( self, ucGetIdChangedBitsZK(), cWithLowBat, cWithoutWuRelatedDtcs);
-              ClearWheelUnitErrorWUM( self, cAllocUnspecifiedWuMute);
-
-              if((ucOpenWheelPositions & 0x01) == 0x01)
-              {
-                SetWheelUnitErrorWUM( self, cAllocWuMuteFl);
-              }
-              if((ucOpenWheelPositions & 0x02) == 0x02)
-              {
-                SetWheelUnitErrorWUM( self, cAllocWuMuteFr);
-              }
-              if((ucOpenWheelPositions & 0x04) == 0x04)
-              {
-                SetWheelUnitErrorWUM( self, cAllocWuMuteRl);
-              }
-              if((ucOpenWheelPositions & 0x08) == 0x08)
-              {
-                SetWheelUnitErrorWUM( self, cAllocWuMuteRr);
-              }
-
-              ClearBitBetriebszustandBZ(cZUGEORDNET);
-              SetBitBetriebszustandBZ(cTEILEIGENRAD);
+      case WATO_STATE_STOP:
+      default:
+         return;
+         break;
+   }
+   if(WATO_STATE_RUN == ucWatoState){
+      ucWatoTimeoutValue--;
+      PUTWatoEE(self, ucWatoTimeoutValue);
+      PutWATOTimeWAL(ucWatoTimeoutValue);
+      if(0 == ucWatoTimeoutValue){
+         ucWatoState = WATO_STATE_STOP;
+         ucWaErrorCode = ucWATO(self, &ucOpenWheelPositions);
+         if(ucWaErrorCode > 0){
+            SetBitBetriebszustandBZ(cZO_TIMEOUT);
+            if(0x01 == (ucWaErrorCode & 0x01)){
+               SetAutoLearnErrorStatusWUM(self, cAUTOLEARN_FAILED);
+               if(0x08 == (ucWaErrorCode & 0x08)){
+                  if(ucOpenWheelPositions > 0){
+                     SetHistoryChangeBitsDM(self);
+                     ResetWUM(self, ucGetIdChangedBitsZK(), cWithLowBat, cWithoutWuRelatedDtcs);
+                     ClearWheelUnitErrorWUM(self, cAllocUnspecifiedWuMute);
+                     if(0x01 == (ucOpenWheelPositions & 0x01)){SetWheelUnitErrorWUM(self, cAllocWuMuteFl);}
+                     if(0x02 == (ucOpenWheelPositions & 0x02)){SetWheelUnitErrorWUM(self, cAllocWuMuteFr);}
+                     if(0x04 == (ucOpenWheelPositions & 0x04)){SetWheelUnitErrorWUM(self, cAllocWuMuteRl);}
+                     if(0x08 == (ucOpenWheelPositions & 0x08)){SetWheelUnitErrorWUM(self, cAllocWuMuteRr);}
+                     ClearBitBetriebszustandBZ(cZUGEORDNET);
+                     SetBitBetriebszustandBZ(cTEILEIGENRAD);
+                  }
+               }
+               else if(0x10 == (ucWaErrorCode & 0x10)){
+               }
+               else if(0x04 == (ucWaErrorCode & 0x04)){
+                  SetBitBetriebszustandBZ(cTOO_MUCH_RE);
+               }
+               else{
+               }
             }
-          }
-
-          else if((ucWaErrorCode & 0x10) == 0x10)
-          {
-          }
-
-          else if((ucWaErrorCode & 0x04) == 0x04)
-          {
-            SetBitBetriebszustandBZ(cTOO_MUCH_RE);
-          }
-
-          else
-          {  }
-        }
-
-        else if((ucWaErrorCode & 0x02) == 0x02)
-        {
-
-          if((ucGetHistoryState() & (cHiStateZG | cHiStateER)) != (cHiStateZG | cHiStateER))
-          {
-            SetWheelUnitErrorWUM( self, cAllocWuLocalisationFailed);
-          }
-
-          else
-          {
-            if(ucSetAutolocErrorStatusWUM( self, cAUTOLOC_FAILED) < cXCLOC_FALSE)
-            {
+            else if(0x02 == (ucWaErrorCode & 0x02)){
+               if((ucGetHistoryState() & (cHiStateZG | cHiStateER)) != (cHiStateZG | cHiStateER)){
+                  SetWheelUnitErrorWUM(self, cAllocWuLocalisationFailed);
+               }
+               else{
+                  if(ucSetAutolocErrorStatusWUM(self, cAUTOLOC_FAILED) < cXCLOC_FALSE){
+                  }
+                  else{
+                     ClearHistoryWPs(self);
+                     ClearBitBetriebszustandBZ(cZUGEORDNET);
+                     SwitchSpecificToUnspecificErrorsWUM(self);
+                  }
+               }
             }
-            else
-            {
-
-              ClearHistoryWPs( self);
-              ClearBitBetriebszustandBZ(cZUGEORDNET);
-              SwitchSpecificToUnspecificErrorsWUM( self);
+            else{
             }
-          }
-        }
-
-        else {  }
-
-        PUTLastLocStateEE( self, ushGetBetriebszustandBZ(cBZ_ALLE_BITS));
-
-        SaveRidDataAndCompareRID( self);
-
-        if(GETTyreSelectionActiveEE( self) == TRUE)
-        {
-          SetSolldruckDM( self, GETSelectedLoadStateEE( self), GETSelectedTyreIndexEE( self));
-          (void) ErPlausiInitPressINIT( self, bGetBitBetriebszustandBZ(cEIGENRAD), TRUE);
-          (void) ZoPlausiInitPressINIT( self, bGetBitBetriebszustandBZ(cZUGEORDNET), GETSelectedTyreIndexEE( self));
-
-          (void)SaveCalibrationEventDS( self);
-          PUTTyreSelectionActiveEE( self, FALSE);
-        }
+            PUTLastLocStateEE(self, ushGetBetriebszustandBZ(cBZ_ALLE_BITS));
+            SaveRidDataAndCompareRID(self);
+            if(TRUE == GETTyreSelectionActiveEE(self)){
+               SetSolldruckDM(self, GETSelectedLoadStateEE(self), GETSelectedTyreIndexEE(self));
+               (void) ErPlausiInitPressINIT(self, bGetBitBetriebszustandBZ(cEIGENRAD), TRUE);
+               (void) ZoPlausiInitPressINIT(self, bGetBitBetriebszustandBZ(cZUGEORDNET), GETSelectedTyreIndexEE(self));
+               (void)SaveCalibrationEventDS(self);
+               PUTTyreSelectionActiveEE(self, FALSE);
+            }
+         }
+         else{
+            SetBitBetriebszustandBZ(cZWANGSZUORDNUNG);
+            SetLearnStateWAM(self, ucGetWAState());
+         }
       }
-
-      else
-      {
-        SetBitBetriebszustandBZ(cZWANGSZUORDNUNG);
-        SetLearnStateWAM( self, ucGetWAState());
-      }
-    }
-  }
+   }
 }
 
-void WatoRunWAM( Rte_Instance self, boolean bRestart)
+void WatoRunWAM(Rte_Instance self, boolean bRestart)
 {
   if(bRestart == cWatoRestart)
   {
     ucWatoTimeoutValue = ucDefWATOTime;
-    PUTWatoEE( self, ucWatoTimeoutValue);
+    PUTWatoEE(self, ucWatoTimeoutValue);
     PutWATOTimeWAL(ucWatoTimeoutValue);
   }
   else
   {
-    ucWatoTimeoutValue = GETWatoEE( self);
+    ucWatoTimeoutValue = GETWatoEE(self);
     PutWATOTimeWAL(ucWatoTimeoutValue);
   }
 
@@ -728,9 +613,9 @@ void WatoStopWAM(void)
   ucWatoState = WATO_STATE_STOP;
 }
 
-void StartLearnLocateWAM( Rte_Instance self)
+void StartLearnLocateWAM(Rte_Instance self)
 {
-  PUTLastLocStateEE( self, 0);
+  PUTLastLocStateEE(self, 0);
   ClearBitBetriebszustandBZ(cER_FINISH | cZO_FINISH);
 
   ClearBitBetriebszustandBZ(cTOO_MUCH_RE | cZO_TIMEOUT | cLOC_NOT_POSSIBLE | cZWANGSZUORDNUNG | cLOC_INTERRUPTED);
@@ -739,29 +624,29 @@ void StartLearnLocateWAM( Rte_Instance self)
   ClearIdChangedBitsZK();
   ClearWpChangedBitsZK();
 
-  (void)InitWAL( self, cRestartLearnLocate);
+  (void)InitWAL(self, cRestartLearnLocate);
   SetAllocMinDeltaValueFPA(ucGetCRdciLearnLocateConfigCD(0));
   SetAllocAbsoluteMinValueFPA(ucGetCRdciLearnLocateConfigCD(1));
-  WatoRunWAM( self, cWatoRestart);
+  WatoRunWAM(self, cWatoRestart);
 
   ucCalOnErFinish = cCalOnErFinishIsInactive;
 }
 
-void ContinueLocateWAM( Rte_Instance self)
+void ContinueLocateWAM(Rte_Instance self)
 {
   SetbackLocateProbeCountersWAL();
   ClearReDriveModeStateWAL();
   ClearBitBetriebszustandBZ(cLOC_INTERRUPTED);
-  WatoRunWAM( self, cWatoRestart);
+  WatoRunWAM(self, cWatoRestart);
   StartCalOnErFinishWAM();
 }
 
-void ContinueLearnWAM( Rte_Instance self)
+void ContinueLearnWAM(Rte_Instance self)
 {
   SetbackLearnProbeCountersWAL();
   ClearReDriveModeStateWAL();
   ClearBitBetriebszustandBZ(cLOC_INTERRUPTED);
-  WatoRunWAM( self, cWatoRestart);
+  WatoRunWAM(self, cWatoRestart);
 }
 
 uint16 ushGetWatoTimeoutValueWAM(void)
@@ -796,10 +681,10 @@ static void ProcessCalOnErFinishWAM(void)
   }
 }
 
-boolean bAllocationIsActive( Rte_Instance self)
+boolean bAllocationIsActive(Rte_Instance self)
 {
   boolean bRetVal = FALSE;
-  if(GETLastLocStateEE( self) == (cZO_FINISH | cER_FINISH))
+  if(GETLastLocStateEE(self) == (cZO_FINISH | cER_FINISH))
   {
     bRetVal = FALSE;
   }

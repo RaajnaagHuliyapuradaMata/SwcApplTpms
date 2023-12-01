@@ -56,7 +56,7 @@ extern void SetMaxTyreTablePos( const uint8 ucVal);
 extern uint8 GetTyreListMember( uint8 Element, uint8 Member);
 extern void SetTyreListMember( const uint8 Element, const uint8 Member, const uint8 Value);
 extern void SetDiagTyreListMember( const uint8 Element, const uint8 Member, const uint8 Value);
-extern uint8 CopyDiagTyreListToTyreList( Rte_Instance self);
+extern uint8 CopyDiagTyreListToTyreList(Rte_Instance self);
 extern boolean CheckTyreListConsistency( uint8 NofE, uint8 MaxIndex);
 extern boolean CalcDiagTyreListCrcAndCompare( const uint8* Data);
 

@@ -23,7 +23,7 @@ extern "C"
 #define cucRetValServiceNotStopedDS   ((uint8) 0xF0)
 #define cucRetValErrorDS              ((uint8) 0xFF)
 
-extern uint8 ucPutSteuernDigitalRdcDS( Rte_Instance self, uint8 ucFunctionNo, uint8 ucActionNo);
+extern uint8 ucPutSteuernDigitalRdcDS(Rte_Instance self, uint8 ucFunctionNo, uint8 ucActionNo);
 
 #ifdef __cplusplus
 }

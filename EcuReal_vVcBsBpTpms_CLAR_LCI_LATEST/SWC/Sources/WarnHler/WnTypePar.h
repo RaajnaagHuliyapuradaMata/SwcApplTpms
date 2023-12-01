@@ -154,7 +154,7 @@ extern void   ClearWarnBitWN( uint8 ucIdX, uint8 ucWarnTypeIx);
 extern void   ClearWarnAttrBitWN( uint8 ucIdX, uint8 ucWarnTypeIx, uint8 ucWarnAttr);
 extern uint8  ucSetWarnBitWN( uint8 ucIdX, uint8 ucWarnTypeIx, uint8 ucWtAttr);
 extern uint8  ucGetPTolWN( uint8 ucPenv, uint8 ucPre, sint8 scTre);
-extern void   PutWarnBitsToNvmWN( Rte_Instance self);
+extern void   PutWarnBitsToNvmWN(Rte_Instance self);
 
 extern uint8  ucPfT( uint16 ushM, sint8 scT, uint8 ucPamb);
 extern uint16 ushMIso( uint8 ucP, sint8 scT, uint8 ucPamb);
@@ -168,23 +168,23 @@ extern uint8  bWT_DHW( tLocalWarnDat* ptLWD, uint8 ucWarnCfg, uint8 ucWtIx);
 extern uint8  bWT_FT( tLocalWarnDat* ptLWD, uint8 ucWarnCfg, uint8 ucWtIx);
 
 extern void   ResetPresRefDHW( uint8 ucIdx);
-extern void   TimerInitDHW( Rte_Instance self);
-extern void   TimerCountDHW( Rte_Instance self);
+extern void   TimerInitDHW(Rte_Instance self);
+extern void   TimerCountDHW(Rte_Instance self);
 extern void   TimerStopAllDHW(void);
 extern void   GetTimerValDHW( uint8 ucZomPos, uint8* pucRefPres, uint8* pucLastPres, uint16* pushTimCnt, uint16* pushTimCountLatch);
 
-extern void   TimerInitPVORW( Rte_Instance self);
-extern void   TimerCountPVORW( Rte_Instance self);
+extern void   TimerInitPVORW(Rte_Instance self);
+extern void   TimerCountPVORW(Rte_Instance self);
 extern void   TimerStopAllPVORW(void);
 extern void   GetTimerValPVORW( uint8 ucZomPos, uint8* ucTimState, uint16* ushTimCnt);
 
-extern void   TimerInitPWARN( Rte_Instance self);
-extern void   TimerCountPWARN( Rte_Instance self);
+extern void   TimerInitPWARN(Rte_Instance self);
+extern void   TimerCountPWARN(Rte_Instance self);
 extern void   TimerStopAllPWARN(void);
 extern void   GetTimerValPWARN( uint8 ucZomPos, uint8* ucTimState, uint16* ushTimCnt);
 
-extern void   TimerInitPWARNTOL( Rte_Instance self);
-extern void   TimerCountPWARNTOL( Rte_Instance self);
+extern void   TimerInitPWARNTOL(Rte_Instance self);
+extern void   TimerCountPWARNTOL(Rte_Instance self);
 extern void   TimerStopAllPWARNTOL(void);
 extern void   GetTimerValPWARNTOL( uint8 ucZomPos, uint8* ucTimState, uint16* ushTimCnt);
 

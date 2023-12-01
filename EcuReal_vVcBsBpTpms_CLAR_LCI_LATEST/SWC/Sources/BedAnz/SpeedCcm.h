@@ -10,7 +10,7 @@ extern "C"
 
 #include "SpeedCcmX.h"
 
-static void     CalculatePressThSCC( Rte_Instance self);
+static void     CalculatePressThSCC(Rte_Instance self);
 static boolean  bIsPressureTooLowSCC(void);
 static boolean  bIsSpeedTooHighSCC(void);
 

@@ -25,7 +25,7 @@ extern "C"
 #define cucIxStatRadelektronikSendemode           ((uint8) 22)
 #define cucIxStatTelegrammtyp                     ((uint8) 23)
 
-extern void GetStatusRdcMessdatenblockDS( Rte_Instance self, uint8 ucBlockNo, uint8* pucData);
+extern void GetStatusRdcMessdatenblockDS(Rte_Instance self, uint8 ucBlockNo, uint8* pucData);
 
 #ifdef __cplusplus
 }

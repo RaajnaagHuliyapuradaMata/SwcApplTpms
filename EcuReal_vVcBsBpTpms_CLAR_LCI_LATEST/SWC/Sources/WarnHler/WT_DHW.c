@@ -98,15 +98,15 @@ static void TimerStopDHW( uint8 ucIdX){
   ushTimerCountLatchDHW[ucIdX] = ushTimerInitValDHWc;
 }
 
-void TimerInitDHW( Rte_Instance self){
+void TimerInitDHW(Rte_Instance self){
   uint8 ucLoop;
   for ( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
     TimerStopDHW( ucLoop);
   }
-  PutWarnBitsToNvmWN( self);
+  PutWarnBitsToNvmWN(self);
 }
 
-void TimerCountDHW( Rte_Instance self){
+void TimerCountDHW(Rte_Instance self){
   uint8 ucLoop;
   for ( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
     if( ushTimerCountDHW[ucLoop] == ushTimerInitValDHWc){
@@ -154,7 +154,7 @@ void TimerCountDHW( Rte_Instance self){
       ushTimerCountDHW[ucLoop]--;
     }
   }
-  PutWarnBitsToNvmWN( self);
+  PutWarnBitsToNvmWN(self);
 }
 
 void GetTimerValDHW( uint8 ucZomPos, uint8* pucRefPres, uint8* pucLastPres, uint16* pushTimCnt, uint16* pushTimCountLatch){

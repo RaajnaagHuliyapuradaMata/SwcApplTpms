@@ -78,18 +78,18 @@ void InitCCM(void)
   }
 }
 
-void MainFunctionCCM( Rte_Instance self)
+void MainFunctionCCM(Rte_Instance self)
 {
   uint8 ucLoop;
   uint8 ucFklAct;
   ucCcIxMalfunction         = ucGetMalfunctionCCM();
   ucCcIxInterference        = ucGetInterferenceCCM();
-  ucCcIxFlatTire            = ucGetFlatTireCCM( self);
-  ucCcIxLernphase           = ucGetLernphaseCCM( self);
+  ucCcIxFlatTire            = ucGetFlatTireCCM(self);
+  ucCcIxLernphase           = ucGetLernphaseCCM(self);
   ucCcIxBefuellhinweis      = ucGetBefuellhinweisCCM();
-  ucCcIxPlausiCheck         = ucGetPlausiCheckCCM( self);
-  ucCcIxReifenwechsel       = ucGetReifenwechselCCM( self);
-  ucCcIxAutoSelFailed       = ucGetAutoSelFailedCCM( self);
+  ucCcIxPlausiCheck         = ucGetPlausiCheckCCM(self);
+  ucCcIxReifenwechsel       = ucGetReifenwechselCCM(self);
+  ucCcIxAutoSelFailed       = ucGetAutoSelFailedCCM(self);
   ucCcIxSpeedCcm2158        = ucGetSpeedCcm2158CCM();
   ucCcIxSpeedCcm2159        = ucGetSpeedCcm2159CCM();
 
@@ -256,7 +256,7 @@ static uint8 ucGetInterferenceCCM(void)
   return ucRet;
 }
 
-static uint8  ucGetFlatTireCCM( Rte_Instance self)
+static uint8  ucGetFlatTireCCM(Rte_Instance self)
 {
   uint8 ucRet;
   uint8 ucLoop;
@@ -298,7 +298,7 @@ static uint8  ucGetFlatTireCCM( Rte_Instance self)
               if( ucLoop == cRadPosVL)
               {
 
-                if(GetReliableRSCInfoRID( self, cRadPosVL, &bRSCInfo) == TRUE)
+                if(GetReliableRSCInfoRID(self, cRadPosVL, &bRSCInfo) == TRUE)
                 {
                   if(bRSCInfo == TRUE)
                   {
@@ -313,7 +313,7 @@ static uint8  ucGetFlatTireCCM( Rte_Instance self)
                 }
               }else if( ucLoop == cRadPosVR)
               {
-                if(GetReliableRSCInfoRID( self, cRadPosVR, &bRSCInfo) == TRUE)
+                if(GetReliableRSCInfoRID(self, cRadPosVR, &bRSCInfo) == TRUE)
                 {
                   if(bRSCInfo == TRUE)
                   {
@@ -328,7 +328,7 @@ static uint8  ucGetFlatTireCCM( Rte_Instance self)
                 }
               }else if( ucLoop == cRadPosHL)
               {
-                if(GetReliableRSCInfoRID( self, cRadPosHL, &bRSCInfo) == TRUE)
+                if(GetReliableRSCInfoRID(self, cRadPosHL, &bRSCInfo) == TRUE)
                 {
                   if(bRSCInfo == TRUE)
                   {
@@ -343,7 +343,7 @@ static uint8  ucGetFlatTireCCM( Rte_Instance self)
                 }
               }else{
 
-                if(GetReliableRSCInfoRID( self, cRadPosHR, &bRSCInfo) == TRUE)
+                if(GetReliableRSCInfoRID(self, cRadPosHR, &bRSCInfo) == TRUE)
                 {
                   if(bRSCInfo == TRUE)
                   {
@@ -362,7 +362,7 @@ static uint8  ucGetFlatTireCCM( Rte_Instance self)
         }else if( bGetBitBetriebszustandBZ( cEIGENRAD) == TRUE)
         {
 
-          if(GetReliableRSCInfoRID( self, cRadPosUndef, &bRSCInfo) == TRUE)
+          if(GetReliableRSCInfoRID(self, cRadPosUndef, &bRSCInfo) == TRUE)
           {
              if(bRSCInfo == TRUE)
              {
@@ -383,7 +383,7 @@ static uint8  ucGetFlatTireCCM( Rte_Instance self)
         }
       }else{
 
-        if(GetReliableRSCInfoRID( self, cRadPosUndef, &bRSCInfo) == TRUE)
+        if(GetReliableRSCInfoRID(self, cRadPosUndef, &bRSCInfo) == TRUE)
         {
           if(bRSCInfo == TRUE)
           {
@@ -397,7 +397,7 @@ static uint8  ucGetFlatTireCCM( Rte_Instance self)
       }
     }else{
 
-      if(GetReliableRSCInfoRID( self, cRadPosUndef, &bRSCInfo) == TRUE)
+      if(GetReliableRSCInfoRID(self, cRadPosUndef, &bRSCInfo) == TRUE)
       {
         if(bRSCInfo == TRUE)
         {
@@ -432,11 +432,11 @@ static uint8  ucGetFlatTireCCM( Rte_Instance self)
   return ucRet;
 }
 
-static uint8 ucGetLernphaseCCM( Rte_Instance self)
+static uint8 ucGetLernphaseCCM(Rte_Instance self)
 {
   uint8 ucRet = cCcIX_Invalid;
 
-  if(GETucStatusbarEE( self) < 100)
+  if(GETucStatusbarEE(self) < 100)
   {
 
     ucRet = cCcIX_Lernphase;
@@ -445,11 +445,11 @@ static uint8 ucGetLernphaseCCM( Rte_Instance self)
   return ucRet;
 }
 
-static uint8 ucGetReifenwechselCCM( Rte_Instance self)
+static uint8 ucGetReifenwechselCCM(Rte_Instance self)
 {
   uint8 ucRet = cCcIX_Invalid;
 
-  if( GETTyreChangedEE( self) == TRUE)
+  if( GETTyreChangedEE(self) == TRUE)
   {
     if( bGetCRdciDispResetCD() == TRUE)
     {
@@ -461,11 +461,11 @@ static uint8 ucGetReifenwechselCCM( Rte_Instance self)
   return ucRet;
 }
 
-static uint8 ucGetAutoSelFailedCCM( Rte_Instance self)
+static uint8 ucGetAutoSelFailedCCM(Rte_Instance self)
 {
   uint8 ucRet = cCcIX_Invalid;
 
-  if( GETAutomaticSelectionFailedStatusEE( self) == TRUE)
+  if( GETAutomaticSelectionFailedStatusEE(self) == TRUE)
   {
     if( bGetCRdciErfsEnableCD() == TRUE)
     {
@@ -489,11 +489,11 @@ static uint8 ucGetBefuellhinweisCCM(void)
   return ucRet;
 }
 
-static uint8 ucGetPlausiCheckCCM( Rte_Instance self)
+static uint8 ucGetPlausiCheckCCM(Rte_Instance self)
 {
   uint8 ucRet = cCcIX_Invalid;
 
-  if( GETPlausiInitErrorEE( self) == TRUE)
+  if( GETPlausiInitErrorEE(self) == TRUE)
   {
     if( bGetCRdciResetPlausiCD() == TRUE)
     {

@@ -73,19 +73,19 @@ static uint8 ucQuTpl;
 static uint8 ucQuTfai;
 static uint8 ucDispConfTime = FALSE;
 static uint8 ucStChangeTime = FALSE;
-static boolean bSuppressDisplayOfPTValuesITY( Rte_Instance self);
+static boolean bSuppressDisplayOfPTValuesITY(Rte_Instance self);
 static uint16  ushGetConvertedPressureValueITY( uint16 ushPressureValue, tPressureUnitType eTo, boolean bRoundMode);
 static uint16  ushGetConvertedTemperatureValueITY( sint16 sshTemperatureValue, tTemperatureUnitType eFrom, tTemperatureUnitType eTo);
-static void SetQuFnTyrInfoITY( Rte_Instance self);
+static void SetQuFnTyrInfoITY(Rte_Instance self);
 static void SetQuTplITY(void);
-static void SetQuTfaiITY( Rte_Instance self);
+static void SetQuTfaiITY(Rte_Instance self);
 static void GetPinitTinitITY( uint16* pushPfl, uint16* pushPfr, uint16* pushPrl, uint16* pushPrr);
-static void CorrectFilteredTaITY( Rte_Instance self);
-static uint8 ucCoolingTyreMonitoringITY( Rte_Instance self, uint16* pushElapsedCoolingTime);
-static void InitAvlPTyreCoolingDownDataITY( Rte_Instance self, uint8 ucHistSlot, uint8 ucState);
-static void InitTarPTyreCoolingDownDataITY( Rte_Instance self, uint8 ucHistSlot, uint8 ucState);
-static void SetAvlPTyreCoolingDataITY( Rte_Instance self, uint8 ucHistSlot, uint8 ucActionState);
-static void SetTarPTyreCoolingDataITY( Rte_Instance self, uint8 ucHistSlot, uint8 ucActionState);
+static void CorrectFilteredTaITY(Rte_Instance self);
+static uint8 ucCoolingTyreMonitoringITY(Rte_Instance self, uint16* pushElapsedCoolingTime);
+static void InitAvlPTyreCoolingDownDataITY(Rte_Instance self, uint8 ucHistSlot, uint8 ucState);
+static void InitTarPTyreCoolingDownDataITY(Rte_Instance self, uint8 ucHistSlot, uint8 ucState);
+static void SetAvlPTyreCoolingDataITY(Rte_Instance self, uint8 ucHistSlot, uint8 ucActionState);
+static void SetTarPTyreCoolingDataITY(Rte_Instance self, uint8 ucHistSlot, uint8 ucActionState);
 static void CalcCoolingDownDataITY( uint16 ushElapsedCoolingTime);
 #endif
 

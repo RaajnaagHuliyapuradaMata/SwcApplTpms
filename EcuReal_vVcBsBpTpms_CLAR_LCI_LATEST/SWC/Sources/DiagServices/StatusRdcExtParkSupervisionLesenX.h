@@ -45,7 +45,7 @@ extern "C"
 #define cucIxStatRdcExtParkSupWakeupDateWert              ( (uint8) 61)
 #define cucIxStatRdcExtParkSupWakeupTimeWert              ( (uint8) 69)
 
-extern void GetStatusRdcExtParkSupervisionLesen( Rte_Instance self, uint8 *pucData);
+extern void GetStatusRdcExtParkSupervisionLesen(Rte_Instance self, uint8 *pucData);
 
 #ifdef __cplusplus
 }

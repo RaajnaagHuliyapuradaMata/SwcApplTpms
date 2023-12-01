@@ -19,7 +19,7 @@ typedef sint8  PhySensorTyreTempType;
 #ifdef _SwcApplTpms_CLAR_LCI
 #else
 #ifndef NULL
-#define NULL        ((void *)  0)
+#define NULL ((void*)0)
 #endif
 #endif
 

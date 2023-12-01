@@ -32,22 +32,22 @@ extern "C"
 static uint8 ucCheckWarningGroup( uint32 ulBitsOld, uint32 ulBitsNew, uint32 ulGroupMask, uint8 ucDirection);
 static uint8 ucNoOfActivePreWarningsDS(void);
 
-static uint8 SaveWarnereignisDS( Rte_Instance self, uint8 ucPos, uint8 ucWarningType);
-static uint8 SaveWarnereignisWeichDS( Rte_Instance self, uint8 ucPos);
-static uint8 SaveWarnereignisRuecknahmeDS( Rte_Instance self, uint8 ucPos);
+static uint8 SaveWarnereignisDS(Rte_Instance self, uint8 ucPos, uint8 ucWarningType);
+static uint8 SaveWarnereignisWeichDS(Rte_Instance self, uint8 ucPos);
+static uint8 SaveWarnereignisRuecknahmeDS(Rte_Instance self, uint8 ucPos);
 
-static void SaveHighestSpeedWithActiveWarningDS( Rte_Instance self, uint8 ucVMax);
-static void CumulateKilometers_160_to_max_DS( Rte_Instance self);
-static void CumulateKilometers_100_to_160_DS( Rte_Instance self);
-static void CumulateKilometers_0_to_100_DS( Rte_Instance self);
+static void SaveHighestSpeedWithActiveWarningDS(Rte_Instance self, uint8 ucVMax);
+static void CumulateKilometers_160_to_max_DS(Rte_Instance self);
+static void CumulateKilometers_100_to_160_DS(Rte_Instance self);
+static void CumulateKilometers_0_to_100_DS(Rte_Instance self);
 
-static boolean bWarnereignis3ActiveDS( Rte_Instance self);
-static boolean bWarnereignis2ActiveDS( Rte_Instance self);
-static boolean bWarnereignis1ActiveDS( Rte_Instance self);
+static boolean bWarnereignis3ActiveDS(Rte_Instance self);
+static boolean bWarnereignis2ActiveDS(Rte_Instance self);
+static boolean bWarnereignis1ActiveDS(Rte_Instance self);
 
-static void WriteWarnereignis_3_DS( Rte_Instance self, const uint8* aucData, uint8 ucSize);
-static void WriteWarnereignis_2_DS( Rte_Instance self, const uint8* aucData, uint8 ucSize);
-static void WriteWarnereignis_1_DS( Rte_Instance self, const uint8* aucData, uint8 ucSize);
+static void WriteWarnereignis_3_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize);
+static void WriteWarnereignis_2_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize);
+static void WriteWarnereignis_1_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize);
 
 static void ShiftMileageDS( uint8 ucEventNumber);
 

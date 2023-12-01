@@ -180,7 +180,7 @@ static void ResetTyreDimDataOfReIdRID(const uint32 l_ulID)
   }
 }
 
-void CheckTyreStatusRID( Rte_Instance self, ImpTypeRecCddRdcData tReData)
+void CheckTyreStatusRID(Rte_Instance self, ImpTypeRecCddRdcData tReData)
 {
   uint8  ucHisIx, Pos;
 	uint32 l_ulID;
@@ -199,13 +199,13 @@ void CheckTyreStatusRID( Rte_Instance self, ImpTypeRecCddRdcData tReData)
 
       ResetTyreDOTOEDataOfReIdRID(l_ulID);
 
-      DeleteRidDataOfHisColRID( self, (uint8) (0x01 << ucHisIx));
+      DeleteRidDataOfHisColRID(self, (uint8) (0x01 << ucHisIx));
 
       Pos = ucGetWPOfColWAL(ucHisIx);
 
       if(Pos < cMaxLR)
       {
-        ResetQRTyreMountedFlags( self, (uint8) (0x10 << Pos));
+        ResetQRTyreMountedFlags(self, (uint8) (0x10 << Pos));
       }
     }
     else
@@ -222,7 +222,7 @@ void CheckTyreStatusRID( Rte_Instance self, ImpTypeRecCddRdcData tReData)
 
             ResetTyreDOTOEDataOfReIdRID(l_ulID);
 
-            DeleteRidDataOfHisColRID( self, (uint8)(0x01<<ucHisIx));
+            DeleteRidDataOfHisColRID(self, (uint8)(0x01<<ucHisIx));
           }
         }
 
@@ -230,7 +230,7 @@ void CheckTyreStatusRID( Rte_Instance self, ImpTypeRecCddRdcData tReData)
 
         if(Pos < cMaxLR)
         {
-          ResetQRTyreMountedFlags( self, (uint8) (0x10 << Pos));
+          ResetQRTyreMountedFlags(self, (uint8) (0x10 << Pos));
         }
       }
     }
@@ -238,7 +238,7 @@ void CheckTyreStatusRID( Rte_Instance self, ImpTypeRecCddRdcData tReData)
 
 }
 
-void InitRidDataRID( Rte_Instance self)
+void InitRidDataRID(Rte_Instance self)
 {
   uint8 i,j;
   boolean bTemp = FALSE;
@@ -291,7 +291,7 @@ void InitRidDataRID( Rte_Instance self)
     for(j=0;j<cTyreDimSize;j++)
     {
 
-      if(GETTyreDimDataEE( self, i, j) != cBufInitValRID)
+      if(GETTyreDimDataEE(self, i, j) != cBufInitValRID)
       {
         bTemp = TRUE;
       }
@@ -304,7 +304,7 @@ void InitRidDataRID( Rte_Instance self)
       for(j=0;j<cTyreDOTSize;j++)
       {
 
-        if(GETTyreDOTDataEE( self, i, j) != cBufInitValRID)
+        if(GETTyreDOTDataEE(self, i, j) != cBufInitValRID)
         {
 
           bTemp = TRUE;
@@ -323,7 +323,7 @@ void InitRidDataRID( Rte_Instance self)
   }
 }
 
-void SaveRidDataAndCompareRID( Rte_Instance self){
+void SaveRidDataAndCompareRID(Rte_Instance self){
   uint32 ulHistID;
   uint8 i,j,ucIx,ucResCol;
   uint8 ResHistReDimDataRA[cTyreDimSize] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
@@ -348,19 +348,19 @@ void SaveRidDataAndCompareRID( Rte_Instance self){
 
       if(ucIx < cSumWE)
       {
-        SaveHistReRidDataRID( self, i, ucIx);
+        SaveHistReRidDataRID(self, i, ucIx);
       }
       else
       {
-        RestoreSavedReRidDataRID( self, i);
+        RestoreSavedReRidDataRID(self, i);
       }
     }
 
-    (void)CheckAxisRidDataRID( self, &ResHistReDimDataFA[0], cFrontAxis);
+    (void)CheckAxisRidDataRID(self, &ResHistReDimDataFA[0], cFrontAxis);
 
     ucIx = 0x00;
 
-    i = GETStManSelectionEE( self);
+    i = GETStManSelectionEE(self);
     j = CheckTyreChangedOnRearAxleDM();
 
     if((i == OP_IDR_SLCTN_Manuelle_Auswahl) && (j != TRUE))
@@ -376,17 +376,17 @@ void SaveRidDataAndCompareRID( Rte_Instance self){
     if(ucIx == 0x00)
     {
 
-      ucResCol = CheckAxisRidDataRID( self, &ResHistReDimDataRA[0], cRearAxis);
+      ucResCol = CheckAxisRidDataRID(self, &ResHistReDimDataRA[0], cRearAxis);
 
       if(ucResCol != cAnzRad)
       {
         ConvertReDimToErfsCoding(&ResHistReDimDataRA[0]);
 
-        if(CompareReDimErfsDM( self, &ResHistReDimDataRA[0]) == FALSE)
+        if(CompareReDimErfsDM(self, &ResHistReDimDataRA[0]) == FALSE)
         {
 
-          DegradeToManSelectionDM( self, TRUE);
-          PUTSelectedAutoTyreIndexEE( self, OP_SLCTN_TYR_AVLB_AndererReifen);
+          DegradeToManSelectionDM(self, TRUE);
+          PUTSelectedAutoTyreIndexEE(self, OP_SLCTN_TYR_AVLB_AndererReifen);
         }
       }
       else
@@ -395,8 +395,8 @@ void SaveRidDataAndCompareRID( Rte_Instance self){
         if(bGetBitBetriebszustandBZ(cZO_FINISH) == TRUE)
         {
 
-          DegradeToManSelectionDM( self, FALSE);
-          PUTSelectedAutoTyreIndexEE( self, OP_SLCTN_TYR_AVLB_AndererReifen);
+          DegradeToManSelectionDM(self, FALSE);
+          PUTSelectedAutoTyreIndexEE(self, OP_SLCTN_TYR_AVLB_AndererReifen);
         }
       }
     }
@@ -451,7 +451,7 @@ uint8 SaveOemDataRID (void)
   return (ucRidOem1Oem2Flag);
 }
 
-void DeleteRidDataOfHisColRID( Rte_Instance self, uint8 HisIx)
+void DeleteRidDataOfHisColRID(Rte_Instance self, uint8 HisIx)
 {
   uint8 i,j;
 
@@ -464,13 +464,13 @@ void DeleteRidDataOfHisColRID( Rte_Instance self, uint8 HisIx)
       {
         HistReDimBufRID[j][i] = cBufInitValRID;
 
-        PUTTyreDimDataEE( self, j, i, cBufInitValRID);
+        PUTTyreDimDataEE(self, j, i, cBufInitValRID);
       }
       for(i=0;i<cTyreDOTSize;i++)
       {
         HistReDOTBufRID[j][i] = cBufInitValRID;
 
-        PUTTyreDOTDataEE( self, j, i, cBufInitValRID);
+        PUTTyreDOTDataEE(self, j, i, cBufInitValRID);
       }
       for(i=0;i<(cTyreOEMSize);i++)
       {
@@ -484,7 +484,7 @@ void DeleteRidDataOfHisColRID( Rte_Instance self, uint8 HisIx)
   }
 }
 
-boolean GetReliableRSCInfoRID( Rte_Instance self, uint8 ucRadPos, boolean* bRSCInfoVal)
+boolean GetReliableRSCInfoRID(Rte_Instance self, uint8 ucRadPos, boolean* bRSCInfoVal)
 {
   uint8 HisCol;
   boolean bRet;
@@ -500,7 +500,7 @@ boolean GetReliableRSCInfoRID( Rte_Instance self, uint8 ucRadPos, boolean* bRSCI
     {
       bRet = TRUE;
 
-      if((GETTyreDimDataEE( self, HisCol, 5) & 0xC0) == 0x80)
+      if((GETTyreDimDataEE(self, HisCol, 5) & 0xC0) == 0x80)
       {
         *bRSCInfoVal = TRUE;
       }
@@ -520,7 +520,7 @@ boolean GetReliableRSCInfoRID( Rte_Instance self, uint8 ucRadPos, boolean* bRSCI
         if((ucRidManAutoFlag & (uint8)((cAutoFlagMask|cManFlagMask) << HisCol)) == (cAutoFlagMask << HisCol))
         {
 
-          if((GETTyreDimDataEE( self, HisCol, 5) & 0xC0) != 0x80)
+          if((GETTyreDimDataEE(self, HisCol, 5) & 0xC0) != 0x80)
           {
 
             *bRSCInfoVal = FALSE;
@@ -565,7 +565,7 @@ boolean GetFAxisTyreDataRID(uint8* pRidData)
   return(bRet);
 }
 
-boolean GetRAxisTyreDataRID( Rte_Instance self, uint8* pRidData)
+boolean GetRAxisTyreDataRID(Rte_Instance self, uint8* pRidData)
 {
   boolean bRet = FALSE;
   boolean bDim = TRUE;
@@ -583,7 +583,7 @@ boolean GetRAxisTyreDataRID( Rte_Instance self, uint8* pRidData)
 
   if(HisColRL < cAnzRad)
   {
-    if(GETTyreDimDataEE( self, HisColRL, 0) != 0xFF)
+    if(GETTyreDimDataEE(self, HisColRL, 0) != 0xFF)
     {
       ucPosRL = 0;
       ucResPos = ucPosRL;
@@ -592,7 +592,7 @@ boolean GetRAxisTyreDataRID( Rte_Instance self, uint8* pRidData)
 
   if(HisColRR < cAnzRad)
   {
-    if(GETTyreDimDataEE( self, HisColRR, 0) != 0xFF)
+    if(GETTyreDimDataEE(self, HisColRR, 0) != 0xFF)
     {
       ucPosRR = 1;
       if((GetRidManAutoFLagRID() & (cAutoFlagMask << cRadPosHR)) == (cAutoFlagMask << cRadPosHR))
@@ -602,13 +602,13 @@ boolean GetRAxisTyreDataRID( Rte_Instance self, uint8* pRidData)
     }
   }
 
-  if(GETSelectedAutoTyreIndexEE( self) != OP_SLCTN_TYR_AVLB_AndererReifen)
+  if(GETSelectedAutoTyreIndexEE(self) != OP_SLCTN_TYR_AVLB_AndererReifen)
   {
     if(ucPosRL == 0)
     {
       for (i = 0; i < cTyreDimSize; i++)
       {
-        RearAxErfsData[ucPosRL][i] = GETTyreDimDataEE( self, HisColRL, i);
+        RearAxErfsData[ucPosRL][i] = GETTyreDimDataEE(self, HisColRL, i);
       }
       ConvertReDimToErfsCoding(&RearAxErfsData[ucPosRL][0]);
     }
@@ -617,7 +617,7 @@ boolean GetRAxisTyreDataRID( Rte_Instance self, uint8* pRidData)
     {
       for (i = 0; i < cTyreDimSize; i++)
       {
-        RearAxErfsData[ucPosRR][i] = GETTyreDimDataEE( self, HisColRR, i);
+        RearAxErfsData[ucPosRR][i] = GETTyreDimDataEE(self, HisColRR, i);
       }
       ConvertReDimToErfsCoding(&RearAxErfsData[ucPosRR][0]);
     }
@@ -789,7 +789,7 @@ boolean CheckRearAxisRidDataAvailRID(void)
   return(bRet);
 }
 
-static void SaveHistReRidDataRID( Rte_Instance self, const uint8 HisIx, const uint8 ZOMIx)
+static void SaveHistReRidDataRID(Rte_Instance self, const uint8 HisIx, const uint8 ZOMIx)
 {
   uint8 i;
   boolean bTemp = FALSE;
@@ -800,16 +800,16 @@ static void SaveHistReRidDataRID( Rte_Instance self, const uint8 HisIx, const ui
     {
       HistReDimBufRID[HisIx][i] = TyreDimBufRID[ZOMIx][i];
 
-      if(HistReDimBufRID[HisIx][i] != GETTyreDimDataEE( self, HisIx, i))
+      if(HistReDimBufRID[HisIx][i] != GETTyreDimDataEE(self, HisIx, i))
       {
         SavedDimDataChangedFlagRID |= (uint8)(cDimDataChanged << HisIx);
 
-        PUTTyreDimDataEE( self, HisIx, i, TyreDimBufRID[ZOMIx][i]);
+        PUTTyreDimDataEE(self, HisIx, i, TyreDimBufRID[ZOMIx][i]);
       }
     }
     else
     {
-       HistReDimBufRID[HisIx][i] = GETTyreDimDataEE( self, HisIx, i);
+       HistReDimBufRID[HisIx][i] = GETTyreDimDataEE(self, HisIx, i);
 
        SavedDimDataChangedFlagRID |= (uint8)(cDimDataHisUse << HisIx);
 
@@ -821,7 +821,7 @@ static void SaveHistReRidDataRID( Rte_Instance self, const uint8 HisIx, const ui
     if(TyreDOTBufRID[ZOMIx][i] != cBufInitValRID)
     {
       HistReDOTBufRID[HisIx][i] = TyreDOTBufRID[ZOMIx][i];
-      PUTTyreDOTDataEE( self, HisIx, i, TyreDOTBufRID[ZOMIx][i]);
+      PUTTyreDOTDataEE(self, HisIx, i, TyreDOTBufRID[ZOMIx][i]);
     }
     else
     {
@@ -829,9 +829,9 @@ static void SaveHistReRidDataRID( Rte_Instance self, const uint8 HisIx, const ui
       if((SavedDimDataChangedFlagRID & (uint8)(cDimDataChanged << HisIx)) == (uint8)(cDimDataChanged << HisIx))
       {
 
-        PUTTyreDOTDataEE( self, HisIx, i, cBufInitValRID);
+        PUTTyreDOTDataEE(self, HisIx, i, cBufInitValRID);
       }
-      HistReDOTBufRID[HisIx][i] = GETTyreDOTDataEE( self, HisIx, i);
+      HistReDOTBufRID[HisIx][i] = GETTyreDOTDataEE(self, HisIx, i);
     }
 
   }
@@ -871,21 +871,21 @@ static void SaveHistReRidDataRID( Rte_Instance self, const uint8 HisIx, const ui
   }
 }
 
-static void RestoreSavedReRidDataRID( Rte_Instance self, const uint8 HisIx)
+static void RestoreSavedReRidDataRID(Rte_Instance self, const uint8 HisIx)
 {
   uint8 i;
   boolean bTemp = FALSE;
 
   for(i=0;i<cTyreDimSize;i++)
   {
-    HistReDimBufRID[HisIx][i] = GETTyreDimDataEE( self, HisIx, i);
+    HistReDimBufRID[HisIx][i] = GETTyreDimDataEE(self, HisIx, i);
 
     SavedDimDataChangedFlagRID |= (uint8)(cDimDataHisUse << HisIx);
 
   }
   for(i=0;i<cTyreDOTSize;i++)
   {
-    HistReDOTBufRID[HisIx][i] = GETTyreDOTDataEE( self, HisIx, i);
+    HistReDOTBufRID[HisIx][i] = GETTyreDOTDataEE(self, HisIx, i);
   }
 
   for(i=0;i<cTyreDimSize;i++)
@@ -923,7 +923,7 @@ static void RestoreSavedReRidDataRID( Rte_Instance self, const uint8 HisIx)
   }
 }
 
-static uint8 CheckRidDataRID( Rte_Instance self, const uint8 Col1, const uint8 Col2, const uint8 Axis)
+static uint8 CheckRidDataRID(Rte_Instance self, const uint8 Col1, const uint8 Col2, const uint8 Axis)
 {
   uint8 ResCol, CountVal, NibbleOffset;
   uint8 Pos1, Pos2;
@@ -933,7 +933,7 @@ static uint8 CheckRidDataRID( Rte_Instance self, const uint8 Col1, const uint8 C
   if(((SavedDimDataChangedFlagRID & (uint8)(cDimDataChanged << Col1)) == (uint8)(cDimDataChanged << Col1)) &&
       ((SavedDimDataChangedFlagRID & (uint8)(cDimDataHisUse << Col2)) == (uint8)(cDimDataHisUse << Col2)))
   {
-    DeleteRidDataOfHisColRID( self, (uint8)(0x01 << Col2));
+    DeleteRidDataOfHisColRID(self, (uint8)(0x01 << Col2));
 
     ResCol = Col1;
   }
@@ -943,7 +943,7 @@ static uint8 CheckRidDataRID( Rte_Instance self, const uint8 Col1, const uint8 C
     if(((SavedDimDataChangedFlagRID & (uint8)(cDimDataChanged << Col2)) == (uint8)(cDimDataChanged << Col2)) &&
         ((SavedDimDataChangedFlagRID & (uint8)(cDimDataHisUse << Col1)) == (uint8)(cDimDataHisUse << Col1)))
     {
-      DeleteRidDataOfHisColRID( self, (uint8)(0x01 << Col1));
+      DeleteRidDataOfHisColRID(self, (uint8)(0x01 << Col1));
 
       ResCol = Col2;
     }
@@ -960,33 +960,33 @@ static uint8 CheckRidDataRID( Rte_Instance self, const uint8 Col1, const uint8 C
 
   if(((SavedDimDataChangedFlagRID & (uint8)(cDimDataHisUse << Col1)) != 0x00) && ((SavedDimDataChangedFlagRID & (uint8)(cDimDataHisUse << Col2)) != 0x00))
   {
-    CountVal = ((GETUseSavedHistRidDataCtEE( self) >> NibbleOffset) & 0x0F);
+    CountVal = ((GETUseSavedHistRidDataCtEE(self) >> NibbleOffset) & 0x0F);
 
     if(CountVal < 10)
     {
       if(bGetBitBetriebszustandBZ(cZO_FINISH) == TRUE)
       {
-        PUTUseSavedHistRidDataCtEE( self, GETUseSavedHistRidDataCtEE( self) + (0x01 << NibbleOffset));
+        PUTUseSavedHistRidDataCtEE(self, GETUseSavedHistRidDataCtEE(self) + (0x01 << NibbleOffset));
       }
     }
     else
     {
-      DeleteRidDataOfHisColRID( self, ((uint8)(0x01<<Col1) | (uint8)(0x01<<Col2)));
+      DeleteRidDataOfHisColRID(self, ((uint8)(0x01<<Col1) | (uint8)(0x01<<Col2)));
 
       Pos1 = ucGetWPOfColWAL(Col1);
       Pos2 = ucGetWPOfColWAL(Col2);
 
       if((Pos1 < cMaxLR) && (Pos2 < cMaxLR))
       {
-        ResetQRTyreMountedFlags( self, ((uint8) (0x10 << Pos1) | (uint8) (0x10 << Pos2)));
+        ResetQRTyreMountedFlags(self, ((uint8) (0x10 << Pos1) | (uint8) (0x10 << Pos2)));
       }
       ResCol = cAnzRad;
     }
   }
   else
   {
-    CountVal = GETUseSavedHistRidDataCtEE( self) & (uint8)(~(uint8)(0x0F << NibbleOffset));
-    PUTUseSavedHistRidDataCtEE( self, CountVal);
+    CountVal = GETUseSavedHistRidDataCtEE(self) & (uint8)(~(uint8)(0x0F << NibbleOffset));
+    PUTUseSavedHistRidDataCtEE(self, CountVal);
   }
 
   return(ResCol);
@@ -1003,7 +1003,7 @@ static boolean CompareSavedRidDataRID (const uint8 Col)
   return(bComp);
 }
 
-static uint8 CheckAxisRidDataRID( Rte_Instance self, uint8* pResData, const uint8 Axis)
+static uint8 CheckAxisRidDataRID(Rte_Instance self, uint8* pResData, const uint8 Axis)
 {
   uint8 Col1, Col2, ResCol;
 
@@ -1018,7 +1018,7 @@ static uint8 CheckAxisRidDataRID( Rte_Instance self, uint8* pResData, const uint
     Col2 = ucGetColOfWP(cRadPosVR);
   }
 
-  (void)CheckRidDataRID( self, Col1, Col2, Axis);
+  (void)CheckRidDataRID(self, Col1, Col2, Axis);
 
   ResCol = CompareHistReDimBufRID(Col1, Col2, pResData);
 

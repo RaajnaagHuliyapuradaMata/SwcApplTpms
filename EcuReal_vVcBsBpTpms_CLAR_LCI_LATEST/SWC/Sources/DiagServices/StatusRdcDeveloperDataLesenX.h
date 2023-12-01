@@ -32,7 +32,7 @@ extern "C"
 
 #define cStatusRdcDeveloperDataLesen_MuxChannelMaxValidValue ( cStatusRdcDeveloperDataLesen_MuxChannel16)
 
-extern void GetStatusRdcDeveloperDataLesenDS( Rte_Instance self, uint8* pucData);
+extern void GetStatusRdcDeveloperDataLesenDS(Rte_Instance self, uint8* pucData);
 extern uint8 ucPutDeveloperDataMuxChannelDS( uint8 ucMuxChannel);
 
 extern uint8 ucGetDeveloperDataMuxChannelDS(void);

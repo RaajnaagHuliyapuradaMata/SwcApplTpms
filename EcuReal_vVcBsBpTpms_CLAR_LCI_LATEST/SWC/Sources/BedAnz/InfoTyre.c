@@ -37,38 +37,37 @@ static uint8 ucQuTpl;
 static uint8 ucQuTfai;
 static uint8 ucDispConfTime = FALSE;
 static uint8 ucStChangeTime = FALSE;
-static boolean bSuppressDisplayOfPTValuesITY( Rte_Instance self);
+static boolean bSuppressDisplayOfPTValuesITY(Rte_Instance self);
 static uint16  ushGetConvertedPressureValueITY( uint16 ushPressureValue, tPressureUnitType eTo, boolean bRoundMode);
 static uint16  ushGetConvertedTemperatureValueITY( sint16 sshTemperatureValue, tTemperatureUnitType eFrom, tTemperatureUnitType eTo);
-static void SetQuFnTyrInfoITY( Rte_Instance self);
+static void SetQuFnTyrInfoITY(Rte_Instance self);
 static void SetQuTplITY(void);
-static void SetQuTfaiITY( Rte_Instance self);
+static void SetQuTfaiITY(Rte_Instance self);
 static void GetPinitTinitITY( uint16* pushPfl, uint16* pushPfr, uint16* pushPrl, uint16* pushPrr);
-static void CorrectFilteredTaITY( Rte_Instance self);
-static uint8 ucCoolingTyreMonitoringITY( Rte_Instance self, uint16* pushElapsedCoolingTime);
-static void InitAvlPTyreCoolingDownDataITY( Rte_Instance self, uint8 ucHistSlot, uint8 ucState);
-static void InitTarPTyreCoolingDownDataITY( Rte_Instance self, uint8 ucHistSlot, uint8 ucState);
-static void SetAvlPTyreCoolingDataITY( Rte_Instance self, uint8 ucHistSlot, uint8 ucActionState);
-static void SetTarPTyreCoolingDataITY( Rte_Instance self, uint8 ucHistSlot, uint8 ucActionState);
+static void CorrectFilteredTaITY(Rte_Instance self);
+static uint8 ucCoolingTyreMonitoringITY(Rte_Instance self, uint16* pushElapsedCoolingTime);
+static void InitAvlPTyreCoolingDownDataITY(Rte_Instance self, uint8 ucHistSlot, uint8 ucState);
+static void InitTarPTyreCoolingDownDataITY(Rte_Instance self, uint8 ucHistSlot, uint8 ucState);
+static void SetAvlPTyreCoolingDataITY(Rte_Instance self, uint8 ucHistSlot, uint8 ucActionState);
+static void SetTarPTyreCoolingDataITY(Rte_Instance self, uint8 ucHistSlot, uint8 ucActionState);
 static void CalcCoolingDownDataITY( uint16 ushElapsedCoolingTime);
 #else
 #endif
 
 static tCoolTyreMonDataDeclCD tCoolTyreMonData[cAnzRad] = {
-   { cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure },
-   { cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure },
-   { cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure },
-   { cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure }
+      {cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure}
+   ,  {cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure}
+   ,  {cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure}
+   ,  {cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure, cInvalidREpressure, cInvalidREtemperature, cInvalidREpressure}
 };
 
-static uint16 ushCoolingTicks = cCoolingIntervalInitVal;
+static uint16  ushCoolingTicks             = cCoolingIntervalInitVal;
+static uint32  ulCoolingCaptTime_g         = (uint32) 0xFFFFFFFFu;
+static boolean bTelReceived                = FALSE;
+static boolean bBeladungChanged            = FALSE;
+static uint16  ushElapsedCoolingTime_debug = 0;
 
-static uint32 ulCoolingCaptTime_g = (uint32) 0xFFFFFFFFu;
-static boolean bTelReceived = FALSE;
-static boolean bBeladungChanged = FALSE;
-static uint16 ushElapsedCoolingTime_debug = 0;
-
-void InitITY( Rte_Instance self)
+void InitITY(Rte_Instance self)
 {
   uint8 ucHistSlot;
 
@@ -112,29 +111,29 @@ void InitITY( Rte_Instance self)
 
   ushElapsedCoolingTime_debug = 0;
 
-  ulCoolingCaptTime_g = GETulCoolingCaptTimeEE( self);
+  ulCoolingCaptTime_g = GETulCoolingCaptTimeEE(self);
   ushCoolingTicks = cCoolingIntervalInitVal;
 
   for( ucHistSlot = 0; ucHistSlot<cAnzRad; ucHistSlot++)
   {
-    InitAvlPTyreCoolingDownDataITY( self, ucHistSlot, cNotifyInitITY);
-    InitTarPTyreCoolingDownDataITY( self, ucHistSlot, cNotifyInitITY);
+    InitAvlPTyreCoolingDownDataITY(self, ucHistSlot, cNotifyInitITY);
+    InitTarPTyreCoolingDownDataITY(self, ucHistSlot, cNotifyInitITY);
   }
 }
 
-void MainFunctionITY( Rte_Instance self)
+void MainFunctionITY(Rte_Instance self)
 {
   uint8   ucCoolingState, ucHistSlot, ucWheelPos;
   uint16  ushElapsedCoolingTime;
   boolean bDefectFlag;
 
   SetQuTplITY();
-  SetQuTfaiITY( self);
-  SetQuFnTyrInfoITY( self);
+  SetQuTfaiITY(self);
+  SetQuFnTyrInfoITY(self);
 
-  SetTarPTyrDisplayValueDM( self, GETSelectedLoadStateEE( self), GETSelectedTyreIndexEE( self), GETStManSelectionEE( self));
+  SetTarPTyrDisplayValueDM(self, GETSelectedLoadStateEE(self), GETSelectedTyreIndexEE(self), GETStManSelectionEE(self));
 
-  ucCoolingState = ucCoolingTyreMonitoringITY( self, &ushElapsedCoolingTime);
+  ucCoolingState = ucCoolingTyreMonitoringITY(self, &ushElapsedCoolingTime);
 
   if( ucCoolingState == cCoolTyreMonInit)
   {
@@ -163,10 +162,10 @@ void MainFunctionITY( Rte_Instance self)
 
   }else{
 
-    CorrectFilteredTaITY( self);
+    CorrectFilteredTaITY(self);
   }
 
-  if( bSuppressDisplayOfPTValuesITY( self) == TRUE)
+  if( bSuppressDisplayOfPTValuesITY(self) == TRUE)
   {
 
     ucAvlPTyreFlh = cInvalidREpressure;
@@ -337,7 +336,7 @@ void MainFunctionITY( Rte_Instance self)
   ushElapsedCoolingTime_debug = ushElapsedCoolingTime;
 }
 
-static void InitAvlPTyreCoolingDownDataITY( Rte_Instance self, uint8 ucHistSlot, uint8 ucState)
+static void InitAvlPTyreCoolingDownDataITY(Rte_Instance self, uint8 ucHistSlot, uint8 ucState)
 {
   uint8 ucLoop;
 
@@ -351,12 +350,12 @@ static void InitAvlPTyreCoolingDownDataITY( Rte_Instance self, uint8 ucHistSlot,
         if( ulCoolingCaptTime_g == 0)
         {
 
-          SetAvlPTyreCoolingDataITY( self, ucHistSlot, cSetCoolingDataCvalITY);
+          SetAvlPTyreCoolingDataITY(self, ucHistSlot, cSetCoolingDataCvalITY);
         }
         else
         {
 
-          SetAvlPTyreCoolingDataITY( self, ucHistSlot, cSetCoolingDataWvalITY);
+          SetAvlPTyreCoolingDataITY(self, ucHistSlot, cSetCoolingDataWvalITY);
         }
       break;
 
@@ -367,14 +366,14 @@ static void InitAvlPTyreCoolingDownDataITY( Rte_Instance self, uint8 ucHistSlot,
           if( ucLoop == ucHistSlot)
           {
 
-            SetAvlPTyreCoolingDataITY( self, ucLoop, cSetCoolingDataWvalITY);
+            SetAvlPTyreCoolingDataITY(self, ucLoop, cSetCoolingDataWvalITY);
           }
           else
           {
             if( ((ulCoolingCaptTime_g != 0xFFFFFFFFu) && (ulCoolingCaptTime_g > 0)))
             {
 
-              SetAvlPTyreCoolingDataITY( self, ucLoop, cSetCoolingDataReStartITY);
+              SetAvlPTyreCoolingDataITY(self, ucLoop, cSetCoolingDataReStartITY);
             }
           }
         }
@@ -392,7 +391,7 @@ static void InitAvlPTyreCoolingDownDataITY( Rte_Instance self, uint8 ucHistSlot,
   }
 }
 
-static void SetAvlPTyreCoolingDataITY( Rte_Instance self, uint8 ucHistSlot, uint8 ucActionState)
+static void SetAvlPTyreCoolingDataITY(Rte_Instance self, uint8 ucHistSlot, uint8 ucActionState)
 {
   uint8  ucPc, ucPw, ucPamb;
   sint8  scTc, scTw;
@@ -424,10 +423,10 @@ static void SetAvlPTyreCoolingDataITY( Rte_Instance self, uint8 ucHistSlot, uint
       }
       else
       {
-        scTc = GETscTAmbValEE( self);
+        scTc = GETscTAmbValEE(self);
         if( scTw > scTc)
         {
-          ucPamb = GETucPAmbValEE( self);
+          ucPamb = GETucPAmbValEE(self);
           ushM = ushMIso( ucPw, scTw, ucPamb);
           ucPc = ucPfT( ushM, scTc, ucPamb);
         }
@@ -460,10 +459,10 @@ static void SetAvlPTyreCoolingDataITY( Rte_Instance self, uint8 ucHistSlot, uint
       }
       else
       {
-        scTc = GETscTAmbValEE( self);
+        scTc = GETscTAmbValEE(self);
         if( scTw > scTc)
         {
-          ucPamb = GETucPAmbValEE( self);
+          ucPamb = GETucPAmbValEE(self);
           ushM = ushMIso( ucPw, scTw, ucPamb);
           ucPc = ucPfT( ushM, scTc, ucPamb);
         }
@@ -495,10 +494,10 @@ static void SetAvlPTyreCoolingDataITY( Rte_Instance self, uint8 ucHistSlot, uint
       }
       else
       {
-        scTc = GETscTAmbValEE( self);
+        scTc = GETscTAmbValEE(self);
         if( scTw > scTc)
         {
-          ucPamb = GETucPAmbValEE( self);
+          ucPamb = GETucPAmbValEE(self);
           ushM = ushMIso( ucPw, scTw, ucPamb);
           ucPc = ucPfT( ushM, scTc, ucPamb);
         }else{
@@ -521,7 +520,7 @@ static void SetAvlPTyreCoolingDataITY( Rte_Instance self, uint8 ucHistSlot, uint
   }
 }
 
-static void InitTarPTyreCoolingDownDataITY( Rte_Instance self, uint8 ucHistSlot, uint8 ucState)
+static void InitTarPTyreCoolingDownDataITY(Rte_Instance self, uint8 ucHistSlot, uint8 ucState)
 {
   uint8 ucLoop;
 
@@ -535,12 +534,12 @@ static void InitTarPTyreCoolingDownDataITY( Rte_Instance self, uint8 ucHistSlot,
         if( ulCoolingCaptTime_g == 0)
         {
 
-          SetTarPTyreCoolingDataITY( self, ucHistSlot, cSetCoolingDataCvalITY);
+          SetTarPTyreCoolingDataITY(self, ucHistSlot, cSetCoolingDataCvalITY);
         }
         else
         {
 
-          SetTarPTyreCoolingDataITY( self, ucHistSlot, cSetCoolingDataWvalITY);
+          SetTarPTyreCoolingDataITY(self, ucHistSlot, cSetCoolingDataWvalITY);
         }
       break;
 
@@ -550,22 +549,22 @@ static void InitTarPTyreCoolingDownDataITY( Rte_Instance self, uint8 ucHistSlot,
           if( ulCoolingCaptTime_g == 0)
           {
 
-            SetTarPTyreCoolingDataITY( self, ucLoop, cSetCoolingDataCvalITY);
+            SetTarPTyreCoolingDataITY(self, ucLoop, cSetCoolingDataCvalITY);
           }
           else if( ulCoolingCaptTime_g == 0xFFFFFFFFu)
           {
 
-            SetTarPTyreCoolingDataITY( self, ucLoop, cSetCoolingDataWvalITY);
+            SetTarPTyreCoolingDataITY(self, ucLoop, cSetCoolingDataWvalITY);
           }
           else
           {
             if( ucLoop == ucHistSlot)
             {
-              SetTarPTyreCoolingDataITY( self, ucLoop, cSetCoolingDataWvalITY);
+              SetTarPTyreCoolingDataITY(self, ucLoop, cSetCoolingDataWvalITY);
             }
             else
             {
-              SetTarPTyreCoolingDataITY( self, ucLoop, cSetCoolingDataReStartITY);
+              SetTarPTyreCoolingDataITY(self, ucLoop, cSetCoolingDataReStartITY);
             }
           }
         }
@@ -576,12 +575,12 @@ static void InitTarPTyreCoolingDownDataITY( Rte_Instance self, uint8 ucHistSlot,
         if( ulCoolingCaptTime_g == 0)
         {
 
-          SetTarPTyreCoolingDataITY( self, ucHistSlot, cSetCoolingDataCvalITY);
+          SetTarPTyreCoolingDataITY(self, ucHistSlot, cSetCoolingDataCvalITY);
         }
         else
         {
 
-          SetTarPTyreCoolingDataITY( self, ucHistSlot, cSetCoolingDataWvalITY);
+          SetTarPTyreCoolingDataITY(self, ucHistSlot, cSetCoolingDataWvalITY);
         }
       break;
 
@@ -591,7 +590,7 @@ static void InitTarPTyreCoolingDownDataITY( Rte_Instance self, uint8 ucHistSlot,
   }
 }
 
-static void SetTarPTyreCoolingDataITY( Rte_Instance self, uint8 ucHistSlot, uint8 ucActionState)
+static void SetTarPTyreCoolingDataITY(Rte_Instance self, uint8 ucHistSlot, uint8 ucActionState)
 {
   uint8  ucPc, ucPw, ucPamb;
   sint8  scTc, scTw;
@@ -607,7 +606,7 @@ static void SetTarPTyreCoolingDataITY( Rte_Instance self, uint8 ucHistSlot, uint
     break;
 
     case cSetCoolingDataCvalITY:
-      (void) ucGetPTSollUSWIF( self, &ucPc, &scTc, &ucPw, &scTw, &ushM, &ucPamb, ucHistSlot);
+      (void) ucGetPTSollUSWIF(self, &ucPc, &scTc, &ucPw, &scTw, &ushM, &ucPamb, ucHistSlot);
       if( (ucPc == cInvalidREpressure) || (scTc == cInvalidREtemperature))
       {
         ucPc = cInvalidREpressure;
@@ -621,7 +620,7 @@ static void SetTarPTyreCoolingDataITY( Rte_Instance self, uint8 ucHistSlot, uint
     break;
 
     case cSetCoolingDataWvalITY:
-      (void) ucGetPTSollUSWIF( self, &ucPc, &scTc, &ucPw, &scTw, &ushM, &ucPamb, ucHistSlot);
+      (void) ucGetPTSollUSWIF(self, &ucPc, &scTc, &ucPw, &scTw, &ushM, &ucPamb, ucHistSlot);
       if( (ucPw == cInvalidREpressure) || (scTw == cInvalidREtemperature))
       {
         ucPc = cInvalidREpressure;
@@ -737,105 +736,68 @@ static void CalcCoolingDownDataITY( uint16 ushElapsedCoolingTime)
   }
 }
 
-void GetTyrePressureValueITY( Rte_Instance self, uint16* pushPfl, uint16* pushPfr, uint16* pushPrl, uint16* pushPrr)
-{
-  uint8 ucHistSlot;
-  uint8 ucWarnVector[cAnzRad];
-
-  if(GETTyreSelectionActiveEE( self) == FALSE)
-  {
-
-    (void) ucGetWarnVectorIdExtIFH( self, ucWarnVector);
-
-    if( ucAvlPTyreFlh == cInvalidREpressure)
-    {
-
-      *pushPfl = cTyrePressureNotAvailableValueITY;
-    }else{
-
-      ucHistSlot = ucGetColOfWP( cRadPosVL);
-
-      if( ucWarnVector[ucHistSlot] == 0)
-      {
-        *pushPfl = ushGetConvertedPressureValueITY( (uint16) ucAvlPTyreFlh, GETucUnAipEE( self), TRUE);
-      }else{
-        *pushPfl = ushGetConvertedPressureValueITY( (uint16) ucAvlPTyreFlh, GETucUnAipEE( self), FALSE);
+void GetTyrePressureValueITY(Rte_Instance self, uint16* pushPfl, uint16* pushPfr, uint16* pushPrl, uint16* pushPrr){
+   uint8 ucHistSlot;
+   uint8 ucWarnVector[cAnzRad];
+   if(FALSE == GETTyreSelectionActiveEE(self)){
+      (void) ucGetWarnVectorIdExtIFH(self, ucWarnVector);
+      if(cInvalidREpressure == ucAvlPTyreFlh){
+         *pushPfl = cTyrePressureNotAvailableValueITY;
       }
-    }
-
-    if( ucAvlPTyreFrh == cInvalidREpressure)
-    {
-
-      *pushPfr = cTyrePressureNotAvailableValueITY;
-    }else{
-
-      ucHistSlot = ucGetColOfWP( cRadPosVR);
-
-      if( ucWarnVector[ucHistSlot] == 0)
-      {
-        *pushPfr = ushGetConvertedPressureValueITY( (uint16) ucAvlPTyreFrh, GETucUnAipEE( self), TRUE);
-      }else{
-        *pushPfr = ushGetConvertedPressureValueITY( (uint16) ucAvlPTyreFrh, GETucUnAipEE( self), FALSE);
+      else{
+         ucHistSlot = ucGetColOfWP(cRadPosVL);
+         if(0 == ucWarnVector[ucHistSlot]){*pushPfl = ushGetConvertedPressureValueITY((uint16) ucAvlPTyreFlh, GETucUnAipEE(self), TRUE );}
+         else                             {*pushPfl = ushGetConvertedPressureValueITY((uint16) ucAvlPTyreFlh, GETucUnAipEE(self), FALSE);}
       }
-    }
-
-    if( ucAvlPTyreRlh == cInvalidREpressure)
-    {
-
-      *pushPrl = cTyrePressureNotAvailableValueITY;
-    }else{
-
-      ucHistSlot = ucGetColOfWP( cRadPosHL);
-
-      if( ucWarnVector[ucHistSlot] == 0)
-      {
-        *pushPrl = ushGetConvertedPressureValueITY( (uint16) ucAvlPTyreRlh, GETucUnAipEE( self), TRUE);
-      }else{
-        *pushPrl = ushGetConvertedPressureValueITY( (uint16) ucAvlPTyreRlh, GETucUnAipEE( self), FALSE);
+      if(cInvalidREpressure == ucAvlPTyreFrh){
+         *pushPfr = cTyrePressureNotAvailableValueITY;
       }
-    }
-
-    if( ucAvlPTyreRrh == cInvalidREpressure)
-    {
-
-      *pushPrr = cTyrePressureNotAvailableValueITY;
-    }else{
-
-      ucHistSlot = ucGetColOfWP( cRadPosHR);
-
-      if( ucWarnVector[ucHistSlot] == 0)
-      {
-        *pushPrr = ushGetConvertedPressureValueITY( (uint16) ucAvlPTyreRrh, GETucUnAipEE( self), TRUE);
-      }else{
-        *pushPrr = ushGetConvertedPressureValueITY( (uint16) ucAvlPTyreRrh, GETucUnAipEE( self), FALSE);
+      else{
+         ucHistSlot = ucGetColOfWP(cRadPosVR);
+         if(0 == ucWarnVector[ucHistSlot]){*pushPfr = ushGetConvertedPressureValueITY((uint16) ucAvlPTyreFrh, GETucUnAipEE(self), TRUE );}
+         else                             {*pushPfr = ushGetConvertedPressureValueITY((uint16) ucAvlPTyreFrh, GETucUnAipEE(self), FALSE);}
       }
-    }
-  }else{
-
-    if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == TRUE)
-    {
-      *pushPfl = cTyrePressureNotPresentValueITY;
-      *pushPfr = cTyrePressureNotPresentValueITY;
-      *pushPrl = cTyrePressureNotPresentValueITY;
-      *pushPrr = cTyrePressureNotPresentValueITY;
-    }else{
-      *pushPfl = cTyrePressureNotAvailableValueITY;
-      *pushPfr = cTyrePressureNotAvailableValueITY;
-      *pushPrl = cTyrePressureNotAvailableValueITY;
-      *pushPrr = cTyrePressureNotAvailableValueITY;
-    }
-  }
+      if(cInvalidREpressure == ucAvlPTyreRlh){
+         *pushPrl = cTyrePressureNotAvailableValueITY;
+      }
+      else{
+         ucHistSlot = ucGetColOfWP(cRadPosHL);
+         if(0 == ucWarnVector[ucHistSlot]){*pushPrl = ushGetConvertedPressureValueITY((uint16) ucAvlPTyreRlh, GETucUnAipEE(self), TRUE );}
+         else                             {*pushPrl = ushGetConvertedPressureValueITY((uint16) ucAvlPTyreRlh, GETucUnAipEE(self), FALSE);}
+      }
+      if(cInvalidREpressure == ucAvlPTyreRrh){
+         *pushPrr = cTyrePressureNotAvailableValueITY;
+      }
+      else{
+         ucHistSlot = ucGetColOfWP(cRadPosHR);
+         if(0 == ucWarnVector[ucHistSlot]){*pushPrr = ushGetConvertedPressureValueITY((uint16) ucAvlPTyreRrh, GETucUnAipEE(self), TRUE );}
+         else                             {*pushPrr = ushGetConvertedPressureValueITY((uint16) ucAvlPTyreRrh, GETucUnAipEE(self), FALSE);}
+      }
+   }
+   else{
+      if(TRUE == bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT)){
+         *pushPfl = cTyrePressureNotPresentValueITY;
+         *pushPfr = cTyrePressureNotPresentValueITY;
+         *pushPrl = cTyrePressureNotPresentValueITY;
+         *pushPrr = cTyrePressureNotPresentValueITY;
+      }
+      else{
+         *pushPfl = cTyrePressureNotAvailableValueITY;
+         *pushPfr = cTyrePressureNotAvailableValueITY;
+         *pushPrl = cTyrePressureNotAvailableValueITY;
+         *pushPrr = cTyrePressureNotAvailableValueITY;
+      }
+   }
 }
 
-void GetTyreTemperatureValueITY( Rte_Instance self, uint16* pushTfl, uint16* pushTfr, uint16* pushTrl, uint16* pushTrr)
+void GetTyreTemperatureValueITY(Rte_Instance self, uint16* pushTfl, uint16* pushTfr, uint16* pushTrl, uint16* pushTrr)
 {
-
-  if(GETTyreSelectionActiveEE( self) == FALSE)
+  if(GETTyreSelectionActiveEE(self) == FALSE)
   {
-    *pushTfl = ushGetConvertedTemperatureValueITY( (sint16) scAvlTTyreFlh, eTEMPERATURE_UNIT_CELSIUS, GETucUnTempEE( self));
-    *pushTfr = ushGetConvertedTemperatureValueITY( (sint16) scAvlTTyreFrh, eTEMPERATURE_UNIT_CELSIUS, GETucUnTempEE( self));
-    *pushTrl = ushGetConvertedTemperatureValueITY( (sint16) scAvlTTyreRlh, eTEMPERATURE_UNIT_CELSIUS, GETucUnTempEE( self));
-    *pushTrr = ushGetConvertedTemperatureValueITY( (sint16) scAvlTTyreRrh, eTEMPERATURE_UNIT_CELSIUS, GETucUnTempEE( self));
+    *pushTfl = ushGetConvertedTemperatureValueITY( (sint16) scAvlTTyreFlh, eTEMPERATURE_UNIT_CELSIUS, GETucUnTempEE(self));
+    *pushTfr = ushGetConvertedTemperatureValueITY( (sint16) scAvlTTyreFrh, eTEMPERATURE_UNIT_CELSIUS, GETucUnTempEE(self));
+    *pushTrl = ushGetConvertedTemperatureValueITY( (sint16) scAvlTTyreRlh, eTEMPERATURE_UNIT_CELSIUS, GETucUnTempEE(self));
+    *pushTrr = ushGetConvertedTemperatureValueITY( (sint16) scAvlTTyreRrh, eTEMPERATURE_UNIT_CELSIUS, GETucUnTempEE(self));
   }else{
     *pushTfl = cTyreTemperatureNotAvailableValueITY;
     *pushTfr = cTyreTemperatureNotAvailableValueITY;
@@ -844,7 +806,7 @@ void GetTyreTemperatureValueITY( Rte_Instance self, uint16* pushTfl, uint16* pus
   }
 }
 
-void GetRelatedPressureValueITY( Rte_Instance self, uint16* pushPfl, uint16* pushPfr, uint16* pushPrl, uint16* pushPrr)
+void GetRelatedPressureValueITY(Rte_Instance self, uint16* pushPfl, uint16* pushPfr, uint16* pushPrl, uint16* pushPrr)
 {
   uint16  ushPfl, ushPfr, ushPrl, ushPrr;
 
@@ -857,37 +819,37 @@ void GetRelatedPressureValueITY( Rte_Instance self, uint16* pushPfl, uint16* pus
     *pushPfr = cTyrePressureFuncIfaceNotAvailableValueITY;
     *pushPrl = cTyrePressureFuncIfaceNotAvailableValueITY;
     *pushPrr = cTyrePressureFuncIfaceNotAvailableValueITY;
-  }else if( GETTyreSelectionActiveEE( self) == TRUE)
+  }else if( GETTyreSelectionActiveEE(self) == TRUE)
   {
 
-    *pushPfl = ushGetConvertedPressureValueITY( ushPfl, GETucUnAipEE( self), TRUE);
-    *pushPfr = ushGetConvertedPressureValueITY( ushPfr, GETucUnAipEE( self), TRUE);
-    *pushPrl = ushGetConvertedPressureValueITY( ushPrl, GETucUnAipEE( self), TRUE);
-    *pushPrr = ushGetConvertedPressureValueITY( ushPrr, GETucUnAipEE( self), TRUE);
+    *pushPfl = ushGetConvertedPressureValueITY( ushPfl, GETucUnAipEE(self), TRUE);
+    *pushPfr = ushGetConvertedPressureValueITY( ushPfr, GETucUnAipEE(self), TRUE);
+    *pushPrl = ushGetConvertedPressureValueITY( ushPrl, GETucUnAipEE(self), TRUE);
+    *pushPrr = ushGetConvertedPressureValueITY( ushPrr, GETucUnAipEE(self), TRUE);
   }else if( bGetBitBetriebszustandBZ( cZUGEORDNET) == FALSE)
   {
 
-    *pushPfl = ushGetConvertedPressureValueITY( ushPfl, GETucUnAipEE( self), TRUE);
-    *pushPfr = ushGetConvertedPressureValueITY( ushPfr, GETucUnAipEE( self), TRUE);
-    *pushPrl = ushGetConvertedPressureValueITY( ushPrl, GETucUnAipEE( self), TRUE);
-    *pushPrr = ushGetConvertedPressureValueITY( ushPrr, GETucUnAipEE( self), TRUE);
+    *pushPfl = ushGetConvertedPressureValueITY( ushPfl, GETucUnAipEE(self), TRUE);
+    *pushPfr = ushGetConvertedPressureValueITY( ushPfr, GETucUnAipEE(self), TRUE);
+    *pushPrl = ushGetConvertedPressureValueITY( ushPrl, GETucUnAipEE(self), TRUE);
+    *pushPrr = ushGetConvertedPressureValueITY( ushPrr, GETucUnAipEE(self), TRUE);
   }else if( ucGetReDefectStatusWUM() != 0)
   {
 
-    *pushPfl = ushGetConvertedPressureValueITY( ushPfl, GETucUnAipEE( self), TRUE);
-    *pushPfr = ushGetConvertedPressureValueITY( ushPfr, GETucUnAipEE( self), TRUE);
-    *pushPrl = ushGetConvertedPressureValueITY( ushPrl, GETucUnAipEE( self), TRUE);
-    *pushPrr = ushGetConvertedPressureValueITY( ushPrr, GETucUnAipEE( self), TRUE);
+    *pushPfl = ushGetConvertedPressureValueITY( ushPfl, GETucUnAipEE(self), TRUE);
+    *pushPfr = ushGetConvertedPressureValueITY( ushPfr, GETucUnAipEE(self), TRUE);
+    *pushPrl = ushGetConvertedPressureValueITY( ushPrl, GETucUnAipEE(self), TRUE);
+    *pushPrr = ushGetConvertedPressureValueITY( ushPrr, GETucUnAipEE(self), TRUE);
   }else{
 
-    *pushPfl = ushGetConvertedPressureValueITY( (uint16) ucTarPTyreFlh, GETucUnAipEE( self), TRUE);
-    *pushPfr = ushGetConvertedPressureValueITY( (uint16) ucTarPTyreFrh, GETucUnAipEE( self), TRUE);
-    *pushPrl = ushGetConvertedPressureValueITY( (uint16) ucTarPTyreRlh, GETucUnAipEE( self), TRUE);
-    *pushPrr = ushGetConvertedPressureValueITY( (uint16) ucTarPTyreRrh, GETucUnAipEE( self), TRUE);
+    *pushPfl = ushGetConvertedPressureValueITY( (uint16) ucTarPTyreFlh, GETucUnAipEE(self), TRUE);
+    *pushPfr = ushGetConvertedPressureValueITY( (uint16) ucTarPTyreFrh, GETucUnAipEE(self), TRUE);
+    *pushPrl = ushGetConvertedPressureValueITY( (uint16) ucTarPTyreRlh, GETucUnAipEE(self), TRUE);
+    *pushPrr = ushGetConvertedPressureValueITY( (uint16) ucTarPTyreRrh, GETucUnAipEE(self), TRUE);
   }
 }
 
-static uint8 ucCoolingTyreMonitoringITY( Rte_Instance self, uint16* pushElapsedCoolingTime)
+static uint8 ucCoolingTyreMonitoringITY(Rte_Instance self, uint16* pushElapsedCoolingTime)
 {
   uint32          ulCarStandStillTime;
   uint8           ucLoop;
@@ -961,7 +923,7 @@ static uint8 ucCoolingTyreMonitoringITY( Rte_Instance self, uint16* pushElapsedC
             }
           }
 
-          PUTulCoolingCaptTimeEE( self, ulCoolingCaptTime_g);
+          PUTulCoolingCaptTimeEE(self, ulCoolingCaptTime_g);
         }
       }else{
         *pushElapsedCoolingTime = 0;
@@ -997,17 +959,17 @@ static void GetPinitTinitITY( uint16* pushPfl, uint16* pushPfr, uint16* pushPrl,
   *pushPrr = GetTarPTyrDisplayValueDM(cRadPosHR);
 }
 
-static void CorrectFilteredTaITY( Rte_Instance self)
+static void CorrectFilteredTaITY(Rte_Instance self)
 {
   sint8 scTAdiff;
 
   if( GETscOutdoorTemperatureFZZ() < 127)
   {
-    scTAdiff = GETscOutdoorTemperatureFZZ() - GETscTAmbValEE( self);
+    scTAdiff = GETscOutdoorTemperatureFZZ() - GETscTAmbValEE(self);
 
     if( (scTAdiff < -10) || (scTAdiff > +10))
     {
-      PUTscTAmbValEE( self, GETscOutdoorTemperatureFZZ());
+      PUTscTAmbValEE(self, GETscOutdoorTemperatureFZZ());
     }
   }
 }
@@ -1132,7 +1094,7 @@ static uint16 ushGetConvertedTemperatureValueITY( sint16 sshTemperatureValue, tT
   return ushRetVal;
 }
 
-static boolean bSuppressDisplayOfPTValuesITY( Rte_Instance self)
+static boolean bSuppressDisplayOfPTValuesITY(Rte_Instance self)
 {
   uint8 ucLoop;
   boolean bRet = FALSE;
@@ -1167,7 +1129,7 @@ static boolean bSuppressDisplayOfPTValuesITY( Rte_Instance self)
         bRet = TRUE;
       }
 
-      else if(GETucStatusbarEE( self) < 100)
+      else if(GETucStatusbarEE(self) < 100)
       {
         if((ucQuFnTyrInfo != 0xA0) && (ucQuFnTyrInfo != 0xA8))
         {
@@ -1203,7 +1165,7 @@ static boolean bSuppressDisplayOfPTValuesITY( Rte_Instance self)
   return bRet;
 }
 
-static void SetQuFnTyrInfoITY( Rte_Instance self)
+static void SetQuFnTyrInfoITY(Rte_Instance self)
 {
   boolean bOutput = FALSE;
 
@@ -1215,16 +1177,16 @@ static void SetQuFnTyrInfoITY( Rte_Instance self)
   else
   {
 
-    if( GETTyreSelectionActiveEE( self) == TRUE)
+    if( GETTyreSelectionActiveEE(self) == TRUE)
     {
-      if(GETTyreChangedEE( self) == TRUE)
+      if(GETTyreChangedEE(self) == TRUE)
       {
         if(bGetCRdciDispResetCD() == TRUE)
         {
           bOutput = TRUE;
         }
       }
-      if((GETPlausiInitErrorEE( self) == TRUE))
+      if((GETPlausiInitErrorEE(self) == TRUE))
       {
         if(bGetCRdciResetPlausiCD() == TRUE)
         {
@@ -1232,7 +1194,7 @@ static void SetQuFnTyrInfoITY( Rte_Instance self)
         }
       }
 
-      if(GETucStatusbarEE( self) < 50)
+      if(GETucStatusbarEE(self) < 50)
       {
         ucQuFnTyrInfo = cQuFnTyrInfo_LearningPhase;
       }
@@ -1286,7 +1248,7 @@ static void SetQuFnTyrInfoITY( Rte_Instance self)
 
       else
       {
-        if((GETPlausiInitErrorEE( self) == TRUE))
+        if((GETPlausiInitErrorEE(self) == TRUE))
         {
           if(bGetCRdciResetPlausiCD() == TRUE)
           {
@@ -1294,7 +1256,7 @@ static void SetQuFnTyrInfoITY( Rte_Instance self)
           }
         }
 
-        if(GETTyreChangedEE( self) == TRUE)
+        if(GETTyreChangedEE(self) == TRUE)
         {
           if(bGetCRdciDispResetCD() == TRUE)
           {
@@ -1305,7 +1267,7 @@ static void SetQuFnTyrInfoITY( Rte_Instance self)
         if( bGetBitBetriebszustandBZ( cZUGEORDNET) == TRUE)
         {
 
-          if(GETucStatusbarEE( self) < 100)
+          if(GETucStatusbarEE(self) < 100)
           {
             if(bOutput == TRUE)
             {
@@ -1458,7 +1420,7 @@ static void SetQuTplITY(void)
   }
 }
 
-static void SetQuTfaiITY( Rte_Instance self)
+static void SetQuTfaiITY(Rte_Instance self)
 {
   uint8 ucLoop;
   uint8 ucFlatTyreState;
@@ -1517,8 +1479,8 @@ static void SetQuTfaiITY( Rte_Instance self)
 
       ucFlatTyreHistSlot = ucGetColOfWP(ucFlatTyrePosition);
 
-      (void)ucGetWarnBitAirMassIdIntIFH( self, ucHardWarningAirMass);
-      (void)ucGetWarnBitTonnageIdIntIFH( self, ucHardWarningTonnage);
+      (void)ucGetWarnBitAirMassIdIntIFH(self, ucHardWarningAirMass);
+      (void)ucGetWarnBitTonnageIdIntIFH(self, ucHardWarningTonnage);
 
       for (ucLoop=0; ucLoop<cAnzRad; ucLoop++)
       {
@@ -1572,7 +1534,7 @@ static void SetQuTfaiITY( Rte_Instance self)
 	return(bRet);
  }
 
-boolean GetFAxisTyreDataITY( Rte_Instance self, TyreDataType * FATyreData)
+boolean GetFAxisTyreDataITY(Rte_Instance self, TyreDataType * FATyreData)
 {
   boolean bRet = E_NOT_OK;
   uint8 ResHistReDimData[cTyreDimSize] = {0x00,0x00,0x00,0x00,0x00,0x00};
@@ -1583,7 +1545,7 @@ boolean GetFAxisTyreDataITY( Rte_Instance self, TyreDataType * FATyreData)
 
   if(bGetCRdciErfsEnableCD() == TRUE)
   {
-    if(GETStManSelectionEE( self) == OP_IDR_SLCTN_Automatische_Auswahl)
+    if(GETStManSelectionEE(self) == OP_IDR_SLCTN_Automatische_Auswahl)
     {
       if(GetFAxisTyreDataRID(&ResHistReDimData[0]) == TRUE)
       {
@@ -1607,7 +1569,7 @@ boolean GetFAxisTyreDataITY( Rte_Instance self, TyreDataType * FATyreData)
   return(bRet);
 }
 
-boolean GetRAxisTyreDataITY( Rte_Instance self, TyreDataType * RATyreData)
+boolean GetRAxisTyreDataITY(Rte_Instance self, TyreDataType * RATyreData)
 {
   boolean bRet = E_NOT_OK;
   uint8 ResHistReDimData[cTyreDimSize] = {0x00,0x00,0x00,0x00,0x00,0x00};
@@ -1617,7 +1579,7 @@ boolean GetRAxisTyreDataITY( Rte_Instance self, TyreDataType * RATyreData)
   {
     if(GetStatusManSelectionDM() == OP_IDR_SLCTN_Automatische_Auswahl)
     {
-      (void) GetRAxisTyreDataRID( self, &ResHistReDimData[0]);
+      (void) GetRAxisTyreDataRID(self, &ResHistReDimData[0]);
 
       RATyreData->Width = (uint8)((ResHistReDimData[0] & 0xF8)>>3);
       RATyreData->Carcass = (uint8)((ResHistReDimData[0] & 0x06)>>1);
@@ -1634,13 +1596,13 @@ boolean GetRAxisTyreDataITY( Rte_Instance self, TyreDataType * RATyreData)
     }
     else
     {
-      if(GETSelectedSeasonEE( self) == CSEASON_SUMMER)
+      if(GETSelectedSeasonEE(self) == CSEASON_SUMMER)
       {
-        TyreListIndex = GETSelectedSuTyreIndexEE( self);
+        TyreListIndex = GETSelectedSuTyreIndexEE(self);
       }
       else
       {
-        TyreListIndex = GETSelectedWiTyreIndexEE( self);
+        TyreListIndex = GETSelectedWiTyreIndexEE(self);
       }
 
       (void)GetListTyreDataITY(TyreListIndex, RATyreData);
@@ -1694,7 +1656,7 @@ uint8 GetStChangeTimeITY(void)
 
 }
 
-void NotificationITY( Rte_Instance self, uint8 ucNotificationState, uint8 ucSlotNo)
+void NotificationITY(Rte_Instance self, uint8 ucNotificationState, uint8 ucSlotNo)
 {
   uint8 ucHistSlot;
 
@@ -1704,8 +1666,8 @@ void NotificationITY( Rte_Instance self, uint8 ucNotificationState, uint8 ucSlot
     if( ucSlotNo < cAnzRad)
     {
 
-      InitAvlPTyreCoolingDownDataITY( self, ucSlotNo, cNotifyTelRecITY);
-      InitTarPTyreCoolingDownDataITY( self, ucSlotNo, cNotifyTelRecITY);
+      InitAvlPTyreCoolingDownDataITY(self, ucSlotNo, cNotifyTelRecITY);
+      InitTarPTyreCoolingDownDataITY(self, ucSlotNo, cNotifyTelRecITY);
       bTelReceived = TRUE;
     }
   }
@@ -1713,13 +1675,13 @@ void NotificationITY( Rte_Instance self, uint8 ucNotificationState, uint8 ucSlot
   {
     if( ucSlotNo < cAnzRad)
     {
-      InitTarPTyreCoolingDownDataITY( self, ucSlotNo, cNotifyRcpChangedITY);
+      InitTarPTyreCoolingDownDataITY(self, ucSlotNo, cNotifyRcpChangedITY);
     }
     else
     {
       for( ucHistSlot = 0; ucHistSlot < cAnzRad; ucHistSlot++)
       {
-        InitTarPTyreCoolingDownDataITY( self, ucHistSlot, cNotifyRcpChangedITY);
+        InitTarPTyreCoolingDownDataITY(self, ucHistSlot, cNotifyRcpChangedITY);
       }
     }
   }
@@ -1727,13 +1689,13 @@ void NotificationITY( Rte_Instance self, uint8 ucNotificationState, uint8 ucSlot
   {
     if( ucSlotNo < cAnzRad)
     {
-      InitTarPTyreCoolingDownDataITY( self, ucSlotNo, cNotifyBeladungChangedITY);
+      InitTarPTyreCoolingDownDataITY(self, ucSlotNo, cNotifyBeladungChangedITY);
     }
     else
     {
       for( ucHistSlot = 0; ucHistSlot < cAnzRad; ucHistSlot++)
       {
-        InitTarPTyreCoolingDownDataITY( self, ucHistSlot, cNotifyBeladungChangedITY);
+        InitTarPTyreCoolingDownDataITY(self, ucHistSlot, cNotifyBeladungChangedITY);
       }
     }
 

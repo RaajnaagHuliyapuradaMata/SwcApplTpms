@@ -30,16 +30,16 @@ static uint8 ucWheelUnitMonitoringIsActiveWUM(void);
 static boolean bGoodCounterReachedMaximumWUM(void);
 static uint32 FilterSubsequentErrorsWUM( uint32 ulErrorBits);
 
-static void CheckLowBatWUM( Rte_Instance self, const ImpTypeRecCddRdcData* rdcData, uint8 ucCol, uint8 ucWP);
-static void CheckDefectWUM( Rte_Instance self, const ImpTypeRecCddRdcData* rdcData, uint8 ucCol, uint8 ucWP);
-static void CheckWrongWuMountedWUM( Rte_Instance self);
-static void CheckForeignSupplierWUM( Rte_Instance self);
-static void ClearRFInterferenceWUM( Rte_Instance self);
-static void ClearGatewayAntennaWUM( Rte_Instance self, uint8 DpNo);
-static void ClearDefectWUM( Rte_Instance self, uint8 ucCol, uint8 ucWP);
-static void ClearLowBatWUM( Rte_Instance self);
+static void CheckLowBatWUM(Rte_Instance self, const ImpTypeRecCddRdcData* rdcData, uint8 ucCol, uint8 ucWP);
+static void CheckDefectWUM(Rte_Instance self, const ImpTypeRecCddRdcData* rdcData, uint8 ucCol, uint8 ucWP);
+static void CheckWrongWuMountedWUM(Rte_Instance self);
+static void CheckForeignSupplierWUM(Rte_Instance self);
+static void ClearRFInterferenceWUM(Rte_Instance self);
+static void ClearGatewayAntennaWUM(Rte_Instance self, uint8 DpNo);
+static void ClearDefectWUM(Rte_Instance self, uint8 ucCol, uint8 ucWP);
+static void ClearLowBatWUM(Rte_Instance self);
 
-static void SetMuteErrorStatusWUM( Rte_Instance self);
+static void SetMuteErrorStatusWUM(Rte_Instance self);
 static boolean bWuIsDownForCountWUM( uint8 ucCol);
 
 static boolean bCheckMuteMonitorActive(void);

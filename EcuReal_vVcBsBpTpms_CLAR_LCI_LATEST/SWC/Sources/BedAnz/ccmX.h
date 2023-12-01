@@ -69,7 +69,7 @@ typedef struct{
 }tCcStructDecl;
 
 extern void   InitCCM(void);
-extern void   MainFunctionCCM( Rte_Instance self);
+extern void   MainFunctionCCM(Rte_Instance self);
 extern void   StartCycleCCM(void);
 extern void   StopCycleCCM(void);
 extern uint8 ucFillVklDataCCM( uint8 ucIx, uint16* pushCcmId, uint8* pucCcmStartStop, uint8* pucCcmBlinking, uint8* pucTransCycle);

@@ -22,7 +22,7 @@ extern "C"
 #define cZO_TIMEOUT           ((uint16) 0x1000u)
 #define cBZ_ALLE_BITS         ((uint16) 0xFFFFu)
 
-extern void InitBZ( Rte_Instance self, boolean bStartupInit);
+extern void InitBZ(Rte_Instance self, boolean bStartupInit);
 extern void SetBitBetriebszustandBZ( uint16 ushBitMask);
 extern void ClearBitBetriebszustandBZ( uint16 ushBitMask);
 extern boolean bGetBitBetriebszustandBZ( uint16 ushBitMask);

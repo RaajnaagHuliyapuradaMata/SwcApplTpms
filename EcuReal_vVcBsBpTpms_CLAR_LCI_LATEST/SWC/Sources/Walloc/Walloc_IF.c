@@ -5,41 +5,41 @@
 #include "EeHistoryBlockX.h"
 #include "EeZomBlockX.h"
 
-void GetWADataEE( Rte_Instance self, uint8 ucId, uint8 pRamAdr[], uint16 ucLen){
+void GetWADataEE(Rte_Instance self, uint8 ucId, uint8 pRamAdr[], uint16 ucLen){
   uint8 i;
   switch(ucId){
     case cWAParameter:
       for (i=0; i<ucLen; i++){
-        pRamAdr[i] = GETtWAparamEE( self, i);
+        pRamAdr[i] = GETtWAparamEE(self, i);
       }
     break;
 
     case cHistoryIDSet:
       for (i=0; i<ucLen; i++){
-        pRamAdr[i] = GETucWAHistIDEE( self, i);
+        pRamAdr[i] = GETucWAHistIDEE(self, i);
       }
     break;
 
     case cHistoryWPSet:
       for (i=0; i<ucLen; i++){
-        pRamAdr[i] = GETucWAHistWPEE( self, i);
+        pRamAdr[i] = GETucWAHistWPEE(self, i);
       }
     break;
 
     case cZOMContent:
-      GETZomFromNvmEE( self, pRamAdr, ucLen);
+      GETZomFromNvmEE(self, pRamAdr, ucLen);
     break;
 
     case cAllocState:
-      pRamAdr[0] = GETAllocStateFromNvmEE( self);
+      pRamAdr[0] = GETAllocStateFromNvmEE(self);
     break;
 
     case cIDChangeBits:
-      pRamAdr[0] = GETIdChangeBitsFromNvmEE( self);
+      pRamAdr[0] = GETIdChangeBitsFromNvmEE(self);
     break;
 
     case cPermutationState:
-      pRamAdr[0] = GETucPermutationStateFromNvmEE( self);
+      pRamAdr[0] = GETucPermutationStateFromNvmEE(self);
     break;
 
     default:
@@ -47,41 +47,41 @@ void GetWADataEE( Rte_Instance self, uint8 ucId, uint8 pRamAdr[], uint16 ucLen){
   }
 }
 
-void PutWADataEE( Rte_Instance self, uint8 ucId, const uint8 pRamAdr[], uint16 ucLen){
+void PutWADataEE(Rte_Instance self, uint8 ucId, const uint8 pRamAdr[], uint16 ucLen){
   uint8 i;
   switch(ucId){
     case cWAParameter:
 	    for (i=0;i < ucLen;i++){
-        PUTtWAparamEE( self, pRamAdr[i], i);
+        PUTtWAparamEE(self, pRamAdr[i], i);
 	    }
 	  break;
 
     case cHistoryIDSet:
 	    for (i=0;i < ucLen;i++){
-        PUTucWAHistIDEE( self, pRamAdr[i], i);
+        PUTucWAHistIDEE(self, pRamAdr[i], i);
 	    }
 	  break;
 
     case cHistoryWPSet:
 	    for (i=0;i < ucLen;i++){
-        PUTucWAHistWPEE( self, pRamAdr[i], i);
+        PUTucWAHistWPEE(self, pRamAdr[i], i);
   	  }
 	  break;
 
     case cZOMContent:
-      PUTZomToNvmEE( self, pRamAdr, ucLen);
+      PUTZomToNvmEE(self, pRamAdr, ucLen);
     break;
 
     case cAllocState:
-      PUTAllocStateToNvmEE( self, pRamAdr[0]);
+      PUTAllocStateToNvmEE(self, pRamAdr[0]);
     break;
 
     case cIDChangeBits:
-      PUTWaIdChangeBitsToNvmEE( self, pRamAdr[0]);
+      PUTWaIdChangeBitsToNvmEE(self, pRamAdr[0]);
     break;
 
     case cPermutationState:
-      PUTucPermutationStateToNvmEE( self, pRamAdr[0]);
+      PUTucPermutationStateToNvmEE(self, pRamAdr[0]);
     break;
 
     default:

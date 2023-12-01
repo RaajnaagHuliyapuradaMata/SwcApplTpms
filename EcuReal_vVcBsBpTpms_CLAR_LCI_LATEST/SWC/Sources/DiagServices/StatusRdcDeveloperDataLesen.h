@@ -13,9 +13,9 @@ extern "C"
 #define cStatusRdcDeveloperDataLesen_MuxChannelDefValue ( cStatusRdcDeveloperDataLesen_MuxChannel0)
 #define cStatusRdcDeveloperDataLesen_MuxChannelMaxValue ( 255)
 
-static void GetStatusRdcDevDataLesen_Ch0DS( Rte_Instance self, uint8* pucData);
-static void GetStatusRdcDevDataLesen_Ch1DS( Rte_Instance self, uint8* pucData);
-static void GetStatusRdcDevDataLesen_Ch2DS( Rte_Instance self, uint8* pucData);
+static void GetStatusRdcDevDataLesen_Ch0DS(Rte_Instance self, uint8* pucData);
+static void GetStatusRdcDevDataLesen_Ch1DS(Rte_Instance self, uint8* pucData);
+static void GetStatusRdcDevDataLesen_Ch2DS(Rte_Instance self, uint8* pucData);
 static void GetStatusRdcDevDataLesen_Ch3DS( uint8* pucData);
 static void GetStatusRdcDevDataLesen_Ch4DS( uint8* pucData);
 static void GetStatusRdcDevDataLesen_Ch5DS( uint8* pucData);

@@ -13,8 +13,8 @@ extern "C"
 #define cPermDriveTime     ( (uint8) 12)
 #define cHyst              ( (uint8) 2)
 
-static void StartOatLowerTimeSRA( Rte_Instance self);
-static void StartOatHigherTimeSRA( Rte_Instance self);
+static void StartOatLowerTimeSRA(Rte_Instance self);
+static void StartOatHigherTimeSRA(Rte_Instance self);
 static void CalculateOATavgSRA(Rte_Instance self);
 static void CyclicOATSampleFuncSRA(uint16 ushCurSpeed, Rte_Instance self);
 

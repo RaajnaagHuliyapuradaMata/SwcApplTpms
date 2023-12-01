@@ -76,11 +76,11 @@ static void TPMSMsgOutTM( const uint8* ptData){
   }
 }
 
-static void TPMSMsgInitTM( Rte_Instance self, uint8* pucStatus, const uint8* pucIniDat){
+static void TPMSMsgInitTM(Rte_Instance self, uint8* pucStatus, const uint8* pucIniDat){
   uint8 i;
-  GetDataEE( self, cucTsIdTM, pucStatus);
+  GetDataEE(self, cucTsIdTM, pucStatus);
   if( (*pucStatus & ucTPMStateMaskc) == ucTPMSInitializedc){
-    GetDataEE( self, cucCbIdTM, aucWnValidTM);
+    GetDataEE(self, cucCbIdTM, aucWnValidTM);
     for ( i = 0; i < (cAnzRad + 1); i++){
       aucWPosTM[i] = cRadPosUndef;
       aucWarnAtPosTM[i][cucWarnOutStateIx] = 0;
@@ -94,9 +94,9 @@ static void TPMSMsgInitTM( Rte_Instance self, uint8* pucStatus, const uint8* puc
       aucWnValidTM[ucIxWnCfgc] = pucIniDat[0];
       aucWnValidTM[ucIxMsCfgc] = pucIniDat[1];
     }
-    PutDataEE( self, cucCbIdTM, aucWnValidTM, TRUE);
+    PutDataEE(self, cucCbIdTM, aucWnValidTM, TRUE);
     *pucStatus |= ucTPMSInitializedc;
-    PutDataEE( self, cucTsIdTM, pucStatus, TRUE);
+    PutDataEE(self, cucTsIdTM, pucStatus, TRUE);
     for ( i = 0; i < (cAnzRad + 1); i++){
       aucWPosTM[i] = cRadPosUndef;
       aucWarnAtPosTM[i][cucWarnOutStateIx] = 0;
@@ -107,12 +107,12 @@ static void TPMSMsgInitTM( Rte_Instance self, uint8* pucStatus, const uint8* puc
   ulWarnOutTM[cucWarnOutAttrIx] = 0;
 }
 
-uint8 ucTPMSMsgManagerTM( Rte_Instance self, uint8 ucAction, uint8* pucData){
+uint8 ucTPMSMsgManagerTM(Rte_Instance self, uint8 ucAction, uint8* pucData){
   uint8 ucRet = 0;
 
   switch( ucAction){
     case ucPorInitc:
-      ucRet = ucTPMSMsgManager_PorInitTM( self, pucData);
+      ucRet = ucTPMSMsgManager_PorInitTM(self, pucData);
     break;
 
     case ucTPMSMsgOutc:
@@ -120,7 +120,7 @@ uint8 ucTPMSMsgManagerTM( Rte_Instance self, uint8 ucAction, uint8* pucData){
     break;
 
     case ucDiagServicec:
-      ucRet = ucTPMSMsgManagerDsTM( self, pucData);
+      ucRet = ucTPMSMsgManagerDsTM(self, pucData);
     break;
 
     default:
@@ -130,9 +130,9 @@ uint8 ucTPMSMsgManagerTM( Rte_Instance self, uint8 ucAction, uint8* pucData){
   return( ucRet);
 }
 
-static uint8 ucTPMSMsgManager_PorInitTM( Rte_Instance self, const uint8* pucData){
+static uint8 ucTPMSMsgManager_PorInitTM(Rte_Instance self, const uint8* pucData){
   uint8 ucTPMSMsgMngrState = 0;
-  TPMSMsgInitTM( self, &ucTPMSMsgMngrState, pucData);
+  TPMSMsgInitTM(self, &ucTPMSMsgMngrState, pucData);
   return( ucTPMSMsgMngrState);
 }
 
@@ -141,7 +141,7 @@ static uint8 ucTPMSMsgManager_MsgOutTM( const uint8* pucData){
   return( 0);
 }
 
-static uint8 ucTPMSMsgManagerDsTM( Rte_Instance self, uint8* pucData){
+static uint8 ucTPMSMsgManagerDsTM(Rte_Instance self, uint8* pucData){
   uint8 ucRet = 0;
   switch ( pucData[0]){
     case ucNewPositionsc:
@@ -153,7 +153,7 @@ static uint8 ucTPMSMsgManagerDsTM( Rte_Instance self, uint8* pucData){
     break;
 
     case ucWrWnValidTMc:
-      ucRet = ucTPMSMsgManagerDs_WrWnValidTM( self, pucData);
+      ucRet = ucTPMSMsgManagerDs_WrWnValidTM(self, pucData);
     break;
 
     case ucRdWnValidTMc:
@@ -282,7 +282,7 @@ static uint8 ucTPMSMsgManagerDs_GetWarnVectorsIdTM( uint8* pucData){
   return 0;
 }
 
-static uint8 ucTPMSMsgManagerDs_WrWnValidTM( Rte_Instance self, const uint8* pucData){
+static uint8 ucTPMSMsgManagerDs_WrWnValidTM(Rte_Instance self, const uint8* pucData){
   const uint8 ucNonMaskableWT[] = cWT_NonMaskable_map;
   uint8 ucWTCount, ucWTMask = 0;
   for ( ucWTCount = 0; ucWTCount < ucMaxWarnTypeWNc; ucWTCount++){
@@ -292,15 +292,15 @@ static uint8 ucTPMSMsgManagerDs_WrWnValidTM( Rte_Instance self, const uint8* puc
       (aucWnValidTM[ucIxMsCfgc] != ((const tParaSubSet *) (const void *) pucData)->ucParaByte[ucIxMsCfgc])){
     aucWnValidTM[ucIxWnCfgc] = ((const tParaSubSet *) (const void *) pucData)->ucParaByte[ucIxWnCfgc];
     aucWnValidTM[ucIxMsCfgc] = (((const tParaSubSet *) (const void *) pucData)->ucParaByte[ucIxMsCfgc] & (uint8) ~ucWTMask);
-    PutDataEE( self, cucCbIdTM, aucWnValidTM, TRUE);
+    PutDataEE(self, cucCbIdTM, aucWnValidTM, TRUE);
   }
   return( 0);
 }
 
 static uint8 ucTPMSMsgManagerDs_RdWnValidTM( uint8* pucData){
-  ((tParaSubSet *) (void *) pucData)->ucParaByte[ucIxWnCfgc] |= aucWnValidTM[ucIxWnCfgc];
-  ((tParaSubSet *) (void *) pucData)->ucParaByte[ucIxMsCfgc] = 0;
-  ((tParaSubSet *) (void *) pucData)->ucParaByte[ucIxMsCfgc] |= aucWnValidTM[ucIxMsCfgc];
+  ((tParaSubSet *) (void*) pucData)->ucParaByte[ucIxWnCfgc] |= aucWnValidTM[ucIxWnCfgc];
+  ((tParaSubSet *) (void*) pucData)->ucParaByte[ucIxMsCfgc] = 0;
+  ((tParaSubSet *) (void*) pucData)->ucParaByte[ucIxMsCfgc] |= aucWnValidTM[ucIxMsCfgc];
   return( 0);
 }
 

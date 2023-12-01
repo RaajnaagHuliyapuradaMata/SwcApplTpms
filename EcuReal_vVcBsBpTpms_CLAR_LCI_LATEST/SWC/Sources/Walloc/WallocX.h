@@ -108,9 +108,9 @@ extern struct ZOMSlot tZOM[cSumWE];
 extern struct ZOMInfoSlot tZOMInfo[cSumWE];
 #endif
 
-extern uint8 InitWAL( Rte_Instance self, boolean bClearZom);
-extern uint8 ucLearnID( Rte_Instance self, const tRFTelType * ptInputWA);
-extern uint8 ucWATO( Rte_Instance self, uint8* ucOpenPositions);
+extern uint8 InitWAL(Rte_Instance self, boolean bClearZom);
+extern uint8 ucLearnID(Rte_Instance self, const tRFTelType * ptInputWA);
+extern uint8 ucWATO(Rte_Instance self, uint8* ucOpenPositions);
 extern void  TickAbsoluteLearnTimerWAL(void);
 extern void  TickSingleRELearnTimerWAL(void);
 extern uint8 ucGetWATOTimeWAL(void);
@@ -126,8 +126,8 @@ extern uint8 ucGetColOfWP(uint8 ucWP);
 extern uint8 ucGetWPOfColWAL(uint8 ucIx);
 extern uint32 ulGetIDOfColWAL(uint8 ucIx);
 extern uint8 ucGetSuppIdOfColWAL(uint8 ucIx);
-extern uint8 ucSetHistoryID( Rte_Instance self, uint32 ulID, uint8 ucWP);
-extern void  ClearHistoryWPs( Rte_Instance self);
+extern uint8 ucSetHistoryID(Rte_Instance self, uint32 ulID, uint8 ucWP);
+extern void  ClearHistoryWPs(Rte_Instance self);
 extern uint8 ucGetWAState(void);
 extern uint8 ucGetHistoryState(void);
 extern uint8 ucGetHistoryWpChangedBits(void);
@@ -157,7 +157,7 @@ extern uint8 ucGetZomTemperature(uint8 ucIdx);
 extern uint8 ucGetZomDistanceValue(uint8 ucSpectrum, uint8 ucIdx, uint8 ucPos);
 extern uint8 ucNrOfBitSet16(uint16 ushTarget);
 extern uint8 ucNrOfBitSet8(uint8 ucTarget);
-extern uint8* pucGetNewWheelPosOfIdWAL_debug( Rte_Instance self, uint8 * pucPermState);
+extern uint8* pucGetNewWheelPosOfIdWAL_debug(Rte_Instance self, uint8 * pucPermState);
 
 #ifdef __cplusplus
 }

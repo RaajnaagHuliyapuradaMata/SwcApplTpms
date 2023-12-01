@@ -151,7 +151,7 @@ uint8 SetParkenWohnenFahrenDM( Rdci_CON_VEH_Type tPWF)
   return retVal;
 }
 
-void SetExternalTemperatureDM( Rte_Instance self, uint8 tempEx)
+void SetExternalTemperatureDM(Rte_Instance self, uint8 tempEx)
 {
   sint8 sctemperature;
 
@@ -160,7 +160,7 @@ void SetExternalTemperatureDM( Rte_Instance self, uint8 tempEx)
 
   if(ucExtTemperatureTimer == 30)
   {
-    PUTscTAmbValEE( self, sctemperature);
+    PUTscTAmbValEE(self, sctemperature);
   }
 }
 
@@ -182,26 +182,26 @@ void ExternalTemperatureTimerTickDM(void)
   }
 }
 
-void SetExternalPressureDM( Rte_Instance self, Rdci_AIP_ENG_DRV_Type pressEx, uint8 ucError)
+void SetExternalPressureDM(Rte_Instance self, Rdci_AIP_ENG_DRV_Type pressEx, uint8 ucError)
 {
   uint16 ushPrs;
   uint8  ucPrs;
   uint8  ucState;
 
-  ucState = GETucAipGpsStateEE( self);
+  ucState = GETucAipGpsStateEE(self);
   ucState |= cAGS_AipSigRec;
 
   if( ucError == cNoError)
   {
     ucState |= cAGS_AipSigValid;
 
-    PUTushGpsTioTicksEE( self, 0);
+    PUTushGpsTioTicksEE(self, 0);
     ucState &= (uint8) ~cAGS_GpsAltSigTio;
 
     ushPrs = ((uint16) pressEx * 2) + (uint16) 598;
     ucPrs = ChangeHpaTo25mBar(ushPrs);
 
-    PUTucPAmbValEE( self, ucPrs);
+    PUTucPAmbValEE(self, ucPrs);
   }
   else
   {
@@ -209,18 +209,18 @@ void SetExternalPressureDM( Rte_Instance self, Rdci_AIP_ENG_DRV_Type pressEx, ui
     ucState &= (uint8) ~cAGS_AipSigValid;
   }
 
-  PUTucAipGpsStateEE( self, ucState);
-  PUTucAipEngDrvEE( self, pressEx);
+  PUTucAipGpsStateEE(self, ucState);
+  PUTucAipEngDrvEE(self, pressEx);
 }
 
-void SetGNSSPositionAltitudeDM( Rte_Instance self, Rdci_GNSSPositionAltitude_Type GNSSPositionAltitude, uint8 ucError)
+void SetGNSSPositionAltitudeDM(Rte_Instance self, Rdci_GNSSPositionAltitude_Type GNSSPositionAltitude, uint8 ucError)
 {
   uint16 ushPrs;
   uint8  ucPrs;
   uint8  ucState;
   sint16 sshAltMeter;
 
-  ucState = GETucAipGpsStateEE( self);
+  ucState = GETucAipGpsStateEE(self);
   ucState |= cAGS_GpsAltSigRec;
 
   if( ucError == cNoError)
@@ -245,13 +245,13 @@ void SetGNSSPositionAltitudeDM( Rte_Instance self, Rdci_GNSSPositionAltitude_Typ
         {
           ushPrs = cAGS_Pat0Mtr - (((cAGS_Pat0Mtr - cAGS_Pat2500Mtr) * 4 * (uint16) sshAltMeter) / 10000);
           ucPrs  = ChangeHpaTo25mBar( ushPrs);
-          PUTucPAmbValEE( self, ucPrs);
+          PUTucPAmbValEE(self, ucPrs);
         }
         else
         {
           ushPrs = cAGS_Pat2500Mtr - (((cAGS_Pat2500Mtr - cAGS_Pat5000Mtr) * 4 * ((uint16) sshAltMeter - cAGS_2500Mtr)) / 10000);
           ucPrs  = ChangeHpaTo25mBar( ushPrs);
-          PUTucPAmbValEE( self, ucPrs);
+          PUTucPAmbValEE(self, ucPrs);
         }
       }
     }
@@ -264,22 +264,22 @@ void SetGNSSPositionAltitudeDM( Rte_Instance self, Rdci_GNSSPositionAltitude_Typ
     if( (ucState & cAGS_GpsAltSigTio) != cAGS_GpsAltSigTio)
     {
 
-      PUTushGpsTioTicksEE( self, cAGS_TioTimerTicksSec);
+      PUTushGpsTioTicksEE(self, cAGS_TioTimerTicksSec);
       ucState |= cAGS_GpsAltSigTio;
     }
   }
 
-  PUTucAipGpsStateEE( self, ucState);
-  PUTushPositionAltitudeEE( self, GNSSPositionAltitude);
+  PUTucAipGpsStateEE(self, ucState);
+  PUTushPositionAltitudeEE(self, GNSSPositionAltitude);
 }
 
-void SetGNSSErrorAltitudeMetersDM( Rte_Instance self, Rdci_GNSSErrorAltitudeMeters_Type GNSSErrorAltitudeMeters, uint8 ucError)
+void SetGNSSErrorAltitudeMetersDM(Rte_Instance self, Rdci_GNSSErrorAltitudeMeters_Type GNSSErrorAltitudeMeters, uint8 ucError)
 {
   uint8  ucState;
   uint16 ushTimerTicks;
 
-  ucState = GETucAipGpsStateEE( self);
-  ushTimerTicks = GETushGpsTioTicksEE( self);
+  ucState = GETucAipGpsStateEE(self);
+  ushTimerTicks = GETushGpsTioTicksEE(self);
 
   ucState |= cAGS_GpsErrAltSigRec;
 
@@ -321,50 +321,50 @@ void SetGNSSErrorAltitudeMetersDM( Rte_Instance self, Rdci_GNSSErrorAltitudeMete
     }
   }
 
-  PUTushGpsTioTicksEE( self, ushTimerTicks);
-  PUTucAipGpsStateEE( self, ucState);
-  PUTushErrorAltitudeMetersEE( self, GNSSErrorAltitudeMeters);
+  PUTushGpsTioTicksEE(self, ushTimerTicks);
+  PUTucAipGpsStateEE(self, ucState);
+  PUTushErrorAltitudeMetersEE(self, GNSSErrorAltitudeMeters);
 }
 
-void SetUnitMileDM( Rte_Instance self, uint8 unitMile)
+void SetUnitMileDM(Rte_Instance self, uint8 unitMile)
 {
   if(( unitMile == eMILEAGE_UNIT_MEILEN)
    || ( unitMile == eMILEAGE_UNIT_KILOMETER))
   {
-    PUTucUnMileEE( self, (tMileageUnitType) unitMile);
+    PUTucUnMileEE(self, (tMileageUnitType) unitMile);
   }
 }
 
-void SetUnitTempDM( Rte_Instance self, uint8 unitTemp)
+void SetUnitTempDM(Rte_Instance self, uint8 unitTemp)
 {
   if(( unitTemp == eTEMPERATURE_UNIT_FAHRENHEIT)
    || ( unitTemp == eTEMPERATURE_UNIT_CELSIUS))
   {
-    PUTucUnTempEE( self, (tTemperatureUnitType) unitTemp);
+    PUTucUnTempEE(self, (tTemperatureUnitType) unitTemp);
   }
 }
 
-void SetUnitAipDM( Rte_Instance self, uint8 unitAip)
+void SetUnitAipDM(Rte_Instance self, uint8 unitAip)
 {
   if(( unitAip == ePRESSURE_UNIT_PSI)
    || ( unitAip == ePRESSURE_UNIT_KPA)
    || ( unitAip == ePRESSURE_UNIT_BAR))
   {
-    PUTucUnAipEE( self, (tPressureUnitType) unitAip);
+    PUTucUnAipEE(self, (tPressureUnitType) unitAip);
   }
 }
 
-void SetTimeDateDM( Rte_Instance self, Rdci_UHRZEIT_DATUM_Type currentTimeDate)
+void SetTimeDateDM(Rte_Instance self, Rdci_UHRZEIT_DATUM_Type currentTimeDate)
 {
-  PUTtTimeDateEE( self, currentTimeDate);
+  PUTtTimeDateEE(self, currentTimeDate);
 }
 
-void SetMileageDM( Rte_Instance self, Rdci_MILE_KM_Type mileKm)
+void SetMileageDM(Rte_Instance self, Rdci_MILE_KM_Type mileKm)
 {
-  PUTulMileKmEE( self, mileKm);
+  PUTulMileKmEE(self, mileKm);
 }
 
-void SetStopTimeDM( Rte_Instance self, StbMB_SystemTimeType currentTimestamp)
+void SetStopTimeDM(Rte_Instance self, StbMB_SystemTimeType currentTimestamp)
 {
   static uint8 ucStateMachine = cInit;
   static uint8 ucInitTimeout = 4;
@@ -376,14 +376,14 @@ void SetStopTimeDM( Rte_Instance self, StbMB_SystemTimeType currentTimestamp)
 
     if(currentTimestamp.systemTicks != 0xffffffffu)
     {
-      ulStopTime = currentTimestamp.systemTicks - GETulTimestampEE( self);
+      ulStopTime = currentTimestamp.systemTicks - GETulTimestampEE(self);
 
       if(ulStopTime >= cLONG_PARK_TIME)
       {
         SetBitFahrzeugzustandFZZ(cLONG_PARK);
       }
 
-      InitRDCiFunctionsPartTwoDM( self);
+      InitRDCiFunctionsPartTwoDM(self);
       ucStateMachine = cCarStop;
     }
 
@@ -394,7 +394,7 @@ void SetStopTimeDM( Rte_Instance self, StbMB_SystemTimeType currentTimestamp)
       {
         ulStopTime = cLONG_PARK_TIME;
         SetBitFahrzeugzustandFZZ(cLONG_PARK);
-        InitRDCiFunctionsPartTwoDM( self);
+        InitRDCiFunctionsPartTwoDM(self);
         ucStateMachine = cCarStop;
       }
     }
@@ -415,7 +415,7 @@ void SetStopTimeDM( Rte_Instance self, StbMB_SystemTimeType currentTimestamp)
       }
       else
       {
-        ulStopTime = currentTimestamp.systemTicks - GETulTimestampEE( self);
+        ulStopTime = currentTimestamp.systemTicks - GETulTimestampEE(self);
       }
 
       if(bGetBitFahrzeugzustandFZZ(cLONG_PARK) == FALSE)
@@ -423,16 +423,16 @@ void SetStopTimeDM( Rte_Instance self, StbMB_SystemTimeType currentTimestamp)
         if(ulStopTime >= cLONG_PARK_TIME)
         {
           SetBitFahrzeugzustandFZZ(cLONG_PARK);
-          StartLearnLocateWAM( self);
+          StartLearnLocateWAM(self);
           InitRidDataRID(self);
 
-          ucTempVar = GETTyreSelectionBckgrdEE( self);
-          ucTempVar |= GETTyreSelectionActiveEE( self);
+          ucTempVar = GETTyreSelectionBckgrdEE(self);
+          ucTempVar |= GETTyreSelectionActiveEE(self);
 
           if( ucTempVar != 0)
           {
 
-            InitRatedValuesDM( self);
+            InitRatedValuesDM(self);
           }
         }
       }
@@ -440,11 +440,11 @@ void SetStopTimeDM( Rte_Instance self, StbMB_SystemTimeType currentTimestamp)
     break;
 
     case cCarDrive:
-    PUTulTimestampEE( self, currentTimestamp.systemTicks);
+    PUTulTimestampEE(self, currentTimestamp.systemTicks);
     if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == FALSE)
     {
       ucStateMachine = cCarStop;
-      StartFillingDetectionFID( self);
+      StartFillingDetectionFID(self);
     }
     break;
 
@@ -608,7 +608,7 @@ uint8 ucGetRdcDataDM(ImpTypeRecCddRdcData* data, uint8* ucType)
   return ucReturnValue;
 }
 
-void CopyPressAndTempFromZOMDM( Rte_Instance self){
+void CopyPressAndTempFromZOMDM(Rte_Instance self){
   uint32 ulREID;
   uint8 ZomIx = cSumWE;
   uint8 ucHisCol;
@@ -624,14 +624,14 @@ void CopyPressAndTempFromZOMDM( Rte_Instance self){
 
         ucWheelPos = cRadPosUndef;
       }
-      (void)ucConvAkAbsPressureInRelDM( ucGetZomPressure( ZomIx), &ucPhyPress, GETucPAmbValEE( self));
+      (void)ucConvAkAbsPressureInRelDM( ucGetZomPressure( ZomIx), &ucPhyPress, GETucPAmbValEE(self));
       PutRePressureRelDM( ucHisCol, ucPhyPress);
       (void)ucConvAkTemperatureInCentDM( ucGetZomTemperature( ZomIx), &scPhyTemp);
       PutReTemperatureCentDM( ucHisCol, scPhyTemp);
-      PUTucLastWuPressureEE( self, ucPhyPress, ucHisCol);
-      PUTscLastWuTemperatureEE( self, scPhyTemp, ucHisCol);
-      CheckTirePressureDM( self, ucHisCol, ucWheelPos, ucGetRePressureRelDM( ucHisCol), scGetReTemperatureCentDM( ucHisCol));
-      NotificationITY( self, cNotifyTelRecITY, ucHisCol);
+      PUTucLastWuPressureEE(self, ucPhyPress, ucHisCol);
+      PUTscLastWuTemperatureEE(self, scPhyTemp, ucHisCol);
+      CheckTirePressureDM(self, ucHisCol, ucWheelPos, ucGetRePressureRelDM( ucHisCol), scGetReTemperatureCentDM( ucHisCol));
+      NotificationITY(self, cNotifyTelRecITY, ucHisCol);
     }
   }
 }
@@ -671,129 +671,108 @@ void ClearLastReceivedReDataArraysDM(void)
   }
 }
 
-void InitRDCiEepromDM( Rte_Instance self)
-{
-  uint8 ucState;
+void InitRDCiEepromDM(Rte_Instance self){
+   uint8 ucState;
 
-  if( GETucCommonBlockInitializeEE( self) != cNvmInitialized)
-  {
-    InitCommonBlockEE( self);
-  }
-  else
-  {
-    ucState = GETucAipGpsStateEE( self);
-    ucState &= (uint8) ~(cAGS_AipSigRec | cAGS_GpsAltSigRec | cAGS_GpsErrAltSigRec);
-    PUTucAipGpsStateEE( self, ucState);
-  }
+   if(cNvmInitialized != GETucCommonBlockInitializeEE(self)){
+      InitCommonBlockEE(self);
+   }
+   else{
+      ucState = GETucAipGpsStateEE(self);
+      ucState &= (uint8) ~(cAGS_AipSigRec | cAGS_GpsAltSigRec | cAGS_GpsErrAltSigRec);
+      PUTucAipGpsStateEE(self, ucState);
+   }
 
-  if( GETucErfsInitializerEE( self) != cNvmInitialized)
-  {
-    InitErfsTsaBlockEE( self);
-    InitRidQrBlock1u2EE( self);
-    InitErfsBlockEE( self);
-  }
+   if(cNvmInitialized != GETucErfsInitializerEE(self)){
+      InitErfsTsaBlockEE  (self);
+      InitRidQrBlock1u2EE (self);
+      InitErfsBlockEE     (self);
+   }
 
-  if( GETucDiagBlock1InitializeEE( self) != cNvmInitialized)
-  {
-    InitDiagBlock1EE( self);
-  }
+   if(cNvmInitialized != GETucDiagBlock1InitializeEE      (self)){InitDiagBlock1EE      (self);}
+   if(cNvmInitialized != GETucDiagBlock2InitializeEE      (self)){InitDiagBlock2EE      (self);}
+   if(cNvmInitialized != GETucWarnStatusBlockInitializeEE (self)){InitWarnStatusBlockEE (self);}
+   if(cNvmInitialized != GETucHistoryBlockInitializeEE    (self)){InitZoHistoryBlockEE  (self);}
 
-  if( GETucDiagBlock2InitializeEE( self) != cNvmInitialized)
-  {
-    InitDiagBlock2EE( self);
-  }
+   if(cNvmInitialized != GETucZomBlock1InitializeEE(self)){
+      InitZomBlock1EE(self);
+      InitZomBlock2EE(self);
+   }
 
-  if(GETucWarnStatusBlockInitializeEE( self) != cNvmInitialized)
-  {
-    InitWarnStatusBlockEE( self);
-  }
+   if(cNvmInitialized != GETucZomBlock2InitializeEE(self)){
+      InitZomBlock1EE(self);
+      InitZomBlock2EE(self);
+   }
 
-  if(GETucHistoryBlockInitializeEE( self) != cNvmInitialized)
-  {
-    InitZoHistoryBlockEE( self);
-  }
-
-  if( GETucZomBlock1InitializeEE( self) != cNvmInitialized)
-  {
-    InitZomBlock1EE( self);
-    InitZomBlock2EE( self);
-  }
-
-  if( GETucZomBlock2InitializeEE( self) != cNvmInitialized)
-  {
-    InitZomBlock1EE( self);
-    InitZomBlock2EE( self);
-  }
-
-  CheckMemoryReserveEE( self);
+   CheckMemoryReserveEE(self);
 }
 
-void InitRDCiFunctionsPartOneDM( Rte_Instance self)
+void InitRDCiFunctionsPartOneDM(Rte_Instance self)
 {
   uint8 ucLoop;
 
-  InitBM( GETushBandmodeStateEE( self));
+  InitBM( GETushBandmodeStateEE(self));
 
-  InitBZ( self, TRUE);
+  InitBZ(self, TRUE);
   InitFZZ();
   InitZK();
 
-  InitTAF( self);
+  InitTAF(self);
 
-  InitSRA( self);
+  InitSRA(self);
 
   InitSCC();
 
-  InitWUM( self);
-  InitNWM( self);
-  InitIeFiFoDS( self);
+  InitWUM(self);
+  InitNWM(self);
+  InitIeFiFoDS(self);
   InitSecondaryDtcFiFoSCD();
 
-  InitRatedValuesDM( self);
+  InitRatedValuesDM(self);
 
-  InitUSWIF( self);
-  InitFastaWarnEventsDS( self);
+  InitUSWIF(self);
+  InitFastaWarnEventsDS(self);
 
   for( ucLoop = 0; ucLoop < cAnzRad; ucLoop++)
   {
-    PutRePressureRelDM( ucLoop, GETucLastWuPressureEE( self, ucLoop));
-    PutReTemperatureCentDM( ucLoop, GETscLastWuTemperatureEE( self, ucLoop));
+    PutRePressureRelDM( ucLoop, GETucLastWuPressureEE(self, ucLoop));
+    PutReTemperatureCentDM( ucLoop, GETscLastWuTemperatureEE(self, ucLoop));
   }
-  InitITY( self);
-  InitBT( self);
+  InitITY(self);
+  InitBT(self);
   InitCCM();
   InitWL();
-  InitSBR( self);
-  InitRidDataRID( self);
+  InitSBR(self);
+  InitRidDataRID(self);
   InitStatusReLesenDruckcodierungDS();
   if( bGetBandmodeBM() == TRUE)
   {
     if( bGetStateBitBM( cushTestEigenradFahrtBM) == TRUE)
     {
-      SetWumActivityStatusWUM( self, cWUM_BM_DIENST_RUN, cNO_EVALUATION);
+      SetWumActivityStatusWUM(self, cWUM_BM_DIENST_RUN, cNO_EVALUATION);
     }else if( bGetStateBitBM( cushTestEigenradFahrtNoSpeedBM) == TRUE)
     {
-      SetWumActivityStatusWUM( self, cWUM_BM_DIENST_RUN, cNO_EVALUATION);
+      SetWumActivityStatusWUM(self, cWUM_BM_DIENST_RUN, cNO_EVALUATION);
     }else{
-      SetWumActivityStatusWUM( self, cWUM_DISABLED, cNO_EVALUATION);
+      SetWumActivityStatusWUM(self, cWUM_DISABLED, cNO_EVALUATION);
     }
   }else{
-    SetWumActivityStatusWUM( self, cWUM_ENABLED, cNO_EVALUATION);
+    SetWumActivityStatusWUM(self, cWUM_ENABLED, cNO_EVALUATION);
   }
 }
 
-void InitRDCiFunctionsPartTwoDM( Rte_Instance self)
+void InitRDCiFunctionsPartTwoDM(Rte_Instance self)
 {
 
-  if(GETTyreSelectionActiveEE( self) == TRUE)
+  if(GETTyreSelectionActiveEE(self) == TRUE)
   {
-    ContinueSBR( self);
+    ContinueSBR(self);
   }
 
   if(bGetBitFahrzeugzustandFZZ(cLONG_PARK) == TRUE)
   {
-    StartLearnLocateWAM( self);
-    InitRidDataRID( self);
+    StartLearnLocateWAM(self);
+    InitRidDataRID(self);
   }
   else
   {
@@ -801,7 +780,7 @@ void InitRDCiFunctionsPartTwoDM( Rte_Instance self)
     {
       if(bGetBitBetriebszustandBZ(cZO_TIMEOUT) == FALSE)
       {
-        WatoRunWAM( self, cWatoContinue);
+        WatoRunWAM(self, cWatoContinue);
       }
     }
   }
@@ -816,17 +795,17 @@ void InitAfterKl15OffDM(void)
 {
 }
 
-void CyclicRDCiFunctionDM( Rte_Instance self)
+void CyclicRDCiFunctionDM(Rte_Instance self)
 {
-  TimerWT( self, ucCountc);
-  TransferWarnStateToTpmsMsgManOnCycEventDM( self);
-  SetBreakTireStateBT( self);
-  MainFunctionCCM( self);
+  TimerWT(self, ucCountc);
+  TransferWarnStateToTpmsMsgManOnCycEventDM(self);
+  SetBreakTireStateBT(self);
+  MainFunctionCCM(self);
   MainFunctionWL();
-  MainFunctionITY( self);
+  MainFunctionITY(self);
 }
 
-uint8 ucNewReDataDM( Rte_Instance self, ImpTypeRecCddRdcData tReData){
+uint8 ucNewReDataDM(Rte_Instance self, ImpTypeRecCddRdcData tReData){
   uint8  ucRet = cRetOk;
   uint8  ucWarnType;
   uint8  ucSetLevel, ucResetLevel;
@@ -847,7 +826,7 @@ uint8 ucNewReDataDM( Rte_Instance self, ImpTypeRecCddRdcData tReData){
   uint8 ucSNR;
   ulReID = tReData.TYR_ID + ((uint32) tReData.SUPP_ID << 28);
   ucSlotNo = ucGetColOfID( (const uint32 *) &ulReID);
-  ucEnvP_l = GETucPAmbValEE( self);
+  ucEnvP_l = GETucPAmbValEE(self);
   ucPresState = ucConvAkAbsPressureInRelDM( tReData.RDC_DT_1, &ucPres, ucEnvP_l);
   (void) ucConvAkTemperatureInCentDM( tReData.RDC_DT_2, &scTemp);
   ucBattState = ucCalcBatteryLevelDM( (const ImpTypeRecCddRdcData *) &tReData);
@@ -869,58 +848,58 @@ uint8 ucNewReDataDM( Rte_Instance self, ImpTypeRecCddRdcData tReData){
     PutReTemperatureCentDM( ucSlotNo, scTemp);
     PutTelRssiLevelDM( ucSlotNo, tReData.RDC_DT_7);
     PutReBatteryLevelDM( ucSlotNo, ucBattState);
-    PUTucLastTelegramTypeToNvmMirrorEE( self, ucGetRePckgIdDM(ucSlotNo), ucSlotNo);
-    PUTucLastBatteryStateToNvmMirrorEE( self, ucGetReBatteryLevelDM(ucSlotNo), ucSlotNo);
+    PUTucLastTelegramTypeToNvmMirrorEE(self, ucGetRePckgIdDM(ucSlotNo), ucSlotNo);
+    PUTucLastBatteryStateToNvmMirrorEE(self, ucGetReBatteryLevelDM(ucSlotNo), ucSlotNo);
     ucSNR = ucCalcSignalToNoiseRatio(ucGetTelRssiLevelDM(ucSlotNo), ucGetRfBackgroundNoiseLevelDM());
-    PUTucLastSNRToNvmMirrorEE( self, ucSNR, ucSlotNo);
+    PUTucLastSNRToNvmMirrorEE(self, ucSNR, ucSlotNo);
     if( (tReData.PCKG_ID == cTelTypeSELPAL) || (tReData.PCKG_ID == cTelTypeSELPAL1)){
       PutRePalLookBackTimeDM( ucSlotNo, tReData.RDC_DT_3);
       PutRePalStatusDM( ucSlotNo, (uint16) (((uint16) tReData.RDC_DT_4 << 8) + (uint16) tReData.RDC_DT_5));
-      PUTushLastPalStatusEE( self, ushGetRePalStatusDM(ucSlotNo), ucSlotNo);
+      PUTushLastPalStatusEE(self, ushGetRePalStatusDM(ucSlotNo), ucSlotNo);
     }
 
     if( bGetBitBetriebszustandBZ( cEIGENRAD) == TRUE)
     {
 
-      PUTucLastWuPressureEE( self, ucGetRePressureRelDM( ucSlotNo), ucSlotNo);
-      PUTscLastWuTemperatureEE( self, scGetReTemperatureCentDM( ucSlotNo), ucSlotNo);
+      PUTucLastWuPressureEE(self, ucGetRePressureRelDM( ucSlotNo), ucSlotNo);
+      PUTscLastWuTemperatureEE(self, scGetReTemperatureCentDM( ucSlotNo), ucSlotNo);
 
-      if( ProcessFillingDetectionFID( self, ucSlotNo) == TRUE)
+      if( ProcessFillingDetectionFID(self, ucSlotNo) == TRUE)
       {
         for (i=0; i<cAnzRad; i++)
         {
 
-          (void)ucGetPTSollUSWIF( self, &ucPSollKalt, &scTSollKalt, &ucPSollWarm, &scTSollWarm, &ushMSoll_l, &ucEnvP_l, i);
-          scTSollKalt = GETscTAmbValEE( self);
-          PUTscTAinitValEE( self, scTSollKalt);
+          (void)ucGetPTSollUSWIF(self, &ucPSollKalt, &scTSollKalt, &ucPSollWarm, &scTSollWarm, &ushMSoll_l, &ucEnvP_l, i);
+          scTSollKalt = GETscTAmbValEE(self);
+          PUTscTAinitValEE(self, scTSollKalt);
 
-          (void) ucCfgReInitSingleUSWIF( self, ucPSollKalt, scTSollKalt, i, cRadPosUndef);
+          (void) ucCfgReInitSingleUSWIF(self, ucPSollKalt, scTSollKalt, i, cRadPosUndef);
 
-          NotificationITY( self, cNotifyRcpChangedITY, ucSlotNo);
+          NotificationITY(self, cNotifyRcpChangedITY, ucSlotNo);
         }
 
-        if(GETTyreSelectionBckgrdEE( self) == FALSE)
+        if(GETTyreSelectionBckgrdEE(self) == FALSE)
         {
-          SetCalibrationRootCauseDS( self, cCalFilDetRe0 + ucSlotNo);
-          (void)SaveCalibrationEventDS( self);
+          SetCalibrationRootCauseDS(self, cCalFilDetRe0 + ucSlotNo);
+          (void)SaveCalibrationEventDS(self);
         }
 
-        StartSRA( self);
+        StartSRA(self);
       }
 
       if( ushGetReDefectCounterBySlotWUM( ucSlotNo) == 0)
       {
-        CheckTirePressureDM( self, ucSlotNo, ucWheelPos, ucGetRePressureRelDM( ucSlotNo), scGetReTemperatureCentDM( ucSlotNo));
+        CheckTirePressureDM(self, ucSlotNo, ucWheelPos, ucGetRePressureRelDM( ucSlotNo), scGetReTemperatureCentDM( ucSlotNo));
         for ( ucWarnType = 0; ucWarnType < ucMaxWarnTypeWNc ; ucWarnType++)
         {
-          (void) ucGetWThresUSWIF( self, ucWarnType, &ucSetLevel, &ucResetLevel);
+          (void) ucGetWThresUSWIF(self, ucWarnType, &ucSetLevel, &ucResetLevel);
 
           ucSetLevelDW[ucSlotNo][ucWarnType] = ucSetLevel;
           ucResetLevelDW[ucSlotNo][ucWarnType] = ucResetLevel;
         }
       }
-      NotificationITY( self, cNotifyTelRecITY, ucSlotNo);
-      ProcessFastaWarnEventsDS( self);
+      NotificationITY(self, cNotifyTelRecITY, ucSlotNo);
+      ProcessFastaWarnEventsDS(self);
       if( bGetBitBetriebszustandBZ( cZUGEORDNET) == TRUE)
       {
         CountWheelElectronicDataBM( ucWheelPos);
@@ -932,7 +911,7 @@ uint8 ucNewReDataDM( Rte_Instance self, ImpTypeRecCddRdcData tReData){
   return ucRet;
 }
 
-void CheckTirePressureDM( Rte_Instance self, uint8 ucSlotNo, uint8 ucWheelPos, PhySensorTyrePresType ucPressure, sint8 scTemperature)
+void CheckTirePressureDM(Rte_Instance self, uint8 ucSlotNo, uint8 ucWheelPos, PhySensorTyrePresType ucPressure, sint8 scTemperature)
 {
   tHFTelDat tHFTel;
   tTPMSMsgData tTssMsg;
@@ -941,10 +920,10 @@ void CheckTirePressureDM( Rte_Instance self, uint8 ucSlotNo, uint8 ucWheelPos, P
   tHFTel.scTWE = scTemperature;
   tHFTel.ucLifeTime = 200;
   tHFTel.ushVehicleSpeed = GETushSpeedFZZ();
-  tHFTel.scTa = GETscTAmbValEE( self);
-  tHFTel.ucEnvP = GETucPAmbValEE( self);
+  tHFTel.scTa = GETscTAmbValEE(self);
+  tHFTel.ucEnvP = GETucPAmbValEE(self);
 
-  (void) ucWarnManagerWN( self, ucComparec, (uint8 *) (void *) &tHFTel);
+  (void) ucWarnManagerWN(self, ucComparec, (uint8*) (void*) &tHFTel);
 
   tTssMsg.ucWarnState = tHFTel.ucWarnState;
   tTssMsg.ucWarnAttr = tHFTel.ucWarnAttr;
@@ -959,18 +938,18 @@ void CheckTirePressureDM( Rte_Instance self, uint8 ucSlotNo, uint8 ucWheelPos, P
     tTssMsg.ucPos = cRadPosUndef;
   }
 
-  (void) ucTPMSMsgManagerTM( self, ucTPMSMsgOutc, (uint8 *) (void *) &tTssMsg);
+  (void) ucTPMSMsgManagerTM(self, ucTPMSMsgOutc, (uint8*) (void*) &tTssMsg);
 }
 
-void TransferWarnStateToTpmsMsgManOnCycEventDM( Rte_Instance self)
+void TransferWarnStateToTpmsMsgManOnCycEventDM(Rte_Instance self)
 {
   uint8 ucLoop, ucWheelPos;
   uint8 ucWState[cAnzRad];
   uint8 ucWAttr[cAnzRad];
   tTPMSMsgData tTssMsg;
 
-  (void) ucGetWarnBitIdIntIFH( self, ucWState);
-  (void) ucGetWarnBitTonnageIdIntIFH( self, ucWAttr);
+  (void) ucGetWarnBitIdIntIFH(self, ucWState);
+  (void) ucGetWarnBitTonnageIdIntIFH(self, ucWAttr);
 
   for( ucLoop = 0; ucLoop < cAnzRad; ucLoop++)
   {
@@ -988,7 +967,7 @@ void TransferWarnStateToTpmsMsgManOnCycEventDM( Rte_Instance self)
       tTssMsg.ucSystemState = 0x00;
     }
 
-    (void) ucTPMSMsgManagerTM( self, ucTPMSMsgOutc, (uint8 *) (void *) &tTssMsg);
+    (void) ucTPMSMsgManagerTM(self, ucTPMSMsgOutc, (uint8*) (void*) &tTssMsg);
   }
 }
 
@@ -1035,160 +1014,97 @@ uint8 ucCalcBatteryLevelDM(const ImpTypeRecCddRdcData* rdcData)
   return ucBatStatus;
 }
 
-boolean CheckPrepareTyreSelectionDM( Rte_Instance self, const uint8 LoadState, const uint8 TyreListRow, const uint8 ucSeason, const uint8 Selection)
-{
+boolean CheckPrepareTyreSelectionDM(Rte_Instance self, const uint8 LoadState, const uint8 TyreListRow, const uint8 ucSeason, const uint8 Selection){
+   uint8                 MaxLoadStateVal;
+   boolean               bRet       = FALSE;
+   boolean               bStartInit = FALSE;
+   uint8                 ucHisCol, ucWheelPos;
+   PhySensorTyrePresType ucPress;
+   PhySensorTyreTempType scTemp;
+   if(TRUE == bGetCRdciEcoRcpEnableCD()){MaxLoadStateVal = REQ_ECO_LOAD;}
+   else                                 {MaxLoadStateVal = REQ_FULL_LOAD;}
 
-  uint8 MaxLoadStateVal;
-  boolean bRet = FALSE;
-  boolean bStartInit = FALSE;
-
-  uint8 ucHisCol, ucWheelPos;
-
-  PhySensorTyrePresType ucPress;
-  PhySensorTyreTempType scTemp;
-
-  if(bGetCRdciEcoRcpEnableCD() == TRUE)
-  {
-	  MaxLoadStateVal = REQ_ECO_LOAD;
-  }
-  else
-  {
-	  MaxLoadStateVal = REQ_FULL_LOAD;
-  }
-
-  if((LoadState <= MaxLoadStateVal) && (ucSeason <= CSEASON_WINTER))
-  {
-
-    if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == FALSE)
-    {
-
-      if(bGetBandmodeBM() == FALSE)
-      {
-
-        if(bSystemErrorIsSetNWM() == FALSE)
-        {
-          bStartInit = TRUE;
-        }
+   if((LoadState <= MaxLoadStateVal) && (ucSeason <= CSEASON_WINTER)){
+      if(FALSE == bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT)){
+         if(FALSE == bGetBandmodeBM()){
+            if(FALSE == bSystemErrorIsSetNWM()){
+               bStartInit = TRUE;
+            }
+         }
       }
-    }
-  }
-
-  if( bStartInit == TRUE)
-  {
-	  bStartInit = FALSE;
-
-    if((TyreListRow < GetLengthOfTyreListDM()) || (TyreListRow == OP_SLCTN_TYR_AVLB_AndererReifen))
-	  {
-      SetTarPTyrDisplayValueDM( self, LoadState, TyreListRow, Selection);
-
-      if(TyreListRow == OP_SLCTN_TYR_AVLB_AndererReifen)
-      {
-        bStartInit = TRUE;
-      }
-      else
-      {
-
-        if((TyreListRow != GETSelectedTyreIndexEE( self)))
-        {
-          bStartInit = TRUE;
-        }
-        else
-        {
-
-          if(ucSeason != GETSelectedSeasonEE( self))
-          {
+   }
+   if(TRUE == bStartInit){
+      bStartInit = FALSE;
+      if((TyreListRow < GetLengthOfTyreListDM()) || (OP_SLCTN_TYR_AVLB_AndererReifen == TyreListRow)){
+         SetTarPTyrDisplayValueDM(self, LoadState, TyreListRow, Selection);
+         if(OP_SLCTN_TYR_AVLB_AndererReifen == TyreListRow){
             bStartInit = TRUE;
-          }
-          else
-          {
-
-            if(LoadState == GETSelectedLoadStateEE( self))
-            {
-              bStartInit = TRUE;
+         }
+         else{
+            if(GETSelectedTyreIndexEE(self) != TyreListRow){
+               bStartInit = TRUE;
             }
-          }
-        }
-      }
-
-      if(bStartInit == TRUE)
-      {
-
-        StartInitializationProcessDM( self);
-
-        if(bGetBitFahrzeugzustandFZZ(cLONG_PARK) == TRUE)
-        {
-          StartLearnLocateWAM( self);
-        }
-
-        else if(bGetBitBetriebszustandBZ(cZO_FINISH | cLOC_INTERRUPTED | cLOC_NOT_POSSIBLE | cZO_TIMEOUT) == TRUE)
-        {
-          StartLearnLocateWAM( self);
-        }
-
-        else if(bGetBitBetriebszustandBZ(cER_FINISH) == TRUE)
-        {
-          ContinueLocateWAM( self);
-        }
-
-        else
-        {
-          ContinueLearnWAM( self);
-        }
-
-        ClearErrorConditionsWUM( self, cMaxLR, cPTC_Mute);
-
-        PUTTyreSelectionActiveEE( self, TRUE);
-        PUTTyreSelectionBckgrdEE( self, TRUE);
-        SetCalibrationRootCauseDS( self, cCalByHMI);
-
-        StartSBR( self);
-        StartSRA( self);
-      }
-      else
-      {
-
-        if(GETTyreSelectionActiveEE( self) == FALSE)
-        {
-          SetSolldruckDM( self, LoadState,TyreListRow);
-          (void) ZoPlausiInitPressINIT( self, bGetBitBetriebszustandBZ(cZUGEORDNET), TyreListRow);
-
-          SetCalibrationRootCauseDS( self, cCalByHMI);
-          (void)SaveCalibrationEventDS( self);
-
-          if( LoadState == OP_TAR_P_LOCO_TPCT_Teilbeladen)
-          {
-
-            for( ucHisCol = 0; ucHisCol < cAnzRad; ucHisCol++)
-            {
-              ucPress     = GETucLastWuPressureEE( self, ucHisCol);
-              scTemp      = GETscLastWuTemperatureEE( self, ucHisCol);
-              ucWheelPos  = ucGetWPOfColWAL( ucHisCol);
-
-              if( (ucPress != cInvalidREpressure) && (scTemp != cInvalidREtemperature))
-              {
-                CheckTirePressureDM( self, ucHisCol, ucWheelPos, ucPress, scTemp);
-
-              }
+            else{
+               if(GETSelectedSeasonEE(self) != ucSeason){
+                  bStartInit = TRUE;
+               }
+               else{
+                  if(GETSelectedLoadStateEE(self) == LoadState){
+                     bStartInit = TRUE;
+                  }
+               }
             }
-          }
-
-          NotificationITY( self, cNotifyBeladungChangedITY, cAnzRad);
-        }
+         }
+         if(TRUE == bStartInit){
+            StartInitializationProcessDM(self);
+            if(TRUE == bGetBitFahrzeugzustandFZZ(cLONG_PARK)){
+               StartLearnLocateWAM(self);
+            }
+            else if(TRUE == bGetBitBetriebszustandBZ(cZO_FINISH | cLOC_INTERRUPTED | cLOC_NOT_POSSIBLE | cZO_TIMEOUT)){
+               StartLearnLocateWAM(self);
+            }
+            else if(TRUE == bGetBitBetriebszustandBZ(cER_FINISH)){
+               ContinueLocateWAM(self);
+            }
+            else{
+               ContinueLearnWAM(self);
+            }
+            ClearErrorConditionsWUM(self, cMaxLR, cPTC_Mute);
+            PUTTyreSelectionActiveEE(self, TRUE);
+            PUTTyreSelectionBckgrdEE(self, TRUE);
+            SetCalibrationRootCauseDS(self, cCalByHMI);
+            StartSBR(self);
+            StartSRA(self);
+         }
+         else{
+            if(FALSE == GETTyreSelectionActiveEE(self)){
+               SetSolldruckDM(self, LoadState,TyreListRow);
+               (void) ZoPlausiInitPressINIT(self, bGetBitBetriebszustandBZ(cZUGEORDNET), TyreListRow);
+               SetCalibrationRootCauseDS(self, cCalByHMI);
+               (void)SaveCalibrationEventDS(self);
+               if(OP_TAR_P_LOCO_TPCT_Teilbeladen == LoadState){
+                  for(ucHisCol = 0; ucHisCol < cAnzRad; ucHisCol++){
+                     ucPress     = GETucLastWuPressureEE(self, ucHisCol);
+                     scTemp      = GETscLastWuTemperatureEE(self, ucHisCol);
+                     ucWheelPos  = ucGetWPOfColWAL( ucHisCol);
+                     if((cInvalidREpressure != ucPress) && (cInvalidREtemperature != scTemp)){
+                        CheckTirePressureDM(self, ucHisCol, ucWheelPos, ucPress, scTemp);
+                     }
+                  }
+               }
+               NotificationITY(self, cNotifyBeladungChangedITY, cAnzRad);
+            }
+         }
+         PUTPlausiInitErrorEE(self, FALSE);
+         PUTTyreChangedEE(self, FALSE);
+         PUTAutomaticSelectionFailedStatusEE(self, FALSE);
+         bRet = TRUE;
       }
-
-      PUTPlausiInitErrorEE( self, FALSE);
-
-      PUTTyreChangedEE( self, FALSE);
-
-      PUTAutomaticSelectionFailedStatusEE( self, FALSE);
-
-		  bRet = TRUE;
-	  }
-  }
-  return(bRet);
+   }
+   return(bRet);
 }
 
-void SaveCurrentTyreSelectionDM( Rte_Instance self)
+void SaveCurrentTyreSelectionDM(Rte_Instance self)
 {
 
   PUTSelectedLoadStateEE(self, GetLoadStateDM());
@@ -1213,17 +1129,17 @@ void SaveCurrentTyreSelectionDM( Rte_Instance self)
   }
 }
 
-void ResetCurrentTyreSelectionDM( Rte_Instance self)
+void ResetCurrentTyreSelectionDM(Rte_Instance self)
 {
-  SetSeasonDM( GETSelectedSeasonEE( self));
-  SetLoadStateDM( GETSelectedLoadStateEE( self));
-  SetSelectedTyreIndexDM( GETSelectedTyreIndexEE( self));
-  SetSummerTyreIndexDM( GETSelectedSuTyreIndexEE( self));
-  SetWinterTyreIndexDM( GETSelectedWiTyreIndexEE( self));
-  SetStatusManSelectionDM( GETStManSelectionEE( self));
+  SetSeasonDM( GETSelectedSeasonEE(self));
+  SetLoadStateDM( GETSelectedLoadStateEE(self));
+  SetSelectedTyreIndexDM( GETSelectedTyreIndexEE(self));
+  SetSummerTyreIndexDM( GETSelectedSuTyreIndexEE(self));
+  SetWinterTyreIndexDM( GETSelectedWiTyreIndexEE(self));
+  SetStatusManSelectionDM( GETStManSelectionEE(self));
 }
 
-void SetSolldruckDM( Rte_Instance self, const uint8 LoadState, const uint8 TyreListRow)
+void SetSolldruckDM(Rte_Instance self, const uint8 LoadState, const uint8 TyreListRow)
 {
   uint8 ucFrontAxlePressure;
   uint8 ucRearAxlePressure;
@@ -1236,26 +1152,26 @@ void SetSolldruckDM( Rte_Instance self, const uint8 LoadState, const uint8 TyreL
       ucFrontAxlePressure = GetFrontAxleSetPressTyreList(LoadState, TyreListRow);
       ucRearAxlePressure = GetRearAxleSetPressTyreList(LoadState, TyreListRow);
 
-      scTAmb = GETscTAmbValEE( self);
-      PUTscTAinitValEE( self, scTAmb);
+      scTAmb = GETscTAmbValEE(self);
+      PUTscTAinitValEE(self, scTAmb);
 
-      InitRatedValuesDM( self);
+      InitRatedValuesDM(self);
 
-      SetNewRatedValueDM( self, ucFrontAxlePressure, scTAmb, ucGetColOfWP(cRadPosVL));
-      SetNewRatedValueDM( self, ucFrontAxlePressure, scTAmb, ucGetColOfWP(cRadPosVR));
-      SetNewRatedValueDM( self, ucRearAxlePressure,  scTAmb, ucGetColOfWP(cRadPosHL));
-      SetNewRatedValueDM( self, ucRearAxlePressure,  scTAmb, ucGetColOfWP(cRadPosHR));
+      SetNewRatedValueDM(self, ucFrontAxlePressure, scTAmb, ucGetColOfWP(cRadPosVL));
+      SetNewRatedValueDM(self, ucFrontAxlePressure, scTAmb, ucGetColOfWP(cRadPosVR));
+      SetNewRatedValueDM(self, ucRearAxlePressure,  scTAmb, ucGetColOfWP(cRadPosHL));
+      SetNewRatedValueDM(self, ucRearAxlePressure,  scTAmb, ucGetColOfWP(cRadPosHR));
     }
   }
 }
 
-void SetTarPTyrDisplayValueDM( Rte_Instance self, const uint8 LoadState, const uint8 TyreListRow, const uint8 IdrSel)
+void SetTarPTyrDisplayValueDM(Rte_Instance self, const uint8 LoadState, const uint8 TyreListRow, const uint8 IdrSel)
 {
   uint8   ucFrontAxlePressure;
   uint8   ucRearAxlePressure;
   boolean bViewAxleSetPress;
 
-  if((GETTyreSelectionActiveEE( self) == TRUE) && (IdrSel == OP_IDR_SLCTN_Automatische_Auswahl)){
+  if((GETTyreSelectionActiveEE(self) == TRUE) && (IdrSel == OP_IDR_SLCTN_Automatische_Auswahl)){
     ushTarPTyrDisplayValDM[cRadPosVL] = (TAR_P_TYR_Funktionsschnittstelle_ist_nicht_verfuegbar+1);
     ushTarPTyrDisplayValDM[cRadPosVR] = (TAR_P_TYR_Funktionsschnittstelle_ist_nicht_verfuegbar+1);
     ushTarPTyrDisplayValDM[cRadPosHL] = (TAR_P_TYR_Funktionsschnittstelle_ist_nicht_verfuegbar+1);
@@ -1267,7 +1183,7 @@ void SetTarPTyrDisplayValueDM( Rte_Instance self, const uint8 LoadState, const u
     {
       if( TyreListRow != OP_SLCTN_TYR_AVLB_AndererReifen)
       {
-        if( GETInvalidTyreListEE( self) == FALSE)
+        if( GETInvalidTyreListEE(self) == FALSE)
         {
           bViewAxleSetPress = TRUE;
         }else{
@@ -1404,7 +1320,7 @@ uint8 GetSelectedTyreIndexDM(void)
 	return (ucSLCTNTRIndex);
 }
 
-void SaveRidWeDataDM( Rte_Instance self, ImpTypeRecCddRdcData tReData)
+void SaveRidWeDataDM(Rte_Instance self, ImpTypeRecCddRdcData tReData)
 {
 	switch (tReData.PCKG_ID)
 	{
@@ -1430,7 +1346,7 @@ void SaveRidWeDataDM( Rte_Instance self, ImpTypeRecCddRdcData tReData)
     }
 		case cTelTypeTyreStatus:
 		{
-			CheckTyreStatusRID( self, tReData);
+			CheckTyreStatusRID(self, tReData);
       break;
 		}
 		default:
@@ -1440,65 +1356,46 @@ void SaveRidWeDataDM( Rte_Instance self, ImpTypeRecCddRdcData tReData)
 	}
 }
 
-boolean CompareReDimErfsDM( Rte_Instance self, const uint8* ConvRidData)
-{
-  uint8 i,j;
-  boolean bRet = FALSE;
-  uint8 IxArray[TYRE_LIST_MAX_ELEMENTS];
-
-  if(CompareAllDataToErfsDM(ConvRidData, &IxArray[0]) == FALSE)
-  {
-    CompareTyreDimToErfsDM(ConvRidData, &IxArray[0]);
-    CompareLoadIxToErfsDM(ConvRidData, &IxArray[0]);
-    CompareSpeedIxToErfsDM(ConvRidData, &IxArray[0]);
-  }
-
-  if(ComparePressValOfMatchingErfsEntriesDM(&IxArray[0]) == TRUE)
-  {
-    for (i=0; i<TYRE_LIST_MAX_ELEMENTS ;i++)
-    {
-      if(IxArray[i] < TYRE_LIST_MAX_ELEMENTS)
-      {
-
-        if(bRet == FALSE)
-        {
-          j= CheckTyreChangedOnRearAxleDM();
-
-          if((i != GETSelectedTyreIndexEE( self)) || (j == TRUE))
-          {
-
-            PUTTyreSelectionActiveEE( self, TRUE);
-            StartSRA( self);
-            PUTSelectedTyreIndexEE( self, i);
-            SetSelectedTyreIndexDM(i);
-
-            if(ucGetCalibrationRootCauseDS( self) == cCalInvalid)
-            {
-              SetCalibrationRootCauseDS( self, cCalRidNoStatusbar);
+boolean CompareReDimErfsDM(Rte_Instance self, const uint8* ConvRidData){
+   uint8   i, j;
+   boolean bRet = FALSE;
+   uint8   IxArray[TYRE_LIST_MAX_ELEMENTS];
+   if(FALSE == CompareAllDataToErfsDM(ConvRidData, &IxArray[0])){
+      CompareTyreDimToErfsDM(ConvRidData, &IxArray[0]);
+      CompareLoadIxToErfsDM(ConvRidData, &IxArray[0]);
+      CompareSpeedIxToErfsDM(ConvRidData, &IxArray[0]);
+   }
+   if(TRUE == ComparePressValOfMatchingErfsEntriesDM(&IxArray[0])){
+      for(i = 0; i < TYRE_LIST_MAX_ELEMENTS; i++){
+         if(IxArray[i] < TYRE_LIST_MAX_ELEMENTS){
+            if(FALSE == bRet){
+               j = CheckTyreChangedOnRearAxleDM();
+               if((i != GETSelectedTyreIndexEE(self)) || (TRUE == j)){
+                  PUTTyreSelectionActiveEE(self, TRUE);
+                  StartSRA(self);
+                  PUTSelectedTyreIndexEE(self, i);
+                  SetSelectedTyreIndexDM(i);
+                  if(cCalInvalid == ucGetCalibrationRootCauseDS(self)){
+                     SetCalibrationRootCauseDS(self, cCalRidNoStatusbar);
+                  }
+               }
+               if(ST_MAN_SLCTN_Manuelle_Reifenauswahl == GETStManSelectionEE(self)){
+                  SetIDRMessageCenterDM(OP_IDR_MSGC_MZ_Aktivieren);
+                  PUTIdrMessageEE(self, OP_IDR_MSGC_MZ_Aktivieren);
+               }
+               PUTTyreChangedEE(self, FALSE);
+               PUTAutomaticSelectionFailedStatusEE(self, FALSE);
+               PUTSelectedAutoTyreIndexEE(self, i);
+               SetStatusManSelectionDM(ST_MAN_SLCTN_Automatische_Reifenauswahl);
+               PUTStManSelectionEE(self, ST_MAN_SLCTN_Automatische_Reifenauswahl);
+               PUTStSelectTyreEE(self, ST_SLCTN_TYR_Verbaut_Felgensensor);
+               SaveCurTyreListDataInNvmDM(self, CSEASON_NOCHANGE, i);
+               bRet = TRUE;
             }
-          }
-
-          if(GETStManSelectionEE( self) == ST_MAN_SLCTN_Manuelle_Reifenauswahl)
-          {
-
-            SetIDRMessageCenterDM(OP_IDR_MSGC_MZ_Aktivieren);
-            PUTIdrMessageEE( self, OP_IDR_MSGC_MZ_Aktivieren);
-          }
-
-          PUTTyreChangedEE( self, FALSE);
-
-          PUTAutomaticSelectionFailedStatusEE( self, FALSE);
-          PUTSelectedAutoTyreIndexEE( self, i);
-          SetStatusManSelectionDM(ST_MAN_SLCTN_Automatische_Reifenauswahl);
-          PUTStManSelectionEE( self, ST_MAN_SLCTN_Automatische_Reifenauswahl);
-          PUTStSelectTyreEE( self, ST_SLCTN_TYR_Verbaut_Felgensensor);
-          SaveCurTyreListDataInNvmDM(self, CSEASON_NOCHANGE, i);
-          bRet = TRUE;
-        }
+         }
       }
-    }
-  }
-  return(bRet);
+   }
+   return(bRet);
 }
 
 static boolean CompareAllDataToErfsDM(const uint8* pConvRidData, uint8* pIxArray)
@@ -2068,7 +1965,7 @@ void GetWarnThresDM( uint8 ucHistSlot, uint8 ucWarnType, uint8* ucSetLevel, uint
   *ucResetLevel = ucResetLevelDW[ucHistSlot][ucWarnType];
 }
 
-void SetHistoryChangeBitsDM( Rte_Instance self)
+void SetHistoryChangeBitsDM(Rte_Instance self)
 {
   uint8 ucNewWheelPos;
   uint8 ucTemp1;
@@ -2087,7 +1984,7 @@ void SetHistoryChangeBitsDM( Rte_Instance self)
     ucNewWheelPos = ucGetWPOfColWAL(0);
     SetWpChangedBitZK(ucNewWheelPos);
 
-    (void) ucSetPTSollAfterWpChangedUSWIF( self, 0, ucNewWheelPos);
+    (void) ucSetPTSollAfterWpChangedUSWIF(self, 0, ucNewWheelPos);
   }
 
   if((ucTemp2 & 0x02) == 0x02)
@@ -2095,7 +1992,7 @@ void SetHistoryChangeBitsDM( Rte_Instance self)
     ucNewWheelPos = ucGetWPOfColWAL(1);
     SetWpChangedBitZK(ucNewWheelPos);
 
-    (void) ucSetPTSollAfterWpChangedUSWIF( self, 1, ucNewWheelPos);
+    (void) ucSetPTSollAfterWpChangedUSWIF(self, 1, ucNewWheelPos);
   }
 
   if((ucTemp2 & 0x04) == 0x04)
@@ -2103,7 +2000,7 @@ void SetHistoryChangeBitsDM( Rte_Instance self)
     ucNewWheelPos = ucGetWPOfColWAL(2);
     SetWpChangedBitZK(ucNewWheelPos);
 
-    (void) ucSetPTSollAfterWpChangedUSWIF( self, 2, ucNewWheelPos);
+    (void) ucSetPTSollAfterWpChangedUSWIF(self, 2, ucNewWheelPos);
   }
 
   if((ucTemp2 & 0x08) == 0x08)
@@ -2111,18 +2008,18 @@ void SetHistoryChangeBitsDM( Rte_Instance self)
     ucNewWheelPos = ucGetWPOfColWAL(3);
     SetWpChangedBitZK(ucNewWheelPos);
 
-    (void) ucSetPTSollAfterWpChangedUSWIF( self, 3, ucNewWheelPos);
+    (void) ucSetPTSollAfterWpChangedUSWIF(self, 3, ucNewWheelPos);
   }
 }
 
-void CheckTyreChangedDM( Rte_Instance self)
+void CheckTyreChangedDM(Rte_Instance self)
 {
   uint8 IdChangeBits, WpChangeBits, i, BitCt = 0x00;
 
   IdChangeBits = ucGetIdChangedBitsZK();
   WpChangeBits = ucGetWpChangedBitsZK();
 
-  if(GETStManSelectionEE( self) == ST_MAN_SLCTN_Manuelle_Reifenauswahl)
+  if(GETStManSelectionEE(self) == ST_MAN_SLCTN_Manuelle_Reifenauswahl)
   {
 
     for (i=0;i<cAnzRad;i++)
@@ -2139,7 +2036,7 @@ void CheckTyreChangedDM( Rte_Instance self)
 
     if(((BitCt & 0x0F) > 0x01) || ((BitCt & 0xF0) > 0x10))
     {
-      PUTTyreChangedEE( self, TRUE);
+      PUTTyreChangedEE(self, TRUE);
     }
   }
 }
@@ -2234,21 +2131,21 @@ uint16 Change25mBarToHpa(uint8 ucHex)
   return (uint16)((uint16)ucHex * 25);
 }
 
-void DegradeToManSelectionDM ( Rte_Instance self, boolean bOtherTyre)
+void DegradeToManSelectionDM (Rte_Instance self, boolean bOtherTyre)
 {
 
-  if(GETStManSelectionEE( self) == OP_IDR_SLCTN_Automatische_Auswahl)
+  if(GETStManSelectionEE(self) == OP_IDR_SLCTN_Automatische_Auswahl)
   {
 
     if(bOtherTyre == TRUE)
     {
 
       SetStatusManSelectionDM(ST_MAN_SLCTN_Manuelle_Reifenauswahl);
-      PUTStSelectTyreEE( self, ST_SLCTN_TYR_Auswahl);
+      PUTStSelectTyreEE(self, ST_SLCTN_TYR_Auswahl);
       SetSelectedTyreIndexDM(OP_SLCTN_TYR_AVLB_AndererReifen);
-      PUTTyreSelectionBckgrdEE( self, TRUE);
+      PUTTyreSelectionBckgrdEE(self, TRUE);
 
-      if(GETSelectedSeasonEE( self) == CSEASON_SUMMER)
+      if(GETSelectedSeasonEE(self) == CSEASON_SUMMER)
       {
         SetSummerTyreIndexDM(OP_SLCTN_TYR_AVLB_AndererReifen);
       }
@@ -2261,21 +2158,21 @@ void DegradeToManSelectionDM ( Rte_Instance self, boolean bOtherTyre)
     {
 
       SetStatusManSelectionDM(ST_MAN_SLCTN_Manuelle_Reifenauswahl);
-      PUTStSelectTyreEE( self, ST_SLCTN_TYR_Auswahl);
-      PUTTyreSelectionBckgrdEE( self, TRUE);
+      PUTStSelectTyreEE(self, ST_SLCTN_TYR_Auswahl);
+      PUTTyreSelectionBckgrdEE(self, TRUE);
 
-      if(GETSelectedSeasonEE( self) == CSEASON_SUMMER)
+      if(GETSelectedSeasonEE(self) == CSEASON_SUMMER)
       {
-        SetSelectedTyreIndexDM( GETSelectedSuTyreIndexEE( self));
+        SetSelectedTyreIndexDM( GETSelectedSuTyreIndexEE(self));
       }
       else
       {
-        SetSelectedTyreIndexDM( GETSelectedWiTyreIndexEE( self));
+        SetSelectedTyreIndexDM( GETSelectedWiTyreIndexEE(self));
       }
     }
 
-    PUTAutomaticSelectionFailedStatusEE( self, TRUE);
-    SaveCurrentTyreSelectionDM( self);
+    PUTAutomaticSelectionFailedStatusEE(self, TRUE);
+    SaveCurrentTyreSelectionDM(self);
   }
 }
 
@@ -2368,7 +2265,7 @@ void SaveCurTyreListDataInNvmDM(Rte_Instance self, uint8 Season, uint8 TyreListR
 
         for (i = 0; i < TYRE_DATA_BYTES; i++)
         {
-          PUTCurErfsTyreDataEE( self, i, 0xFF, j);
+          PUTCurErfsTyreDataEE(self, i, 0xFF, j);
         }
       }
     }
@@ -2503,13 +2400,13 @@ uint8 GetStWheelTypeChangedDetStateDM(void)
   return ucRetState;
 }
 
-void GetAipGpsValDM_debug( Rte_Instance self, uint8 * pucAipEngDrv, uint16 * pushPositionAltitude, uint16 * pushErrorAltitudeMeters, uint16 * pushGpsTioTicks, uint8 * pucAipGpsState)
+void GetAipGpsValDM_debug(Rte_Instance self, uint8 * pucAipEngDrv, uint16 * pushPositionAltitude, uint16 * pushErrorAltitudeMeters, uint16 * pushGpsTioTicks, uint8 * pucAipGpsState)
 {
-  *pucAipEngDrv             = GETucAipEngDrvEE( self);
-  *pushPositionAltitude     = GETushPositionAltitudeEE( self);
-  *pushErrorAltitudeMeters  = GETushErrorAltitudeMetersEE( self);
-  *pushGpsTioTicks          = GETushGpsTioTicksEE( self);
-  *pucAipGpsState           = GETucAipGpsStateEE( self);
+  *pucAipEngDrv             = GETucAipEngDrvEE(self);
+  *pushPositionAltitude     = GETushPositionAltitudeEE(self);
+  *pushErrorAltitudeMeters  = GETushErrorAltitudeMetersEE(self);
+  *pushGpsTioTicks          = GETushGpsTioTicksEE(self);
+  *pucAipGpsState           = GETucAipGpsStateEE(self);
 }
 
 boolean CheckReIdLatelyProcBufDM(const uint32 ReID)

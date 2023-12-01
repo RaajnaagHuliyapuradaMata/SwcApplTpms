@@ -265,25 +265,25 @@ static void InitWN( uint8 ucInit, uint8 ucIdX)
 static void RdParaSubSet( uint8* pucData)
 {
 
-  ((tParaSubSet *) (void *) pucData)->ucParaByte[ucIxWnCfgc] &= (uint8) 0xFC;
+  ((tParaSubSet *) (void*) pucData)->ucParaByte[ucIxWnCfgc] &= (uint8) 0xFC;
 
   if((ucWarnStateWN & ucCtryMaskc) == ucUSCodec)
   {
-    ((tParaSubSet *) (void *) pucData)->ucParaByte[ucIxWnCfgc] |= 0x01;
+    ((tParaSubSet *) (void*) pucData)->ucParaByte[ucIxWnCfgc] |= 0x01;
   }else if((ucWarnStateWN & ucCtryMaskc) == ucEuroCodec)
   {
-    ((tParaSubSet *) (void *) pucData)->ucParaByte[ucIxWnCfgc] |=  0x02;
+    ((tParaSubSet *) (void*) pucData)->ucParaByte[ucIxWnCfgc] |=  0x02;
   }else{
   }
 }
 
-static void WrParaSubSet( Rte_Instance self, const uint8* pucData)
+static void WrParaSubSet(Rte_Instance self, const uint8* pucData)
 {
   uint8 ucHelp;
 
   ucHelp = ((((const tParaSubSet *) (const void *) pucData)->ucParaByte[ucIxWnCfgc] & 0x03) == 1) ? ucUSCodec : ucEuroCodec;
 
-  GetDataEE( self, cucWsIdWN, &ucWarnStateWN);
+  GetDataEE(self, cucWsIdWN, &ucWarnStateWN);
 
   if( (ucWarnStateWN & ucCtryMaskc) != (ucHelp & ucCtryMaskc))
   {
@@ -299,18 +299,18 @@ static void WrParaSubSet( Rte_Instance self, const uint8* pucData)
 
     ucWarnStateWN |= ucHelp;
     InitWN( (uint8) cMaiden, (uint8) 0xFF);
-    PutDataEE( self, cucWarnTypeArrayIdWN, &aucWarnBitsWN, TRUE);
+    PutDataEE(self, cucWarnTypeArrayIdWN, &aucWarnBitsWN, TRUE);
     ucHelp = ucWarnStateWN | ucClearWarningc;
   }
 
   if(ucHelp != (ucWarnStateWN & ((uint8) ~cInitialized)))
   {
-    PutDataEE( self, cucWsIdWN, &ucWarnStateWN, TRUE);
-    PutDataEE( self, cucCdIdWN, &tCDA, TRUE);
+    PutDataEE(self, cucWsIdWN, &ucWarnStateWN, TRUE);
+    PutDataEE(self, cucCdIdWN, &tCDA, TRUE);
   }
 }
 
-static uint8 ucGenWNVector( Rte_Instance self, uint8* pucData)
+static uint8 ucGenWNVector(Rte_Instance self, uint8* pucData)
 {
   const uint8 aucWnTypec[] = cWT_WNvector_map;
   uint8 (*const fpt2WnType[]) ( tLocalWarnDat *, uint8, uint8) = cAllWT_function;
@@ -322,7 +322,7 @@ static uint8 ucGenWNVector( Rte_Instance self, uint8* pucData)
   tLWD.ucCurWarnSetThres   = 0;
   tLWD.ucCurWarnResetThres = 0;
 
-  tLWD.tHFD = *((tHFTelDat *) (void *) pucData);
+  tLWD.tHFD = *((tHFTelDat *) (void*) pucData);
 
   if( tLWD.tHFD.ucId < cAnzRad)
   {
@@ -357,7 +357,7 @@ static uint8 ucGenWNVector( Rte_Instance self, uint8* pucData)
     (void) ucPutPinitTreifenCS( tLWD.tHFD.ucId, tLWD.tHFD.scTWE);
     tLWD.tSD.ucPinitTreifen = ucGetPinitTreifenCS( tLWD.tHFD.ucId);
 
-    PutDataEE( self, cucCdIdWN, &tCDA, FALSE);
+    PutDataEE(self, cucCdIdWN, &tCDA, FALSE);
 
     for ( ucLoop = 0; ucLoop < ucMaxWarnTypeWNc; ucLoop++)
     {
@@ -397,14 +397,14 @@ static uint8 ucGenWNVector( Rte_Instance self, uint8* pucData)
 
     bFirstTelWN[tLWD.tHFD.ucId] = FALSE;
 
-    (*(tHFTelDat *) (void *) pucData).ucWarnState = tLWD.tHFD.ucWarnState;
-    (*(tHFTelDat *) (void *) pucData).ucWarnAttr  = tLWD.tHFD.ucWarnAttr;
+    (*(tHFTelDat *) (void*) pucData).ucWarnState = tLWD.tHFD.ucWarnState;
+    (*(tHFTelDat *) (void*) pucData).ucWarnAttr  = tLWD.tHFD.ucWarnAttr;
   }
 
   return ucRet;
 }
 
-uint8 ucWarnManagerWN( Rte_Instance self, uint8 ucAction, uint8* pucData)
+uint8 ucWarnManagerWN(Rte_Instance self, uint8 ucAction, uint8* pucData)
 {
   uint8 ucRet = 0;
 
@@ -415,15 +415,15 @@ uint8 ucWarnManagerWN( Rte_Instance self, uint8 ucAction, uint8* pucData)
     break;
 
     case ucPorInitc:
-      ucRet = ucWarnManager_PorInitWM( self, pucData);
+      ucRet = ucWarnManager_PorInitWM(self, pucData);
     break;
 
     case ucComparec :
-      ucRet = ucWarnManager_CompareWM( self, pucData);
+      ucRet = ucWarnManager_CompareWM(self, pucData);
     break;
 
     case ucDiagServicec:
-      ucRet = ucWarnManagerDsWM( self, pucData);
+      ucRet = ucWarnManagerDsWM(self, pucData);
     break;
 
     default:
@@ -447,19 +447,19 @@ static uint8 ucWarnManager_FilterActivationWM(void)
   return ucRet;
 }
 
-static uint8 ucWarnManager_PorInitWM( Rte_Instance self, const uint8* pucData)
+static uint8 ucWarnManager_PorInitWM(Rte_Instance self, const uint8* pucData)
 {
   uint8 ucRet = 0;
 
-  GetDataEE( self, cucWsIdWN, &ucWarnStateWN);
+  GetDataEE(self, cucWsIdWN, &ucWarnStateWN);
 
   if( (ucWarnStateWN & cInitialized) == cInitialized)
   {
 
-    GetDataEE( self, cucCdIdWN, &tCDA);
+    GetDataEE(self, cucCdIdWN, &tCDA);
     InitWN( cInitialized, (uint8) 0xFF);
 
-    GetDataEE( self, cucWarnTypeArrayIdWN, &aucWarnBitsWN);
+    GetDataEE(self, cucWarnTypeArrayIdWN, &aucWarnBitsWN);
     ucRet = ucWarnStateWN;
   }else{
 
@@ -473,63 +473,63 @@ static uint8 ucWarnManager_PorInitWM( Rte_Instance self, const uint8* pucData)
     }
 
     InitWN( cMaiden, (uint8) 0xFF);
-    PutDataEE( self, cucCdIdWN, &tCDA, TRUE);
-    PutDataEE( self, cucWarnTypeArrayIdWN, &aucWarnBitsWN, TRUE);
+    PutDataEE(self, cucCdIdWN, &tCDA, TRUE);
+    PutDataEE(self, cucWarnTypeArrayIdWN, &aucWarnBitsWN, TRUE);
     ucWarnStateWN |= cInitialized;
-    PutDataEE( self, cucWsIdWN, &ucWarnStateWN, TRUE);
+    PutDataEE(self, cucWsIdWN, &ucWarnStateWN, TRUE);
     ucRet = ucWarnStateWN;
   }
 
   return ucRet;
 }
 
-static uint8 ucWarnManager_CompareWM( Rte_Instance self, uint8* pucData)
+static uint8 ucWarnManager_CompareWM(Rte_Instance self, uint8* pucData)
 {
   uint8 ucRet = 0;
 
-  GetDataEE( self, cucWsIdWN, &ucWarnStateWN);
+  GetDataEE(self, cucWsIdWN, &ucWarnStateWN);
 
   if( (ucWarnStateWN & cInitialized) != cInitialized)
   {
     InitCS( ucPorInitc);
     InitWN( cMaiden, (uint8) 0xFF);
 
-    PutDataEE( self, cucCdIdWN, &tCDA, TRUE);
+    PutDataEE(self, cucCdIdWN, &tCDA, TRUE);
     ucWarnStateWN |= cInitialized;
-    PutDataEE( self, cucWsIdWN, &ucWarnStateWN, TRUE);
+    PutDataEE(self, cucWsIdWN, &ucWarnStateWN, TRUE);
   }
 
-  ucRet = ucGenWNVector( self, pucData);
+  ucRet = ucGenWNVector(self, pucData);
 
-  PutDataEE( self, cucWarnTypeArrayIdWN, &aucWarnBitsWN, TRUE);
+  PutDataEE(self, cucWarnTypeArrayIdWN, &aucWarnBitsWN, TRUE);
 
   return ucRet;
 }
 
-static uint8 ucWarnManagerDsWM( Rte_Instance self, uint8* pucData)
+static uint8 ucWarnManagerDsWM(Rte_Instance self, uint8* pucData)
 {
   uint8 ucRet = 0;
 
   switch ( pucData[0])
   {
     case ucCfgPMinc:
-      ucRet = ucWarnManagerDs_CfgPMinWM( self, &pucData[1]);
+      ucRet = ucWarnManagerDs_CfgPMinWM(self, &pucData[1]);
     break;
 
     case ucCfgPSollMinc:
-      ucRet = ucWarnManagerDs_CfgPSollMinWM( self, &pucData[1]);
+      ucRet = ucWarnManagerDs_CfgPSollMinWM(self, &pucData[1]);
     break;
 
     case ucCfgReInitSinglec:
-      ucRet = ucWarnManagerDs_CfgReInitSingleWM( self, &pucData[1]);
+      ucRet = ucWarnManagerDs_CfgReInitSingleWM(self, &pucData[1]);
     break;
 
     case ucCfgTReifenSinglec:
-      ucRet = ucWarnManagerDs_CfgTReifenSingleWM( self, &pucData[1]);
+      ucRet = ucWarnManagerDs_CfgTReifenSingleWM(self, &pucData[1]);
     break;
 
     case ucResetWarnVectorc:
-      ucRet = ucWarnManagerDs_ResetWarnVectorWM( self, &pucData[1]);
+      ucRet = ucWarnManagerDs_ResetWarnVectorWM(self, &pucData[1]);
     break;
 
     case ucGetWarnVectorsc:
@@ -541,7 +541,7 @@ static uint8 ucWarnManagerDsWM( Rte_Instance self, uint8* pucData)
     break;
 
     case ucWrParaSubSetc:
-      ucRet = ucWarnManagerDs_WrParaSubSetWM( self, pucData);
+      ucRet = ucWarnManagerDs_WrParaSubSetWM(self, pucData);
     break;
 
     case ucGetPTSollc:
@@ -564,7 +564,7 @@ static uint8 ucWarnManagerDsWM( Rte_Instance self, uint8* pucData)
   return ucRet;
 }
 
-static uint8 ucWarnManagerDs_CfgPMinWM( Rte_Instance self, const uint8* pucData)
+static uint8 ucWarnManagerDs_CfgPMinWM(Rte_Instance self, const uint8* pucData)
 {
   uint8 ucTmp, ucRet = 0;
 
@@ -572,7 +572,7 @@ static uint8 ucWarnManagerDs_CfgPMinWM( Rte_Instance self, const uint8* pucData)
 
   if( ucPutPMinCS( pucData[0], ucTmp) > 0)
   {
-    PutDataEE( self, cucCdIdWN, &tCDA, TRUE);
+    PutDataEE(self, cucCdIdWN, &tCDA, TRUE);
   }else{
     ucRet = 0xff;
   }
@@ -580,7 +580,7 @@ static uint8 ucWarnManagerDs_CfgPMinWM( Rte_Instance self, const uint8* pucData)
   return ucRet;
 }
 
-static uint8 ucWarnManagerDs_CfgPSollMinWM( Rte_Instance self, const uint8* pucData)
+static uint8 ucWarnManagerDs_CfgPSollMinWM(Rte_Instance self, const uint8* pucData)
 {
   uint8 ucLoop, ucMarket, ucRet = 0;
 
@@ -594,14 +594,14 @@ static uint8 ucWarnManagerDs_CfgPSollMinWM( Rte_Instance self, const uint8* pucD
       {
         if( ucPutCalTabVectorCS( ucLoop, pucData[ucLoop], scGetTSollCS( ucLoop, cRadPosUndef), cRadPosUndef) > 0)
         {
-          PutDataEE( self, cucCdIdWN, &tCDA, TRUE);
+          PutDataEE(self, cucCdIdWN, &tCDA, TRUE);
           ucRet = 0;
         }else{
           ucRet = 0xff;
         }
       }else{
 
-        PutDataEE( self, cucCdIdWN, &tCDA, TRUE);
+        PutDataEE(self, cucCdIdWN, &tCDA, TRUE);
         ucRet = 0;
       }
     }else{
@@ -612,7 +612,7 @@ static uint8 ucWarnManagerDs_CfgPSollMinWM( Rte_Instance self, const uint8* pucD
   return ucRet;
 }
 
-static uint8 ucWarnManagerDs_CfgReInitSingleWM( Rte_Instance self, const uint8* pucData)
+static uint8 ucWarnManagerDs_CfgReInitSingleWM(Rte_Instance self, const uint8* pucData)
 {
   uint8  ucRet = 0;
 
@@ -623,7 +623,7 @@ static uint8 ucWarnManagerDs_CfgReInitSingleWM( Rte_Instance self, const uint8* 
 
       if( ucPutPinitTreifenCS( pucData[0], scGetTreifenCS( pucData[0])) > 0)
       {
-        PutDataEE( self, cucCdIdWN, &tCDA, TRUE);
+        PutDataEE(self, cucCdIdWN, &tCDA, TRUE);
         ucRet = ucWarnStateWN;
       }else{
         ucRet = 0xff;
@@ -638,13 +638,13 @@ static uint8 ucWarnManagerDs_CfgReInitSingleWM( Rte_Instance self, const uint8* 
   return ucRet;
 }
 
-static uint8 ucWarnManagerDs_CfgTReifenSingleWM( Rte_Instance self, const uint8* pucData)
+static uint8 ucWarnManagerDs_CfgTReifenSingleWM(Rte_Instance self, const uint8* pucData)
 {
   uint8  ucRet = 0;
 
   if( ucPutPinitTreifenCS( pucData[0], (sint8) pucData[1]) > 0)
   {
-    PutDataEE( self, cucCdIdWN, &tCDA, TRUE);
+    PutDataEE(self, cucCdIdWN, &tCDA, TRUE);
   }else{
     ucRet = 0xff;
   }
@@ -652,10 +652,10 @@ static uint8 ucWarnManagerDs_CfgTReifenSingleWM( Rte_Instance self, const uint8*
   return ucRet;
 }
 
-static uint8 ucWarnManagerDs_ResetWarnVectorWM( Rte_Instance self, const uint8* pucData)
+static uint8 ucWarnManagerDs_ResetWarnVectorWM(Rte_Instance self, const uint8* pucData)
 {
   InitWN( cInitSingleId, pucData[0]);
-  PutDataEE( self, cucWarnTypeArrayIdWN, &aucWarnBitsWN, TRUE);
+  PutDataEE(self, cucWarnTypeArrayIdWN, &aucWarnBitsWN, TRUE);
 
   return 0;
 }
@@ -679,9 +679,9 @@ static uint8 ucWarnManagerDs_RdParaSubSetWM( uint8* pucData)
   return 0;
 }
 
-static uint8 ucWarnManagerDs_WrParaSubSetWM( Rte_Instance self, const uint8* pucData)
+static uint8 ucWarnManagerDs_WrParaSubSetWM(Rte_Instance self, const uint8* pucData)
 {
-  WrParaSubSet( self, pucData);
+  WrParaSubSet(self, pucData);
 
   return 0;
 }
@@ -763,7 +763,7 @@ uint8 ucGetPTolWN( uint8 ucPenv, uint8 ucPre, sint8 scTre)
   return ucPtol;
 }
 
-void PutWarnBitsToNvmWN( Rte_Instance self)
+void PutWarnBitsToNvmWN(Rte_Instance self)
 {
-  PutDataEE( self, cucWarnTypeArrayIdWN, &aucWarnBitsWN, TRUE);
+  PutDataEE(self, cucWarnTypeArrayIdWN, &aucWarnBitsWN, TRUE);
 }

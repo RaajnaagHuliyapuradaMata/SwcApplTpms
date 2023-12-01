@@ -32,12 +32,12 @@ uint8 ucGetStateSCC( uint8 ucMask)
   return (ucStateSCC & ucMask);
 }
 
-void MainSCC( Rte_Instance self)
+void MainSCC(Rte_Instance self)
 {
   if( (ucStateSCC & cSCC_STATE_SPEED_CCM_ENABLED) == cSCC_STATE_SPEED_CCM_ENABLED)
   {
 
-    CalculatePressThSCC( self);
+    CalculatePressThSCC(self);
 
     if( bGetBitBetriebszustandBZ( cZUGEORDNET) == TRUE)
     {
@@ -120,7 +120,7 @@ void GetSpeedCcmValSCC_debug( uint8 * pucState, uint16 * pushSpeedVmaxTime, uint
   *pushSpeedCcmThRa   = ushSpeedCcmThRaSCC;
 }
 
-static void CalculatePressThSCC( Rte_Instance self)
+static void CalculatePressThSCC(Rte_Instance self)
 {
   uint8  ucTyreIx;
   uint8  ucHistId;
@@ -134,17 +134,17 @@ static void CalculatePressThSCC( Rte_Instance self)
   uint16 ushM;
   uint8  ucPamb;
 
-  ucTyreIx = GETSelectedTyreIndexEE( self);
+  ucTyreIx = GETSelectedTyreIndexEE(self);
 
   ucHistId = ucGetColOfWP( cRadPosVL);
   ushSpeedCcmThFaSCC = (uint16) (((sint16) GetFrontAxleSetPressTyreList(REQ_ECO_LOAD, ucTyreIx) * 25) + sshGetCRdciSpeedCcmPressOffsetFaCD());
-  (void) ucGetPTSollUSWIF( self, &ucTemp, &scTinit, &ucTemp, &scTemp, &ushTemp, &ucPamb, ucHistId);
+  (void) ucGetPTSollUSWIF(self, &ucTemp, &scTinit, &ucTemp, &scTemp, &ushTemp, &ucPamb, ucHistId);
   ushM = ushMIso( (uint8) (ushSpeedCcmThFaSCC / 25), scTinit, ucPamb);
   ucPl = ucPfT( ushM, scGetReTemperatureCentDM( ucHistId), ucPamb);
 
   ucHistId = ucGetColOfWP( cRadPosVR);
   ushSpeedCcmThFaSCC = (uint16) (((sint16) GetFrontAxleSetPressTyreList(REQ_ECO_LOAD, ucTyreIx) * 25) + sshGetCRdciSpeedCcmPressOffsetFaCD());
-  (void) ucGetPTSollUSWIF( self, &ucTemp, &scTinit, &ucTemp, &scTemp, &ushTemp, &ucPamb, ucHistId);
+  (void) ucGetPTSollUSWIF(self, &ucTemp, &scTinit, &ucTemp, &scTemp, &ushTemp, &ucPamb, ucHistId);
   ushM = ushMIso( (uint8) (ushSpeedCcmThFaSCC / 25), scTinit, ucPamb);
   ucPr = ucPfT( ushM, scGetReTemperatureCentDM( ucHistId), ucPamb);
 
@@ -159,13 +159,13 @@ static void CalculatePressThSCC( Rte_Instance self)
 
   ucHistId = ucGetColOfWP( cRadPosHL);
   ushSpeedCcmThRaSCC = (uint16) (((sint16) GetRearAxleSetPressTyreList(REQ_ECO_LOAD, ucTyreIx) * 25) + sshGetCRdciSpeedCcmPressOffsetRaCD());
-  (void) ucGetPTSollUSWIF( self, &ucTemp, &scTinit, &ucTemp, &scTemp, &ushTemp, &ucPamb, ucHistId);
+  (void) ucGetPTSollUSWIF(self, &ucTemp, &scTinit, &ucTemp, &scTemp, &ushTemp, &ucPamb, ucHistId);
   ushM = ushMIso( (uint8) (ushSpeedCcmThRaSCC / 25), scTinit, ucPamb);
   ucPl = ucPfT( ushM, scGetReTemperatureCentDM( ucHistId), ucPamb);
 
   ucHistId = ucGetColOfWP( cRadPosHR);
   ushSpeedCcmThRaSCC = (uint16) (((sint16) GetRearAxleSetPressTyreList(REQ_ECO_LOAD, ucTyreIx) * 25) + sshGetCRdciSpeedCcmPressOffsetRaCD());
-  (void) ucGetPTSollUSWIF( self, &ucTemp, &scTinit, &ucTemp, &scTemp, &ushTemp, &ucPamb, ucHistId);
+  (void) ucGetPTSollUSWIF(self, &ucTemp, &scTinit, &ucTemp, &scTemp, &ushTemp, &ucPamb, ucHistId);
   ushM = ushMIso( (uint8) (ushSpeedCcmThRaSCC / 25), scTinit, ucPamb);
   ucPr = ucPfT( ushM, scGetReTemperatureCentDM( ucHistId), ucPamb);
 

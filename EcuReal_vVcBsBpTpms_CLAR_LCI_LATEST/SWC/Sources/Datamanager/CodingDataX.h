@@ -192,8 +192,8 @@ extern void PutCRdciParkSupTolNoTempCompCD( uint8 ucCRdciParkSupTolNoTempComp);
 extern void PutCRdciParkSupTolTempCompCD( uint8 ucCRdciParkSupTolTempComp);
 extern void PutCRdciParkSupWarningThCValueCD( uint8 ucCRdciParkSupWarningThCValue);
 extern void PutCRdciParkSupWarningThNcValueCD( uint8 ucCRdciParkSupWarningThNcValue);
-extern boolean CheckCodingDataCrcCD( Rte_Instance self);
-extern void RestartSystemAfterCodingCD( Rte_Instance self);
+extern boolean CheckCodingDataCrcCD(Rte_Instance self);
+extern void RestartSystemAfterCodingCD(Rte_Instance self);
 
 #ifdef __cplusplus
 }

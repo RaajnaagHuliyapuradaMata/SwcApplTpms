@@ -7,14 +7,14 @@
 
 static uint16 ushBetriebszustand = 0;
 
-void InitBZ( Rte_Instance self, boolean bStartupInit)
+void InitBZ(Rte_Instance self, boolean bStartupInit)
 {
   uint16 ushDtcInactive;
   uint8 ucHistoryState;
 
   if(bStartupInit == TRUE)
   {
-    SetBitBetriebszustandBZ( GETLastLocStateEE( self));
+    SetBitBetriebszustandBZ( GETLastLocStateEE(self));
   }
 
   else
@@ -27,7 +27,7 @@ void InitBZ( Rte_Instance self, boolean bStartupInit)
     SetBitBetriebszustandBZ(ushDtcInactive);
   }
 
-  ucHistoryState = InitWAL( self, cRestoreZomContents);
+  ucHistoryState = InitWAL(self, cRestoreZomContents);
   if( (ucHistoryState & cHiStateZG) == cHiStateZG)
   {
     SetBitBetriebszustandBZ( cEIGENRAD | cZUGEORDNET | cHIST_PRELOAD);

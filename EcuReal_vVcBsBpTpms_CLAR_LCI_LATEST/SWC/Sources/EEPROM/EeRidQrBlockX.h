@@ -20,18 +20,18 @@ extern "C"
 #define cUnmountedKmIx                  ((uint8)16)
 #define cRuntimeKmIx                    ((uint8)20)
 
-extern void InitRidQrBlock1u2EE( Rte_Instance self);
+extern void InitRidQrBlock1u2EE(Rte_Instance self);
 
-extern uint8 GETTyreDimQrCodeDataEE( Rte_Instance self, uint8 i, uint8 x);
-extern void PUTTyreDimQrCodeDataEE( Rte_Instance self, uint8 i, uint8 x, uint8 y);
-extern uint8 GETTyreDOTQrCodeDataEE( Rte_Instance self, uint8 i, uint8 x);
-extern void PUTTyreDOTQrCodeDataEE( Rte_Instance self, uint8 i, uint8 x, uint8 y);
-extern uint8 GETTyreOEMQrCodeDataEE( Rte_Instance self, uint8 i, uint8 x);
-extern void PUTTyreOEMQrCodeDataEE( Rte_Instance self, uint8 i, uint8 x, uint8 y);
-extern uint8 GETTyreRuntimeDataEE( Rte_Instance self, uint8 i, uint8 x);
-extern void PUTTyreRuntimeDataEE( Rte_Instance self, uint8 i, uint8 x, uint8 y);
-extern uint8 GETTyreMountedFlagEE( Rte_Instance self, uint8 i);
-extern void PUTTyreMountedFlagEE( Rte_Instance self, uint8 i, uint8 y);
+extern uint8 GETTyreDimQrCodeDataEE(Rte_Instance self, uint8 i, uint8 x);
+extern void PUTTyreDimQrCodeDataEE(Rte_Instance self, uint8 i, uint8 x, uint8 y);
+extern uint8 GETTyreDOTQrCodeDataEE(Rte_Instance self, uint8 i, uint8 x);
+extern void PUTTyreDOTQrCodeDataEE(Rte_Instance self, uint8 i, uint8 x, uint8 y);
+extern uint8 GETTyreOEMQrCodeDataEE(Rte_Instance self, uint8 i, uint8 x);
+extern void PUTTyreOEMQrCodeDataEE(Rte_Instance self, uint8 i, uint8 x, uint8 y);
+extern uint8 GETTyreRuntimeDataEE(Rte_Instance self, uint8 i, uint8 x);
+extern void PUTTyreRuntimeDataEE(Rte_Instance self, uint8 i, uint8 x, uint8 y);
+extern uint8 GETTyreMountedFlagEE(Rte_Instance self, uint8 i);
+extern void PUTTyreMountedFlagEE(Rte_Instance self, uint8 i, uint8 y);
 
 extern void    ClearRidQrBlock1UpdateFlagEE(void);
 extern void    ClearRidQrBlock2UpdateFlagEE(void);

@@ -40,12 +40,12 @@ void GetStatusRdcErfsEcoTabLesenDS( uint8 * pucData)
 
 }
 
-void GetStatusRdcErfsAktReifenEcoLesenDS( Rte_Instance self, uint8* pucData)
+void GetStatusRdcErfsAktReifenEcoLesenDS(Rte_Instance self, uint8* pucData)
 {
   uint8 ucCurIndex,ucSuIndex, ucWiIndex;
   uint8 ucPtrIndex;
 
-  ucCurIndex = GETSelectedTyreIndexEE( self);
+  ucCurIndex = GETSelectedTyreIndexEE(self);
 
   if(ucCurIndex < GetLengthOfTyreListDM())
   {
@@ -54,20 +54,20 @@ void GetStatusRdcErfsAktReifenEcoLesenDS( Rte_Instance self, uint8* pucData)
     {
 
       ucSuIndex = ucCurIndex;
-      ucWiIndex = GETSelectedWiTyreIndexEE( self);
+      ucWiIndex = GETSelectedWiTyreIndexEE(self);
     }
     else
     {
 
       ucWiIndex = ucCurIndex;
-      ucSuIndex = GETSelectedSuTyreIndexEE( self);
+      ucSuIndex = GETSelectedSuTyreIndexEE(self);
     }
   }
   else
   {
 
-    ucSuIndex = GETSelectedSuTyreIndexEE( self);
-    ucWiIndex = GETSelectedWiTyreIndexEE( self);
+    ucSuIndex = GETSelectedSuTyreIndexEE(self);
+    ucWiIndex = GETSelectedWiTyreIndexEE(self);
   }
 
   for (ucPtrIndex=0;ucPtrIndex<34;ucPtrIndex++)
@@ -206,7 +206,7 @@ void GetStatusRdcErfsAktReifenEcoLesenDS( Rte_Instance self, uint8* pucData)
 
 }
 
-void GetStatusRdcErfsAktReifenLesenDS( Rte_Instance self, uint8* pucData)
+void GetStatusRdcErfsAktReifenLesenDS(Rte_Instance self, uint8* pucData)
 {
   uint8 ucElement;
   uint8 ucIndex;
@@ -218,12 +218,12 @@ void GetStatusRdcErfsAktReifenLesenDS( Rte_Instance self, uint8* pucData)
 
   ucIndex = 0x00;
 
-  ucElement = GETSelectedSuTyreIndexEE( self);
+  ucElement = GETSelectedSuTyreIndexEE(self);
 
   if(ucElement < TYRE_LIST_MAX_ELEMENTS)
   {
 
-      if( ucElement == GETSelectedTyreIndexEE( self))
+      if( ucElement == GETSelectedTyreIndexEE(self))
       {
         pucData[ucIndex] = (uint8)TRUE;
       }
@@ -279,12 +279,12 @@ void GetStatusRdcErfsAktReifenLesenDS( Rte_Instance self, uint8* pucData)
   {
     ucIndex = 15;
   }
-  ucElement = GETSelectedWiTyreIndexEE( self);
+  ucElement = GETSelectedWiTyreIndexEE(self);
 
   if(ucElement < TYRE_LIST_MAX_ELEMENTS)
   {
 
-    if(ucElement == GETSelectedTyreIndexEE( self))
+    if(ucElement == GETSelectedTyreIndexEE(self))
     {
       pucData[ucIndex] = (uint8)TRUE;
     }
@@ -338,7 +338,7 @@ void GetStatusRdcErfsAktReifenLesenDS( Rte_Instance self, uint8* pucData)
 
 }
 
-uint8 ucPutSteuernRdcErfsEcoAktReifenposVorgebenDS( Rte_Instance self, const uint8* pucData)
+uint8 ucPutSteuernRdcErfsEcoAktReifenposVorgebenDS(Rte_Instance self, const uint8* pucData)
 {
   uint8 Position,i;
   uint8 Index = 0;
@@ -380,24 +380,24 @@ uint8 ucPutSteuernRdcErfsEcoAktReifenposVorgebenDS( Rte_Instance self, const uin
     {
       if(TRUE == bGetBitBetriebszustandBZ(cZUGEORDNET))
       {
-        SetSolldruckDM( self, GetLoadStateDM(), Position);
-        (void) ZoPlausiInitPressINIT( self, TRUE, Position);
+        SetSolldruckDM(self, GetLoadStateDM(), Position);
+        (void) ZoPlausiInitPressINIT(self, TRUE, Position);
 
-        SetCalibrationRootCauseDS( self, cCalByDiag);
-        (void)SaveCalibrationEventDS( self);
+        SetCalibrationRootCauseDS(self, cCalByDiag);
+        (void)SaveCalibrationEventDS(self);
 
-        StartSRA( self);
+        StartSRA(self);
 
-        NotificationITY( self, cNotifyRcpChangedITY, cAnzRad);
+        NotificationITY(self, cNotifyRcpChangedITY, cAnzRad);
 
-        PUTPlausiInitErrorEE( self, FALSE);
+        PUTPlausiInitErrorEE(self, FALSE);
 
-        PUTTyreChangedEE( self, FALSE);
+        PUTTyreChangedEE(self, FALSE);
 
-        PUTAutomaticSelectionFailedStatusEE( self, FALSE);
+        PUTAutomaticSelectionFailedStatusEE(self, FALSE);
         PUTStSelectTyreEE(self, ST_SLCTN_TYR_Auswahl);
 
-        SaveCurrentTyreSelectionDM( self);
+        SaveCurrentTyreSelectionDM(self);
       }
       else
       {
@@ -408,22 +408,22 @@ uint8 ucPutSteuernRdcErfsEcoAktReifenposVorgebenDS( Rte_Instance self, const uin
   return(ucRet);
 }
 
-uint8 ucPutSteuernRdcErfsEcoNeueReifenVorgebenDS( Rte_Instance self, const uint8* pucData)
+uint8 ucPutSteuernRdcErfsEcoNeueReifenVorgebenDS(Rte_Instance self, const uint8* pucData)
 {
   uint8 ucRet = cRetOk;
 
-  PutErfsEcoNeuerReifenEE( self, &pucData[1]);
+  PutErfsEcoNeuerReifenEE(self, &pucData[1]);
 
   return(ucRet);
 }
 
-uint8 ucPutSteuernRdcErfsEcoReifentabelleVorgebenDS( Rte_Instance self, const uint8* pucData, const uint8 ucElement)
+uint8 ucPutSteuernRdcErfsEcoReifentabelleVorgebenDS(Rte_Instance self, const uint8* pucData, const uint8 ucElement)
 {
   uint8 ucRet = cRetOk;
 
   if(ucElement <= TYRE_LIST_MAX_ELEMENTS)
   {
-    PutErfsEcoReifenTabelleEE( self, pucData, ucElement);
+    PutErfsEcoReifenTabelleEE(self, pucData, ucElement);
   }
   else
   {

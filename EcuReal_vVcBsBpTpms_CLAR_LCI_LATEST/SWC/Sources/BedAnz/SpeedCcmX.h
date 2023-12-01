@@ -24,7 +24,7 @@ extern "C"
 
 extern void   InitSCC(void);
 extern uint8  ucGetStateSCC( uint8 ucMask);
-extern void   MainSCC( Rte_Instance self);
+extern void   MainSCC(Rte_Instance self);
 
 extern void   GetSpeedCcmValSCC_debug( uint8 * pucState, uint16 * pushSpeedVmaxTime, uint16 * pushSpeedCcmThFa, uint16 * pushSpeedCcmThRa);
 

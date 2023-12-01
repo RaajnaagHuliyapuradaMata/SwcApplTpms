@@ -20,10 +20,10 @@ extern "C"
 #define cBtWsBreakTireTsb       ( (uint8) 0x40)
 #define cBtWsBreakTireMulti     ( (uint8) 0x80)
 
-extern void  InitBT( Rte_Instance self);
-extern void  SetBreakTireStateBT( Rte_Instance self);
+extern void  InitBT(Rte_Instance self);
+extern void  SetBreakTireStateBT(Rte_Instance self);
 extern uint8 ucGetBreakTireStateBT(void);
-extern uint8 ucGetWarnOutStateBT( Rte_Instance self);
+extern uint8 ucGetWarnOutStateBT(Rte_Instance self);
 extern boolean bGetBefuellhinweisBT(void);
 extern void    PwfChangeParken2WohnenBT(void);
 

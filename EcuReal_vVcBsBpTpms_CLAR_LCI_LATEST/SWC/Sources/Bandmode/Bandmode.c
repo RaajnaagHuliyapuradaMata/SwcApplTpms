@@ -7,49 +7,36 @@
 #include "state_bzX.h"
 
 #ifdef _EcuVirtual
-static uint16 ushStateBM                    = 0x0000;
-static uint8  ucCounterWheelElectronicBM[cAnzRad]   = { 0, 0, 0, 0 };
+static uint16 ushStateBM                          = 0x0000;
+static uint8  ucCounterWheelElectronicBM[cAnzRad] = {0, 0, 0, 0};
 
-static void    VerifyGutEmpfCtBM( Rte_Instance self);
-static boolean bGetOtherBmServiceSetBM( uint16 ushService);
-static void SaveRidDataAndCompareInBM ( Rte_Instance self);
+static boolean bGetOtherBmServiceSetBM   (uint16       ushService);
+static void    SaveRidDataAndCompareInBM (Rte_Instance self);
 #else
 #endif
 
-static void VerifyGutEmpfCtBM ( Rte_Instance self)
-{
-  const uint16 ushWheelPosOrderConvZ2CW[cAnzRad] = { cushReceptionReFlBM, cushReceptionReFrBM, cushReceptionReRlBM, cushReceptionReRrBM };
-
-  uint8 ucLoop;
-  uint8 ucCt;
-
-  ucCt = 0;
-  for ( ucLoop = 0; ucLoop < cAnzRad; ucLoop++)
-  {
-    if( ucCounterWheelElectronicBM[ucLoop] >= cucMaxCountWheelElectronicBM)
-    {
-
-      SetStateBitBM ( ushWheelPosOrderConvZ2CW[ucLoop], FALSE);
-      ucCt++;
-    }
-  }
-
-  if(ucCt == cAnzRad)
-  {
-    SaveRidDataAndCompareInBM( self);
-
-    if(GETTyreSelectionActiveEE( self) == TRUE)
-    {
-      SetSolldruckDM( self, GETSelectedLoadStateEE( self), GETSelectedTyreIndexEE( self));
-      (void) ZoPlausiInitPressINIT( self, bGetBitBetriebszustandBZ(cZUGEORDNET), GETSelectedTyreIndexEE( self));
-
-      SetCalibrationRootCauseDS( self, cCalRidNoStatusbar);
-      (void)SaveCalibrationEventDS( self);
-      PUTTyreSelectionBckgrdEE( self, FALSE);
-      PUTTyreSelectionActiveEE( self, FALSE);
-      SetCalibrationRootCauseDS( self, cCalInvalid);
-    }
-  }
+static void VerifyGutEmpfCtBM(Rte_Instance self){
+   const uint16 ushWheelPosOrderConvZ2CW[cAnzRad] = {cushReceptionReFlBM, cushReceptionReFrBM, cushReceptionReRlBM, cushReceptionReRrBM};
+         uint8  ucLoop;
+         uint8  ucCt = 0;
+   for(ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
+      if(ucCounterWheelElectronicBM[ucLoop] >= cucMaxCountWheelElectronicBM){
+         SetStateBitBM(ushWheelPosOrderConvZ2CW[ucLoop], FALSE);
+         ucCt++;
+      }
+   }
+   if(cAnzRad == ucCt){
+      SaveRidDataAndCompareInBM(self);
+      if(TRUE == GETTyreSelectionActiveEE(self)){
+         SetSolldruckDM(               self, GETSelectedLoadStateEE(self),          GETSelectedTyreIndexEE(self));
+         (void)ZoPlausiInitPressINIT(  self, bGetBitBetriebszustandBZ(cZUGEORDNET), GETSelectedTyreIndexEE(self));
+         SetCalibrationRootCauseDS(    self, cCalRidNoStatusbar);
+         (void)SaveCalibrationEventDS( self);
+         PUTTyreSelectionBckgrdEE(     self, FALSE);
+         PUTTyreSelectionActiveEE(     self, FALSE);
+         SetCalibrationRootCauseDS(    self, cCalInvalid);
+      }
+   }
 }
 
 static boolean bGetOtherBmServiceSetBM( uint16 ushService)
@@ -157,18 +144,18 @@ boolean bStartServiceBM( uint16 ushService)
   return bRet;
 }
 
-void CycleBandModeServiceBM ( Rte_Instance self, boolean bSpeedThresBM)
+void CycleBandModeServiceBM (Rte_Instance self, boolean bSpeedThresBM)
 {
   if( bGetStateBitBM( cushTestEigenradFahrtBM) == TRUE)
   {
     SetStateBitBM ( cushErFahrtVThresBM, bSpeedThresBM);
 
-    VerifyGutEmpfCtBM( self);
+    VerifyGutEmpfCtBM(self);
   }else if( bGetStateBitBM( cushTestEigenradFahrtNoSpeedBM) == TRUE)
   {
     SetStateBitBM ( cushErFahrtVThresBM, TRUE);
 
-    VerifyGutEmpfCtBM( self);
+    VerifyGutEmpfCtBM(self);
   }else{
   }
 }
@@ -191,12 +178,12 @@ void CountWheelElectronicDataBM( uint8 ucWheelPos)
   }
 }
 
-static void SaveRidDataAndCompareInBM( Rte_Instance self)
+static void SaveRidDataAndCompareInBM(Rte_Instance self)
 {
   uint8 AutoIx,CurIx;
 
-  AutoIx = GETSelectedAutoTyreIndexEE( self);
-  CurIx = GETSelectedTyreIndexEE( self);
+  AutoIx = GETSelectedAutoTyreIndexEE(self);
+  CurIx = GETSelectedTyreIndexEE(self);
 
   if((AutoIx == OP_SLCTN_TYR_AVLB_AndererReifen) || (AutoIx != CurIx))
   {
@@ -204,7 +191,7 @@ static void SaveRidDataAndCompareInBM( Rte_Instance self)
     if(CheckRearAxisRidDataAvailRID() == TRUE)
     {
 
-      SaveRidDataAndCompareRID( self);
+      SaveRidDataAndCompareRID(self);
     }
   }
 }

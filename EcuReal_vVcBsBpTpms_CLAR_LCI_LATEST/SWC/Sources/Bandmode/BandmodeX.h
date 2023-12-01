@@ -32,7 +32,7 @@ extern boolean bStartServiceBM( uint16 ushService);
 extern void InitBM( uint16 ushState);
 extern void BandmodeActivateBM (void);
 extern void BandmodeDeactivateBM (void);
-extern void CycleBandModeServiceBM ( Rte_Instance self, boolean bSpeedThresBM);
+extern void CycleBandModeServiceBM (Rte_Instance self, boolean bSpeedThresBM);
 extern void CountWheelElectronicDataBM( uint8 ucWheelPos);
 
 #ifdef __cplusplus

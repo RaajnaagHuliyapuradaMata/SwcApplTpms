@@ -161,35 +161,35 @@ typedef struct{
   tMonitorV_VEH tMonV_VEH;
 }tNwMonitoringData;
 
-extern void InitNWM( Rte_Instance self);
+extern void InitNWM(Rte_Instance self);
 
-extern void TimerTickNWM( Rte_Instance self);
+extern void TimerTickNWM(Rte_Instance self);
 
-extern uint8 CheckRDC_DT_PCKG12_MsgNWM( Rte_Instance self, const ImpTypeRecCddRdcData* rdcData);
+extern uint8 CheckRDC_DT_PCKG12_MsgNWM(Rte_Instance self, const ImpTypeRecCddRdcData* rdcData);
 
-extern uint8 CheckA_TEMP_MsgNWM( Rte_Instance self, Rdci_TEMP_EX_Type tempEx);
+extern uint8 CheckA_TEMP_MsgNWM(Rte_Instance self, Rdci_TEMP_EX_Type tempEx);
 
-extern uint8 CheckEINHEITEN_BN2020_MsgNWM( Rte_Instance self, Rdci_UN_AIP_Type unitAipData, Rdci_UN_TEMP_Type unitTempData);
+extern uint8 CheckEINHEITEN_BN2020_MsgNWM(Rte_Instance self, Rdci_UN_AIP_Type unitAipData, Rdci_UN_TEMP_Type unitTempData);
 
-extern uint8 CheckCON_VEH_MsgNWM( Rte_Instance self, Rdci_CON_VEH_Type conVeh);
+extern uint8 CheckCON_VEH_MsgNWM(Rte_Instance self, Rdci_CON_VEH_Type conVeh);
 
-extern uint8 CheckV_VEH_MsgNWM( Rte_Instance self, Rdci_V_VEH_Type vVeh);
+extern uint8 CheckV_VEH_MsgNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh);
 
-extern uint8 CheckBN2020_RELATIVZEIT_MsgNWM( Rte_Instance self, Rdci_T_SEC_COU_REL_Type relTime);
+extern uint8 CheckBN2020_RELATIVZEIT_MsgNWM(Rte_Instance self, Rdci_T_SEC_COU_REL_Type relTime);
 
-extern uint8 CheckUHRZEIT_DATUM_MsgNWM( Rte_Instance self, Rdci_UHRZEIT_DATUM_Type timeDate);
+extern uint8 CheckUHRZEIT_DATUM_MsgNWM(Rte_Instance self, Rdci_UHRZEIT_DATUM_Type timeDate);
 
-extern uint8 CheckDT_PT_1_MsgNWM( Rte_Instance self, Rdci_AIP_ENG_DRV_Type aip);
+extern uint8 CheckDT_PT_1_MsgNWM(Rte_Instance self, Rdci_AIP_ENG_DRV_Type aip);
 
-extern uint8 CheckNMEARawData2Part2_MsgNWM( Rte_Instance self, Rdci_GNSSPositionAltitude_Type GNSSPositionAltitude);
+extern uint8 CheckNMEARawData2Part2_MsgNWM(Rte_Instance self, Rdci_GNSSPositionAltitude_Type GNSSPositionAltitude);
 
-extern uint8 CheckNMEARawData2Part3_MsgNWM( Rte_Instance self, Rdci_GNSSErrorAltitudeMeters_Type GNSSErrorAltitudeMeters);
+extern uint8 CheckNMEARawData2Part3_MsgNWM(Rte_Instance self, Rdci_GNSSErrorAltitudeMeters_Type GNSSErrorAltitudeMeters);
 
-extern uint8 CheckWMOM_DRV_4_MsgNWM( Rte_Instance self, Rdci_WMOM_DRV_4_Type wmom);
+extern uint8 CheckWMOM_DRV_4_MsgNWM(Rte_Instance self, Rdci_WMOM_DRV_4_Type wmom);
 
 extern uint8 CheckFZZSTD_MsgNWM( Rdci_ST_ILK_ERRM_FZM_Type fzzstd);
 
-extern uint8 CheckKILOMETERSTAND_MsgNWM( Rte_Instance self, Rdci_MILE_KM_Type mileKm);
+extern uint8 CheckKILOMETERSTAND_MsgNWM(Rte_Instance self, Rdci_MILE_KM_Type mileKm);
 
 extern uint32 ulGetNetworkErrorsNWM(void);
 
@@ -199,13 +199,13 @@ extern void ClearNetworkErrChangedFlagNWM( uint32 ulDtcBit);
 
 extern void ClearNetworkErrChangedFlagsNWM(void);
 
-extern void ClearNetworkErrorNWM( Rte_Instance self, uint32 ulDtcBit);
+extern void ClearNetworkErrorNWM(Rte_Instance self, uint32 ulDtcBit);
 
 extern boolean bGetNetworkErrorNWM( uint32 ulDtcBit);
 
 extern void GetNwMonitoringDataNWM( tNwMonitoringData* data);
 
-extern void SetNetworkErrorNWM( Rte_Instance self, uint32 ulDtcBit);
+extern void SetNetworkErrorNWM(Rte_Instance self, uint32 ulDtcBit);
 
 extern void ClearErrorConditionsNWM( uint8 ucParamToClear);
 

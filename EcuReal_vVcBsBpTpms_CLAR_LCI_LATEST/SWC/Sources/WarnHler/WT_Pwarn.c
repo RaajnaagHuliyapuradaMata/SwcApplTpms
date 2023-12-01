@@ -224,12 +224,12 @@ static void TimerStopPWARN( uint8 ucIdX)
   ushWarnDelayShortTimerPWARN[ucIdX] = ushSHORT_TIMER_INIT_VALUEc;
 }
 
-void TimerInitPWARN( Rte_Instance self)
+void TimerInitPWARN(Rte_Instance self)
 {
   uint8 ucLoop;
   uint8 ucRet;
 
-  GetDataEE( self, cucShortTimerIdWN, &ushWarnDelayShortTimerPWARN);
+  GetDataEE(self, cucShortTimerIdWN, &ushWarnDelayShortTimerPWARN);
 
   for ( ucLoop = 0; ucLoop < cAnzRad; ucLoop++)
   {
@@ -296,10 +296,10 @@ void TimerInitPWARN( Rte_Instance self)
     }
   }
 
-  PutWarnBitsToNvmWN( self);
+  PutWarnBitsToNvmWN(self);
 }
 
-void TimerCountPWARN( Rte_Instance self)
+void TimerCountPWARN(Rte_Instance self)
 {
   uint8 ucLoop;
   uint8 ucRet;
@@ -324,9 +324,9 @@ void TimerCountPWARN( Rte_Instance self)
     }
   }
 
-  PutDataEE( self, cucShortTimerIdWN, &ushWarnDelayShortTimerPWARN, FALSE);
+  PutDataEE(self, cucShortTimerIdWN, &ushWarnDelayShortTimerPWARN, FALSE);
 
-  PutWarnBitsToNvmWN( self);
+  PutWarnBitsToNvmWN(self);
 }
 
 void GetTimerValPWARN( uint8 ucZomPos, uint8* ucTimState, uint16* ushTimCnt)

@@ -59,12 +59,12 @@ typedef struct{
   uint8 ucIeSent;
 }strIeFiFo;
 
-extern void ReadInaktivereignisDS( Rte_Instance self, uint8 * paucData);
-extern void ProcessIeFiFoDS( Rte_Instance self);
-extern void InitIeFiFoDS( Rte_Instance self);
-extern void IeFiFoWriteEntryDS( Rte_Instance self, uint8 ucErrorNumber);
+extern void ReadInaktivereignisDS(Rte_Instance self, uint8 * paucData);
+extern void ProcessIeFiFoDS(Rte_Instance self);
+extern void InitIeFiFoDS(Rte_Instance self);
+extern void IeFiFoWriteEntryDS(Rte_Instance self, uint8 ucErrorNumber);
 
-extern void ClearIeFifoDS( Rte_Instance self);
+extern void ClearIeFifoDS(Rte_Instance self);
 
 extern uint8 GetCurrentInactiveReasonDS(void);
 

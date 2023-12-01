@@ -11,7 +11,7 @@
 #include "HS_KalibrierereignisX.h"
 #include "EeErfsBlockX.h"
 
-void StartFillingDetectionFID( Rte_Instance self)
+void StartFillingDetectionFID(Rte_Instance self)
 {
   uint8 i;
   uint8 ucStartFd = 0;
@@ -20,16 +20,16 @@ void StartFillingDetectionFID( Rte_Instance self)
   if(bGetBitBetriebszustandBZ(cER_FINISH) == TRUE)
   {
 
-    if(GETucFilDetActiveEE( self) == 0)
+    if(GETucFilDetActiveEE(self) == 0)
     {
 
       for (i=0; i<cAnzRad; i++)
       {
-        if(GETucLastWuPressureEE( self, i) != cInvalidREpressure)
+        if(GETucLastWuPressureEE(self, i) != cInvalidREpressure)
         {
           ucStartFd++;
         }
-        if(GETscLastWuTemperatureEE( self, i) != cInvalidREtemperature)
+        if(GETscLastWuTemperatureEE(self, i) != cInvalidREtemperature)
         {
           ucStartFd++;
         }
@@ -40,16 +40,16 @@ void StartFillingDetectionFID( Rte_Instance self)
         for (i=0; i<cAnzRad; i++)
         {
 
-          ushSlope = ushMIso( GETucLastWuPressureEE( self, i), GETscLastWuTemperatureEE( self, i), GETucPAmbValEE( self));
-          PUTushFilDetMIsoEE( self, ushSlope, i);
+          ushSlope = ushMIso( GETucLastWuPressureEE(self, i), GETscLastWuTemperatureEE(self, i), GETucPAmbValEE(self));
+          PUTushFilDetMIsoEE(self, ushSlope, i);
         }
-        PUTucFilDetActiveEE( self, 1);
+        PUTucFilDetActiveEE(self, 1);
       }
     }
   }
 }
 
-boolean ProcessFillingDetectionFID( Rte_Instance self, uint8 ucSlot)
+boolean ProcessFillingDetectionFID(Rte_Instance self, uint8 ucSlot)
 {
   uint8   i;
   sint8   scTakt;
@@ -66,32 +66,32 @@ boolean ProcessFillingDetectionFID( Rte_Instance self, uint8 ucSlot)
   }
   else
   {
-    if(GETucFilDetActiveEE( self) > 0)
+    if(GETucFilDetActiveEE(self) > 0)
     {
       if(bGetBitBetriebszustandBZ(cER_FINISH) == TRUE)
       {
         if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == TRUE)
         {
 
-          scTakt = GETscLastWuTemperatureEE( self, ucSlot);
+          scTakt = GETscLastWuTemperatureEE(self, ucSlot);
 
-          ushSteigung = GETushFilDetMIsoEE( self, ucSlot);
+          ushSteigung = GETushFilDetMIsoEE(self, ucSlot);
 
-          ucPerwartet = ucPfT(ushSteigung, scTakt, GETucPAmbValEE( self));
+          ucPerwartet = ucPfT(ushSteigung, scTakt, GETucPAmbValEE(self));
 
-          ucPakt = GETucLastWuPressureEE( self, ucSlot);
+          ucPakt = GETucLastWuPressureEE(self, ucSlot);
 
           scPdiff = (sint8)(ucPakt - ucPerwartet);
 
-          PUTucFilDetRecFlag( self, 1, ucSlot);
+          PUTucFilDetRecFlag(self, 1, ucSlot);
 
           if(scPdiff >= 4)
           {
             for (i=0; i<cAnzRad; i++)
             {
-              PUTucFilDetRecFlag( self, 0, i);
+              PUTucFilDetRecFlag(self, 0, i);
             }
-            PUTucFilDetActiveEE( self, 0);
+            PUTucFilDetActiveEE(self, 0);
             bRetVal = TRUE;
           }
           else
@@ -100,16 +100,16 @@ boolean ProcessFillingDetectionFID( Rte_Instance self, uint8 ucSlot)
             ucSum = 0;
             for (i=0; i<cAnzRad; i++)
             {
-              ucSum += GETucFilDetRecFlag( self, i);
+              ucSum += GETucFilDetRecFlag(self, i);
             }
 
             if(ucSum == 4)
             {
               for (i=0; i<cAnzRad; i++)
               {
-                PUTucFilDetRecFlag( self, 0, i);
+                PUTucFilDetRecFlag(self, 0, i);
               }
-              PUTucFilDetActiveEE( self, 0);
+              PUTucFilDetActiveEE(self, 0);
             }
             bRetVal = FALSE;
           }

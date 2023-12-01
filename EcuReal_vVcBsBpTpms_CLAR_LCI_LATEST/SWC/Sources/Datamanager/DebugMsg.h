@@ -33,11 +33,11 @@ static uint8 ucSelectNextEventSpecificDataSetDBG(void);
 
 static void GetNextEventSpecificDataBlock32DBG( uint8* pucBuffer, uint8* ucMuxID, uint8* ucTransmitState);
 
-static uint8 GetNextSystemSpecificDataBlockDBG( Rte_Instance self, uint8* pucBuffer);
+static uint8 GetNextSystemSpecificDataBlockDBG(Rte_Instance self, uint8* pucBuffer);
 
 static uint8 GetNextSystemSpecificDataBlock16DBG( uint8* pucBuffer);
 
-static uint8 GetNextSystemSpecificDataBlock32DBG( Rte_Instance self, uint8* pucBuffer);
+static uint8 GetNextSystemSpecificDataBlock32DBG(Rte_Instance self, uint8* pucBuffer);
 
 # ifdef __cplusplus
 }

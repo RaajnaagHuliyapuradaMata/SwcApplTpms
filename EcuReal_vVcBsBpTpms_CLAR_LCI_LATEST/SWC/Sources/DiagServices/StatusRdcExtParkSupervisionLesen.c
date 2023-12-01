@@ -12,7 +12,7 @@
 
 static uint16 SearchMaxWarnLimitValue(uint16 current, uint16 new);
 
-void GetStatusRdcExtParkSupervisionLesen( Rte_Instance self, uint8 *pucData){
+void GetStatusRdcExtParkSupervisionLesen(Rte_Instance self, uint8 *pucData){
   uint8  ucPress;
   sint8  scTemp;
   uint16 ushTref;
@@ -37,9 +37,9 @@ void GetStatusRdcExtParkSupervisionLesen( Rte_Instance self, uint8 *pucData){
   GetStTyrITY( &ucQuFnTyrInfo, &ucQuTpl, &ucQuTfai);
 
   if( bGetBitBetriebszustandBZ( cZUGEORDNET) == TRUE){
-    (void) ucGetPTSollUSWIF( self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosVL));
+    (void) ucGetPTSollUSWIF(self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosVL));
     if( (ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature)){
-      (void) ucGetPTSollUSWIF( self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosVR));
+      (void) ucGetPTSollUSWIF(self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosVR));
       if( (ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature)){
         ushTref = 0x00FFu;
         ucPva   = 0x63u;
@@ -54,12 +54,12 @@ void GetStatusRdcExtParkSupervisionLesen( Rte_Instance self, uint8 *pucData){
       ucPva   = (uint8) ((((uint16) ucPress * 25) + 50) / 100);
     }
 
-    (void) ucGetPTSollUSWIF( self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosHL));
+    (void) ucGetPTSollUSWIF(self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosHL));
 
     if( (ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature))
     {
 
-      (void) ucGetPTSollUSWIF( self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosHR));
+      (void) ucGetPTSollUSWIF(self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosHR));
 
       if( (ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature))
       {
@@ -237,7 +237,7 @@ void GetStatusRdcExtParkSupervisionLesen( Rte_Instance self, uint8 *pucData){
   pucData[cucIxStatRdcExtParkSupNotifPercentNonCompWert]    = ucGetCRdciParkSupNotifThNcValueCD();
   pucData[cucIxStatRdcExtParkSupRefTempWert + 0]            = (uint8) ((ushTref >> 8) & 0x00FF);
   pucData[cucIxStatRdcExtParkSupRefTempWert + 1]            = (uint8) ((ushTref >> 0) & 0x00FF);
-  pucData[cucIxStatRdcExtParkSupLastAmbPresWert]            = (uint8) ((((uint16) GETucPAmbValEE( self) * 25) - 600) / 2);
+  pucData[cucIxStatRdcExtParkSupLastAmbPresWert]            = (uint8) ((((uint16) GETucPAmbValEE(self) * 25) - 600) / 2);
   pucData[cucIxStatRdcExtParkSupRcpFrontWert]               = ucPva;
   pucData[cucIxStatRdcExtParkSupRcpRearWert]                = ucPha;
   pucData[cucIxStatRdcExtParkSupQuFnTyrInfoWert]            = ucQuFnTyrInfo;
@@ -308,7 +308,7 @@ void GetStatusRdcExtParkSupervisionLesen( Rte_Instance self, uint8 *pucData){
       ucNoCcmId++;
     }
   }
-  timeDate = GETtExtParkSupSleepTimeDateEE( self);
+  timeDate = GETtExtParkSupSleepTimeDateEE(self);
   GetDateStringDM( timeDate.DISP_DATE_YR, timeDate.DISP_DATE_MON, timeDate.DISP_DATE_DAY, aucDateBuffer, sizeof(aucDateBuffer));
   GetTimeStringDM( timeDate.DISP_HR, timeDate.DISP_MN, timeDate.DISP_SEC, aucTimeBuffer, sizeof(aucTimeBuffer));
   for ( ucLoop = 0; ucLoop < 8; ucLoop++)
@@ -316,7 +316,7 @@ void GetStatusRdcExtParkSupervisionLesen( Rte_Instance self, uint8 *pucData){
     pucData[cucIxStatRdcExtParkSupSleepDateWert + ucLoop] = aucDateBuffer[ucLoop];
     pucData[cucIxStatRdcExtParkSupSleepTimeWert + ucLoop] = aucTimeBuffer[ucLoop];
   }
-  timeDate = GETtExtParkSupWakeupTimeDateEE( self);
+  timeDate = GETtExtParkSupWakeupTimeDateEE(self);
   GetDateStringDM( timeDate.DISP_DATE_YR, timeDate.DISP_DATE_MON, timeDate.DISP_DATE_DAY, aucDateBuffer, sizeof(aucDateBuffer));
   GetTimeStringDM( timeDate.DISP_HR, timeDate.DISP_MN, timeDate.DISP_SEC, aucTimeBuffer, sizeof(aucTimeBuffer));
   for ( ucLoop = 0; ucLoop < 8; ucLoop++)

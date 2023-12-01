@@ -30,7 +30,7 @@ extern "C"
 #define cucIxStatFzgFaehrt                        ((uint8) 15)
 #define cucIxStatErkennungAlleRe                  ((uint8) 16)
 
-extern void GetStatusRdcLesenDS( Rte_Instance self, uint8* pucData);
+extern void GetStatusRdcLesenDS(Rte_Instance self, uint8* pucData);
 
 #ifdef __cplusplus
 }

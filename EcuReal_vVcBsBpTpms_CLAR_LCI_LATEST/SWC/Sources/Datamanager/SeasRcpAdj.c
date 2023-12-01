@@ -21,7 +21,7 @@ static boolean  bCorrTinitLowerEventSRA             = FALSE;
 static boolean  bCorrTinitHigherEventSRA            = FALSE;
 static uint16   ushTimeDiffInMinsSRA               = 0x0000u;
 
-void InitSRA( Rte_Instance self){
+void InitSRA(Rte_Instance self){
   uint8  ucNibble;
   uint32 ulStartSraSysTime;
   if( bGetCRdciTrefSeasonalAdjustmentCD() == TRUE){
@@ -56,14 +56,14 @@ void InitSRA( Rte_Instance self){
       ushTimeDiffInMinsSRA                 = 0x0000u;
     }
     else{
-      ulStartSraSysTime                     = GETulTinitOatLowerTimeStartEE( self);
+      ulStartSraSysTime                     = GETulTinitOatLowerTimeStartEE(self);
       if( ulStartSraSysTime == 0xffffffffu){
         ulTinitOatLowerSysTimeEndPointSRA = ulTinitOatLowerTimeTicksSRA;
       }
       else{
         ulTinitOatLowerSysTimeEndPointSRA = (ulStartSraSysTime + ulTinitOatLowerTimeTicksSRA);
       }
-      ulStartSraSysTime                     = GETulTinitOatHigherTimeStartEE( self);
+      ulStartSraSysTime                     = GETulTinitOatHigherTimeStartEE(self);
       if( ulStartSraSysTime == 0xffffffffu){
         ulTinitOatHigherSysTimeEndPointSRA = ulTinitOatHigherTimeTicksSRA;
       }
@@ -87,50 +87,50 @@ void InitSRA( Rte_Instance self){
   }
 }
 
-void StartSRA( Rte_Instance self){
-  StartOatLowerTimeSRA( self);
-  StartOatHigherTimeSRA( self);
+void StartSRA(Rte_Instance self){
+  StartOatLowerTimeSRA(self);
+  StartOatHigherTimeSRA(self);
 }
 
-static void StartOatLowerTimeSRA( Rte_Instance self){
+static void StartOatLowerTimeSRA(Rte_Instance self){
   uint32 ulStartSraSysTime;
   if( ulTinitOatLowerTimeTicksSRA == 0xffffffffu){
-    PUTulTinitOatLowerTimeStartEE( self, 0xffffffffu);
+    PUTulTinitOatLowerTimeStartEE(self, 0xffffffffu);
     ulTinitOatLowerSysTimeEndPointSRA = 0xffffffffu;
   }
   else{
     ulStartSraSysTime = ulGetSysTimeDM();
     if( ulStartSraSysTime == 0xffffffffu){
-      PUTulTinitOatLowerTimeStartEE( self, 0xffffffffu);
+      PUTulTinitOatLowerTimeStartEE(self, 0xffffffffu);
       ulTinitOatLowerSysTimeEndPointSRA = 0xffffffffu;
     }
     else{
-      PUTulTinitOatLowerTimeStartEE( self, ulStartSraSysTime);
+      PUTulTinitOatLowerTimeStartEE(self, ulStartSraSysTime);
       ulTinitOatLowerSysTimeEndPointSRA = (ulStartSraSysTime + ulTinitOatLowerTimeTicksSRA);
     }
   }
 }
 
-static void StartOatHigherTimeSRA( Rte_Instance self){
+static void StartOatHigherTimeSRA(Rte_Instance self){
   uint32 ulStartSraSysTime;
   if( ulTinitOatHigherTimeTicksSRA == 0xffffffffu){
-    PUTulTinitOatHigherTimeStartEE( self, 0xffffffffu);
+    PUTulTinitOatHigherTimeStartEE(self, 0xffffffffu);
     ulTinitOatHigherSysTimeEndPointSRA = 0xffffffffu;
   }
   else{
     ulStartSraSysTime = ulGetSysTimeDM();
     if( ulStartSraSysTime == 0xffffffffu){
-      PUTulTinitOatHigherTimeStartEE( self, 0xffffffffu);
+      PUTulTinitOatHigherTimeStartEE(self, 0xffffffffu);
       ulTinitOatHigherSysTimeEndPointSRA = 0xffffffffu;
     }
     else{
-      PUTulTinitOatHigherTimeStartEE( self, ulStartSraSysTime);
+      PUTulTinitOatHigherTimeStartEE(self, ulStartSraSysTime);
       ulTinitOatHigherSysTimeEndPointSRA = (ulStartSraSysTime + ulTinitOatHigherTimeTicksSRA);
     }
   }
 }
 
-void CyclicSRA( Rte_Instance self){
+void CyclicSRA(Rte_Instance self){
   uint8   ucPSollKalt;
   sint8   scTSollKalt;
   uint8   ucPSollWarm;
@@ -148,13 +148,13 @@ void CyclicSRA( Rte_Instance self){
     {
       if( bCorrTinitLowerEventSRA == TRUE)
       {
-        if( GETslOATavgEE( self) > ((GETscTAinitValEE( self) - (ucDeltaTinitLowerThSRA + cHyst))*1000))
+        if( GETslOATavgEE(self) > ((GETscTAinitValEE(self) - (ucDeltaTinitLowerThSRA + cHyst))*1000))
         {
           bCorrTinitLowerEventSRA = FALSE;
         }else{
         }
       }else{
-        if( GETslOATavgEE( self) <= ((GETscTAinitValEE( self) - ucDeltaTinitLowerThSRA)*1000))
+        if( GETslOATavgEE(self) <= ((GETscTAinitValEE(self) - ucDeltaTinitLowerThSRA)*1000))
         {
           bCorrTinitLowerEventSRA = TRUE;
         }else{
@@ -168,13 +168,13 @@ void CyclicSRA( Rte_Instance self){
     {
       if( bCorrTinitHigherEventSRA == TRUE)
       {
-        if( GETslOATavgEE( self) < ((GETscTAinitValEE( self) + (ucDeltaTinitHigherThSRA - cHyst))*1000))
+        if( GETslOATavgEE(self) < ((GETscTAinitValEE(self) + (ucDeltaTinitHigherThSRA - cHyst))*1000))
         {
           bCorrTinitHigherEventSRA = FALSE;
         }else{
         }
       }else{
-        if( GETslOATavgEE( self) >= ((GETscTAinitValEE( self) + ucDeltaTinitHigherThSRA)*1000))
+        if( GETslOATavgEE(self) >= ((GETscTAinitValEE(self) + ucDeltaTinitHigherThSRA)*1000))
         {
           bCorrTinitHigherEventSRA = TRUE;
         }else{
@@ -188,57 +188,57 @@ void CyclicSRA( Rte_Instance self){
     if( (ulTinitOatLowerSysTimeEndPointSRA != 0xFFFFFFFFu) && (ulSysTime != 0xFFFFFFFFu)){
       if( ulGetSysTimeDM() > ulTinitOatLowerSysTimeEndPointSRA){
         if( bCorrTinitLowerEventSRA == TRUE){
-          scEnvTemp = (sint8)(GETslOATavgEE( self)/1000);
-          PUTscTAinitValEE( self, scEnvTemp);
-          SetCalibrationRootCauseDS( self, cCalSeaAdj);
-          (void)SaveCalibrationEventDS( self);
+          scEnvTemp = (sint8)(GETslOATavgEE(self)/1000);
+          PUTscTAinitValEE(self, scEnvTemp);
+          SetCalibrationRootCauseDS(self, cCalSeaAdj);
+          (void)SaveCalibrationEventDS(self);
 
           if( bGetBitBetriebszustandBZ( cEIGENRAD) == TRUE)
           {
             for( ucLoop = 0; ucLoop < cAnzRad; ucLoop++)
             {
 
-              (void)ucGetPTSollUSWIF( self, &ucPSollKalt, &scTSollKalt, &ucPSollWarm, &scTSollWarm, &ushMSollKalt, &ucEnvPress, ucLoop);
+              (void)ucGetPTSollUSWIF(self, &ucPSollKalt, &scTSollKalt, &ucPSollWarm, &scTSollWarm, &ushMSollKalt, &ucEnvPress, ucLoop);
 
               if( bGetBitBetriebszustandBZ( cZUGEORDNET) == TRUE)
               {
-                (void) ucCfgReInitSingleUSWIF( self, ucPSollKalt, scEnvTemp, ucLoop, ucGetWPOfColWAL( ucLoop));
+                (void) ucCfgReInitSingleUSWIF(self, ucPSollKalt, scEnvTemp, ucLoop, ucGetWPOfColWAL( ucLoop));
               }else{
-                (void) ucCfgReInitSingleUSWIF( self, ucPSollKalt, scEnvTemp, ucLoop, cRadPosUndef);
+                (void) ucCfgReInitSingleUSWIF(self, ucPSollKalt, scEnvTemp, ucLoop, cRadPosUndef);
               }
             }
           }
         }else{
         }
-        StartOatLowerTimeSRA( self);
+        StartOatLowerTimeSRA(self);
       }
     }
     ulSysTime = ulGetSysTimeDM();
     if( (ulTinitOatHigherSysTimeEndPointSRA != 0xFFFFFFFFu) && (ulSysTime != 0xFFFFFFFFu)){
       if( ulGetSysTimeDM() > ulTinitOatHigherSysTimeEndPointSRA){
         if( bCorrTinitHigherEventSRA == TRUE){
-          scEnvTemp = (sint8)(GETslOATavgEE( self)/1000);
-          PUTscTAinitValEE( self, scEnvTemp);
-          SetCalibrationRootCauseDS( self, cCalSeaAdj);
-          (void)SaveCalibrationEventDS( self);
+          scEnvTemp = (sint8)(GETslOATavgEE(self)/1000);
+          PUTscTAinitValEE(self, scEnvTemp);
+          SetCalibrationRootCauseDS(self, cCalSeaAdj);
+          (void)SaveCalibrationEventDS(self);
           if( bGetBitBetriebszustandBZ( cEIGENRAD) == TRUE){
             for( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
-              (void)ucGetPTSollUSWIF( self, &ucPSollKalt, &scTSollKalt, &ucPSollWarm, &scTSollWarm, &ushMSollKalt, &ucEnvPress, ucLoop);
+              (void)ucGetPTSollUSWIF(self, &ucPSollKalt, &scTSollKalt, &ucPSollWarm, &scTSollWarm, &ushMSollKalt, &ucEnvPress, ucLoop);
 
               if( bGetBitBetriebszustandBZ( cZUGEORDNET) == TRUE){
-                (void) ucCfgReInitSingleUSWIF( self, ucPSollKalt, scEnvTemp, ucLoop, ucGetWPOfColWAL( ucLoop));
+                (void) ucCfgReInitSingleUSWIF(self, ucPSollKalt, scEnvTemp, ucLoop, ucGetWPOfColWAL( ucLoop));
               }else{
-                (void) ucCfgReInitSingleUSWIF( self, ucPSollKalt, scEnvTemp, ucLoop, cRadPosUndef);
+                (void) ucCfgReInitSingleUSWIF(self, ucPSollKalt, scEnvTemp, ucLoop, cRadPosUndef);
               }
             }
           }
         }else{
         }
-        StartOatHigherTimeSRA( self);
+        StartOatHigherTimeSRA(self);
       }
     }
-    PUTbCorrTinitLowerEventEE( self, bCorrTinitLowerEventSRA);
-    PUTbCorrTinitHigherEventEE( self, bCorrTinitHigherEventSRA);
+    PUTbCorrTinitLowerEventEE(self, bCorrTinitLowerEventSRA);
+    PUTbCorrTinitHigherEventEE(self, bCorrTinitHigherEventSRA);
   }else{
   }
 }

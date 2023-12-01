@@ -1,5 +1,3 @@
-
-
 #ifndef _RTE_DATA_HANDLE_TYPE_H
 #define _RTE_DATA_HANDLE_TYPE_H
 

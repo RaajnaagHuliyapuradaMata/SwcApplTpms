@@ -34,14 +34,14 @@ extern "C"
 
 static boolean bSearchEigenraederWAL(uint16* ushErSlots);
 static void DeleteForeignWheelsWAL(void);
-static uint8 ucForceAutolocationWAL( Rte_Instance self);
-static void PartialAllocationWAL( Rte_Instance self, uint16 ushSlots, uint8 ucNrOfErs, uint8* ucOpenPositions);
+static uint8 ucForceAutolocationWAL(Rte_Instance self);
+static void PartialAllocationWAL(Rte_Instance self, uint16 ushSlots, uint8 ucNrOfErs, uint8* ucOpenPositions);
 static boolean bFinishIfWheelsAreInDriveMode(void);
 static uint8 ucSumCtID(uint8 ucMinCt, uint16 *ushRet);
 static uint8 ucPutInZOM(const tRFTelType *ptInputWA);
 static uint8 ucGetZOMWP(uint8 ucIx);
-static uint8 ucSetHistory( Rte_Instance self, uint8 ucType);
-static uint8 ucSetHistoryPartialWAL( Rte_Instance self, uint8 ucType, uint8 ucNoOfErs);
+static uint8 ucSetHistory(Rte_Instance self, uint8 ucType);
+static uint8 ucSetHistoryPartialWAL(Rte_Instance self, uint8 ucType, uint8 ucNoOfErs);
 static uint8 ucIdsAreHistoricWAL(uint16 ushSlots);
 static uint8 ucSearchWheelPositionsWAL(uint8 ucID, const tRFTelType * ptInputWA);
 static uint8 ucGetFreeZOMPos(void);

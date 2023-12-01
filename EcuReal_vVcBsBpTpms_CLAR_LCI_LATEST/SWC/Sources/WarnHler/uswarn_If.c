@@ -5,7 +5,7 @@
 #include "CodingDataX.h"
 #include "USCS.h"
 
-void InitUSWIF( Rte_Instance self){
+void InitUSWIF(Rte_Instance self){
   uint8 ucLoop;
   uint8 aucData[12];
   for( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
@@ -14,7 +14,7 @@ void InitUSWIF( Rte_Instance self){
       aucData[ucLoop] = cRadPosUndef;
     }
   }
-  InitUSWAlgo( self, aucData);
+  InitUSWAlgo(self, aucData);
   if( ucGetCRdciTpmsMarketCD() == cMARKET_US){
     aucData[0] = (uint8) 0x01;
     aucData[1] = (uint8) 0x00;
@@ -25,9 +25,9 @@ void InitUSWIF( Rte_Instance self){
     aucData[2] = (uint8) 0x02;
   }
 
-  (void) ucUSWAlgoParaWN( self, ucWrParaBytec, aucData);
-  (void) ucCfgPSollMinUSWIF( self);
-  (void) ucCfgPMinUSWIF( self, ucGetPWarnMinDM());
+  (void) ucUSWAlgoParaWN(self, ucWrParaBytec, aucData);
+  (void) ucCfgPSollMinUSWIF(self);
+  (void) ucCfgPMinUSWIF(self, ucGetPWarnMinDM());
 
   aucData[0]  = ucGetCRdciUiwThCCD();
   aucData[1]  = ucGetCRdciUiwThNcCD();
@@ -43,15 +43,15 @@ void InitUSWIF( Rte_Instance self){
 
   aucData[11] = (uint8) bGetCRdciMaxThresholdCD();
 
-  (void) ucUSWAlgoParaWN( self, ucWrParaThresc, aucData);
+  (void) ucUSWAlgoParaWN(self, ucWrParaThresc, aucData);
 
   aucData[0] = ucRdParaSubSetc;
   aucData[1] = 0;
   aucData[2] = 0;
-  (void) ucWarnManagerWN( self, ucDiagServicec, aucData);
+  (void) ucWarnManagerWN(self, ucDiagServicec, aucData);
 }
 
-uint8 ucCfgReInitSingleUSWIF( Rte_Instance self, uint8 ucPressure, sint8 scTemperature, uint8 ucZomPos, uint8 ucWheelPos)
+uint8 ucCfgReInitSingleUSWIF(Rte_Instance self, uint8 ucPressure, sint8 scTemperature, uint8 ucZomPos, uint8 ucWheelPos)
 {
   uint8 ucResult, aucDiagService[5];
 
@@ -61,7 +61,7 @@ uint8 ucCfgReInitSingleUSWIF( Rte_Instance self, uint8 ucPressure, sint8 scTempe
   aucDiagService[3] = (uint8) scTemperature;
   aucDiagService[4] = ucWheelPos;
 
-  if( ucWarnManagerWN( self, ucDiagServicec, aucDiagService) == 0xff)
+  if( ucWarnManagerWN(self, ucDiagServicec, aucDiagService) == 0xff)
   {
     ucResult = cRetError;
   }else{
@@ -71,7 +71,7 @@ uint8 ucCfgReInitSingleUSWIF( Rte_Instance self, uint8 ucPressure, sint8 scTempe
   return( ucResult);
 }
 
-uint8 ucCfgTReifenSingleUSWIF( Rte_Instance self, sint8 scTemperature, uint8 ucZomPos)
+uint8 ucCfgTReifenSingleUSWIF(Rte_Instance self, sint8 scTemperature, uint8 ucZomPos)
 {
   uint8 ucResult, aucDiagService[3];
 
@@ -79,7 +79,7 @@ uint8 ucCfgTReifenSingleUSWIF( Rte_Instance self, sint8 scTemperature, uint8 ucZ
   aucDiagService[1] = ucZomPos;
   aucDiagService[2] = (uint8) scTemperature;
 
-  if( ucWarnManagerWN( self, ucDiagServicec, aucDiagService) == 0xff)
+  if( ucWarnManagerWN(self, ucDiagServicec, aucDiagService) == 0xff)
   {
     ucResult = 0xff;
   }else{
@@ -89,14 +89,14 @@ uint8 ucCfgTReifenSingleUSWIF( Rte_Instance self, sint8 scTemperature, uint8 ucZ
   return( ucResult);
 }
 
-uint8 ucGetPTSollUSWIF( Rte_Instance self, uint8* pucPSollKalt, sint8* pscTSollKalt, uint8* pucPSollWarm, sint8* pscTSollWarm, uint16* pushMSoll, uint8* pucEnvP, uint8 ucZomPos)
+uint8 ucGetPTSollUSWIF(Rte_Instance self, uint8* pucPSollKalt, sint8* pscTSollKalt, uint8* pucPSollWarm, sint8* pscTSollWarm, uint16* pushMSoll, uint8* pucEnvP, uint8 ucZomPos)
 {
   uint8 ucResult, aucDiagService[7];
 
   aucDiagService[0] = ucGetPTSollc;
   aucDiagService[1] = ucZomPos;
 
-  if( ucWarnManagerWN( self, ucDiagServicec, aucDiagService) == 0xff)
+  if( ucWarnManagerWN(self, ucDiagServicec, aucDiagService) == 0xff)
   {
     *pucPSollKalt  = cInvalidREpressure;
     *pscTSollKalt  = cInvalidREtemperature;
@@ -140,7 +140,7 @@ uint8 ucGetWpPTSollUSWIF( uint8* pucPSoll, sint8* pscTSoll, uint8 ucWheelPos)
   return( ucResult);
 }
 
-uint8 ucSetPTSollAfterWpChangedUSWIF( Rte_Instance self, uint8 ucHistSlot, uint8 ucNewWheelPos)
+uint8 ucSetPTSollAfterWpChangedUSWIF(Rte_Instance self, uint8 ucHistSlot, uint8 ucNewWheelPos)
 {
   uint8 ucResult;
   uint8 ucPres;
@@ -154,10 +154,10 @@ uint8 ucSetPTSollAfterWpChangedUSWIF( Rte_Instance self, uint8 ucHistSlot, uint8
     {
 
       ucPminFzg = ucGetPminFzgDM();
-      scTamb = GETscTAmbValEE( self);
+      scTamb = GETscTAmbValEE(self);
 
-      ucResult = ucCfgReInitSingleUSWIF( self, ucPminFzg, scTamb, ucHistSlot, cRadPosUndef);
-      ucResult |= ucCfgReInitSingleUSWIF( self, ucPres, scTemp, ucHistSlot, cRadPosUndef);
+      ucResult = ucCfgReInitSingleUSWIF(self, ucPminFzg, scTamb, ucHistSlot, cRadPosUndef);
+      ucResult |= ucCfgReInitSingleUSWIF(self, ucPres, scTemp, ucHistSlot, cRadPosUndef);
     }else{
       ucResult  = cRetError;
     }
@@ -168,13 +168,13 @@ uint8 ucSetPTSollAfterWpChangedUSWIF( Rte_Instance self, uint8 ucHistSlot, uint8
   return ucResult;
 }
 
-uint8 ucCfgPMinUSWIF( Rte_Instance self, uint8 ucPMin)
+uint8 ucCfgPMinUSWIF(Rte_Instance self, uint8 ucPMin)
 {
   uint8 ucResult, aucDiagService[2];
 
   aucDiagService[0] = ucCfgPMinc;
   aucDiagService[1] = ucPMin;
-  if( ucWarnManagerWN( self, ucDiagServicec, aucDiagService) == 0xff)
+  if( ucWarnManagerWN(self, ucDiagServicec, aucDiagService) == 0xff)
   {
     ucResult = 0xff;
   }else{
@@ -183,7 +183,7 @@ uint8 ucCfgPMinUSWIF( Rte_Instance self, uint8 ucPMin)
   return( ucResult);
 }
 
-uint8 ucCfgPSollMinUSWIF( Rte_Instance self)
+uint8 ucCfgPSollMinUSWIF(Rte_Instance self)
 {
   uint8 ucLoop, ucWheelPos, ucResult, aucDiagService[5];
 
@@ -205,7 +205,7 @@ uint8 ucCfgPSollMinUSWIF( Rte_Instance self)
     }
   }
 
-  if( ucWarnManagerWN( self, ucDiagServicec, aucDiagService) == 0xff)
+  if( ucWarnManagerWN(self, ucDiagServicec, aucDiagService) == 0xff)
   {
     ucResult = 0xff;
   }else{
@@ -214,14 +214,14 @@ uint8 ucCfgPSollMinUSWIF( Rte_Instance self)
   return( ucResult);
 }
 
-uint8 ResetWarnVectorUSWIF( Rte_Instance self, uint8 ucZomPos)
+uint8 ResetWarnVectorUSWIF(Rte_Instance self, uint8 ucZomPos)
 {
   uint8 ucResult, aucDiagService[2];
 
   aucDiagService[0] = ucResetWarnVectorc;
   aucDiagService[1] = ucZomPos;
 
-  if( ucWarnManagerWN( self, ucDiagServicec, aucDiagService) == 0xff)
+  if( ucWarnManagerWN(self, ucDiagServicec, aucDiagService) == 0xff)
   {
     ucResult = 0xff;
   }else{
@@ -231,14 +231,14 @@ uint8 ResetWarnVectorUSWIF( Rte_Instance self, uint8 ucZomPos)
   return( ucResult);
 }
 
-uint8 PorInitUSWIF( Rte_Instance self)
+uint8 PorInitUSWIF(Rte_Instance self)
 {
   uint8 ucResult, aucDiagService[2];
 
   aucDiagService[0] = 0;
   aucDiagService[1] = 0;
 
-  if( ucTPMSMsgManagerTM( self, ucPorInitc, aucDiagService) == 0x00)
+  if( ucTPMSMsgManagerTM(self, ucPorInitc, aucDiagService) == 0x00)
   {
     ucResult = 0;
   }else{
@@ -248,7 +248,7 @@ uint8 PorInitUSWIF( Rte_Instance self)
   return( ucResult);
 }
 
-uint8 NewPositionsUSWIF( Rte_Instance self)
+uint8 NewPositionsUSWIF(Rte_Instance self)
 {
   uint8 i, ucResult, aucDiagService[5];
 
@@ -265,7 +265,7 @@ uint8 NewPositionsUSWIF( Rte_Instance self)
     }
   }
 
-  if( ucTPMSMsgManagerTM( self, ucDiagServicec, aucDiagService) == 0x00)
+  if( ucTPMSMsgManagerTM(self, ucDiagServicec, aucDiagService) == 0x00)
   {
     ucResult = cRetOk;
   }else{
@@ -275,13 +275,13 @@ uint8 NewPositionsUSWIF( Rte_Instance self)
   return( ucResult);
 }
 
-uint8 ClearPosUSWIF( Rte_Instance self)
+uint8 ClearPosUSWIF(Rte_Instance self)
 {
   uint8 ucResult, aucDiagService[1];
 
   aucDiagService[0] = ucClearPosc;
 
-  if(ucTPMSMsgManagerTM( self, ucDiagServicec, aucDiagService) == 0x00)
+  if(ucTPMSMsgManagerTM(self, ucDiagServicec, aucDiagService) == 0x00)
   {
     ucResult = 0;
   }else{
@@ -291,21 +291,21 @@ uint8 ClearPosUSWIF( Rte_Instance self)
   return( ucResult);
 }
 
-void ResetWarningsUSWIF( Rte_Instance self){
-  (void) ResetWarnVectorUSWIF( self, cAnzRad);
-  (void) TimerStopUSWIF( self);
-  (void) PorInitUSWIF( self);
-  (void) NewPositionsUSWIF( self);
-  (void)ucCfgPSollMinUSWIF( self);
+void ResetWarningsUSWIF(Rte_Instance self){
+  (void) ResetWarnVectorUSWIF(self, cAnzRad);
+  (void) TimerStopUSWIF(self);
+  (void) PorInitUSWIF(self);
+  (void) NewPositionsUSWIF(self);
+  (void)ucCfgPSollMinUSWIF(self);
 }
 
-uint8 TimerStopUSWIF( Rte_Instance self)
+uint8 TimerStopUSWIF(Rte_Instance self)
 {
   uint8 ucResult, aucDiagService[1];
 
   aucDiagService[0] = ucTimerStopc;
 
-  if( ucWarnManagerWN( self, ucDiagServicec, aucDiagService) == 0xff)
+  if( ucWarnManagerWN(self, ucDiagServicec, aucDiagService) == 0xff)
   {
     ucResult = 0xff;
   }else{
@@ -315,7 +315,7 @@ uint8 TimerStopUSWIF( Rte_Instance self)
   return( ucResult);
 }
 
-uint8 ucSetPminFzgAsSetPressureUSWIF( Rte_Instance self)
+uint8 ucSetPminFzgAsSetPressureUSWIF(Rte_Instance self)
 {
   uint8 ucRet = cRetOk;
   uint8 ucLoop;
@@ -323,48 +323,41 @@ uint8 ucSetPminFzgAsSetPressureUSWIF( Rte_Instance self)
   sint8 scTAmbVal;
 
   ucMinPres = ucGetPminFzgDM();
-  scTAmbVal = GETscTAmbValEE( self);
+  scTAmbVal = GETscTAmbValEE(self);
 
   for ( ucLoop = 0; ucLoop < cAnzRad; ucLoop++)
   {
-    ucRet = ucCfgReInitSingleUSWIF( self, ucMinPres, scTAmbVal, ucLoop, cRadPosUndef);
+    ucRet = ucCfgReInitSingleUSWIF(self, ucMinPres, scTAmbVal, ucLoop, cRadPosUndef);
   }
 
   return ucRet;
 }
 
-uint8 ucGetWarnVectorIdExtIFH( Rte_Instance self, uint8* pucWarnVectors)
-{
-  uint8 i, ucResult, aucDiagService[cAnzRad];
-  uint8 *pucDiagService;
-
-  aucDiagService[0] = ucGetWarnVectorsIdc;
-
-  if( ucTPMSMsgManagerTM( self, ucDiagServicec, aucDiagService) == (uint8) 0x00)
-  {
-    pucDiagService = &aucDiagService[0];
-
-    for( i = 0; i < cAnzRad; i++)
-    {
-      pucWarnVectors[i] = pucDiagService[i];
-    }
-
-    ucResult = (uint8) 0x00;
-  }else{
-    ucResult = 0xFF;
-  }
-
-  return( ucResult);
+uint8 ucGetWarnVectorIdExtIFH(Rte_Instance self, uint8* pucWarnVectors){
+   uint8 i, ucResult, aucDiagService[cAnzRad];
+   uint8* pucDiagService;
+   aucDiagService[0] = ucGetWarnVectorsIdc;
+   if((uint8) 0x00 == ucTPMSMsgManagerTM(self, ucDiagServicec, aucDiagService)){
+      pucDiagService = &aucDiagService[0];
+      for(i = 0; i < cAnzRad; i++){
+         pucWarnVectors[i] = pucDiagService[i];
+      }
+      ucResult = (uint8) 0x00;
+   }
+   else{
+      ucResult = 0xFF;
+   }
+   return(ucResult);
 }
 
-uint8 ucGetWarnBitIdIntIFH( Rte_Instance self, uint8* pucWarnVectors)
+uint8 ucGetWarnBitIdIntIFH(Rte_Instance self, uint8* pucWarnVectors)
 {
   uint8 ucLoop, ucResult, aucDiagService[6];
 
   aucDiagService[0] = ucGetWarnVectorsc;
   aucDiagService[1] = ucWarnBitIxWNc;
 
-  if( ucWarnManagerWN( self, ucDiagServicec, aucDiagService) == (uint8) 0x00)
+  if( ucWarnManagerWN(self, ucDiagServicec, aucDiagService) == (uint8) 0x00)
   {
     for( ucLoop = 0; ucLoop < cAnzRad; ucLoop++)
     {
@@ -379,14 +372,14 @@ uint8 ucGetWarnBitIdIntIFH( Rte_Instance self, uint8* pucWarnVectors)
   return( ucResult);
 }
 
-uint8 ucGetWarnBitTonnageIdIntIFH( Rte_Instance self, uint8* pucWarnVectors)
+uint8 ucGetWarnBitTonnageIdIntIFH(Rte_Instance self, uint8* pucWarnVectors)
 {
   uint8 ucLoop, ucResult, aucDiagService[6];
 
   aucDiagService[0] = ucGetWarnVectorsc;
   aucDiagService[1] = ucWarnBitTonnageIxWNc;
 
-  if( ucWarnManagerWN( self, ucDiagServicec, aucDiagService) == (uint8) 0x00)
+  if( ucWarnManagerWN(self, ucDiagServicec, aucDiagService) == (uint8) 0x00)
   {
     for( ucLoop = 0; ucLoop < cAnzRad; ucLoop++)
     {
@@ -401,14 +394,14 @@ uint8 ucGetWarnBitTonnageIdIntIFH( Rte_Instance self, uint8* pucWarnVectors)
   return( ucResult);
 }
 
-uint8 ucGetWarnBitAirMassIdIntIFH( Rte_Instance self, uint8* pucWarnVectors)
+uint8 ucGetWarnBitAirMassIdIntIFH(Rte_Instance self, uint8* pucWarnVectors)
 {
   uint8 ucLoop, ucResult, aucDiagService[6];
 
   aucDiagService[0] = ucGetWarnVectorsc;
   aucDiagService[1] = ucWarnBitAirMassIxWNc;
 
-  if( ucWarnManagerWN( self, ucDiagServicec, aucDiagService) == (uint8) 0x00)
+  if( ucWarnManagerWN(self, ucDiagServicec, aucDiagService) == (uint8) 0x00)
   {
     for( ucLoop = 0; ucLoop < cAnzRad; ucLoop++)
     {
@@ -423,14 +416,14 @@ uint8 ucGetWarnBitAirMassIdIntIFH( Rte_Instance self, uint8* pucWarnVectors)
   return( ucResult);
 }
 
-uint8 ucGetWThresUSWIF( Rte_Instance self, uint8 ucWarnType, uint8* pucSetThres, uint8* pucResetThres)
+uint8 ucGetWThresUSWIF(Rte_Instance self, uint8 ucWarnType, uint8* pucSetThres, uint8* pucResetThres)
 {
   uint8 ucResult, aucDiagService[2];
 
   aucDiagService[0] = ucGetWThresc;
   aucDiagService[1] = ucWarnType;
 
-  if( ucWarnManagerWN( self, ucDiagServicec, aucDiagService) == 0xff)
+  if( ucWarnManagerWN(self, ucDiagServicec, aucDiagService) == 0xff)
   {
     *pucSetThres = 0x00;
     *pucResetThres = 0x00;

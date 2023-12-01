@@ -16,7 +16,7 @@
 
 static strIeFiFo tIEFifo[cMaxSizeIeFiFo];
 
-static uint8 SaveInaktivereignisDS( Rte_Instance self, uint8 ucErrorCode)
+static uint8 SaveInaktivereignisDS(Rte_Instance self, uint8 ucErrorCode)
 {
   Rdci_UHRZEIT_DATUM_Type timeDate;
   Rdci_MILE_KM_Type mileKm;
@@ -34,7 +34,7 @@ static uint8 SaveInaktivereignisDS( Rte_Instance self, uint8 ucErrorCode)
     #endif
   #endif
 
-  ucCounterInactive = GetHsInaktivereignis_1_CounterEE( self);
+  ucCounterInactive = GetHsInaktivereignis_1_CounterEE(self);
   if(ucCounterInactive == 0xff)
   {
     ucCounterInactive = 1;
@@ -93,7 +93,7 @@ static uint8 SaveInaktivereignisDS( Rte_Instance self, uint8 ucErrorCode)
     break;
   }
 
-  timeDate = GETtTimeDateEE( self);
+  timeDate = GETtTimeDateEE(self);
   GetDateStringDM(timeDate.DISP_DATE_YR, (uint8)timeDate.DISP_DATE_MON, (uint8)timeDate.DISP_DATE_DAY, cTempBuffer, sizeof(cTempBuffer));
   for (i=0; i<8; i++)
   {
@@ -105,7 +105,7 @@ static uint8 SaveInaktivereignisDS( Rte_Instance self, uint8 ucErrorCode)
     cData[i+8] = cTempBuffer[i];
   }
 
-  mileKm = GETulMileKmEE( self);
+  mileKm = GETulMileKmEE(self);
 
   cData[16] = (uint8)((mileKm >> 24) & 0xffU);
   cData[17] = (uint8)((mileKm >> 16) & 0xffU);
@@ -116,17 +116,17 @@ static uint8 SaveInaktivereignisDS( Rte_Instance self, uint8 ucErrorCode)
 
   for (i=0; i<sizeof(cData); i++)
   {
-    PutHsInaktivereignis_3_EE( self, GetHsInaktivereignis_2_EE( self, i), i);
+    PutHsInaktivereignis_3_EE(self, GetHsInaktivereignis_2_EE(self, i), i);
   }
 
   for (i=0; i<sizeof(cData); i++)
   {
-    PutHsInaktivereignis_2_EE( self, GetHsInaktivereignis_1_EE( self, i), i);
+    PutHsInaktivereignis_2_EE(self, GetHsInaktivereignis_1_EE(self, i), i);
   }
 
   for (i=0; i<sizeof(cData); i++)
   {
-    PutHsInaktivereignis_1_EE( self, cData[i], i);
+    PutHsInaktivereignis_1_EE(self, cData[i], i);
   }
 
   ucRetVal = 0;
@@ -134,32 +134,32 @@ static uint8 SaveInaktivereignisDS( Rte_Instance self, uint8 ucErrorCode)
   return ucRetVal;
 }
 
-void ReadInaktivereignisDS( Rte_Instance self, uint8 * paucData)
+void ReadInaktivereignisDS(Rte_Instance self, uint8 * paucData)
 {
   uint8 i;
 
   for ( i = 0; i < cSizeInaktivereignis; i++)
   {
-    paucData[i] = GetHsInaktivereignis_1_EE( self, i);
+    paucData[i] = GetHsInaktivereignis_1_EE(self, i);
   }
 
   for ( i = 0; i < cSizeInaktivereignis; i++)
   {
-    paucData[cSizeInaktivereignis + i] = GetHsInaktivereignis_2_EE( self, i);
+    paucData[cSizeInaktivereignis + i] = GetHsInaktivereignis_2_EE(self, i);
   }
 
   for ( i = 0; i < cSizeInaktivereignis; i++)
   {
-    paucData[(2 * cSizeInaktivereignis) + i] = GetHsInaktivereignis_3_EE( self, i);
+    paucData[(2 * cSizeInaktivereignis) + i] = GetHsInaktivereignis_3_EE(self, i);
   }
 }
 
-void InitIeFiFoDS( Rte_Instance self)
+void InitIeFiFoDS(Rte_Instance self)
 {
-  GetIeFiFoFromNvmEE( self, tIEFifo);
+  GetIeFiFoFromNvmEE(self, tIEFifo);
 }
 
-void IeFiFoWriteEntryDS( Rte_Instance self, uint8 ucErrorNumber)
+void IeFiFoWriteEntryDS(Rte_Instance self, uint8 ucErrorNumber)
 {
   uint8 i = 0;
 
@@ -179,11 +179,11 @@ void IeFiFoWriteEntryDS( Rte_Instance self, uint8 ucErrorNumber)
   {
     tIEFifo[i].ucErrorNumber = ucErrorNumber;
     tIEFifo[i].ucIeSent = 0;
-    PutIeFiFoToNvmEE( self, tIEFifo);
+    PutIeFiFoToNvmEE(self, tIEFifo);
   }
 }
 
-static void IeFiFoShiftDS( Rte_Instance self)
+static void IeFiFoShiftDS(Rte_Instance self)
 {
   uint8 i;
 
@@ -195,10 +195,10 @@ static void IeFiFoShiftDS( Rte_Instance self)
   tIEFifo[cMaxSizeIeFiFo-1].ucErrorNumber = cIeFiFoEmpty;
   tIEFifo[cMaxSizeIeFiFo-1].ucIeSent = cIeFiFoEmpty;
 
-  PutIeFiFoToNvmEE( self, tIEFifo);
+  PutIeFiFoToNvmEE(self, tIEFifo);
 }
 
-void ProcessIeFiFoDS( Rte_Instance self){
+void ProcessIeFiFoDS(Rte_Instance self){
   uint8 ucErrorStatus = cErrorNoAction;
   switch (tIEFifo[0].ucErrorNumber){
     case (uint8)cDtcWuMuteFl:                     if(bGetWheelUnitErrorWUM(cAllocWuMuteFl) == FALSE)                   { ucErrorStatus = cErrorNotActive; } break;
@@ -247,27 +247,27 @@ void ProcessIeFiFoDS( Rte_Instance self){
   }
 
   if(ucErrorStatus == cErrorUnknown){
-    IeFiFoShiftDS( self);
+    IeFiFoShiftDS(self);
   }
   else{
     if(tIEFifo[0].ucIeSent == 0){
-      (void)SaveInaktivereignisDS( self, tIEFifo[0].ucErrorNumber);
+      (void)SaveInaktivereignisDS(self, tIEFifo[0].ucErrorNumber);
       tIEFifo[0].ucIeSent = 1;
-      PutIeFiFoToNvmEE( self, tIEFifo);
+      PutIeFiFoToNvmEE(self, tIEFifo);
     }
     if(ucErrorStatus == cErrorNotActive){
-      IeFiFoShiftDS( self);
+      IeFiFoShiftDS(self);
     }
   }
 }
 
-void ClearIeFifoDS( Rte_Instance self){
+void ClearIeFifoDS(Rte_Instance self){
   uint8 ucLoop;
   for (ucLoop = 0; ucLoop < cMaxSizeIeFiFo; ucLoop++){
     tIEFifo[ucLoop].ucErrorNumber = cIeFiFoEmpty;
     tIEFifo[ucLoop].ucIeSent = cIeFiFoEmpty;
   }
-  PutIeFiFoToNvmEE( self, tIEFifo);
+  PutIeFiFoToNvmEE(self, tIEFifo);
 }
 
 uint8 GetCurrentInactiveReasonDS(void){

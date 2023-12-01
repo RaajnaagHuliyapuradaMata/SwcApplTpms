@@ -12,9 +12,9 @@ extern "C"
 
 #include "Rte_CtApHufTpmsSWC.h"
 
-extern void InitSRA( Rte_Instance self);
-extern void StartSRA( Rte_Instance self);
-extern void CyclicSRA( Rte_Instance self);
+extern void InitSRA(Rte_Instance self);
+extern void StartSRA(Rte_Instance self);
+extern void CyclicSRA(Rte_Instance self);
 
 extern void GetInternalLowerDataSRA( uint8* pucDeltaTinitTh, uint8* pucSlowTimeConst, uint32* pulTinitOatTimeTicks, uint32* pulTinitOatTime, boolean* pbCorrTinitEvent);
 extern void GetInternalHigherDataSRA( uint8* pucDeltaTinitTh, uint8* pucFastTimeConst, uint32* pulTinitOatTimeTicks, uint32* pulTinitOatTime, boolean* pbCorrTinitEvent);
