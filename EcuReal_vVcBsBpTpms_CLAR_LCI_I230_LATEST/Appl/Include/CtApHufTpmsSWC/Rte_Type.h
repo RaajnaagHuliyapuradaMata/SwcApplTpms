@@ -412,66 +412,66 @@ typedef uint8  NvM_BlockDataType[1];
 typedef uint8  Rte_DT_ImpTypeRecCRdciErfsReifenEco_0[160];
 
 typedef struct{
-  uint16 NO_CC_BYPA_00;
-  uint8  ST_CC_BYPA_00;
-  uint8  ST_IDC_CC_BYPA_00;
-  uint8  TRANF_CC_BYPA_00;
+   uint16 NO_CC_BYPA_00;
+   uint8  ST_CC_BYPA_00;
+   uint8  ST_IDC_CC_BYPA_00;
+   uint8  TRANF_CC_BYPA_00;
 }ImpTypeRecCcm_DISP_CC_BYPA_00;
 
 typedef struct{
-  uint16 ABS_EDGE_CNT_FL;
-  uint8  ABS_SPIN_DIR_FL;
-  uint8  ABS_QU_SIG_FL;
-  uint16 ABS_EDGE_CNT_FR;
-  uint8  ABS_SPIN_DIR_FR;
-  uint8  ABS_QU_SIG_FR;
-  uint16 ABS_EDGE_CNT_RL;
-  uint8  ABS_SPIN_DIR_RL;
-  uint8  ABS_QU_SIG_RL;
-  uint16 ABS_EDGE_CNT_RR;
-  uint8  ABS_SPIN_DIR_RR;
-  uint8  ABS_QU_SIG_RR;
-  uint32 ABS_SYNC_TSTMP_LO;
-  uint32 ABS_SYNC_TSTMP_HI;
+   uint16 ABS_EDGE_CNT_FL;
+   uint8  ABS_SPIN_DIR_FL;
+   uint8  ABS_QU_SIG_FL;
+   uint16 ABS_EDGE_CNT_FR;
+   uint8  ABS_SPIN_DIR_FR;
+   uint8  ABS_QU_SIG_FR;
+   uint16 ABS_EDGE_CNT_RL;
+   uint8  ABS_SPIN_DIR_RL;
+   uint8  ABS_QU_SIG_RL;
+   uint16 ABS_EDGE_CNT_RR;
+   uint8  ABS_SPIN_DIR_RR;
+   uint8  ABS_QU_SIG_RR;
+   uint32 ABS_SYNC_TSTMP_LO;
+   uint32 ABS_SYNC_TSTMP_HI;
 }ImpTypeRecCddAbsData;
 
 typedef struct{
-  uint16 RDC_MES_TSTMP;
-  uint8  SUPP_ID;
-  uint32 TYR_ID;
-  uint8  PCKG_ID;
-  uint8  RDC_DT_1;
-  uint8  RDC_DT_2;
-  uint8  RDC_DT_3;
-  uint8  RDC_DT_4;
-  uint8  RDC_DT_5;
-  uint8  RDC_DT_6;
-  uint8  RDC_DT_7;
-  uint8  RDC_DT_8;
-  uint8  ALIV_RDC_DT_PCK_1;
-  uint8  ALIV_RDC_DT_PCK_2;
-  uint32 RDC_SYNC_TSTMP_LO;
-  uint32 RDC_SYNC_TSTMP_HI;
-  uint8  DP_NO;
+   uint16 RDC_MES_TSTMP;
+   uint8  SUPP_ID;
+   uint32 TYR_ID;
+   uint8  PCKG_ID;
+   uint8  RDC_DT_1;
+   uint8  RDC_DT_2;
+   uint8  RDC_DT_3;
+   uint8  RDC_DT_4;
+   uint8  RDC_DT_5;
+   uint8  RDC_DT_6;
+   uint8  RDC_DT_7;
+   uint8  RDC_DT_8;
+   uint8  ALIV_RDC_DT_PCK_1;
+   uint8  ALIV_RDC_DT_PCK_2;
+   uint32 RDC_SYNC_TSTMP_LO;
+   uint32 RDC_SYNC_TSTMP_HI;
+   uint8  DP_NO;
 }ImpTypeRecCddRdcData;
 
 typedef struct{
-  uint8  CRC_CON_VEH;
-  uint8  ALIV_CON_VEH;
-  uint8  CTR_BS_PRTNT;
-  uint32 CTR_FKTN_PRTNT;
-  uint8  ST_CON_VEH;
-  uint8  QU_ST_CON_VEH;
-  uint8  CON_VEH_dummy_56_63;
+   uint8  CRC_CON_VEH;
+   uint8  ALIV_CON_VEH;
+   uint8  CTR_BS_PRTNT;
+   uint32 CTR_FKTN_PRTNT;
+   uint8  ST_CON_VEH;
+   uint8  QU_ST_CON_VEH;
+   uint8  CON_VEH_dummy_56_63;
 }Rdci_CON_VEH_Type;
 
 typedef struct{
-  uint8  CRC_ST_TYR;
-  uint8  ALIV_ST_TYR;
-  uint8  ST_TYR_dummy_12_15;
-  uint8  QU_FN_TYR_INFO;
-  uint8  QU_TPL;
-  uint8  QU_TFAI;
+   uint8  CRC_ST_TYR;
+   uint8  ALIV_ST_TYR;
+   uint8  ST_TYR_dummy_12_15;
+   uint8  QU_FN_TYR_INFO;
+   uint8  QU_TPL;
+   uint8  QU_TFAI;
 }Rdci_ST_TYR_Type;
 
 typedef struct{
@@ -486,22 +486,22 @@ typedef struct{
 }Rdci_UHRZEIT_DATUM_Type;
 
 typedef struct{
-  uint8  CRC_V_VEH;
-  uint8  ALIV_V_VEH;
-  uint8  V_VEH_dummy_12_15;
-  uint16 V_VEH_COG;
-  uint8  QU_V_VEH_COG;
-  uint8  V_VEH_dummy_36_39;
+   uint8  CRC_V_VEH;
+   uint8  ALIV_V_VEH;
+   uint8  V_VEH_dummy_12_15;
+   uint16 V_VEH_COG;
+   uint8  QU_V_VEH_COG;
+   uint8  V_VEH_dummy_36_39;
 }Rdci_V_VEH_Type;
 
 typedef struct{
-  uint8  CRC_WMOM_DRV_4;
-  uint8  ALIV_WMOM_DRV_4;
-  uint8  WMOM_DRV_4_dummy_12_15;
-  uint8  ST_DRVDIR_DVCH;
-  uint16 WMOM_DRV_4_dummy_20_39;
-  uint8  ST_PENG_PT;
-  uint8  WMOM_DRV_4_dummy_44_47;
+   uint8  CRC_WMOM_DRV_4;
+   uint8  ALIV_WMOM_DRV_4;
+   uint8  WMOM_DRV_4_dummy_12_15;
+   uint8  ST_DRVDIR_DVCH;
+   uint16 WMOM_DRV_4_dummy_20_39;
+   uint8  ST_PENG_PT;
+   uint8  WMOM_DRV_4_dummy_44_47;
 }Rdci_WMOM_DRV_4_Type;
 
 typedef uint32 StbMB_TickType;
@@ -516,14 +516,14 @@ typedef uint8  StbMB_SyncStatusType;
 
 typedef struct{
   Rte_DT_ImpTypeRecCRdciErfsReifenEco_0 DeData;
-  uint16                                DeCrc;
+   uint16                                DeCrc;
 }ImpTypeRecCRdciErfsReifenEco;
 
 typedef struct{
-  uint32         systemTicks;
-  uint16         systemTicksHi;
-  uint32         tickDuration;
-  StbMB_TickType ticks;
+   uint32         systemTicks;
+   uint16         systemTicksHi;
+   uint32         tickDuration;
+   StbMB_TickType ticks;
 }StbMB_SystemTimeType;
 
 #ifndef RTE_SUPPRESS_UNUSED_DATATYPES

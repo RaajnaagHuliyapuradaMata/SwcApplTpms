@@ -13,17 +13,17 @@ extern "C"
 #define cNvmRdciZom1_Size                     ( (uint16) (8 * sizeof(struct ZOMSlot)))
 
 typedef struct ZomNvmBlock_1{
-  uint8             ucInitialized;
-  struct ZOMSlot    tZomSlot[8];
-  uint8             ucWato;
-  uint8             ucWaState;
-  uint8             ucWaIdChangeBits;
-  uint8             ucPermutationState;
+   uint8             ucInitialized;
+   struct ZOMSlot    tZomSlot[8];
+   uint8             ucWato;
+   uint8             ucWaState;
+   uint8             ucWaIdChangeBits;
+   uint8             ucPermutationState;
 }tZomNvmBlock1Type;
 
 typedef struct ZomNvmBlock_2{
-  uint8             ucInitialized;
-  struct ZOMSlot    tZomSlot[8];
+   uint8             ucInitialized;
+   struct ZOMSlot    tZomSlot[8];
 }tZomNvmBlock2Type;
 
 extern void InitZomBlock1EE(Rte_Instance self);

@@ -14,10 +14,10 @@ extern "C"
 
 typedef enum{
 
-  eFL_Off = 0,
-  eFL_Static = 1,
-  eFL_Blinking = 2,
-  eFL_Invalid = 0xff
+   eFL_Off = 0,
+   eFL_Static = 1,
+   eFL_Blinking = 2,
+   eFL_Invalid = 0xff
 }tFL_StatesDecl;
 
 #ifdef _EcuVirtual

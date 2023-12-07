@@ -40,14 +40,14 @@ extern "C"
 #define cCcFixLampStateInvalid          ( (uint8) 3u)
 
 extern void InitWL(void);
-extern void PutCheckControlNumberWL( uint8 ucFixLampControl);
+extern void PutCheckControlNumberWL(uint8 ucFixLampControl);
 extern uint8 ucGetCcStartStopStateWL(void);
 extern uint8 ucGetCcBlinkStateFixLampWL(void);
 extern uint8 ucGetCcRepetitionRateWL(void);
 extern void MainFunctionWL(void);
 extern boolean bIsBlinkingAllowedWL(void);
 
-extern void PutCcStartStopStateWL( uint8 ucCcStartStopState);
+extern void PutCcStartStopStateWL(uint8 ucCcStartStopState);
 extern void BlinkingAllowedWL( boolean bState);
 
 extern void SwitchOnWL(void);

@@ -76,87 +76,87 @@ extern "C"
 #define cDP_TO_SHIFT        (uint8)0x03
 
 typedef struct{
-  uint16 ushMsgTimeout;
-  uint16 ushSignalErrorTimeout;
-  uint8  ucAliveErrorCounter;
-  uint8  ucAlvErrGoodCounter;
+   uint16 ushMsgTimeout;
+   uint16 ushSignalErrorTimeout;
+   uint8  ucAliveErrorCounter;
+   uint8  ucAlvErrGoodCounter;
 }tMonitorRDC_DT_PCKG12;
 
 typedef struct{
-  uint8 ucMsgTimeout;
-  uint8 ucSignalErrorTimeout;
+   uint8 ucMsgTimeout;
+   uint8 ucSignalErrorTimeout;
 }tMonitorA_TEMP;
 
 typedef struct{
-  uint8 ucMsgTimeout;
-  uint8 ucSignalErrorCounter;
+   uint8 ucMsgTimeout;
+   uint8 ucSignalErrorCounter;
 }tMonitorEINHEITEN_BN2020;
 
 typedef struct{
-  uint8 ucMsgTimeout;
-  uint8 ucCrcErrorCounter;
-  uint8 ucAliveErrorCounter;
-  uint8 ucSignalErrorCounter;
+   uint8 ucMsgTimeout;
+   uint8 ucCrcErrorCounter;
+   uint8 ucAliveErrorCounter;
+   uint8 ucSignalErrorCounter;
 }tMonitorCON_VEH;
 
 typedef struct{
-  uint8 ucMsgTimeout;
-  uint8 ucCrcErrorTimeout;
-  uint8 ucAliveErrorTimeout;
-  uint8 ucSigQualifErrorTimeout;
+   uint8 ucMsgTimeout;
+   uint8 ucCrcErrorTimeout;
+   uint8 ucAliveErrorTimeout;
+   uint8 ucSigQualifErrorTimeout;
 }tMonitorV_VEH;
 
 typedef struct{
-  uint8 ucMsgTimeout;
-  uint8 ucSignalErrorTimeout;
+   uint8 ucMsgTimeout;
+   uint8 ucSignalErrorTimeout;
 }tMonitorBN2020_RELATIVZEIT;
 
 typedef struct{
-  uint8 ucMsgTimeout;
-  uint8 ucSignalErrorTimeout;
+   uint8 ucMsgTimeout;
+   uint8 ucSignalErrorTimeout;
 }tMonitorDT_PT_1;
 
 typedef struct{
-  uint8 ucSignalErrorCounter;
+   uint8 ucSignalErrorCounter;
 }tMonitorFZZSTD;
 
 typedef struct{
-  uint16 ushSignalErrorTimeout;
+   uint16 ushSignalErrorTimeout;
 }tMonitorKILOMETERSTAND;
 
 typedef struct{
-  uint8 ucMsgTimeout;
-  uint8 ucSignalErrorTimeout;
+   uint8 ucMsgTimeout;
+   uint8 ucSignalErrorTimeout;
 }tMonitorNMEARawData2Part2;
 
 typedef struct{
-  uint8 ucMsgTimeout;
-  uint8 ucSignalErrorTimeout;
+   uint8 ucMsgTimeout;
+   uint8 ucSignalErrorTimeout;
 }tMonitorNMEARawData2Part3;
 
 typedef struct{
-  uint16 ushSignalErrorTimeout;
+   uint16 ushSignalErrorTimeout;
 }tMonitorUHRZEIT_DATUM;
 
 typedef struct{
-  uint8 ucMsgTimeout;
-  uint8 ucSignalErrorTimeout;
+   uint8 ucMsgTimeout;
+   uint8 ucSignalErrorTimeout;
 }tMonitorWMOM_DRV_4;
 
 typedef struct{
-  tMonitorRDC_DT_PCKG12 tMonRDC_DT_PCKG[2];
-  tMonitorA_TEMP tMonA_TEMP;
-  tMonitorEINHEITEN_BN2020 tMonEINH_BN2020;
-  tMonitorCON_VEH tMonCON_VEH;
-  tMonitorBN2020_RELATIVZEIT tMonRELATIVZEIT;
-  tMonitorDT_PT_1 tMonDT_PT_1;
-  tMonitorFZZSTD tMonFZZSTD;
-  tMonitorKILOMETERSTAND tMonKILOMETERSTAND;
-  tMonitorNMEARawData2Part2 tMonNMEARawData2Part2;
-  tMonitorNMEARawData2Part3 tMonNMEARawData2Part3;
-  tMonitorUHRZEIT_DATUM tMonUHRZEIT_DATUM;
-  tMonitorWMOM_DRV_4 tMonWMOM_DRV_4;
-  tMonitorV_VEH tMonV_VEH;
+   tMonitorRDC_DT_PCKG12 tMonRDC_DT_PCKG[2];
+   tMonitorA_TEMP tMonA_TEMP;
+   tMonitorEINHEITEN_BN2020 tMonEINH_BN2020;
+   tMonitorCON_VEH tMonCON_VEH;
+   tMonitorBN2020_RELATIVZEIT tMonRELATIVZEIT;
+   tMonitorDT_PT_1 tMonDT_PT_1;
+   tMonitorFZZSTD tMonFZZSTD;
+   tMonitorKILOMETERSTAND tMonKILOMETERSTAND;
+   tMonitorNMEARawData2Part2 tMonNMEARawData2Part2;
+   tMonitorNMEARawData2Part3 tMonNMEARawData2Part3;
+   tMonitorUHRZEIT_DATUM tMonUHRZEIT_DATUM;
+   tMonitorWMOM_DRV_4 tMonWMOM_DRV_4;
+   tMonitorV_VEH tMonV_VEH;
 }tNwMonitoringData;
 
 extern void InitNWM(Rte_Instance self);
@@ -176,13 +176,13 @@ extern uint8 CheckFZZSTD_MsgNWM( Rdci_ST_ILK_ERRM_FZM_Type fzzstd);
 extern uint8 CheckKILOMETERSTAND_MsgNWM(Rte_Instance self, Rdci_MILE_KM_Type mileKm);
 extern uint32 ulGetNetworkErrorsNWM(void);
 extern uint32 ulGetNetworkErrChangedFlagsNWM(void);
-extern void ClearNetworkErrChangedFlagNWM( uint32 ulDtcBit);
+extern void ClearNetworkErrChangedFlagNWM(uint32 ulDtcBit);
 extern void ClearNetworkErrChangedFlagsNWM(void);
 extern void ClearNetworkErrorNWM(Rte_Instance self, uint32 ulDtcBit);
-extern boolean bGetNetworkErrorNWM( uint32 ulDtcBit);
+extern boolean bGetNetworkErrorNWM(uint32 ulDtcBit);
 extern void GetNwMonitoringDataNWM( tNwMonitoringData* data);
 extern void SetNetworkErrorNWM(Rte_Instance self, uint32 ulDtcBit);
-extern void ClearErrorConditionsNWM( uint8 ucParamToClear);
+extern void ClearErrorConditionsNWM(uint8 ucParamToClear);
 extern boolean bPrio1ErrorIsSetNWM(void);
 extern boolean bRdcDataErrorIsSetNWM(void);
 extern boolean bSystemErrorIsSetNWM(void);

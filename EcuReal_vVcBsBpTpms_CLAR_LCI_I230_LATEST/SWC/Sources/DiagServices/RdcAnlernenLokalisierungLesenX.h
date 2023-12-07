@@ -12,7 +12,7 @@ extern "C"
 
 #include "Rte_CtApHufTpmsSWC.h"
 
-extern void GetRdcAnlernenLokalisierungLesenDS( uint8* pucData);
+extern void GetRdcAnlernenLokalisierungLesenDS(uint8* pucData);
 
 #ifdef __cplusplus
 }

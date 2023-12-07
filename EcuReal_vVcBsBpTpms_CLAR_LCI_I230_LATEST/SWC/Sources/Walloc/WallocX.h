@@ -60,46 +60,46 @@ extern "C"
 #define cRestartLearnLocate     TRUE
 
 typedef struct{
-  uint8 ucWACtrl;
-  uint8 ucWAParInitialized;
-  uint8 ucMinCt4ER;
-  uint8 ucMinCt4HistER;
-  uint8 ucMinERMeanRssiLevel;
-  uint8 WATOTime;
-  uint8 LEARNTime;
+   uint8 ucWACtrl;
+   uint8 ucWAParInitialized;
+   uint8 ucMinCt4ER;
+   uint8 ucMinCt4HistER;
+   uint8 ucMinERMeanRssiLevel;
+   uint8 WATOTime;
+   uint8 LEARNTime;
 }tWAParameter;
 
 struct ZOMSlot{
-  uint32 ulID;
-  uint16 ushMVdN[4];
-  uint16 ushMVdN2[4];
-  uint16 ushRssiSum;
-  uint16 ushPosCompVal[4];
-  uint16 ushPosCompVal2[4];
-  uint8  ucAbsoluteProbeCt;
-  uint8  ucLearnProbeCt;
-  uint8  ucLocateProbeCt;
-  uint8  ucStatus;
-  uint8  ucResetABSRefFlag;
-  uint8  ucABSRef[4];
-  uint8  ucLearnTimer;
-  uint8  ucFrameCounter;
-  uint8  ucP;
-  uint8  ucT;
+   uint32 ulID;
+   uint16 ushMVdN[4];
+   uint16 ushMVdN2[4];
+   uint16 ushRssiSum;
+   uint16 ushPosCompVal[4];
+   uint16 ushPosCompVal2[4];
+   uint8  ucAbsoluteProbeCt;
+   uint8  ucLearnProbeCt;
+   uint8  ucLocateProbeCt;
+   uint8  ucStatus;
+   uint8  ucResetABSRefFlag;
+   uint8  ucABSRef[4];
+   uint8  ucLearnTimer;
+   uint8  ucFrameCounter;
+   uint8  ucP;
+   uint8  ucT;
 };
 
 #ifdef Test_LOG_ENABLE
 struct ZOMInfoSlot{
-  uint8 ucABSComp[4];
-  uint8 ucDistanceStandard[4];
-  uint8 ucDistanceShadow[4];
-  uint8 ucRelCmpVal[4];
-  uint8 ucDeltaMin;
-  uint8 ucToothTelCtCorrLearnBit;
-  uint8 ucToothTelCtCorrNoLearnBit;
-  uint8 ucToothTelCtNoCorr;
-  uint8 ucToothTelCtNoLearnMode;
-  uint16 ushABSRefOffset[4];
+   uint8 ucABSComp[4];
+   uint8 ucDistanceStandard[4];
+   uint8 ucDistanceShadow[4];
+   uint8 ucRelCmpVal[4];
+   uint8 ucDeltaMin;
+   uint8 ucToothTelCtCorrLearnBit;
+   uint8 ucToothTelCtCorrNoLearnBit;
+   uint8 ucToothTelCtNoCorr;
+   uint8 ucToothTelCtNoLearnMode;
+   uint16 ushABSRefOffset[4];
 };
 #endif
 
@@ -158,7 +158,7 @@ extern uint8 ucGetZomTemperature(uint8 ucIdx);
 extern uint8 ucGetZomDistanceValue(uint8 ucSpectrum, uint8 ucIdx, uint8 ucPos);
 extern uint8 ucNrOfBitSet16(uint16 ushTarget);
 extern uint8 ucNrOfBitSet8(uint8 ucTarget);
-extern uint8* pucGetNewWheelPosOfIdWAL_debug(Rte_Instance self, uint8 * pucPermState);
+extern uint8* pucGetNewWheelPosOfIdWAL_debug(Rte_Instance self, uint8* pucPermState);
 
 #ifdef __cplusplus
 }

@@ -8,56 +8,53 @@ static strSecondaryDtcFiFo tSecondaryFifo[cMaxSizeSecDtcFifo];
 
 void SetSecondaryErrorSCD(uint8 ucError)
 {
-    ucSecondaryErrors |= ucError;
-    SetSecondaryErrChangedFlagSCD( ucError);
+      ucSecondaryErrors |= ucError;
+    SetSecondaryErrChangedFlagSCD(ucError);
 }
 
 void ClearSecondaryErrorSCD(uint8 ucError)
 {
-  if((ucSecondaryErrors & ucError) == ucError)
-  {
-    ucSecondaryErrors ^= ucError;
-    ucSecondaryErrChangedFlags |= ucError;
-  }
+   if((ucSecondaryErrors & ucError) == ucError){
+      ucSecondaryErrors ^= ucError;
+      ucSecondaryErrChangedFlags |= ucError;
+   }
 }
 
 uint8 GetSecondaryErrorsSCD(void)
 {
-  return ucSecondaryErrors;
+   return ucSecondaryErrors;
 }
 
 void SetSecondaryErrChangedFlagSCD(uint8 ucError)
 {
-  ucSecondaryErrChangedFlags |= ucError;
+   ucSecondaryErrChangedFlags |= ucError;
 }
 
 uint8 GetSecondaryErrChangedFlagsSCD(void)
 {
-  return ucSecondaryErrChangedFlags;
+   return ucSecondaryErrChangedFlags;
 }
 
 void ClearSecondaryErrChangedFlagSCD(uint8 ucError)
 {
-  if((ucSecondaryErrChangedFlags & ucError) == ucError)
-  {
-    ucSecondaryErrChangedFlags ^= ucError;
-  }
+   if((ucSecondaryErrChangedFlags & ucError) == ucError){
+      ucSecondaryErrChangedFlags ^= ucError;
+   }
 }
 
 void ClearSecondaryErrChangedFlagsSCD(void)
 {
-  ucSecondaryErrChangedFlags = cSecondaryNoError;
+   ucSecondaryErrChangedFlags = cSecondaryNoError;
 }
 
 void InitSecondaryDtcFiFoSCD(void)
 {
-  uint8 i;
+   uint8 i;
 
-  for (i=0; i<cMaxSizeSecDtcFifo; i++)
-  {
+   for(i=0; i<cMaxSizeSecDtcFifo; i++){
     tSecondaryFifo[i].ucErrorNumber = cSecondaryNoError;
     tSecondaryFifo[i].ucCausingWheelPos = 0xff;
-  }
+   }
 }
 
 void SecondaryDtcFiFoGetFirstEntrySCD(uint8* pucError, uint8* pucWheelPos)
@@ -68,41 +65,36 @@ void SecondaryDtcFiFoGetFirstEntrySCD(uint8* pucError, uint8* pucWheelPos)
 
 void SecondaryDtcFiFoShiftSCD(uint8* pucError, uint8* pucWheelPos)
 {
-  uint8 i;
+   uint8 i;
 
    *pucError = tSecondaryFifo[0].ucErrorNumber;
    *pucWheelPos = tSecondaryFifo[0].ucCausingWheelPos;
 
-  for (i = 0; i < (cMaxSizeSecDtcFifo - 1); i++)
-  {
+   for(i = 0; i < (cMaxSizeSecDtcFifo - 1); i++){
     tSecondaryFifo[i].ucErrorNumber = tSecondaryFifo[i+1].ucErrorNumber;
     tSecondaryFifo[i].ucCausingWheelPos = tSecondaryFifo[i+1].ucCausingWheelPos;
-  }
-  tSecondaryFifo[cMaxSizeSecDtcFifo - 1].ucErrorNumber = cSecondaryNoError;
-  tSecondaryFifo[cMaxSizeSecDtcFifo - 1].ucCausingWheelPos = 0xff;
+   }
+   tSecondaryFifo[cMaxSizeSecDtcFifo - 1].ucErrorNumber = cSecondaryNoError;
+   tSecondaryFifo[cMaxSizeSecDtcFifo - 1].ucCausingWheelPos = 0xff;
 }
 
 void SecondaryDtcFiFoWriteEntrySCD(uint8 ucDtc, uint8 ucPos)
 {
-  uint8 i = 0;
+   uint8 i = 0;
 
-  while ((tSecondaryFifo[i].ucErrorNumber != cSecondaryNoError) && (i < cMaxSizeSecDtcFifo))
-  {
-    if(tSecondaryFifo[i].ucErrorNumber == ucDtc)
-    {
+  while ((tSecondaryFifo[i].ucErrorNumber != cSecondaryNoError) && (i < cMaxSizeSecDtcFifo)){
+      if(tSecondaryFifo[i].ucErrorNumber == ucDtc){
       i = cMaxSizeSecDtcFifo;
-    }
-    else
-    {
+      }
+      else{
       i++;
-    }
-  }
+      }
+   }
 
-  if(i < cMaxSizeSecDtcFifo)
-  {
+   if(i < cMaxSizeSecDtcFifo){
 
     tSecondaryFifo[i].ucErrorNumber = ucDtc;
     tSecondaryFifo[i].ucCausingWheelPos = ucPos;
-  }
+   }
 }
 

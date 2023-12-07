@@ -23,8 +23,8 @@ static uint8 ucGetPlausiCheckCCM(Rte_Instance self);
 static uint8 ucGetAutoSelFailedCCM(Rte_Instance self);
 static uint8 ucGetSpeedCcm2158CCM(void);
 static uint8 ucGetSpeedCcm2159CCM(void);
-static void StartCCM( uint8 ucCcmIx);
-static void StopCCM( uint8 ucCcmIx);
+static void StartCCM(uint8 ucCcmIx);
+static void StopCCM(uint8 ucCcmIx);
 
 #ifdef __cplusplus
 }

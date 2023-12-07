@@ -99,9 +99,9 @@ typedef uint8 Fr_StartupStateType;
 #define  FR_STARTUP_COLDSTART_GAP                 ((Fr_StartupStateType)9)
 
 typedef struct{
-  boolean ColdstartNoise;
-  boolean CHIHaltRequest;
-  boolean Freeze;
+   boolean ColdstartNoise;
+   boolean CHIHaltRequest;
+   boolean Freeze;
   Fr_SlotModeType SlotMode;
   Fr_WakeupStatusType WakeupStatus;
   Fr_ErrorModeType ErrorMode;

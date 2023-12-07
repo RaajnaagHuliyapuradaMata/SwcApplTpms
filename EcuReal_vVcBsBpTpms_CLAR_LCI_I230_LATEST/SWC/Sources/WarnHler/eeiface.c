@@ -6,74 +6,72 @@
 
 void GetDataEE(Rte_Instance self, uint8 ucId, void * pRamAdr)
 {
-  switch ( ucId)
-  {
-    case cucWsIdWN:
+   switch(ucId){
+      case cucWsIdWN:
       GETucWsEE(self, (uint8*) pRamAdr);
-    break;
+      break;
 
-    case cucCdIdWN:
+      case cucCdIdWN:
       GETtCdEE(self, (tCalibrationTab *) pRamAdr);
-    break;
+      break;
 
-    case cucTsIdTM:
+      case cucTsIdTM:
       GETucTsEE(self, (uint8*) pRamAdr);
-    break;
+      break;
 
-    case cucCbIdTM:
+      case cucCbIdTM:
       GETaucCbEE(self, (WarnConfigArrayType *) pRamAdr);
-    break;
+      break;
 
-    case cucWarnTypeArrayIdWN:
+      case cucWarnTypeArrayIdWN:
       GETaucWarnTypeArrayEE(self, (WarnBitArrayType *) pRamAdr);
-    break;
+      break;
 
-    case cucShortTimerIdWN:
+      case cucShortTimerIdWN:
       GETaushShortTimerEE(self, (ShortTimerArrayType *) pRamAdr);
-    break;
+      break;
 
-    case cucLongTimerIdWN:
+      case cucLongTimerIdWN:
       GETaushLongTimerEE(self, (LongTimerArrayType *) pRamAdr);
-    break;
+      break;
 
-    default:
-    break;
-  }
+      default:
+      break;
+   }
 }
 
 void PutDataEE(Rte_Instance self, uint8 ucId, const void * pRamAdr, boolean bUpdateOnEvent)
 {
-  switch( ucId)
-  {
-    case cucWsIdWN:
+   switch(ucId){
+      case cucWsIdWN:
       PUTucWsEE(self, *(const uint8 *) pRamAdr, bUpdateOnEvent);
-    break;
+      break;
 
-    case cucCdIdWN:
+      case cucCdIdWN:
       PUTtCdEE(self, (const tCalibrationTab *) pRamAdr, bUpdateOnEvent);
-    break;
+      break;
 
-    case cucTsIdTM:
+      case cucTsIdTM:
       PUTucTsEE(self, *(const uint8 *) pRamAdr, bUpdateOnEvent);
-    break;
+      break;
 
-    case cucCbIdTM:
+      case cucCbIdTM:
       PUTaucCbEE(self, (const WarnConfigArrayType *) pRamAdr, bUpdateOnEvent);
    	break;
 
-    case cucWarnTypeArrayIdWN:
+      case cucWarnTypeArrayIdWN:
       PUTaucWarnTypeArrayEE(self, (const WarnBitArrayType *) pRamAdr, bUpdateOnEvent);
-    break;
+      break;
 
-    case cucShortTimerIdWN:
+      case cucShortTimerIdWN:
       PUTaushShortTimerEE(self, (const ShortTimerArrayType *) pRamAdr, bUpdateOnEvent);
-    break;
+      break;
 
-    case cucLongTimerIdWN:
+      case cucLongTimerIdWN:
       PUTaushLongTimerEE(self, (const LongTimerArrayType *) pRamAdr, bUpdateOnEvent);
-    break;
+      break;
 
-    default:
-    break;
-  }
+      default:
+      break;
+   }
 }

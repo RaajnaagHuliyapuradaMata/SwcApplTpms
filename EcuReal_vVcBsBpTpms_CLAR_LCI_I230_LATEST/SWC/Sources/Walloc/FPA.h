@@ -16,17 +16,17 @@ extern "C"
 #define cMIN_DIST_BEFORE_DECISION 0
 
 typedef struct{
-  uint8 ucIsAmbigous;
-  uint8 ucAimsWheelPos;
-  uint8 ucIsFighting;
-  uint8 ucIsAmbigousXorFighting;
+   uint8 ucIsAmbigous;
+   uint8 ucAimsWheelPos;
+   uint8 ucIsFighting;
+   uint8 ucIsAmbigousXorFighting;
 }tIdCharacteristic;
 
 typedef struct{
-  tIdCharacteristic tIdChar[cMaxLR];
-  uint8 ucSumAmbigous;
-  uint8 ucSumFighting;
-  uint8 ucSumAmbXorFighting;
+   tIdCharacteristic tIdChar[cMaxLR];
+   uint8 ucSumAmbigous;
+   uint8 ucSumFighting;
+   uint8 ucSumAmbXorFighting;
 }tIdEvaluation;
 
 static void   SetReferenceValuesFPA(uint8 ucSlot);

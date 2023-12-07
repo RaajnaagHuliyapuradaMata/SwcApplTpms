@@ -52,7 +52,16 @@ void InitErfsBlockEE(Rte_Instance self){
    PUTIdrMessageEE            (self, OP_IDR_SLCTN_Signal_unbefuellt);
    PUTStManSelectionEE        (self, ST_MAN_SLCTN_Signal_ungueltig);
    PUTInvalidTyreListEE       (self, TRUE);
-   PUTTyreSelectionActiveEE   (self, TRUE);
+
+   PUTTyreSelectionActiveEE(
+         self
+#ifdef _EcuVirtual
+      ,  FALSE
+#else
+      ,  TRUE
+#endif
+   );
+
    PUTTyreSelectionBckgrdEE   (self, TRUE);
    SetCalibrationRootCauseDS  (self, cCalVirgin);
    PUTPlausiInitErrorEE       (self, FALSE);
@@ -102,55 +111,55 @@ void  PUTUseSavedHistRidDataCtEE          (Rte_Instance self, uint8 x)          
 void  PUTTyreDimDataEE                    (Rte_Instance self, uint8 i, uint8 x, uint8 y) {CheckValueChangesAndSetUpdateFlag(Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[cTyreDim1_StartIx + (cDimDOTSize * i) + (x)], y); Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[cTyreDim1_StartIx + (cDimDOTSize * i) + (x)] = (y);}
 
 uint8 GETTyreDOTDataEE(Rte_Instance self, uint8 i, uint8 x){
-  uint8 Index;
+   uint8 Index;
   Index = cTyreDOT1_StartIx + (cDimDOTSize * i) + (x);
-  return(Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[Index]);
+   return(Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[Index]);
 }
 
 void PUTTyreDOTDataEE(Rte_Instance self, uint8 i, uint8 x, uint8 y){
-  uint8 Index;
+   uint8 Index;
   Index = cTyreDOT1_StartIx + (cDimDOTSize * i) + (x);
   CheckValueChangesAndSetUpdateFlag(Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[Index], y);
   Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[Index] = (y);
 }
 
 uint8 GETCurErfsTyreDataEE(Rte_Instance self, uint8 i, uint8 Season){
-  uint8 Index;
-  if(Season == CSEASON_SUMMER){
+   uint8 Index;
+   if(Season == CSEASON_SUMMER){
     Index = cCurSuErfsTyreData + (i);
-  }
-  else if(Season == CSEASON_WINTER){
+   }
+   else if(Season == CSEASON_WINTER){
     Index = cCurWiErfsTyreData + (i);
-  }
-  else{
+   }
+   else{
     Index = cCurErfsTyreData + (i);
-  }
-  return(Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[Index]);
+   }
+   return(Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[Index]);
 }
 
 void PUTCurErfsTyreDataEE(Rte_Instance self, uint8 i, uint8 x, uint8 Season){
-  uint8 Index;
-  if(Season == CSEASON_SUMMER){
+   uint8 Index;
+   if(Season == CSEASON_SUMMER){
     Index = cCurSuErfsTyreData + (i);
-  }
-  else if(Season == CSEASON_WINTER){
+   }
+   else if(Season == CSEASON_WINTER){
     Index = cCurWiErfsTyreData + (i);
-  }
-  else{
+   }
+   else{
     Index = cCurErfsTyreData + (i);
-  }
+   }
   CheckValueChangesAndSetUpdateFlag(Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[Index], x);
   Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[Index] = (x);
 }
 
 void SetErfsBlockWriteMeEE(void){
-  bBlockNeedsUpdate = TRUE;
+   bBlockNeedsUpdate = TRUE;
 }
 
 boolean bGetErfsBlockWriteMeEE(void){
-  return bBlockNeedsUpdate;
+   return bBlockNeedsUpdate;
 }
 
 void ClearErfsBlockWriteMeEE(void){
-  bBlockNeedsUpdate = FALSE;
+   bBlockNeedsUpdate = FALSE;
 }

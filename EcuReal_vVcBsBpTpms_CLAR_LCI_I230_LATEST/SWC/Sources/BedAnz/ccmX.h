@@ -65,18 +65,18 @@ extern "C"
 #define cCcIX_NumberOfMessages      ( (uint8) 26u)
 
 typedef struct{
-  uint16 ushCcNumber;
-  uint8  ucCcFixLampControl;
+   uint16 ushCcNumber;
+   uint8  ucCcFixLampControl;
 }tCcStructDecl;
 
 extern void   InitCCM(void);
 extern void   MainFunctionCCM(Rte_Instance self);
 extern void   StartCycleCCM(void);
 extern void   StopCycleCCM(void);
-extern uint8 ucFillVklDataCCM( uint8 ucIx, uint16* pushCcmId, uint8* pucCcmStartStop, uint8* pucCcmBlinking, uint8* pucTransCycle);
-extern uint8 ucFillFklDataCCM( uint16* pushCcmId, uint8* pucCcmStartStop, uint8* pucCcmBlinking, uint8* pucTransCycle);
-extern void SetVklStartedCCM( uint8 ucIx, boolean bOkFlag);
-extern void SetVklStopedCCM( uint8 ucIx, boolean bOkFlag);
+extern uint8 ucFillVklDataCCM(uint8 ucIx, uint16* pushCcmId, uint8* pucCcmStartStop, uint8* pucCcmBlinking, uint8* pucTransCycle);
+extern uint8 ucFillFklDataCCM(uint16* pushCcmId, uint8* pucCcmStartStop, uint8* pucCcmBlinking, uint8* pucTransCycle);
+extern void SetVklStartedCCM(uint8 ucIx, boolean bOkFlag);
+extern void SetVklStopedCCM(uint8 ucIx, boolean bOkFlag);
 extern void SetFklStartedCCM( boolean bOkFlag);
 extern void SetFklStopedCCM( boolean bOkFlag);
 extern uint32 ulGetStartStateOfVklCCM(void);

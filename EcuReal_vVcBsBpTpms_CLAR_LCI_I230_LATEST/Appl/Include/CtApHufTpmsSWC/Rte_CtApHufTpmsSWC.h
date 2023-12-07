@@ -45,12 +45,12 @@ extern "C"
 /* TYPEDEFS                                                                   */
 /******************************************************************************/
 struct Rte_PDS_CtApHufTpmsSWC_NvMService_R{
-  P2FUNC(Std_ReturnType, RTE_CODE, Call_GetDataIndex) (P2VAR(uint8, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) DataIndex);
-  P2FUNC(Std_ReturnType, RTE_CODE, Call_GetErrorStatus) (P2VAR(NvM_RequestResultType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorStatus);
-  P2FUNC(Std_ReturnType, RTE_CODE, Call_ReadBlock) (P2VAR(uint8, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data);
-  P2FUNC(Std_ReturnType, RTE_CODE, Call_SetDataIndex) (uint8 DataIndex);
-  P2FUNC(Std_ReturnType, RTE_CODE, Call_SetRamBlockStatus) (boolean BlockStatus);
-  P2FUNC(Std_ReturnType, RTE_CODE, Call_WriteBlock) (P2CONST(uint8, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_DATA) Data);
+   P2FUNC(Std_ReturnType, RTE_CODE, Call_GetDataIndex) (P2VAR(uint8, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) DataIndex);
+   P2FUNC(Std_ReturnType, RTE_CODE, Call_GetErrorStatus) (P2VAR(NvM_RequestResultType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ErrorStatus);
+   P2FUNC(Std_ReturnType, RTE_CODE, Call_ReadBlock) (P2VAR(uint8, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) Data);
+   P2FUNC(Std_ReturnType, RTE_CODE, Call_SetDataIndex) (uint8 DataIndex);
+   P2FUNC(Std_ReturnType, RTE_CODE, Call_SetRamBlockStatus) (boolean BlockStatus);
+   P2FUNC(Std_ReturnType, RTE_CODE, Call_WriteBlock) (P2CONST(uint8, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_DATA) Data);
 };
 
 typedef P2CONST(ImpTypeRecCRdciErfsReifenEco, AUTOMATIC, RTE_CONST_DEFAULT_RTE_CALPRM_GROUP) Rte_CtApHufTpmsSWC_PiCalPrmRDCi_R_Calprm_CRdciErfsReifenEco_FncRetPtrType;
@@ -122,123 +122,123 @@ struct Rte_PDS_CtApHufTpmsSWC_PiCalPrmRDCi_R{
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiCcm_DISP_CC_BYPA_00_P{
-  P2FUNC(Std_ReturnType, RTE_CODE, Send_DeCcm_DISP_CC_BYPA_00) (P2CONST(ImpTypeRecCcm_DISP_CC_BYPA_00, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_DATA));
+   P2FUNC(Std_ReturnType, RTE_CODE, Send_DeCcm_DISP_CC_BYPA_00) (P2CONST(ImpTypeRecCcm_DISP_CC_BYPA_00, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_DATA));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiCddAbsData_R{
-  P2FUNC(Std_ReturnType, RTE_CODE, Receive_DeCddAbsData) (P2VAR(ImpTypeRecCddAbsData, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(Std_ReturnType, RTE_CODE, Receive_DeCddAbsData) (P2VAR(ImpTypeRecCddAbsData, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiCddRdcData_R{
-  P2FUNC(Std_ReturnType, RTE_CODE, Receive_DeCddRdcData) (P2VAR(ImpTypeRecCddRdcData, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(Std_ReturnType, RTE_CODE, Receive_DeCddRdcData) (P2VAR(ImpTypeRecCddRdcData, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiFrPdu_A_TEMP_R{
-  P2FUNC(boolean, RTE_CODE, IsUpdated_TEMP_EX) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_TEMP_EX) (P2VAR(Rdci_TEMP_EX_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(boolean, RTE_CODE, IsUpdated_TEMP_EX) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_TEMP_EX) (P2VAR(Rdci_TEMP_EX_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiFrPdu_BEDIENUNG_FAHRWERK_R{
-  P2FUNC(boolean, RTE_CODE, IsUpdated_OP_IDR_SLCTN) (void);
-  P2FUNC(boolean, RTE_CODE, IsUpdated_OP_SLCTN_TYR_AVLB) (void);
-  P2FUNC(boolean, RTE_CODE, IsUpdated_OP_TAR_P_LOCO_TPCT) (void);
-  P2FUNC(boolean, RTE_CODE, IsUpdated_OP_TPCT) (void);
-  P2FUNC(boolean, RTE_CODE, IsUpdated_OP_TYR_SEA_TPCT) (void);
-  P2FUNC(boolean, RTE_CODE, IsUpdated_RQ_OL_TPCT) (void);
-  P2FUNC(boolean, RTE_CODE, IsUpdated_ST_IDR_MSGC) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_OP_IDR_SLCTN) (P2VAR(Rdci_OP_IDR_SLCTN_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_OP_SLCTN_TYR_AVLB) (P2VAR(Rdci_OP_SLCTN_TYR_AVLB_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_OP_TAR_P_LOCO_TPCT) (P2VAR(Rdci_OP_TAR_P_LOCO_TPCT_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_OP_TPCT) (P2VAR(Rdci_OP_TPCT_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_OP_TYR_SEA_TPCT) (P2VAR(Rdci_OP_TYR_SEA_TPCT_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_RQ_OL_TPCT) (P2VAR(Rdci_RQ_OL_TPCT_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_ST_IDR_MSGC) (P2VAR(Rdci_ST_IDR_MSGC_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(boolean, RTE_CODE, IsUpdated_OP_IDR_SLCTN) (void);
+   P2FUNC(boolean, RTE_CODE, IsUpdated_OP_SLCTN_TYR_AVLB) (void);
+   P2FUNC(boolean, RTE_CODE, IsUpdated_OP_TAR_P_LOCO_TPCT) (void);
+   P2FUNC(boolean, RTE_CODE, IsUpdated_OP_TPCT) (void);
+   P2FUNC(boolean, RTE_CODE, IsUpdated_OP_TYR_SEA_TPCT) (void);
+   P2FUNC(boolean, RTE_CODE, IsUpdated_RQ_OL_TPCT) (void);
+   P2FUNC(boolean, RTE_CODE, IsUpdated_ST_IDR_MSGC) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_OP_IDR_SLCTN) (P2VAR(Rdci_OP_IDR_SLCTN_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_OP_SLCTN_TYR_AVLB) (P2VAR(Rdci_OP_SLCTN_TYR_AVLB_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_OP_TAR_P_LOCO_TPCT) (P2VAR(Rdci_OP_TAR_P_LOCO_TPCT_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_OP_TPCT) (P2VAR(Rdci_OP_TPCT_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_OP_TYR_SEA_TPCT) (P2VAR(Rdci_OP_TYR_SEA_TPCT_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_RQ_OL_TPCT) (P2VAR(Rdci_RQ_OL_TPCT_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_ST_IDR_MSGC) (P2VAR(Rdci_ST_IDR_MSGC_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiFrPdu_CON_VEH_R{
-  P2FUNC(boolean, RTE_CODE, IsUpdated_CON_VEH) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_CON_VEH) (P2VAR(Rdci_CON_VEH_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(boolean, RTE_CODE, IsUpdated_CON_VEH) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_CON_VEH) (P2VAR(Rdci_CON_VEH_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiFrPdu_DT_PT_1_R{
-  P2FUNC(boolean, RTE_CODE, IsUpdated_AIP_ENG_DRV) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_AIP_ENG_DRV) (P2VAR(Rdci_AIP_ENG_DRV_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(boolean, RTE_CODE, IsUpdated_AIP_ENG_DRV) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_AIP_ENG_DRV) (P2VAR(Rdci_AIP_ENG_DRV_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiFrPdu_EINHEITEN_BN2020_R{
-  P2FUNC(boolean, RTE_CODE, IsUpdated_UN_AIP) (void);
-  P2FUNC(boolean, RTE_CODE, IsUpdated_UN_MILE) (void);
-  P2FUNC(boolean, RTE_CODE, IsUpdated_UN_TEMP) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_UN_AIP) (P2VAR(Rdci_UN_AIP_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_UN_MILE) (P2VAR(Rdci_UN_MILE_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_UN_TEMP) (P2VAR(Rdci_UN_TEMP_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(boolean, RTE_CODE, IsUpdated_UN_AIP) (void);
+   P2FUNC(boolean, RTE_CODE, IsUpdated_UN_MILE) (void);
+   P2FUNC(boolean, RTE_CODE, IsUpdated_UN_TEMP) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_UN_AIP) (P2VAR(Rdci_UN_AIP_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_UN_MILE) (P2VAR(Rdci_UN_MILE_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_UN_TEMP) (P2VAR(Rdci_UN_TEMP_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiFrPdu_FZZSTD_R{
-  P2FUNC(boolean, RTE_CODE, IsUpdated_ST_ENERG_FZM) (void);
-  P2FUNC(boolean, RTE_CODE, IsUpdated_ST_ILK_ERRM_FZM) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_ST_ENERG_FZM) (P2VAR(Rdci_ST_ENERG_FZM_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_ST_ILK_ERRM_FZM) (P2VAR(Rdci_ST_ILK_ERRM_FZM_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(boolean, RTE_CODE, IsUpdated_ST_ENERG_FZM) (void);
+   P2FUNC(boolean, RTE_CODE, IsUpdated_ST_ILK_ERRM_FZM) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_ST_ENERG_FZM) (P2VAR(Rdci_ST_ENERG_FZM_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_ST_ILK_ERRM_FZM) (P2VAR(Rdci_ST_ILK_ERRM_FZM_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiFrPdu_KILOMETERSTAND_R{
-  P2FUNC(boolean, RTE_CODE, IsUpdated_MILE_KM) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_MILE_KM) (P2VAR(Rdci_MILE_KM_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(boolean, RTE_CODE, IsUpdated_MILE_KM) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_MILE_KM) (P2VAR(Rdci_MILE_KM_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiFrPdu_NMEARawData2Part2_R{
-  P2FUNC(boolean, RTE_CODE, IsUpdated_GNSSPositionAltitude) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_GNSSPositionAltitude) (P2VAR(Rdci_GNSSPositionAltitude_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(boolean, RTE_CODE, IsUpdated_GNSSPositionAltitude) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_GNSSPositionAltitude) (P2VAR(Rdci_GNSSPositionAltitude_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiFrPdu_NMEARawData2Part3_R{
-  P2FUNC(boolean, RTE_CODE, IsUpdated_GNSSErrorAltitudeMeters) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_GNSSErrorAltitudeMeters) (P2VAR(Rdci_GNSSErrorAltitudeMeters_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(boolean, RTE_CODE, IsUpdated_GNSSErrorAltitudeMeters) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_GNSSErrorAltitudeMeters) (P2VAR(Rdci_GNSSErrorAltitudeMeters_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiFrPdu_RELATIVZEIT_R{
-  P2FUNC(boolean, RTE_CODE, IsUpdated_T_SEC_COU_REL) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_T_SEC_COU_REL) (P2VAR(Rdci_T_SEC_COU_REL_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(boolean, RTE_CODE, IsUpdated_T_SEC_COU_REL) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_T_SEC_COU_REL) (P2VAR(Rdci_T_SEC_COU_REL_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiFrPdu_ST_TYR_P{
-  P2FUNC(Std_ReturnType, RTE_CODE, Send_ST_TYR) (P2CONST(Rdci_ST_TYR_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_DATA));
+   P2FUNC(Std_ReturnType, RTE_CODE, Send_ST_TYR) (P2CONST(Rdci_ST_TYR_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_DATA));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiFrPdu_UHRZEIT_DATUM_R{
-  P2FUNC(boolean, RTE_CODE, IsUpdated_UHRZEIT_DATUM) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_UHRZEIT_DATUM) (P2VAR(Rdci_UHRZEIT_DATUM_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(boolean, RTE_CODE, IsUpdated_UHRZEIT_DATUM) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_UHRZEIT_DATUM) (P2VAR(Rdci_UHRZEIT_DATUM_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiFrPdu_V_VEH_R{
-  P2FUNC(boolean, RTE_CODE, IsUpdated_V_VEH) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_V_VEH) (P2VAR(Rdci_V_VEH_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(boolean, RTE_CODE, IsUpdated_V_VEH) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_V_VEH) (P2VAR(Rdci_V_VEH_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiFrPdu_WMOM_DRV_4_R{
-  P2FUNC(boolean, RTE_CODE, IsUpdated_WMOM_DRV_4) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_WMOM_DRV_4) (P2VAR(Rdci_WMOM_DRV_4_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(boolean, RTE_CODE, IsUpdated_WMOM_DRV_4) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_WMOM_DRV_4) (P2VAR(Rdci_WMOM_DRV_4_Type, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiRdci_FrBusState_R{
-  P2FUNC(boolean, RTE_CODE, IsUpdated_FrBusState) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Read_FrBusState) (P2VAR(ImpTypeValFrBusState, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
+   P2FUNC(boolean, RTE_CODE, IsUpdated_FrBusState) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Read_FrBusState) (P2VAR(ImpTypeValFrBusState, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR));
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiServiceDemInfo_R{
-  P2FUNC(Std_ReturnType, RTE_CODE, Call_GetEventStatus) (P2VAR(ImpTypeRefDem_UdsStatusByteType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) EventStatusByte);
+   P2FUNC(Std_ReturnType, RTE_CODE, Call_GetEventStatus) (P2VAR(ImpTypeRefDem_UdsStatusByteType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) EventStatusByte);
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_PiServiceDemMonitor_R{
-  P2FUNC(Std_ReturnType, RTE_CODE, Call_ResetEventStatus) (void);
-  P2FUNC(Std_ReturnType, RTE_CODE, Call_SetEventStatus) (ImpTypeRefDem_EventStatusType EventStatus);
+   P2FUNC(Std_ReturnType, RTE_CODE, Call_ResetEventStatus) (void);
+   P2FUNC(Std_ReturnType, RTE_CODE, Call_SetEventStatus) (ImpTypeRefDem_EventStatusType EventStatus);
 };
 
 struct Rte_PDS_CtApHufTpmsSWC_StbMB_AbsoluteTimeBaseValue_R{
-  P2FUNC(Std_ReturnType, RTE_CODE, Call_GetAbsoluteTime) (P2VAR(StbMB_SystemTimeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) systemTime);
-  P2FUNC(Std_ReturnType, RTE_CODE, Call_GetGlobalTime) (P2VAR(StbMB_TickType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ticks);
-  P2FUNC(Std_ReturnType, RTE_CODE, Call_GetSyncState) (P2VAR(StbMB_SyncStatusType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) syncState);
-  P2FUNC(Std_ReturnType, RTE_CODE, Call_GetTickDuration) (P2VAR(uint32, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) tickDuration);
+   P2FUNC(Std_ReturnType, RTE_CODE, Call_GetAbsoluteTime) (P2VAR(StbMB_SystemTimeType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) systemTime);
+   P2FUNC(Std_ReturnType, RTE_CODE, Call_GetGlobalTime) (P2VAR(StbMB_TickType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) ticks);
+   P2FUNC(Std_ReturnType, RTE_CODE, Call_GetSyncState) (P2VAR(StbMB_SyncStatusType, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) syncState);
+   P2FUNC(Std_ReturnType, RTE_CODE, Call_GetTickDuration) (P2VAR(uint32, AUTOMATIC, RTE_CTAPHUFTPMSSWC_APPL_VAR) tickDuration);
 };
 
 struct Rte_CDS_CtApHufTpmsSWC{

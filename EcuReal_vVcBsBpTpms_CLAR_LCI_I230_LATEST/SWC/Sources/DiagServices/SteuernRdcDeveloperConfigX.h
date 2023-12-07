@@ -12,7 +12,7 @@ extern "C"
 
 #include "Rte_CtApHufTpmsSWC.h"
 
-extern uint8 ucPutSteuernRdcDeveloperConfigDS( uint8 ucCommand, const uint8* ucData);
+extern uint8 ucPutSteuernRdcDeveloperConfigDS(uint8 ucCommand, const uint8* ucData);
 
 #ifdef __cplusplus
 }

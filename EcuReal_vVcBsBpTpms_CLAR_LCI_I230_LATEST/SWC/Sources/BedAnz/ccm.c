@@ -56,173 +56,167 @@ static uint8 aucVklBits[cCcIX_NumberOfMessages];
 
 void InitCCM(void)
 {
-  uint8 ucLoop;
+   uint8 ucLoop;
 
-  ucCcIxMalfunction                     = cCcIX_Invalid;
-  ucCcIxInterference                    = cCcIX_Invalid;
-  ucCcIxFlatTire                        = cCcIX_Invalid;
-  ucCcIxFlatTireOldValue                = cCcIX_Invalid;
-  ucCcIxLernphase                       = cCcIX_Invalid;
-  ucCcIxBefuellhinweis                  = cCcIX_Invalid;
-  ucCcIxReifenwechsel                   = cCcIX_Invalid;
-  ucCcIxPlausiCheck                     = cCcIX_Invalid;
-  ucCcIxAutoSelFailed                   = cCcIX_Invalid;
-  ucCcIxSpeedCcm2158                    = cCcIX_Invalid;
-  ucCcIxSpeedCcm2159                    = cCcIX_Invalid;
+   ucCcIxMalfunction                     = cCcIX_Invalid;
+   ucCcIxInterference                    = cCcIX_Invalid;
+   ucCcIxFlatTire                        = cCcIX_Invalid;
+   ucCcIxFlatTireOldValue                = cCcIX_Invalid;
+   ucCcIxLernphase                       = cCcIX_Invalid;
+   ucCcIxBefuellhinweis                  = cCcIX_Invalid;
+   ucCcIxReifenwechsel                   = cCcIX_Invalid;
+   ucCcIxPlausiCheck                     = cCcIX_Invalid;
+   ucCcIxAutoSelFailed                   = cCcIX_Invalid;
+   ucCcIxSpeedCcm2158                    = cCcIX_Invalid;
+   ucCcIxSpeedCcm2159                    = cCcIX_Invalid;
 
-  bCcUnspecWarningInFahrzyklusFlag      = cCcUnspecWarningInFahrzyklusFlagInitState;
+   bCcUnspecWarningInFahrzyklusFlag      = cCcUnspecWarningInFahrzyklusFlagInitState;
 
-  for( ucLoop = 0; ucLoop < cCcIX_NumberOfMessages; ucLoop++)
-  {
+   for(ucLoop = 0; ucLoop < cCcIX_NumberOfMessages; ucLoop++){
     aucVklBits[ucLoop]  = cCcStartStopState_Invalid;
-  }
+   }
 }
 
 void MainFunctionCCM(Rte_Instance self)
 {
-  uint8 ucLoop;
-  uint8 ucFklAct;
-  ucCcIxMalfunction         = ucGetMalfunctionCCM();
-  ucCcIxInterference        = ucGetInterferenceCCM();
-  ucCcIxFlatTire            = ucGetFlatTireCCM(self);
-  ucCcIxLernphase           = ucGetLernphaseCCM(self);
-  ucCcIxBefuellhinweis      = ucGetBefuellhinweisCCM();
-  ucCcIxPlausiCheck         = ucGetPlausiCheckCCM(self);
-  ucCcIxReifenwechsel       = ucGetReifenwechselCCM(self);
-  ucCcIxAutoSelFailed       = ucGetAutoSelFailedCCM(self);
-  ucCcIxSpeedCcm2158        = ucGetSpeedCcm2158CCM();
-  ucCcIxSpeedCcm2159        = ucGetSpeedCcm2159CCM();
+   uint8 ucLoop;
+   uint8 ucFklAct;
+   ucCcIxMalfunction         = ucGetMalfunctionCCM();
+   ucCcIxInterference        = ucGetInterferenceCCM();
+   ucCcIxFlatTire            = ucGetFlatTireCCM(self);
+   ucCcIxLernphase           = ucGetLernphaseCCM(self);
+   ucCcIxBefuellhinweis      = ucGetBefuellhinweisCCM();
+   ucCcIxPlausiCheck         = ucGetPlausiCheckCCM(self);
+   ucCcIxReifenwechsel       = ucGetReifenwechselCCM(self);
+   ucCcIxAutoSelFailed       = ucGetAutoSelFailedCCM(self);
+   ucCcIxSpeedCcm2158        = ucGetSpeedCcm2158CCM();
+   ucCcIxSpeedCcm2159        = ucGetSpeedCcm2159CCM();
 
-  if( ucCcIxMalfunction != cCcIX_Invalid)
-  {
+   if(ucCcIxMalfunction != cCcIX_Invalid){
     StartCCM( cCcIX_Inactive);
-  }else{
+   }
+   else{
     StopCCM( cCcIX_Inactive);
-  }
+   }
 
-  if( ucCcIxInterference != cCcIX_Invalid)
-  {
+   if(ucCcIxInterference != cCcIX_Invalid){
     StartCCM( cCcIX_ExternalInterference);
-  }else{
+   }
+   else{
     StopCCM( cCcIX_ExternalInterference);
-  }
+   }
 
-  if( ucCcIxFlatTire != cCcIX_Invalid)
-  {
+   if(ucCcIxFlatTire != cCcIX_Invalid){
     StopCCM( cCcIX_Befuellhinweis);
-    if( ucCcIxFlatTire == cCcIX_Druckwarnung)
-    {
+      if(ucCcIxFlatTire == cCcIX_Druckwarnung){
       bCcUnspecWarningInFahrzyklusFlag = cCcUnspecWarningInFahrzyklusFlagInitState;
-    }else if( (ucCcIxFlatTire == cCcIX_FlatTire) || (ucCcIxFlatTire == cCcIX_FlatTire_RSC) || (ucCcIxFlatTire == cCcIX_FlatTire_NoRSC))
-    {
+      }else if((ucCcIxFlatTire == cCcIX_FlatTire) || (ucCcIxFlatTire == cCcIX_FlatTire_RSC) || (ucCcIxFlatTire == cCcIX_FlatTire_NoRSC)){
       bCcUnspecWarningInFahrzyklusFlag = cCcUnspecWarningInFahrzyklusFlagActiveState;
-    }else{
-      if( bCcUnspecWarningInFahrzyklusFlag != cCcUnspecWarningInFahrzyklusFlagInitState)
-      {
+      }
+      else{
+      if(bCcUnspecWarningInFahrzyklusFlag != cCcUnspecWarningInFahrzyklusFlagInitState){
         ucCcIxFlatTire = ucCcIxFlatTireOldValue;
       }
-    }
+      }
 
-    if( ucCcIxFlatTire != ucCcIxFlatTireOldValue)
-    {
-      StopCCM( ucCcIxFlatTireOldValue);
-    }
-    StartCCM( ucCcIxFlatTire);
-  }else{
-    for( ucLoop = cCcIX_FlatTireFL; ucLoop <= cCcIX_Druckwarnung; ucLoop++)
-    {
-      StopCCM( ucLoop);
-    }
+      if(ucCcIxFlatTire != ucCcIxFlatTireOldValue){
+      StopCCM(ucCcIxFlatTireOldValue);
+      }
+    StartCCM(ucCcIxFlatTire);
+   }
+   else{
+      for(ucLoop = cCcIX_FlatTireFL; ucLoop <= cCcIX_Druckwarnung; ucLoop++){
+      StopCCM(ucLoop);
+      }
 
-    if( ucCcIxBefuellhinweis != cCcIX_Invalid)
-    {
+      if(ucCcIxBefuellhinweis != cCcIX_Invalid){
       StartCCM( cCcIX_Befuellhinweis);
-    }else{
+      }
+      else{
       StopCCM( cCcIX_Befuellhinweis);
-    }
+      }
 
     bCcUnspecWarningInFahrzyklusFlag = cCcUnspecWarningInFahrzyklusFlagInitState;
-  }
-  ucCcIxFlatTireOldValue = ucCcIxFlatTire;
+   }
+   ucCcIxFlatTireOldValue = ucCcIxFlatTire;
 
-  if( ucCcIxLernphase != cCcIX_Invalid)
-  {
+   if(ucCcIxLernphase != cCcIX_Invalid){
     StartCCM( cCcIX_Lernphase);
-  }else{
+   }
+   else{
     StopCCM( cCcIX_Lernphase);
-  }
+   }
 
-  if( ucCcIxPlausiCheck != cCcIX_Invalid)
-  {
+   if(ucCcIxPlausiCheck != cCcIX_Invalid){
     StartCCM( cCcIX_PlausiCheck);
-  }else{
+   }
+   else{
     StopCCM( cCcIX_PlausiCheck);
-  }
+   }
 
-  if( ucCcIxReifenwechsel != cCcIX_Invalid)
-  {
+   if(ucCcIxReifenwechsel != cCcIX_Invalid){
     StartCCM( cCcIX_Reifenwechsel);
-  }else{
+   }
+   else{
     StopCCM( cCcIX_Reifenwechsel);
-  }
+   }
 
-  if( ucCcIxAutoSelFailed != cCcIX_Invalid)
-  {
+   if(ucCcIxAutoSelFailed != cCcIX_Invalid){
     StartCCM( cCcIX_AutoSelFailed);
-  }else{
+   }
+   else{
     StopCCM( cCcIX_AutoSelFailed);
-  }
+   }
 
-  if( ucCcIxSpeedCcm2158 != cCcIX_Invalid)
-  {
+   if(ucCcIxSpeedCcm2158 != cCcIX_Invalid){
     StartCCM( cCcIX_SpeedCcm2158);
-  }else{
+   }
+   else{
     StopCCM( cCcIX_SpeedCcm2158);
-  }
+   }
 
-  if( ucCcIxSpeedCcm2159 != cCcIX_Invalid)
-  {
+   if(ucCcIxSpeedCcm2159 != cCcIX_Invalid){
     StartCCM( cCcIX_SpeedCcm2159);
-  }else{
+   }
+   else{
     StopCCM( cCcIX_SpeedCcm2159);
-  }
+   }
 
-  if( ucCcIxMalfunction != cCcIX_Invalid)
-  {
-    ucFklAct = cCcIX_Inactive;
-  }else if( ucCcIxInterference != cCcIX_Invalid)
-  {
-    ucFklAct = cCcIX_ExternalInterference;
-  }else if( ucCcIxFlatTire != cCcIX_Invalid)
-  {
-    ucFklAct = ucCcIxFlatTire;
-  }else if( ucCcIxBefuellhinweis != cCcIX_Invalid)
-  {
-    ucFklAct = cCcIX_Befuellhinweis;
-  }else if( ucCcIxReifenwechsel != cCcIX_Invalid)
-  {
-    ucFklAct = cCcIX_Reifenwechsel;
-  }else if( ucCcIxPlausiCheck != cCcIX_Invalid)
-  {
-    ucFklAct = cCcIX_PlausiCheck;
-  }else if( ucCcIxLernphase != cCcIX_Invalid)
-  {
-    ucFklAct = cCcIX_Lernphase;
-  }else if( ucCcIxAutoSelFailed != cCcIX_Invalid)
-  {
-    ucFklAct = cCcIX_AutoSelFailed;
-  }else{
-    ucFklAct = cCcIX_Invalid;
-  }
-  PutCheckControlNumberWL( tCcStruct[ucFklAct].ucCcFixLampControl);
+   if(ucCcIxMalfunction != cCcIX_Invalid){
+      ucFklAct = cCcIX_Inactive;
+   }
+   else if(ucCcIxInterference != cCcIX_Invalid){
+      ucFklAct = cCcIX_ExternalInterference;
+   }
+   else if(ucCcIxFlatTire != cCcIX_Invalid){
+      ucFklAct = ucCcIxFlatTire;
+   }
+   else if(ucCcIxBefuellhinweis != cCcIX_Invalid){
+      ucFklAct = cCcIX_Befuellhinweis;
+   }
+   else if(ucCcIxReifenwechsel != cCcIX_Invalid){
+      ucFklAct = cCcIX_Reifenwechsel;
+   }
+   else if(ucCcIxPlausiCheck != cCcIX_Invalid){
+      ucFklAct = cCcIX_PlausiCheck;
+   }
+   else if(ucCcIxLernphase != cCcIX_Invalid){
+      ucFklAct = cCcIX_Lernphase;
+   }
+   else if(ucCcIxAutoSelFailed != cCcIX_Invalid){
+      ucFklAct = cCcIX_AutoSelFailed;
+   }
+   else{
+      ucFklAct = cCcIX_Invalid;
+   }
+   PutCheckControlNumberWL( tCcStruct[ucFklAct].ucCcFixLampControl);
 }
 
 static uint8 ucGetMalfunctionCCM(void)
 {
-  uint8 ucRet = cCcIX_Invalid;
+   uint8 ucRet = cCcIX_Invalid;
 
-  if( bGetBitBetriebszustandBZ( cDTC_INACTIVE) == TRUE)
-  {
+   if(bGetBitBetriebszustandBZ( cDTC_INACTIVE) == TRUE){
 
      if(bSystemInactiveByRfInterferenceWUM() == FALSE)
      {
@@ -230,76 +224,66 @@ static uint8 ucGetMalfunctionCCM(void)
      }else{
        ucRet = cCcIX_Invalid;
      }
-  }else if( bGetBandmodeBM() == TRUE)
-  {
+   }
+   else if(bGetBandmodeBM() == TRUE){
      ucRet = cCcIX_Inactive;
-  }else{
+   }
+   else{
      ucRet = cCcIX_Invalid;
-  }
+   }
 
-  return ucRet;
+   return ucRet;
 }
 
 static uint8 ucGetInterferenceCCM(void)
 {
-  uint8  ucRet = cCcIX_Invalid;
+   uint8  ucRet = cCcIX_Invalid;
 
-  if( bGetBitBetriebszustandBZ(cDTC_INACTIVE) == TRUE)
-  {
-    if( bSystemInactiveByRfInterferenceWUM() == TRUE)
-    {
+   if(bGetBitBetriebszustandBZ(cDTC_INACTIVE) == TRUE){
+      if(bSystemInactiveByRfInterferenceWUM() == TRUE){
 
       ucRet = cCcIX_ExternalInterference;
-    }
-  }
+      }
+   }
 
-  return ucRet;
+   return ucRet;
 }
 
 static uint8  ucGetFlatTireCCM(Rte_Instance self)
 {
-  uint8 ucRet;
-  uint8 ucLoop;
-  uint8 ucCcBreakTireState;
-  boolean bRSCInfo, bReAllOk;
+   uint8 ucRet;
+   uint8 ucLoop;
+   uint8 ucCcBreakTireState;
+   boolean bRSCInfo, bReAllOk;
 
-  ucRet =  cCcIX_Invalid;
-  ucCcBreakTireState = ucGetBreakTireStateBT();
+   ucRet =  cCcIX_Invalid;
+   ucCcBreakTireState = ucGetBreakTireStateBT();
 
-  if( (ucCcBreakTireState & cBtWsBreakTireHiMask) == cBtWsBreakTireInit)
-  {
-    ucRet = cCcIX_Invalid;
-  }else if( (ucCcBreakTireState & cBtWsBreakTirePw) == cBtWsBreakTirePw)
-  {
-    if( (ucCcBreakTireState & (cBtWsBreakTireTsb | cBtWsBreakTireMulti)) == 0)
-    {
+   if((ucCcBreakTireState & cBtWsBreakTireHiMask) == cBtWsBreakTireInit){
+      ucRet = cCcIX_Invalid;
+   }
+   else if((ucCcBreakTireState & cBtWsBreakTirePw) == cBtWsBreakTirePw){
+      if((ucCcBreakTireState & (cBtWsBreakTireTsb | cBtWsBreakTireMulti)) == 0){
 
-      if(ucGetReMuteStatusWUM() > 0)
-      {
+      if(ucGetReMuteStatusWUM() > 0){
         bReAllOk = FALSE;
       }
-      else if(ucGetReDefectStatusWUM() > 0)
-      {
+      else if(ucGetReDefectStatusWUM() > 0){
         bReAllOk = FALSE;
-      }else{
+      }
+      else{
         bReAllOk = TRUE;
       }
 
-      if( bReAllOk == TRUE)
-      {
+      if(bReAllOk == TRUE){
         ucRet = cCcIX_Invalid;
 
-        if( bGetBitBetriebszustandBZ( cZUGEORDNET) == TRUE)
-        {
-          for( ucLoop = 0; ((ucLoop < cAnzRad) && (ucRet == cCcIX_Invalid)); ucLoop++)
-          {
-            if( (ucCcBreakTireState & (uint8) (0x01 << ucLoop)) != 0)
-            {
-              if( ucLoop == cRadPosVL)
-              {
+          if(bGetBitBetriebszustandBZ( cZUGEORDNET) == TRUE){
+          for(ucLoop = 0; ((ucLoop < cAnzRad) && (ucRet == cCcIX_Invalid)); ucLoop++){
+            if((ucCcBreakTireState & (uint8) (0x01 << ucLoop)) != 0){
+              if(ucLoop == cRadPosVL){
 
-                if(GetReliableRSCInfoRID(self, cRadPosVL, &bRSCInfo) == TRUE)
-                {
+                if(GetReliableRSCInfoRID(self, cRadPosVL, &bRSCInfo) == TRUE){
                   if(bRSCInfo == TRUE)
                   {
                     ucRet = cCcIX_FlatTireFL_RSC;
@@ -311,10 +295,8 @@ static uint8  ucGetFlatTireCCM(Rte_Instance self)
                 }else{
                   ucRet = cCcIX_FlatTireFL;
                 }
-              }else if( ucLoop == cRadPosVR)
-              {
-                if(GetReliableRSCInfoRID(self, cRadPosVR, &bRSCInfo) == TRUE)
-                {
+              }else if(ucLoop == cRadPosVR){
+                if(GetReliableRSCInfoRID(self, cRadPosVR, &bRSCInfo) == TRUE){
                   if(bRSCInfo == TRUE)
                   {
                     ucRet = cCcIX_FlatTireFR_RSC;
@@ -326,10 +308,8 @@ static uint8  ucGetFlatTireCCM(Rte_Instance self)
                 }else{
                   ucRet = cCcIX_FlatTireFR;
                 }
-              }else if( ucLoop == cRadPosHL)
-              {
-                if(GetReliableRSCInfoRID(self, cRadPosHL, &bRSCInfo) == TRUE)
-                {
+              }else if(ucLoop == cRadPosHL){
+                if(GetReliableRSCInfoRID(self, cRadPosHL, &bRSCInfo) == TRUE){
                   if(bRSCInfo == TRUE)
                   {
                     ucRet = cCcIX_FlatTireRL_RSC;
@@ -343,8 +323,7 @@ static uint8  ucGetFlatTireCCM(Rte_Instance self)
                 }
               }else{
 
-                if(GetReliableRSCInfoRID(self, cRadPosHR, &bRSCInfo) == TRUE)
-                {
+                if(GetReliableRSCInfoRID(self, cRadPosHR, &bRSCInfo) == TRUE){
                   if(bRSCInfo == TRUE)
                   {
                     ucRet = cCcIX_FlatTireRR_RSC;
@@ -359,11 +338,9 @@ static uint8  ucGetFlatTireCCM(Rte_Instance self)
               }
             }
           }
-        }else if( bGetBitBetriebszustandBZ( cEIGENRAD) == TRUE)
-        {
+        }else if(bGetBitBetriebszustandBZ( cEIGENRAD) == TRUE){
 
-          if(GetReliableRSCInfoRID(self, cRadPosUndef, &bRSCInfo) == TRUE)
-          {
+          if(GetReliableRSCInfoRID(self, cRadPosUndef, &bRSCInfo) == TRUE){
              if(bRSCInfo == TRUE)
              {
               ucRet = cCcIX_FlatTire_RSC;
@@ -373,319 +350,306 @@ static uint8  ucGetFlatTireCCM(Rte_Instance self)
                ucRet = cCcIX_FlatTire_NoRSC;
              }
           }
-          else
-          {
+          else{
             ucRet = cCcIX_FlatTire;
           }
-        }else{
+         }
+         else{
 
           ucRet = cCcIX_Invalid;
         }
-      }else{
+      }
+      else{
 
-        if(GetReliableRSCInfoRID(self, cRadPosUndef, &bRSCInfo) == TRUE)
-        {
-          if(bRSCInfo == TRUE)
-          {
+          if(GetReliableRSCInfoRID(self, cRadPosUndef, &bRSCInfo) == TRUE){
+          if(bRSCInfo == TRUE){
             ucRet = cCcIX_FlatTire_RSC;
-          }else{
+            }
+            else{
             ucRet = cCcIX_FlatTire_NoRSC;
           }
-        }else{
+         }
+         else{
           ucRet = cCcIX_FlatTire;
         }
       }
-    }else{
+      }
+      else{
 
-      if(GetReliableRSCInfoRID(self, cRadPosUndef, &bRSCInfo) == TRUE)
-      {
-        if(bRSCInfo == TRUE)
-        {
+      if(GetReliableRSCInfoRID(self, cRadPosUndef, &bRSCInfo) == TRUE){
+          if(bRSCInfo == TRUE){
           ucRet = cCcIX_FlatTire_RSC;
         }
-        else
-        {
+        else{
           ucRet = cCcIX_FlatTire_NoRSC;
         }
       }
-      else
-      {
+      else{
         ucRet = cCcIX_FlatTire;
       }
-    }
-  }else if( (ucCcBreakTireState & cBtWsBreakTireDw) == cBtWsBreakTireDw)
-  {
+      }
+   }
+   else if((ucCcBreakTireState & cBtWsBreakTireDw) == cBtWsBreakTireDw){
 
-    if( bGetBitBetriebszustandBZ( cEIGENRAD) == TRUE)
-    {
+      if(bGetBitBetriebszustandBZ( cEIGENRAD) == TRUE){
 
       ucRet = cCcIX_Druckwarnung;
-    }else{
+      }
+      else{
 
       ucRet = cCcIX_Invalid;
-    }
-  }else{
+      }
+   }
+   else{
 
-    ucRet = cCcIX_Invalid;
-  }
+      ucRet = cCcIX_Invalid;
+   }
 
-  return ucRet;
+   return ucRet;
 }
 
 static uint8 ucGetLernphaseCCM(Rte_Instance self)
 {
-  uint8 ucRet = cCcIX_Invalid;
+   uint8 ucRet = cCcIX_Invalid;
 
-  if(GETucStatusbarEE(self) < 100)
-  {
+   if(GETucStatusbarEE(self) < 100){
 
-    ucRet = cCcIX_Lernphase;
-  }
+      ucRet = cCcIX_Lernphase;
+   }
 
-  return ucRet;
+   return ucRet;
 }
 
 static uint8 ucGetReifenwechselCCM(Rte_Instance self)
 {
-  uint8 ucRet = cCcIX_Invalid;
+   uint8 ucRet = cCcIX_Invalid;
 
-  if( GETTyreChangedEE(self) == TRUE)
-  {
-    if( bGetCRdciDispResetCD() == TRUE)
-    {
+   if(GETTyreChangedEE(self) == TRUE){
+      if(bGetCRdciDispResetCD() == TRUE){
 
       ucRet = cCcIX_Reifenwechsel;
-    }
-  }
+      }
+   }
 
-  return ucRet;
+   return ucRet;
 }
 
 static uint8 ucGetAutoSelFailedCCM(Rte_Instance self)
 {
-  uint8 ucRet = cCcIX_Invalid;
+   uint8 ucRet = cCcIX_Invalid;
 
-  if( GETAutomaticSelectionFailedStatusEE(self) == TRUE)
-  {
-    if( bGetCRdciErfsEnableCD() == TRUE)
-    {
+   if(GETAutomaticSelectionFailedStatusEE(self) == TRUE){
+      if(bGetCRdciErfsEnableCD() == TRUE){
 
       ucRet = cCcIX_AutoSelFailed;
-    }
-  }
+      }
+   }
 
-  return ucRet;
+   return ucRet;
 }
 
 static uint8 ucGetBefuellhinweisCCM(void)
 {
-  uint8 ucRet = cCcIX_Invalid;
+   uint8 ucRet = cCcIX_Invalid;
 
-  if( bGetBefuellhinweisBT() == TRUE)
-  {
-    ucRet = cCcIX_Befuellhinweis;
-  }
+   if(bGetBefuellhinweisBT() == TRUE){
+      ucRet = cCcIX_Befuellhinweis;
+   }
 
-  return ucRet;
+   return ucRet;
 }
 
 static uint8 ucGetPlausiCheckCCM(Rte_Instance self)
 {
-  uint8 ucRet = cCcIX_Invalid;
+   uint8 ucRet = cCcIX_Invalid;
 
-  if( GETPlausiInitErrorEE(self) == TRUE)
-  {
-    if( bGetCRdciResetPlausiCD() == TRUE)
-    {
+   if(GETPlausiInitErrorEE(self) == TRUE){
+      if(bGetCRdciResetPlausiCD() == TRUE){
 
       ucRet = cCcIX_PlausiCheck;
-    }
-  }
+      }
+   }
 
-  return ucRet;
+   return ucRet;
 }
 
 static uint8 ucGetSpeedCcm2158CCM(void)
 {
-  uint8  ucRet;
+   uint8  ucRet;
 
-  if( ucGetStateSCC( cSCC_STATE_DISPLAY_CCM_2158) == cSCC_STATE_DISPLAY_CCM_2158)
-  {
-    ucRet = cCcIX_SpeedCcm2158;
-  }
-  else
-  {
-    ucRet = cCcIX_Invalid;
-  }
+   if(ucGetStateSCC( cSCC_STATE_DISPLAY_CCM_2158) == cSCC_STATE_DISPLAY_CCM_2158){
+      ucRet = cCcIX_SpeedCcm2158;
+   }
+   else{
+      ucRet = cCcIX_Invalid;
+   }
 
-  return ucRet;
+   return ucRet;
 }
 
 static uint8 ucGetSpeedCcm2159CCM(void)
 {
-  uint8  ucRet;
+   uint8  ucRet;
 
-  if( ucGetStateSCC( cSCC_STATE_DISPLAY_CCM_2159) == cSCC_STATE_DISPLAY_CCM_2159)
-  {
-    ucRet = cCcIX_SpeedCcm2159;
-  }
-  else
-  {
-    ucRet = cCcIX_Invalid;
-  }
+   if(ucGetStateSCC( cSCC_STATE_DISPLAY_CCM_2159) == cSCC_STATE_DISPLAY_CCM_2159){
+      ucRet = cCcIX_SpeedCcm2159;
+   }
+   else{
+      ucRet = cCcIX_Invalid;
+   }
 
-  return ucRet;
+   return ucRet;
 }
 
-static void StartCCM( uint8 ucCcmIx)
+static void StartCCM(uint8 ucCcmIx)
 {
-  if( ucCcmIx != cCcIX_Invalid)
-  {
-    if( aucVklBits[ucCcmIx] != cCcStartStopState_Started)
-    {
+   if(ucCcmIx != cCcIX_Invalid){
+      if(aucVklBits[ucCcmIx] != cCcStartStopState_Started){
       aucVklBits[ucCcmIx] = cCcStartStopState_Start;
-    }else{
-    }
-  }else{
-  }
+      }
+      else{
+      }
+   }
+   else{
+   }
 }
 
-static void StopCCM( uint8 ucCcmIx)
+static void StopCCM(uint8 ucCcmIx)
 {
-  if( ucCcmIx != cCcIX_Invalid)
-  {
-    if( aucVklBits[ucCcmIx] == cCcStartStopState_Started)
-    {
+   if(ucCcmIx != cCcIX_Invalid){
+      if(aucVklBits[ucCcmIx] == cCcStartStopState_Started){
       aucVklBits[ucCcmIx] = cCcStartStopState_Stop;
-    }else{
-    }
-  }else{
-  }
+      }
+      else{
+      }
+   }
+   else{
+   }
 }
 
-uint8 ucFillVklDataCCM( uint8 ucIx, uint16* pushCcmId, uint8* pucCcmStartStop, uint8* pucCcmBlinking, uint8* pucTransCycle)
+uint8 ucFillVklDataCCM(uint8 ucIx, uint16* pushCcmId, uint8* pucCcmStartStop, uint8* pucCcmBlinking, uint8* pucTransCycle)
 {
-  uint8 ucRet = 0;
+   uint8 ucRet = 0;
 
-  if( aucVklBits[ucIx] == cCcStartStopState_Start)
-  {
+   if(aucVklBits[ucIx] == cCcStartStopState_Start){
     *pushCcmId          = tCcStruct[ucIx].ushCcNumber;
     *pucCcmStartStop    = cCcStartStopState_Start;
     *pucCcmBlinking     = cCcBlinkState_Off;
     *pucTransCycle      = cCcRepetitionRate_10;
-    ucRet = cCcStartStopState_Start;
-  }else if( aucVklBits[ucIx] == cCcStartStopState_Started)
-  {
-    ucRet = 0xFF;
-  }else if( aucVklBits[ucIx] == cCcStartStopState_Stop)
-  {
+      ucRet = cCcStartStopState_Start;
+   }
+   else if(aucVklBits[ucIx] == cCcStartStopState_Started){
+      ucRet = 0xFF;
+   }
+   else if(aucVklBits[ucIx] == cCcStartStopState_Stop){
     *pushCcmId          = tCcStruct[ucIx].ushCcNumber;
     *pucCcmStartStop    = cCcStartStopState_Stop;
     *pucCcmBlinking     = cCcBlinkState_Off;
     *pucTransCycle      = cCcRepetitionRate_10;
-    ucRet = cCcStartStopState_Stop;
-  }else if( aucVklBits[ucIx] == cCcStartStopState_Stoped)
-  {
+      ucRet = cCcStartStopState_Stop;
+   }
+   else if(aucVklBits[ucIx] == cCcStartStopState_Stoped){
     *pushCcmId          = tCcStruct[cCcIX_Invalid].ushCcNumber;
     *pucCcmStartStop    = cCcStartStopState_Invalid;
     *pucCcmBlinking     = cCcBlinkState_Invalid;
     *pucTransCycle      = cCcRepetitionRate_Invalid;
 
     aucVklBits[ucIx]    = cCcStartStopState_Invalid;
-    ucRet = 0xFF;
-  }else{
+      ucRet = 0xFF;
+   }
+   else{
     *pushCcmId          = tCcStruct[cCcIX_Invalid].ushCcNumber;
     *pucCcmStartStop    = cCcStartStopState_Invalid;
     *pucCcmBlinking     = cCcBlinkState_Invalid;
     *pucTransCycle      = cCcRepetitionRate_Invalid;
 
     aucVklBits[ucIx]    = cCcStartStopState_Invalid;
-    ucRet = 0xFF;
-  }
-  return ucRet;
+      ucRet = 0xFF;
+   }
+   return ucRet;
 }
 
-void SetVklStartedCCM( uint8 ucIx, boolean bOkFlag)
+void SetVklStartedCCM(uint8 ucIx, boolean bOkFlag)
 {
-  if( bOkFlag == TRUE)
-  {
+   if(bOkFlag == TRUE){
     aucVklBits[ucIx] = cCcStartStopState_Started;
-  }else{
-    ucNokCounterCCM++;
-  }
+   }
+   else{
+      ucNokCounterCCM++;
+   }
 }
 
-void SetVklStopedCCM( uint8 ucIx, boolean bOkFlag)
+void SetVklStopedCCM(uint8 ucIx, boolean bOkFlag)
 {
-  if( bOkFlag == TRUE)
-  {
+   if(bOkFlag == TRUE){
     aucVklBits[ucIx] = cCcStartStopState_Stoped;
-  }else{
-    ucNokCounterCCM++;
-  }
+   }
+   else{
+      ucNokCounterCCM++;
+   }
 }
 
-uint8 ucFillFklDataCCM( uint16* pushCcmId, uint8* pucCcmStartStop, uint8* pucCcmBlinking, uint8* pucTransCycle)
+uint8 ucFillFklDataCCM(uint16* pushCcmId, uint8* pucCcmStartStop, uint8* pucCcmBlinking, uint8* pucTransCycle)
 {
-  uint8 ucRet = 0;
-  uint8 ucStartStopState = ucGetCcStartStopStateWL();
+   uint8 ucRet = 0;
+   uint8 ucStartStopState = ucGetCcStartStopStateWL();
 
-  if( ucStartStopState == cCcStartStopState_Start)
-  {
+   if(ucStartStopState == cCcStartStopState_Start){
     *pushCcmId       = cCcFixLamp;
     *pucCcmStartStop = cCcStartStopState_Start;
     *pucCcmBlinking  = ucGetCcBlinkStateFixLampWL();
     *pucTransCycle   = ucGetCcRepetitionRateWL();
-    ucRet = cCcStartStopState_Start;
-  }else if( ucStartStopState == cCcStartStopState_Started)
-  {
+      ucRet = cCcStartStopState_Start;
+   }
+   else if(ucStartStopState == cCcStartStopState_Started){
     *pushCcmId       = cCcFixLamp;
     *pucCcmStartStop = cCcStartStopState_Start;
     *pucCcmBlinking  = ucGetCcBlinkStateFixLampWL();
     *pucTransCycle   = ucGetCcRepetitionRateWL();
-    ucRet = 0xFF;
-  }else if( ucStartStopState == cCcStartStopState_Stop)
-  {
+      ucRet = 0xFF;
+   }
+   else if(ucStartStopState == cCcStartStopState_Stop){
     *pushCcmId       = cCcFixLamp;
     *pucCcmStartStop = cCcStartStopState_Stop;
     *pucCcmBlinking  = ucGetCcBlinkStateFixLampWL();
     *pucTransCycle   = ucGetCcRepetitionRateWL();
-    ucRet = cCcStartStopState_Stop;
-  }else{
+      ucRet = cCcStartStopState_Stop;
+   }
+   else{
     PutCcStartStopStateWL( cCcStartStopState_Invalid);
     *pushCcmId       = cCcInvalid;
     *pucCcmStartStop = cCcStartStopState_Invalid;
     *pucCcmBlinking  = cCcBlinkState_Invalid;
     *pucTransCycle   = cCcRepetitionRate_Invalid;
-    ucRet = 0xFF;
-  }
+      ucRet = 0xFF;
+   }
 
-  return ucRet;
+   return ucRet;
 }
 
 void SetFklStartedCCM( boolean bOkFlag)
 {
-  if( bOkFlag == TRUE)
-  {
+   if(bOkFlag == TRUE){
     PutCcStartStopStateWL( cCcStartStopState_Started);
-  }else{
-    ucNokCounterCCM++;
-  }
+   }
+   else{
+      ucNokCounterCCM++;
+   }
 }
 
 void SetFklStopedCCM( boolean bOkFlag)
 {
-  if( bOkFlag == TRUE)
-  {
+   if(bOkFlag == TRUE){
     PutCcStartStopStateWL( cCcStartStopState_Stoped);
-  }else{
-    ucNokCounterCCM++;
-  }
+   }
+   else{
+      ucNokCounterCCM++;
+   }
 }
 
 void StopCycleCCM(void)
 {
-  bCcUnspecWarningInFahrzyklusFlag = cCcUnspecWarningInFahrzyklusFlagInitState;
+   bCcUnspecWarningInFahrzyklusFlag = cCcUnspecWarningInFahrzyklusFlagInitState;
 }
 
 void StartCycleCCM(void)
@@ -698,83 +662,72 @@ void StartCycleCCM(void)
 
 uint32 ulGetStartStateOfVklCCM(void)
 {
-  uint8 ucLoop;
-  uint32 ulRet = 0x0000;
+   uint8 ucLoop;
+   uint32 ulRet = 0x0000;
 
-  for( ucLoop = 0; ucLoop < cCcIX_NumberOfMessages; ucLoop++)
-  {
-    if( aucVklBits[ucLoop] == cCcStartStopState_Start)
-    {
+   for(ucLoop = 0; ucLoop < cCcIX_NumberOfMessages; ucLoop++){
+      if(aucVklBits[ucLoop] == cCcStartStopState_Start){
       ulRet |= (uint32) (1 << ucLoop);
-    }
-  }
+      }
+   }
 
-  return ulRet;
+   return ulRet;
 }
 
 uint32 ulGetStopStateOfVklCCM(void)
 {
-  uint8 ucLoop;
-  uint32 ulRet = 0x0000;
+   uint8 ucLoop;
+   uint32 ulRet = 0x0000;
 
-  for( ucLoop = 0; ucLoop < cCcIX_NumberOfMessages; ucLoop++)
-  {
-    if( aucVklBits[ucLoop] == cCcStartStopState_Stop)
-    {
+   for(ucLoop = 0; ucLoop < cCcIX_NumberOfMessages; ucLoop++){
+      if(aucVklBits[ucLoop] == cCcStartStopState_Stop){
       ulRet |= (uint32) (1 << ucLoop);
-    }
-  }
+      }
+   }
 
-  return ulRet;
+   return ulRet;
 }
 
 uint32 ulGetStartedStateOfVklCCM(void)
 {
-  uint8 ucLoop;
-  uint32 ulRet = 0x0000;
+   uint8 ucLoop;
+   uint32 ulRet = 0x0000;
 
-  for( ucLoop = 0; ucLoop < cCcIX_NumberOfMessages; ucLoop++)
-  {
-    if( (aucVklBits[ucLoop] == cCcStartStopState_Start) || (aucVklBits[ucLoop] == cCcStartStopState_Started))
-    {
+   for(ucLoop = 0; ucLoop < cCcIX_NumberOfMessages; ucLoop++){
+      if((aucVklBits[ucLoop] == cCcStartStopState_Start) || (aucVklBits[ucLoop] == cCcStartStopState_Started)){
       ulRet |= (uint32) (1 << ucLoop);
-    }
-  }
+      }
+   }
 
-  return ulRet;
+   return ulRet;
 }
 
 void RestartMessagesCCM(void)
 {
-  uint8 ucLoop;
-  for( ucLoop = 0; ucLoop < cCcIX_NumberOfMessages; ucLoop++)
-  {
-    if( aucVklBits[ucLoop] == cCcStartStopState_Started)
-    {
+   uint8 ucLoop;
+   for(ucLoop = 0; ucLoop < cCcIX_NumberOfMessages; ucLoop++){
+      if(aucVklBits[ucLoop] == cCcStartStopState_Started){
       aucVklBits[ucLoop] = cCcStartStopState_Start;
-    }
-  }
+      }
+   }
 }
 
 void RestartBlinkingCCM(void)
 {
-  uint8 ucLoop;
-  uint8 ucBlinkState = cCcFixLampStateInvalid;
+   uint8 ucLoop;
+   uint8 ucBlinkState = cCcFixLampStateInvalid;
 
-  if( ucGetCcBlinkStateFixLampWL() == cCcBlinkState_Slow)
-  {
+   if(ucGetCcBlinkStateFixLampWL() == cCcBlinkState_Slow){
     BlinkingAllowedWL( TRUE);
     SwitchOffWL();
-    ucBlinkState = cCcFixLampStateBlinking;
-  }else{
+      ucBlinkState = cCcFixLampStateBlinking;
+   }
+   else{
 
-    for( ucLoop = 0; ((ucLoop < cCcIX_NumberOfMessages) && (ucBlinkState != cCcFixLampStateBlinking)); ucLoop++)
-    {
-      if( (aucVklBits[ucLoop] == cCcStartStopState_Start) || (aucVklBits[ucLoop] == cCcStartStopState_Started))
-      {
+      for(ucLoop = 0; ((ucLoop < cCcIX_NumberOfMessages) && (ucBlinkState != cCcFixLampStateBlinking)); ucLoop++){
+      if((aucVklBits[ucLoop] == cCcStartStopState_Start) || (aucVklBits[ucLoop] == cCcStartStopState_Started)){
 
-        switch( tCcStruct[ucLoop].ucCcFixLampControl)
-        {
+        switch( tCcStruct[ucLoop].ucCcFixLampControl){
           case cCcFixLampStateBlinking:
             BlinkingAllowedWL( TRUE);
             SwitchOffWL();
@@ -788,8 +741,7 @@ void RestartBlinkingCCM(void)
           break;
 
           default:
-            if( ucBlinkState != cCcFixLampStateStatic)
-            {
+            if(ucBlinkState != cCcFixLampStateStatic){
               BlinkingAllowedWL( TRUE);
               SwitchOffWL();
               ucBlinkState = cCcFixLampStateOff;
@@ -797,26 +749,25 @@ void RestartBlinkingCCM(void)
           break;
         }
       }
-    }
-  }
+      }
+   }
 
-  PutCheckControlNumberWL( ucBlinkState);
+   PutCheckControlNumberWL(ucBlinkState);
 }
 
 uint8 ucGetNokCounterCCM(void)
 {
-  return ucNokCounterCCM;
+   return ucNokCounterCCM;
 }
 
 uint16 ushGetCcNumberOfIxCCM(uint8 ucIx)
 {
-  uint16 ushNum = 0x0000;
+   uint16 ushNum = 0x0000;
 
-  if(ucIx < cCcIX_NumberOfMessages)
-  {
-    ushNum = tCcStruct[ucIx].ushCcNumber;
-  }
+   if(ucIx < cCcIX_NumberOfMessages){
+      ushNum = tCcStruct[ucIx].ushCcNumber;
+   }
 
-  return (ushNum);
+   return (ushNum);
 }
 

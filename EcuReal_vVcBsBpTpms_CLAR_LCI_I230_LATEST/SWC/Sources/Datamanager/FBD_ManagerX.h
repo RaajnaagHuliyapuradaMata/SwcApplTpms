@@ -12,7 +12,7 @@ extern "C"
 
 #include "Rte_CtApHufTpmsSWC.h"
 
-extern void GetDataFBD( uint8 ucPos, uint32* pulTyreId, uint8* pucSuppId);
+extern void GetDataFBD(uint8 ucPos, uint32* pulTyreId, uint8* pucSuppId);
 extern void PmStartDataAllocTimerFBD(void);
 extern void PmStopDataAllocTimerFBD(void);
 extern uint8 PmDataAllocTimerTickFBD(void);

@@ -23,10 +23,10 @@
 
 static boolean UpdateTyreQrCodeDataInNvRam;
 
-void GetRdcRidAktReifenQRCodeLesenDS(Rte_Instance self, uint8 * paucData)
+void GetRdcRidAktReifenQRCodeLesenDS(Rte_Instance self, uint8* paucData)
 {
-  uint8 QrIx,j,index, ucHelp;
-  uint8 ucOffset, ucPrev, ucCur;
+   uint8 QrIx,j,index, ucHelp;
+   uint8 ucOffset, ucPrev, ucCur;
 
   #ifndef TESSY
     #ifdef WIN32
@@ -35,23 +35,19 @@ void GetRdcRidAktReifenQRCodeLesenDS(Rte_Instance self, uint8 * paucData)
     #endif
   #endif
 
-  index = 0x00;
+   index = 0x00;
 
-  for ( j = 0; j < (uint8) (cMountedTyreElements * cQRCodeDataSize) ; j++)
-  {
+   for(j = 0; j < (uint8) (cMountedTyreElements * cQRCodeDataSize) ; j++){
     paucData[j] = 0x00;
-  }
+   }
 
-  for ( QrIx = 0; QrIx < cMaxQRCodeSets; QrIx++)
-  {
-    if((GETTyreMountedFlagEE(self, QrIx) & 0x0F) == cTyreMountedFlag)
-    {
+   for(QrIx = 0; QrIx < cMaxQRCodeSets; QrIx++){
+      if((GETTyreMountedFlagEE(self, QrIx) & 0x0F) == cTyreMountedFlag){
 
       paucData[index] = (QrIx+1);
       index++;
 
-      for (j=0; j<cTyreOEMSize;j++)
-      {
+      for(j=0; j<cTyreOEMSize;j++){
 
         ucOffset = (uint8)(2-(j/4));
         ucOffset += j;
@@ -67,14 +63,12 @@ void GetRdcRidAktReifenQRCodeLesenDS(Rte_Instance self, uint8 * paucData)
       paucData[index] |= (uint8)((GETTyreOEMQrCodeDataEE(self, QrIx, 2) & 0xC0) >> 6);
       index++;
 
-      for (j=0; j<cTyreDOTSize;j++)
-      {
+      for(j=0; j<cTyreDOTSize;j++){
         paucData[index] = GETTyreDOTQrCodeDataEE(self, QrIx, j);
         index++;
       }
 
-      for (j=0; j<cTyreDimSize;j++)
-      {
+      for(j=0; j<cTyreDimSize;j++){
         paucData[index] = GETTyreDimQrCodeDataEE(self, QrIx, j);
         index++;
       }
@@ -92,10 +86,8 @@ void GetRdcRidAktReifenQRCodeLesenDS(Rte_Instance self, uint8 * paucData)
       index++;
 
       ucHelp = (GETTyreMountedFlagEE(self, QrIx) & (uint8)0xF0);
-      for (j=0; j<cAnzRad;j++)
-      {
-        if((ucHelp & (uint8)(0x10<<j)) != 0x00)
-        {
+      for(j=0; j<cAnzRad;j++){
+          if((ucHelp & (uint8)(0x10<<j)) != 0x00){
           ucHelp = j;
         }
       }
@@ -106,36 +98,32 @@ void GetRdcRidAktReifenQRCodeLesenDS(Rte_Instance self, uint8 * paucData)
 
       paucData[index] |= (uint8)((GETTyreOEMQrCodeDataEE(self, QrIx, 0) & 0xFC) >> 1);
       index++;
-    }
-  }
+      }
+   }
 }
 
-void GetRdcRidAlteReifenQRCodeLesenDS(Rte_Instance self, uint8 * paucData)
+void GetRdcRidAlteReifenQRCodeLesenDS(Rte_Instance self, uint8* paucData)
 {
-  uint8 QrIx,j,index,OlIx, ucOffset, ucPrev, ucCur;
-  uint8 LatestUnmountEntryIx[8] = {cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets};
+   uint8 QrIx,j,index,OlIx, ucOffset, ucPrev, ucCur;
+   uint8 LatestUnmountEntryIx[8] = {cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets};
 
-  index = 0x00;
+   index = 0x00;
 
-  for ( j = 0; j < (uint8) (cUnmountedTyreElements * cQRCodeDataSize) ; j++)
-  {
+   for(j = 0; j < (uint8) (cUnmountedTyreElements * cQRCodeDataSize) ; j++){
     paucData[j] = 0x00;
-  }
+   }
 
   GetLatestUnmountedQrDataEntries(self, &LatestUnmountEntryIx[0]);
 
-  for (OlIx=0; OlIx<8;OlIx++)
-  {
+   for(OlIx=0; OlIx<8;OlIx++){
     QrIx = LatestUnmountEntryIx[OlIx];
 
-    if(QrIx != cMaxQRCodeSets)
-    {
+      if(QrIx != cMaxQRCodeSets){
 
       paucData[index] = (QrIx+1);
       index++;
 
-      for (j=0; j<cTyreOEMSize;j++)
-      {
+      for(j=0; j<cTyreOEMSize;j++){
 
         ucOffset = (uint8)(2-(j/4));
         ucOffset += j;
@@ -151,14 +139,12 @@ void GetRdcRidAlteReifenQRCodeLesenDS(Rte_Instance self, uint8 * paucData)
       paucData[index] |= (uint8)((GETTyreOEMQrCodeDataEE(self, QrIx, 2) & 0xC0) >> 6);
       index++;
 
-      for (j=0; j<cTyreDOTSize;j++)
-      {
+      for(j=0; j<cTyreDOTSize;j++){
         paucData[index] = GETTyreDOTQrCodeDataEE(self, QrIx, j);
         index++;
       }
 
-      for (j=0; j<cTyreDimSize;j++)
-      {
+      for(j=0; j<cTyreDimSize;j++){
         paucData[index] = GETTyreDimQrCodeDataEE(self, QrIx, j);
         index++;
       }
@@ -182,8 +168,8 @@ void GetRdcRidAlteReifenQRCodeLesenDS(Rte_Instance self, uint8 * paucData)
 
       paucData[index] |= (uint8)((GETTyreOEMQrCodeDataEE(self, QrIx, 0) & 0xFC) >> 1);
       index++;
-    }
-  }
+      }
+   }
 }
 
  uint8 GetOemIdDS(uint8 ucPrev, uint8 ucCur, uint8 IdIx)
@@ -192,8 +178,7 @@ void GetRdcRidAlteReifenQRCodeLesenDS(Rte_Instance self, uint8 * paucData)
 
    IdIx++;
 
-    switch (IdIx)
-    {
+      switch(IdIx){
       case (uint8)1:
       case (uint8)5:
       case (uint8)9:
@@ -227,52 +212,45 @@ void GetRdcRidAlteReifenQRCodeLesenDS(Rte_Instance self, uint8 * paucData)
         {
           break;
         }
-    }
+      }
     return(uc8BitId + 0x20);
  }
 
-void GetRdcRidAktReifenLaufstreckeLesenDS(Rte_Instance self, uint8 * paucData)
+void GetRdcRidAktReifenLaufstreckeLesenDS(Rte_Instance self, uint8* paucData)
 {
-  uint8 i, QrIx, index;
+   uint8 i, QrIx, index;
   Rdci_MILE_KM_Type CurMileKm, SavMileKm;
 
-  index = 0x00;
+   index = 0x00;
 
-  for (i = 0; i < (uint8)(cMountedTyreElements*cRuntimeDataSize) ; i++)
-  {
+   for(i = 0; i < (uint8)(cMountedTyreElements*cRuntimeDataSize) ; i++){
     paucData[i] = 0x00;
-  }
+   }
 
-  for (QrIx = 0; QrIx < cMaxQRCodeSets; QrIx++)
-  {
+   for(QrIx = 0; QrIx < cMaxQRCodeSets; QrIx++){
 
     CurMileKm = GETulMileKmEE(self);
 
-    if((GETTyreMountedFlagEE(self, QrIx) & 0x0F) == cTyreMountedFlag)
-    {
+      if((GETTyreMountedFlagEE(self, QrIx) & 0x0F) == cTyreMountedFlag){
       paucData[index] = (QrIx+1);
       index++;
 
-      for (i = 0; i < 6; i++)
-      {
+      for(i = 0; i < 6; i++){
         paucData[index] = GETTyreRuntimeDataEE(self, QrIx, cMountedDateIx + i);
         index++;
       }
 
-      for (i = 0; i < 4; i++)
-      {
+      for(i = 0; i < 4; i++){
         paucData[index] = GETTyreRuntimeDataEE(self, QrIx, cMountedKmIx + i);
         index++;
       }
 
-      for (i = 0; i < 6; i++)
-      {
+      for(i = 0; i < 6; i++){
         paucData[index] = GETTyreRuntimeDataEE(self, QrIx, cUnmountedDateIx + i);
         index++;
       }
 
-      for (i = 0; i < 4; i++)
-      {
+      for(i = 0; i < 4; i++){
         paucData[index] = GETTyreRuntimeDataEE(self, QrIx, cUnmountedKmIx + i);
         index++;
       }
@@ -282,8 +260,7 @@ void GetRdcRidAktReifenLaufstreckeLesenDS(Rte_Instance self, uint8 * paucData)
       SavMileKm |= ((Rdci_MILE_KM_Type)GETTyreRuntimeDataEE(self, QrIx, cMountedKmIx + 2) << 8);
       SavMileKm |= GETTyreRuntimeDataEE(self, QrIx, cMountedKmIx + 3);
 
-      if(CurMileKm >= SavMileKm)
-      {
+      if(CurMileKm >= SavMileKm){
 
         CurMileKm = (CurMileKm - SavMileKm);
 
@@ -294,118 +271,99 @@ void GetRdcRidAktReifenLaufstreckeLesenDS(Rte_Instance self, uint8 * paucData)
 
         SavMileKm += CurMileKm;
 
-        for (i = 0; i < 4; i++)
-        {
+        for(i = 0; i < 4; i++){
           paucData[index] = (uint8)(SavMileKm >> (8*(3-i)));
           index++;
         }
       }
-      else
-      {
+      else{
 
-        for (i = 0; i < 4; i++)
-        {
+        for(i = 0; i < 4; i++){
           paucData[index] = 0xFF;
           index++;
         }
       }
-    }
-  }
+      }
+   }
 }
 
-void GetRdcRidAlteReifenLaufstreckeLesenDS(Rte_Instance self, uint8 * paucData)
+void GetRdcRidAlteReifenLaufstreckeLesenDS(Rte_Instance self, uint8* paucData)
 {
-  uint8 i, QrIx, index, OlIx;
-  uint8 LatestUnmountEntryIx[8] = {cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets};
+   uint8 i, QrIx, index, OlIx;
+   uint8 LatestUnmountEntryIx[8] = {cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets};
 
-  index = 0x00;
+   index = 0x00;
 
-  for (i = 0; i < (uint8)(cUnmountedTyreElements*cRuntimeDataSize) ; i++)
-  {
+   for(i = 0; i < (uint8)(cUnmountedTyreElements*cRuntimeDataSize) ; i++){
     paucData[i] = 0x00;
-  }
+   }
   GetLatestUnmountedQrDataEntries(self, &LatestUnmountEntryIx[0]);
 
-  for (OlIx=0; OlIx<8;OlIx++)
-  {
+   for(OlIx=0; OlIx<8;OlIx++){
     QrIx = LatestUnmountEntryIx[OlIx];
 
-    if(QrIx != cMaxQRCodeSets)
-    {
+      if(QrIx != cMaxQRCodeSets){
       paucData[index] = (QrIx+1);
       index++;
 
-      for (i = 0; i < 6; i++)
-      {
+      for(i = 0; i < 6; i++){
         paucData[index] = GETTyreRuntimeDataEE(self, QrIx, cMountedDateIx + i);
         index++;
       }
 
-      for (i = 0; i < 4; i++)
-      {
+      for(i = 0; i < 4; i++){
         paucData[index] = GETTyreRuntimeDataEE(self, QrIx, cMountedKmIx + i);
         index++;
       }
 
-      for (i = 0; i < 6; i++)
-      {
+      for(i = 0; i < 6; i++){
         paucData[index] = GETTyreRuntimeDataEE(self, QrIx, cUnmountedDateIx + i);
         index++;
       }
 
-      for (i = 0; i < 4; i++)
-      {
+      for(i = 0; i < 4; i++){
         paucData[index] = GETTyreRuntimeDataEE(self, QrIx, cUnmountedKmIx + i);
         index++;
       }
 
-      for (i = 0; i < 4; i++)
-      {
+      for(i = 0; i < 4; i++){
         paucData[index] = GETTyreRuntimeDataEE(self, QrIx, cRuntimeKmIx + i);
         index++;
       }
-    }
-  }
+      }
+   }
 }
 
 void SaveCompleteQrCodeDataDS(Rte_Instance self)
 {
-  uint8 HisIx,i,CompVal1, QrIx, HelpPos, ChangePos = 0x00;
-  uint8 OldMountIx[4] = {cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets};
-  uint8 EntryIx = cMaxQRCodeSets;
-  uint8 OemDataAvl, RidDotDataAvl;
+   uint8 HisIx,i,CompVal1, QrIx, HelpPos, ChangePos = 0x00;
+   uint8 OldMountIx[4] = {cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets,cMaxQRCodeSets};
+   uint8 EntryIx = cMaxQRCodeSets;
+   uint8 OemDataAvl, RidDotDataAvl;
 
-  if(bGetBitBetriebszustandBZ(cZO_FINISH) == TRUE)
-  {
+   if(bGetBitBetriebszustandBZ(cZO_FINISH) == TRUE){
     OemDataAvl = SaveOemDataRID();
     RidDotDataAvl = GetRidManAutoFLagRID();
 
-    for (HisIx = 0;HisIx < cAnzRad; HisIx++)
-    {
+      for(HisIx = 0;HisIx < cAnzRad; HisIx++){
       HelpPos = ucGetWPOfColWAL(HisIx);
 
-      if(HelpPos < cMaxLR)
-      {
+      if(HelpPos < cMaxLR){
 
-        for (QrIx=0;QrIx<cMaxQRCodeSets;QrIx++)
-        {
+        for(QrIx=0;QrIx<cMaxQRCodeSets;QrIx++){
           CompVal1 = GETTyreMountedFlagEE(self, QrIx);
 
-          if((CompVal1 & 0x0F) == cTyreMountedFlag)
-          {
-            if((CompVal1 & (uint8)(0x10 << HelpPos)) == (uint8)(0x10 << HelpPos))
-            {
+          if((CompVal1 & 0x0F) == cTyreMountedFlag){
+            if((CompVal1 & (uint8)(0x10 << HelpPos)) == (uint8)(0x10 << HelpPos)){
               OldMountIx[HelpPos] = QrIx;
             }
           }
         }
 
-        if(((RidDotDataAvl & (uint8)(0x01 << HisIx)) == (uint8)(0x01 << HisIx)) && ((OemDataAvl & (uint8)(0x11 << HisIx)) == (uint8)(0x11 << HisIx)))
-        {
+          if(((RidDotDataAvl & (uint8)(0x01 << HisIx)) == (uint8)(0x01 << HisIx)) && ((OemDataAvl & (uint8)(0x11 << HisIx)) == (uint8)(0x11 << HisIx))){
           EntryIx = CompareTyreSerNumRID(self, HisIx);
 
-          if((OldMountIx[HelpPos] < cMaxQRCodeSets) && (OldMountIx[HelpPos] != EntryIx))
-          {
+          if((OldMountIx[HelpPos] < cMaxQRCodeSets) && (OldMountIx[HelpPos] != EntryIx)){
              PUTTyreMountedFlagEE(self, OldMountIx[HelpPos], cTyreUnmountedFlag);
 
              ChangePos |= (0x08 >> HelpPos);
@@ -413,144 +371,116 @@ void SaveCompleteQrCodeDataDS(Rte_Instance self)
              PutStWheelTypeChangeEventDM(StatusWheelTypeChangeDetection_Reifenwechseln_erkannt, ChangePos);
           }
 
-          for (QrIx=0;QrIx<cMaxQRCodeSets;QrIx++)
-          {
+          for(QrIx=0;QrIx<cMaxQRCodeSets;QrIx++){
             CompVal1 = GETTyreDimQrCodeDataEE(self, QrIx, 0);
 
-            if((CompVal1 == 0x00) || (CompVal1 == 0xFF))
-            {
-              if(EntryIx == cMaxQRCodeSets)
-              {
+            if((CompVal1 == 0x00) || (CompVal1 == 0xFF)){
+              if(EntryIx == cMaxQRCodeSets){
                 EntryIx = QrIx;
               }
             }
           }
 
-          if(EntryIx == cMaxQRCodeSets)
-          {
+          if(EntryIx == cMaxQRCodeSets){
              SearchOldestUnmountEntryIndex(self, &EntryIx, &OldMountIx[0]);
           }
 
-          for (i=0;i<cTyreDimSize;i++)
-          {
+          for(i=0;i<cTyreDimSize;i++){
             PUTTyreDimQrCodeDataEE(self, EntryIx, i, GETTyreDimDataEE(self,HisIx,i));
           }
-          for (i=0;i<cTyreDOTSize;i++)
-          {
+          for(i=0;i<cTyreDOTSize;i++){
             PUTTyreDOTQrCodeDataEE(self, EntryIx, i, GETTyreDOTDataEE(self,HisIx,i));
           }
-          for (i=0;i<cTyreOEMSize;i++)
-          {
+          for(i=0;i<cTyreOEMSize;i++){
             PUTTyreOEMQrCodeDataEE(self, EntryIx, i, GetTyreOEMDataRID(HisIx,i));
           }
 
           PUTTyreMountedFlagEE(self, EntryIx, (cTyreMountedFlag | (uint8) (0x10 << HelpPos)));
         }
       }
-    }
+      }
     SetTyreRuntimeDataDS(self, &OldMountIx[0]);
-  }
+   }
 }
 
 static uint8 CompareTyreSerNumRID(Rte_Instance self, uint8 HisIx)
 {
-  uint8 Ix,i,j,ucMask, ucCmp1,ucCmp2;
+   uint8 Ix,i,j,ucMask, ucCmp1,ucCmp2;
 
   Ix = cMaxQRCodeSets;
 
   CheckDefaultSerNumAndReplaceRID(HisIx);
 
-  for (i = 0; i < cMaxQRCodeSets; i++)
-  {
-    if(Ix == cMaxQRCodeSets)
-    {
+   for(i = 0; i < cMaxQRCodeSets; i++){
+      if(Ix == cMaxQRCodeSets){
       Ix = i;
 
-      for (j = 2; j < cTyreOEMSize; j++)
-      {
+      for(j = 2; j < cTyreOEMSize; j++){
 
-        if(j == 2)
-        {
+          if(j == 2){
           ucMask = 0x3F;
         }
-        else if(j == (cTyreOEMSize - 1))
-        {
+        else if(j == (cTyreOEMSize - 1)){
           ucMask = 0xF0;
         }
-        else
-        {
+        else{
           ucMask = 0xFF;
         }
 
         ucCmp1 = (GETTyreOEMQrCodeDataEE(self, i, j) & ucMask);
         ucCmp2 = (GetTyreOEMDataRID(HisIx,j) & ucMask);
 
-        if(ucCmp1 != ucCmp2)
-        {
+          if(ucCmp1 != ucCmp2){
            Ix = cMaxQRCodeSets;
         }
       }
-    }
-  }
+      }
+   }
 
-  return(Ix);
+   return(Ix);
 }
 
 static void SearchOldestUnmountEntryIndex(Rte_Instance self, uint8* pEntryIx, const uint8* OldMountIx)
 {
-  uint8 QrIx,i,j,SmallestUmmountedKm[4],ucHelp[cDateSize] = {0x00,0x00,0x00,0x00,0x00,0x00};
-  boolean bStopComp;
+   uint8 QrIx,i,j,SmallestUmmountedKm[4],ucHelp[cDateSize] = {0x00,0x00,0x00,0x00,0x00,0x00};
+   boolean bStopComp;
 
-  for (QrIx=0;QrIx<cMaxQRCodeSets;QrIx++)
-  {
+   for(QrIx=0;QrIx<cMaxQRCodeSets;QrIx++){
     bStopComp = FALSE;
 
-    for (i=0; i< cAnzRad; i++)
-    {
-      if(OldMountIx[i] == QrIx)
-      {
+      for(i=0; i< cAnzRad; i++){
+      if(OldMountIx[i] == QrIx){
         bStopComp = TRUE;
       }
-    }
+      }
 
-    if(FALSE == bStopComp)
-    {
-      if(GETTyreMountedFlagEE(self, QrIx) == cTyreUnmountedFlag)
-      {
+      if(FALSE == bStopComp){
+      if(GETTyreMountedFlagEE(self, QrIx) == cTyreUnmountedFlag){
 
-        if(*pEntryIx == cMaxQRCodeSets)
-        {
+          if(*pEntryIx == cMaxQRCodeSets){
           *pEntryIx = QrIx;
 
-          for (i=0;i<cKmSize;i++)
-          {
+          for(i=0;i<cKmSize;i++){
             SmallestUmmountedKm[i] = GETTyreRuntimeDataEE(self, *pEntryIx, cUnmountedKmIx + i);
           }
         }
-        else
-        {
+        else{
 
           bStopComp = FALSE;
 
-          for (i=0;i<cKmSize;i++)
-          {
-            if(bStopComp == FALSE)
-            {
-              if(SmallestUmmountedKm[i] > GETTyreRuntimeDataEE(self, QrIx, cUnmountedKmIx + i))
-              {
+          for(i=0;i<cKmSize;i++){
+            if(bStopComp == FALSE){
+              if(SmallestUmmountedKm[i] > GETTyreRuntimeDataEE(self, QrIx, cUnmountedKmIx + i)){
 
                 *pEntryIx = QrIx;
 
-                for (j=0;j<cKmSize;j++)
-                {
+                for(j=0;j<cKmSize;j++){
                   SmallestUmmountedKm[j] = GETTyreRuntimeDataEE(self, *pEntryIx, cUnmountedKmIx + j);
                 }
                 bStopComp = TRUE;
               }
-              else
-              {
-                if(SmallestUmmountedKm[i] < GETTyreRuntimeDataEE(self, QrIx, cUnmountedKmIx + i))
-                {
+              else{
+                if(SmallestUmmountedKm[i] < GETTyreRuntimeDataEE(self, QrIx, cUnmountedKmIx + i)){
                   bStopComp = TRUE;
                 }
               }
@@ -558,36 +488,33 @@ static void SearchOldestUnmountEntryIndex(Rte_Instance self, uint8* pEntryIx, co
           }
         }
       }
-    }
-  }
+      }
+   }
 
-  SaveRuntimeDataInEE(self, *pEntryIx, cUnmountedKmIx, &ucHelp[0], cKmSize);
-  SaveRuntimeDataInEE(self, *pEntryIx, cRuntimeKmIx, &ucHelp[0], cKmSize);
-  SaveRuntimeDataInEE(self, *pEntryIx, cUnmountedDateIx, &ucHelp[0], cDateSize);
+   SaveRuntimeDataInEE(self, *pEntryIx, cUnmountedKmIx, &ucHelp[0], cKmSize);
+   SaveRuntimeDataInEE(self, *pEntryIx, cRuntimeKmIx, &ucHelp[0], cKmSize);
+   SaveRuntimeDataInEE(self, *pEntryIx, cUnmountedDateIx, &ucHelp[0], cDateSize);
 }
 
 static void SetTyreRuntimeDataDS(Rte_Instance self, const uint8* OldMountIx)
 {
-  uint8 i,j,Ix;
-  boolean bFound = FALSE;
+   uint8 i,j,Ix;
+   boolean bFound = FALSE;
   Rdci_UHRZEIT_DATUM_Type timeDate;
   Rdci_MILE_KM_Type mileKm;
-  uint8 cTempBuffer[9], ucDataBuffer[6];
+   uint8 cTempBuffer[9], ucDataBuffer[6];
   Rdci_MILE_KM_Type MountKM, UnmountKM, RunKM, DiffKM;
 
-  timeDate = GETtTimeDateEE(self);
+   timeDate = GETtTimeDateEE(self);
   GetDateStringDM(timeDate.DISP_DATE_YR, (uint8)timeDate.DISP_DATE_MON, (uint8)timeDate.DISP_DATE_DAY, cTempBuffer, sizeof(cTempBuffer));
 
   mileKm = GETulMileKmEE(self);
 
-  for (j=0;j<cAnzRad;j++)
-  {
+   for(j=0;j<cAnzRad;j++){
     Ix = OldMountIx[j];
 
-    if(Ix < cMaxQRCodeSets)
-    {
-      if(GETTyreMountedFlagEE(self, Ix) == cTyreUnmountedFlag)
-      {
+      if(Ix < cMaxQRCodeSets){
+      if(GETTyreMountedFlagEE(self, Ix) == cTyreUnmountedFlag){
 
         ucDataBuffer[0] = cTempBuffer[6];
         ucDataBuffer[1] = cTempBuffer[7];
@@ -618,12 +545,10 @@ static void SetTyreRuntimeDataDS(Rte_Instance self, const uint8* OldMountIx)
         RunKM |= ((Rdci_MILE_KM_Type)GETTyreRuntimeDataEE(self, Ix, (cRuntimeKmIx+2)) << 8);
         RunKM |= ((Rdci_MILE_KM_Type)GETTyreRuntimeDataEE(self, Ix, (cRuntimeKmIx+3)));
 
-        if(UnmountKM > MountKM)
-        {
+          if(UnmountKM > MountKM){
           DiffKM = UnmountKM - MountKM;
         }
-        else
-        {
+        else{
           DiffKM = 0x00;
         }
 
@@ -635,30 +560,24 @@ static void SetTyreRuntimeDataDS(Rte_Instance self, const uint8* OldMountIx)
         ucDataBuffer[3] = (uint8)(RunKM & 0xffU);
         SaveRuntimeDataInEE(self, Ix, cRuntimeKmIx, &ucDataBuffer[0], cKmSize);
       }
-    }
-  }
+      }
+   }
 
-  for (j=0;j<cMaxQRCodeSets;j++)
-  {
+   for(j=0;j<cMaxQRCodeSets;j++){
     bFound = FALSE;
 
-    if((GETTyreMountedFlagEE(self, j) & 0x0F) == cTyreMountedFlag)
-    {
-      for (i=0;i<cAnzRad;i++)
-      {
-        if(j == OldMountIx[i])
-        {
+      if((GETTyreMountedFlagEE(self, j) & 0x0F) == cTyreMountedFlag){
+      for(i=0;i<cAnzRad;i++){
+          if(j == OldMountIx[i]){
           bFound = TRUE;
         }
       }
-    }
-    else
-    {
+      }
+      else{
       bFound = TRUE;
-    }
+      }
 
-    if(bFound == FALSE)
-    {
+      if(bFound == FALSE){
 
       ucDataBuffer[0] = cTempBuffer[6];
       ucDataBuffer[1] = cTempBuffer[7];
@@ -673,18 +592,17 @@ static void SetTyreRuntimeDataDS(Rte_Instance self, const uint8* OldMountIx)
       ucDataBuffer[2] = (uint8)((mileKm >> 8) & 0xffU);
       ucDataBuffer[3] = (uint8)(mileKm & 0xffU);
       SaveRuntimeDataInEE(self, j, cMountedKmIx, &ucDataBuffer[0], cKmSize);
-    }
-  }
+      }
+   }
 }
 
 static void SaveRuntimeDataInEE(Rte_Instance self, const uint8 Ix, const uint8 StartIx, const uint8* Buffer, const uint8 Size)
 {
-  uint8 i;
+   uint8 i;
 
-  for (i=0; i<Size;i++)
-  {
+   for(i=0; i<Size;i++){
     PUTTyreRuntimeDataEE(self, Ix,(StartIx+i),Buffer[i]);
-  }
+   }
 }
 
 void SetUpdateTyreQrCodeDataInNvRam(boolean bVal)
@@ -694,62 +612,53 @@ void SetUpdateTyreQrCodeDataInNvRam(boolean bVal)
 
 boolean GetUpdateTyreQrCodeDataInNvRamDM(void)
 {
-  return (UpdateTyreQrCodeDataInNvRam);
+   return (UpdateTyreQrCodeDataInNvRam);
 }
 
 void SaveTsaDataDS(Rte_Instance self, const uint8* pucData)
 {
-  uint8 i;
+   uint8 i;
 
-  for( i = 0; i < sizeof(ImpTypeArrayDcm_RdcErfsTsaDatenLesenReadDataType); i++)
-  {
+   for(i = 0; i < sizeof(ImpTypeArrayDcm_RdcErfsTsaDatenLesenReadDataType); i++){
     PutTsaDataEE(self, pucData[i], i);
-  }
+   }
 }
 
 void ReadTsaDataDS(Rte_Instance self, uint8* pucData)
 {
-  uint8 i;
+   uint8 i;
 
-  for (i=0; i<sizeof(ImpTypeArrayDcm_RdcErfsTsaDatenLesenReadDataType); i++)
-  {
+   for(i=0; i<sizeof(ImpTypeArrayDcm_RdcErfsTsaDatenLesenReadDataType); i++){
     pucData[i] = GetTsaDataEE(self, i);
-  }
+   }
 }
 
 void ResetQRTyreMountedFlags(Rte_Instance self, uint8 HisFlags)
 {
-  uint8 Ix1,Ix2,CompVal1, ChangePos;
-  uint8 OldMountIx[4] = {cMaxQRCodeSets, cMaxQRCodeSets, cMaxQRCodeSets, cMaxQRCodeSets};
+   uint8 Ix1,Ix2,CompVal1, ChangePos;
+   uint8 OldMountIx[4] = {cMaxQRCodeSets, cMaxQRCodeSets, cMaxQRCodeSets, cMaxQRCodeSets};
 
   ChangePos = 0x00;
 
   Ix2 = 0x00;
 
-  for (Ix1=0;Ix1<cMaxQRCodeSets;Ix1++)
-  {
+   for(Ix1=0;Ix1<cMaxQRCodeSets;Ix1++){
     CompVal1 = GETTyreMountedFlagEE(self, Ix1);
-    if((CompVal1 & 0x0F) == cTyreMountedFlag)
-    {
-      if(Ix2 < cAnzRad)
-      {
+      if((CompVal1 & 0x0F) == cTyreMountedFlag){
+      if(Ix2 < cAnzRad){
         OldMountIx[Ix2] = Ix1;
         Ix2++;
       }
 
-    }
-  }
+      }
+   }
 
-  for (Ix1=0;Ix1<cAnzRad;Ix1++)
-  {
-    if(OldMountIx[Ix1] < cMaxQRCodeSets)
-    {
+   for(Ix1=0;Ix1<cAnzRad;Ix1++){
+      if(OldMountIx[Ix1] < cMaxQRCodeSets){
       CompVal1 = GETTyreMountedFlagEE(self, OldMountIx[Ix1]);
 
-      for (Ix2=0;Ix2<cAnzRad;Ix2++)
-      {
-        if((CompVal1 & (HisFlags & (uint8)(0x10 << Ix2))) != 0x00)
-        {
+      for(Ix2=0;Ix2<cAnzRad;Ix2++){
+          if((CompVal1 & (HisFlags & (uint8)(0x10 << Ix2))) != 0x00){
           PUTTyreMountedFlagEE(self, OldMountIx[Ix1], cTyreUnmountedFlag);
 
           ChangePos |= (0x08 >> Ix2);
@@ -757,75 +666,61 @@ void ResetQRTyreMountedFlags(Rte_Instance self, uint8 HisFlags)
           PutStWheelTypeChangeEventDM(StatusWheelTypeChangeDetection_Reifenwechseln_erkannt, ChangePos);
         }
       }
-    }
-  }
-  SetTyreRuntimeDataDS(self, &OldMountIx[0]);
+      }
+   }
+   SetTyreRuntimeDataDS(self, &OldMountIx[0]);
 }
 
 static void GetLatestUnmountedQrDataEntries(Rte_Instance self, uint8* pUnmountEntryIndex)
 {
-  uint8 SmallestUmmountedKm[4] = {0x00,0x00,0x00,0x00};
+   uint8 SmallestUmmountedKm[4] = {0x00,0x00,0x00,0x00};
 
-  uint8 QrIx,i,j,MinIx,MinCt,ucHelp;
-  boolean bStopComp;
+   uint8 QrIx,i,j,MinIx,MinCt,ucHelp;
+   boolean bStopComp;
 
-  MinCt = 0;
-  MinIx = cMaxQRCodeSets;
+   MinCt = 0;
+   MinIx = cMaxQRCodeSets;
 
-  for (QrIx=0; QrIx<cMaxQRCodeSets;QrIx++)
-  {
-    if(GETTyreMountedFlagEE(self, QrIx) == cTyreUnmountedFlag)
-    {
-      if(MinCt < 8)
-      {
+   for(QrIx=0; QrIx<cMaxQRCodeSets;QrIx++){
+      if(GETTyreMountedFlagEE(self, QrIx) == cTyreUnmountedFlag){
+      if(MinCt < 8){
         pUnmountEntryIndex[MinCt] = QrIx;
       }
       MinCt++;
-    }
-  }
+      }
+   }
 
-  if(MinCt > 8)
-  {
+   if(MinCt > 8){
     QrIx = pUnmountEntryIndex[7];
     QrIx++;
 
-    while (QrIx < cMaxQRCodeSets)
-    {
-      if(GETTyreMountedFlagEE(self, QrIx) == cTyreUnmountedFlag)
-      {
+    while (QrIx < cMaxQRCodeSets){
+      if(GETTyreMountedFlagEE(self, QrIx) == cTyreUnmountedFlag){
         MinCt = 0;
         MinIx = 0;
 
-        for (i=0;i<cKmSize;i++)
-        {
+        for(i=0;i<cKmSize;i++){
           SmallestUmmountedKm[i] = GETTyreRuntimeDataEE(self, pUnmountEntryIndex[0], cUnmountedKmIx + i);
         }
 
-        for (MinCt=1; MinCt<8;MinCt++)
-        {
+        for(MinCt=1; MinCt<8;MinCt++){
           bStopComp = FALSE;
 
-          for (i=0;i<cKmSize;i++)
-          {
-            if(bStopComp == FALSE)
-            {
+          for(i=0;i<cKmSize;i++){
+            if(bStopComp == FALSE){
               ucHelp = GETTyreRuntimeDataEE(self, pUnmountEntryIndex[MinCt], cUnmountedKmIx + i);
 
-              if(SmallestUmmountedKm[i] > ucHelp)
-              {
+              if(SmallestUmmountedKm[i] > ucHelp){
 
                 MinIx = MinCt;
 
-                for (j=0;j<cKmSize;j++)
-                {
+                for(j=0;j<cKmSize;j++){
                   SmallestUmmountedKm[j] = GETTyreRuntimeDataEE(self, pUnmountEntryIndex[MinIx], cUnmountedKmIx + j);
                 }
                 bStopComp = TRUE;
               }
-              else
-              {
-                if(SmallestUmmountedKm[i] < ucHelp)
-                {
+              else{
+                if(SmallestUmmountedKm[i] < ucHelp){
                   bStopComp = TRUE;
                 }
               }
@@ -835,20 +730,16 @@ static void GetLatestUnmountedQrDataEntries(Rte_Instance self, uint8* pUnmountEn
 
         bStopComp = FALSE;
 
-        for (i=0;i<cKmSize;i++)
-        {
-          if(bStopComp == FALSE)
-          {
+        for(i=0;i<cKmSize;i++){
+          if(bStopComp == FALSE){
             ucHelp = GETTyreRuntimeDataEE(self, QrIx, cUnmountedKmIx + i);
 
-            if(SmallestUmmountedKm[i] > ucHelp)
-            {
+            if(SmallestUmmountedKm[i] > ucHelp){
               bStopComp = TRUE;
             }
             else
             {
-              if(SmallestUmmountedKm[i] < ucHelp)
-              {
+              if(SmallestUmmountedKm[i] < ucHelp){
 
                 pUnmountEntryIndex[MinIx] = QrIx;
                 bStopComp = TRUE;
@@ -858,32 +749,28 @@ static void GetLatestUnmountedQrDataEntries(Rte_Instance self, uint8* pUnmountEn
         }
       }
       QrIx++;
-    }
-  }
+      }
+   }
 
 }
 
 uint8 GetQrIxOfWheelPos(Rte_Instance self, uint8 ucWheelPos)
 {
-  uint8 i, ucHelp, QrIx;
+   uint8 i, ucHelp, QrIx;
 
   QrIx = cMaxQRCodeSets;
 
-  if(ucWheelPos < cAnzRad)
-  {
-    for (i=0; i<cMaxQRCodeSets; i++)
-    {
+   if(ucWheelPos < cAnzRad){
+      for(i=0; i<cMaxQRCodeSets; i++){
       ucHelp = GETTyreMountedFlagEE(self, i);
 
-      if((ucHelp & 0x0F) == cTyreMountedFlag)
-      {
-        if((ucHelp & (uint8)(0x10<<ucWheelPos)) == (uint8)(0x10<<ucWheelPos))
-        {
+      if((ucHelp & 0x0F) == cTyreMountedFlag){
+          if((ucHelp & (uint8)(0x10<<ucWheelPos)) == (uint8)(0x10<<ucWheelPos)){
           QrIx = i;
         }
       }
-    }
-  }
-  return (QrIx+1);
+      }
+   }
+   return (QrIx+1);
 }
 

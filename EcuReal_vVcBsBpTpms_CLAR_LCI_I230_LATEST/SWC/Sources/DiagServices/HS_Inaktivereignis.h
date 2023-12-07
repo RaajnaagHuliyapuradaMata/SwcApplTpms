@@ -13,11 +13,11 @@ extern "C"
 #define cErrorUnknown   0x03
 
 typedef struct{
-  uint8 ucStatDatumText[8];
-  uint8 ucStatUhrzeitText[8];
-  uint32 ulStatKilometerstandWert;
-  uint8 ucStatInternerFehlercode;
-  uint8 ucStatZaehlerInaktivWert;
+   uint8 ucStatDatumText[8];
+   uint8 ucStatUhrzeitText[8];
+   uint32 ulStatKilometerstandWert;
+   uint8 ucStatInternerFehlercode;
+   uint8 ucStatZaehlerInaktivWert;
 }
 tHsInaktivereignisType;
 

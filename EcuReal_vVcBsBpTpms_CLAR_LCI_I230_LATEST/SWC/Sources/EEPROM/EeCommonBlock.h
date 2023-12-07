@@ -10,7 +10,7 @@ extern "C"
 
 #include "EeCommonBlockX.h"
 
-static void CompareValuesAndSetUpdateFlagEE( uint8 ucOld, uint8 ucNew);
+static void CompareValuesAndSetUpdateFlagEE(uint8 ucOld, uint8 ucNew);
 
 #ifdef __cplusplus
 }

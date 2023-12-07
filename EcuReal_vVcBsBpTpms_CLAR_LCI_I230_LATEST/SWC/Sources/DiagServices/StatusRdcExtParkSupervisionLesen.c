@@ -13,34 +13,34 @@
 static uint16 SearchMaxWarnLimitValue(uint16 current, uint16 new);
 
 void GetStatusRdcExtParkSupervisionLesen(Rte_Instance self, uint8 *pucData){
-  uint8  ucPress;
-  sint8  scTemp;
-  uint16 ushTref;
-  uint8  ucPva;
-  uint8  ucPha;
-  uint8  ucDummy;
-  sint8  scDummy;
-  uint16 ushDummy;
-  uint8  ucHistCol;
-  uint16 ushWnThFa, ushWnThRa;
-  uint16 ushNyThFa, ushNyThRa;
-  uint16 ushPressVL, ushPressVR, ushPressHL, ushPressHR;
-  uint8  ucTempVL, ucTempVR, ucTempHL, ucTempHR;
-  uint8 ucQuFnTyrInfo;
-  uint8 ucQuTpl;
-  uint8 ucQuTfai;
-  uint8  ucLoop, ucNoCcmId;
-  uint16 ushCcmId;
+   uint8  ucPress;
+   sint8  scTemp;
+   uint16 ushTref;
+   uint8  ucPva;
+   uint8  ucPha;
+   uint8  ucDummy;
+   sint8  scDummy;
+   uint16 ushDummy;
+   uint8  ucHistCol;
+   uint16 ushWnThFa, ushWnThRa;
+   uint16 ushNyThFa, ushNyThRa;
+   uint16 ushPressVL, ushPressVR, ushPressHL, ushPressHR;
+   uint8  ucTempVL, ucTempVR, ucTempHL, ucTempHR;
+   uint8 ucQuFnTyrInfo;
+   uint8 ucQuTpl;
+   uint8 ucQuTfai;
+   uint8  ucLoop, ucNoCcmId;
+   uint16 ushCcmId;
   Rdci_UHRZEIT_DATUM_Type timeDate;
-  uint8 aucDateBuffer[9];
-  uint8 aucTimeBuffer[9];
+   uint8 aucDateBuffer[9];
+   uint8 aucTimeBuffer[9];
   GetStTyrITY( &ucQuFnTyrInfo, &ucQuTpl, &ucQuTfai);
 
-  if( bGetBitBetriebszustandBZ( cZUGEORDNET) == TRUE){
+   if(bGetBitBetriebszustandBZ( cZUGEORDNET) == TRUE){
     (void) ucGetPTSollUSWIF(self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosVL));
-    if( (ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature)){
+      if((ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature)){
       (void) ucGetPTSollUSWIF(self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosVR));
-      if( (ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature)){
+      if((ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature)){
         ushTref = 0x00FFu;
         ucPva   = 0x63u;
       }
@@ -48,184 +48,164 @@ void GetStatusRdcExtParkSupervisionLesen(Rte_Instance self, uint8 *pucData){
         ushTref = ((uint16) scTemp + 50);
         ucPva   = (uint8) ((((uint16) ucPress * 25) + 50) / 100);
       }
-    }
-    else{
+      }
+      else{
       ushTref = ((uint16) scTemp + 50);
       ucPva   = (uint8) ((((uint16) ucPress * 25) + 50) / 100);
-    }
+      }
 
     (void) ucGetPTSollUSWIF(self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosHL));
 
-    if( (ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature))
-    {
+      if((ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature)){
 
       (void) ucGetPTSollUSWIF(self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosHR));
 
-      if( (ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature))
-      {
+      if((ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature)){
 
         ushTref = 0x00FFu;
         ucPha   = 0x63u;
       }
-      else
-      {
+      else{
 
         ushTref = ((uint16) scTemp + 50);
         ucPha   = (uint8) ((((uint16) ucPress * 25) + 50) / 100);
       }
-    }
-    else
-    {
+      }
+      else{
 
       ushTref = ((uint16) scTemp + 50);
       ucPha   = (uint8) ((((uint16) ucPress * 25) + 50) / 100);
-    }
+      }
 
-    ucHistCol = ucGetColOfWP( cRadPosVL);
-    GetWarnThresDM( ucHistCol, cucIX_Pmin, &ucPress, &ucDummy);
-    ushWnThFa = (uint16) ucPress * 25;
-    GetWarnThresDM( ucHistCol, cucIX_Pwarn, &ucPress, &ucDummy);
-    ushWnThFa = SearchMaxWarnLimitValue(ushWnThFa, (uint16)ucPress * 25);
-    GetWarnThresDM( ucHistCol, cucIX_PwarnTol, &ucPress, &ucDummy);
-    ushWnThFa = SearchMaxWarnLimitValue(ushWnThFa, (uint16)ucPress * 25);
+      ucHistCol = ucGetColOfWP( cRadPosVL);
+    GetWarnThresDM(ucHistCol, cucIX_Pmin, &ucPress, &ucDummy);
+      ushWnThFa = (uint16) ucPress * 25;
+    GetWarnThresDM(ucHistCol, cucIX_Pwarn, &ucPress, &ucDummy);
+      ushWnThFa = SearchMaxWarnLimitValue(ushWnThFa, (uint16)ucPress * 25);
+    GetWarnThresDM(ucHistCol, cucIX_PwarnTol, &ucPress, &ucDummy);
+      ushWnThFa = SearchMaxWarnLimitValue(ushWnThFa, (uint16)ucPress * 25);
 
-    ucHistCol = ucGetColOfWP( cRadPosVR);
-    GetWarnThresDM( ucHistCol, cucIX_Pmin, &ucPress, &ucDummy);
-    ushWnThFa = SearchMaxWarnLimitValue(ushWnThFa, (uint16)ucPress * 25);
-    GetWarnThresDM( ucHistCol, cucIX_Pwarn, &ucPress, &ucDummy);
-    ushWnThFa = SearchMaxWarnLimitValue(ushWnThFa, (uint16)ucPress * 25);
-    GetWarnThresDM( ucHistCol, cucIX_PwarnTol, &ucPress, &ucDummy);
-    ushWnThFa = SearchMaxWarnLimitValue(ushWnThFa, (uint16)ucPress * 25);
+      ucHistCol = ucGetColOfWP( cRadPosVR);
+    GetWarnThresDM(ucHistCol, cucIX_Pmin, &ucPress, &ucDummy);
+      ushWnThFa = SearchMaxWarnLimitValue(ushWnThFa, (uint16)ucPress * 25);
+    GetWarnThresDM(ucHistCol, cucIX_Pwarn, &ucPress, &ucDummy);
+      ushWnThFa = SearchMaxWarnLimitValue(ushWnThFa, (uint16)ucPress * 25);
+    GetWarnThresDM(ucHistCol, cucIX_PwarnTol, &ucPress, &ucDummy);
+      ushWnThFa = SearchMaxWarnLimitValue(ushWnThFa, (uint16)ucPress * 25);
 
-    ucHistCol = ucGetColOfWP( cRadPosHL);
-    GetWarnThresDM( ucHistCol, cucIX_Pmin, &ucPress, &ucDummy);
-    ushWnThRa = (uint16) ucPress * 25;
-    GetWarnThresDM( ucHistCol, cucIX_Pwarn, &ucPress, &ucDummy);
-    ushWnThRa = SearchMaxWarnLimitValue(ushWnThRa, (uint16)ucPress * 25);
-    GetWarnThresDM( ucHistCol, cucIX_PwarnTol, &ucPress, &ucDummy);
-    ushWnThRa = SearchMaxWarnLimitValue(ushWnThRa, (uint16)ucPress * 25);
+      ucHistCol = ucGetColOfWP( cRadPosHL);
+    GetWarnThresDM(ucHistCol, cucIX_Pmin, &ucPress, &ucDummy);
+      ushWnThRa = (uint16) ucPress * 25;
+    GetWarnThresDM(ucHistCol, cucIX_Pwarn, &ucPress, &ucDummy);
+      ushWnThRa = SearchMaxWarnLimitValue(ushWnThRa, (uint16)ucPress * 25);
+    GetWarnThresDM(ucHistCol, cucIX_PwarnTol, &ucPress, &ucDummy);
+      ushWnThRa = SearchMaxWarnLimitValue(ushWnThRa, (uint16)ucPress * 25);
 
-    ucHistCol = ucGetColOfWP( cRadPosHR);
-    GetWarnThresDM( ucHistCol, cucIX_Pmin, &ucPress, &ucDummy);
-    ushWnThRa = SearchMaxWarnLimitValue(ushWnThRa, (uint16)ucPress * 25);
-    GetWarnThresDM( ucHistCol, cucIX_Pwarn, &ucPress, &ucDummy);
-    ushWnThRa = SearchMaxWarnLimitValue(ushWnThRa, (uint16)ucPress * 25);
-    GetWarnThresDM( ucHistCol, cucIX_PwarnTol, &ucPress, &ucDummy);
-    ushWnThRa = SearchMaxWarnLimitValue(ushWnThRa, (uint16)ucPress * 25);
+      ucHistCol = ucGetColOfWP( cRadPosHR);
+    GetWarnThresDM(ucHistCol, cucIX_Pmin, &ucPress, &ucDummy);
+      ushWnThRa = SearchMaxWarnLimitValue(ushWnThRa, (uint16)ucPress * 25);
+    GetWarnThresDM(ucHistCol, cucIX_Pwarn, &ucPress, &ucDummy);
+      ushWnThRa = SearchMaxWarnLimitValue(ushWnThRa, (uint16)ucPress * 25);
+    GetWarnThresDM(ucHistCol, cucIX_PwarnTol, &ucPress, &ucDummy);
+      ushWnThRa = SearchMaxWarnLimitValue(ushWnThRa, (uint16)ucPress * 25);
 
-    ucHistCol = ucGetColOfWP( cRadPosVL);
-    GetWarnThresDM( ucHistCol, cucIX_Pvorw, &ucPress, &ucDummy);
-    ushNyThFa = (uint16) ucPress * 25;
+      ucHistCol = ucGetColOfWP( cRadPosVL);
+    GetWarnThresDM(ucHistCol, cucIX_Pvorw, &ucPress, &ucDummy);
+      ushNyThFa = (uint16) ucPress * 25;
 
-    ucHistCol = ucGetColOfWP( cRadPosVR);
-    GetWarnThresDM( ucHistCol, cucIX_Pvorw, &ucPress, &ucDummy);
-    ushNyThFa = SearchMaxWarnLimitValue(ushNyThFa, (uint16)ucPress * 25);
+      ucHistCol = ucGetColOfWP( cRadPosVR);
+    GetWarnThresDM(ucHistCol, cucIX_Pvorw, &ucPress, &ucDummy);
+      ushNyThFa = SearchMaxWarnLimitValue(ushNyThFa, (uint16)ucPress * 25);
 
-    ucHistCol = ucGetColOfWP( cRadPosHL);
-    GetWarnThresDM( ucHistCol, cucIX_Pvorw, &ucPress, &ucDummy);
-    ushNyThRa = (uint16) ucPress * 25;
+      ucHistCol = ucGetColOfWP( cRadPosHL);
+    GetWarnThresDM(ucHistCol, cucIX_Pvorw, &ucPress, &ucDummy);
+      ushNyThRa = (uint16) ucPress * 25;
 
-    ucHistCol = ucGetColOfWP( cRadPosHR);
-    GetWarnThresDM( ucHistCol, cucIX_Pvorw, &ucPress, &ucDummy);
-    ushNyThRa = SearchMaxWarnLimitValue(ushNyThRa, (uint16)ucPress * 25);
+      ucHistCol = ucGetColOfWP( cRadPosHR);
+    GetWarnThresDM(ucHistCol, cucIX_Pvorw, &ucPress, &ucDummy);
+      ushNyThRa = SearchMaxWarnLimitValue(ushNyThRa, (uint16)ucPress * 25);
 
-    ucPress = ucGetValidTyrePressureRelAtWheelPosDM( cRadPosVL);
-    if( ucPress == cInvalidREpressure)
-    {
+      ucPress = ucGetValidTyrePressureRelAtWheelPosDM( cRadPosVL);
+      if(ucPress == cInvalidREpressure){
       ushPressVL = 0x270Fu;
-    }
-    else
-    {
+      }
+      else{
       ushPressVL = (uint16) ucPress * 25;
-    }
+      }
 
-    ucPress = ucGetValidTyrePressureRelAtWheelPosDM( cRadPosVR);
-    if( ucPress == cInvalidREpressure)
-    {
+      ucPress = ucGetValidTyrePressureRelAtWheelPosDM( cRadPosVR);
+      if(ucPress == cInvalidREpressure){
       ushPressVR = 0x270Fu;
-    }
-    else
-    {
+      }
+      else{
       ushPressVR = (uint16) ucPress * 25;
-    }
+      }
 
-    ucPress = ucGetValidTyrePressureRelAtWheelPosDM( cRadPosHL);
-    if( ucPress == cInvalidREpressure)
-    {
+      ucPress = ucGetValidTyrePressureRelAtWheelPosDM( cRadPosHL);
+      if(ucPress == cInvalidREpressure){
       ushPressHL = 0x270Fu;
-    }
-    else
-    {
+      }
+      else{
       ushPressHL = (uint16) ucPress * 25;
-    }
+      }
 
-    ucPress = ucGetValidTyrePressureRelAtWheelPosDM( cRadPosHR);
-    if( ucPress == cInvalidREpressure)
-    {
+      ucPress = ucGetValidTyrePressureRelAtWheelPosDM( cRadPosHR);
+      if(ucPress == cInvalidREpressure){
       ushPressHR = 0x270Fu;
-    }
-    else
-    {
+      }
+      else{
       ushPressHR = (uint16) ucPress * 25;
-    }
+      }
 
-    scTemp = scGetValidTyreTemperatureAtWheelPosDM( cRadPosVL);
-    if( scTemp == cInvalidREtemperature)
-    {
+      scTemp = scGetValidTyreTemperatureAtWheelPosDM( cRadPosVL);
+      if(scTemp == cInvalidREtemperature){
       ucTempVL = 0xFFu;
-    }
-    else
-    {
+      }
+      else{
       ucTempVL = (uint8) scTemp + 50;
-    }
+      }
 
-    scTemp = scGetValidTyreTemperatureAtWheelPosDM( cRadPosVR);
-    if( scTemp == cInvalidREtemperature)
-    {
+      scTemp = scGetValidTyreTemperatureAtWheelPosDM( cRadPosVR);
+      if(scTemp == cInvalidREtemperature){
       ucTempVR = 0xFFu;
-    }
-    else
-    {
+      }
+      else{
       ucTempVR = (uint8) scTemp + 50;
-    }
+      }
 
-    scTemp = scGetValidTyreTemperatureAtWheelPosDM( cRadPosHL);
-    if( scTemp == cInvalidREtemperature)
-    {
+      scTemp = scGetValidTyreTemperatureAtWheelPosDM( cRadPosHL);
+      if(scTemp == cInvalidREtemperature){
       ucTempHL = 0xFFu;
-    }
-    else
-    {
+      }
+      else{
       ucTempHL = (uint8) scTemp + 50;
-    }
+      }
 
-    scTemp = scGetValidTyreTemperatureAtWheelPosDM( cRadPosHR);
-    if( scTemp == cInvalidREtemperature)
-    {
+      scTemp = scGetValidTyreTemperatureAtWheelPosDM( cRadPosHR);
+      if(scTemp == cInvalidREtemperature){
       ucTempHR = 0xFFu;
-    }
-    else
-    {
+      }
+      else{
       ucTempHR = (uint8) scTemp + 50;
-    }
-  }
-  else{
-    ushTref     = 0x00FF;
-    ucPva       = 0x63;
-    ucPha       = 0x63;
-    ushWnThFa   = 0x270Fu;
-    ushWnThRa   = 0x270Fu;
-    ushNyThFa   = 0x270Fu;
-    ushNyThRa   = 0x270Fu;
-    ushPressVL  = 0x270Fu;
-    ushPressVR  = 0x270Fu;
-    ushPressHL  = 0x270Fu;
-    ushPressHR  = 0x270Fu;
-    ucTempVL    = 0xFFu;
-    ucTempVR    = 0xFFu;
-    ucTempHL    = 0xFFu;
-    ucTempHR    = 0xFFu;
-  }
+      }
+   }
+   else{
+      ushTref     = 0x00FF;
+      ucPva       = 0x63;
+      ucPha       = 0x63;
+      ushWnThFa   = 0x270Fu;
+      ushWnThRa   = 0x270Fu;
+      ushNyThFa   = 0x270Fu;
+      ushNyThRa   = 0x270Fu;
+      ushPressVL  = 0x270Fu;
+      ushPressVR  = 0x270Fu;
+      ushPressHL  = 0x270Fu;
+      ushPressHR  = 0x270Fu;
+      ucTempVL    = 0xFFu;
+      ucTempVR    = 0xFFu;
+      ucTempHL    = 0xFFu;
+      ucTempHR    = 0xFFu;
+   }
 
   pucData[cucIxStatRdcExtParkSupConfigWert]                 = ucGetCRdciParkSupExtParkSupConfigCD();
   pucData[cucIxStatRdcExtParkSupTolTempCompWert]            = ucGetCRdciParkSupTolTempCompCD();
@@ -272,13 +252,11 @@ void GetStatusRdcExtParkSupervisionLesen(Rte_Instance self, uint8 *pucData){
   pucData[cucIxStatRdcExtParkSupActiveCcm4Wert + 1]         = 0x00;
   pucData[cucIxStatRdcExtParkSupActiveCcm5Wert + 0]         = 0x00;
   pucData[cucIxStatRdcExtParkSupActiveCcm5Wert + 1]         = 0x00;
-  ucNoCcmId = 0;
-  for( ucLoop = 0; ((ucLoop < cCcIX_NumberOfMessages) && (ucNoCcmId < 5)); ucLoop++)
-  {
-    if((ulGetStartedStateOfVklCCM() & (uint32)(1 << ucLoop)) == (uint32)(1 << ucLoop))
-    {
+   ucNoCcmId = 0;
+   for(ucLoop = 0; ((ucLoop < cCcIX_NumberOfMessages) && (ucNoCcmId < 5)); ucLoop++){
+      if((ulGetStartedStateOfVklCCM() & (uint32)(1 << ucLoop)) == (uint32)(1 << ucLoop)){
       ushCcmId = ushGetCcNumberOfIxCCM(ucLoop);
-      switch (ucNoCcmId){
+      switch(ucNoCcmId){
         case (uint8) 0:
           pucData[cucIxStatRdcExtParkSupActiveCcm1Wert + 0] = (uint8) ((ushCcmId >> 8) & 0x00FF);
           pucData[cucIxStatRdcExtParkSupActiveCcm1Wert + 1] = (uint8) ((ushCcmId >> 0) & 0x00FF);
@@ -306,38 +284,33 @@ void GetStatusRdcExtParkSupervisionLesen(Rte_Instance self, uint8 *pucData){
       }
 
       ucNoCcmId++;
-    }
-  }
-  timeDate = GETtExtParkSupSleepTimeDateEE(self);
+      }
+   }
+   timeDate = GETtExtParkSupSleepTimeDateEE(self);
   GetDateStringDM( timeDate.DISP_DATE_YR, timeDate.DISP_DATE_MON, timeDate.DISP_DATE_DAY, aucDateBuffer, sizeof(aucDateBuffer));
   GetTimeStringDM( timeDate.DISP_HR, timeDate.DISP_MN, timeDate.DISP_SEC, aucTimeBuffer, sizeof(aucTimeBuffer));
-  for ( ucLoop = 0; ucLoop < 8; ucLoop++)
-  {
+   for(ucLoop = 0; ucLoop < 8; ucLoop++){
     pucData[cucIxStatRdcExtParkSupSleepDateWert + ucLoop] = aucDateBuffer[ucLoop];
     pucData[cucIxStatRdcExtParkSupSleepTimeWert + ucLoop] = aucTimeBuffer[ucLoop];
-  }
-  timeDate = GETtExtParkSupWakeupTimeDateEE(self);
+   }
+   timeDate = GETtExtParkSupWakeupTimeDateEE(self);
   GetDateStringDM( timeDate.DISP_DATE_YR, timeDate.DISP_DATE_MON, timeDate.DISP_DATE_DAY, aucDateBuffer, sizeof(aucDateBuffer));
   GetTimeStringDM( timeDate.DISP_HR, timeDate.DISP_MN, timeDate.DISP_SEC, aucTimeBuffer, sizeof(aucTimeBuffer));
-  for ( ucLoop = 0; ucLoop < 8; ucLoop++)
-  {
+   for(ucLoop = 0; ucLoop < 8; ucLoop++){
     pucData[cucIxStatRdcExtParkSupWakeupDateWert + ucLoop] = aucDateBuffer[ucLoop];
     pucData[cucIxStatRdcExtParkSupWakeupTimeWert + ucLoop] = aucTimeBuffer[ucLoop];
-  }
+   }
 }
 
 static uint16 SearchMaxWarnLimitValue(uint16 current, uint16 new)
 {
-  if(current != (cInvalidREpressure * 25))
-  {
-    if(new != (cInvalidREpressure * 25))
-    {
+   if(current != (cInvalidREpressure * 25)){
+      if(new != (cInvalidREpressure * 25)){
       current = ushGetMaxValueDM(current, new);
-    }
-  }
-  else
-  {
+      }
+   }
+   else{
     current = new;
-  }
-  return (current);
+   }
+   return (current);
 }

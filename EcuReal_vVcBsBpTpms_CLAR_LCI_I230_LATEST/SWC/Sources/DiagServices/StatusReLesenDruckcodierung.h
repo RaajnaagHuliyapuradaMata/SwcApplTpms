@@ -11,10 +11,10 @@ extern "C"
 #define cRecCounterDefaultVal                         ((uint8)  0xff)
 
 typedef struct{
-  uint32 ulReID;
-  uint8  ucPres;
-  uint8  ucBatt;
-  uint8  ucRecCounter;
+   uint32 ulReID;
+   uint8  ucPres;
+   uint8  ucBatt;
+   uint8  ucRecCounter;
 }StatusReLesenDruckcodierungDataType;
 
 #ifdef __cplusplus

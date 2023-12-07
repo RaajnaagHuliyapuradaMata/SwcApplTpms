@@ -1,53 +1,60 @@
 #include "WnTypePar.h"
 
 uint8 bWT_Ppanne( tLocalWarnDat* ptLWD, uint8 ucWarnCfg, uint8 ucWtIx){
-  uint8  ucWarnSetThres, ucWarnResetThres, ucRet;
-  ucWarnCfg = ucWarnCfg;
-  ucWarnSetThres = ptLWD->tCOD.ucPanneThresCOD;
-  if( ptLWD->tSD.ucPinitTreifen < ptLWD->tSD.ucPSoll){
-    ucWarnResetThres = ptLWD->tSD.ucPSoll - ptLWD->tSD.ucPanneClearHyst;
-  }else{
-    ucWarnResetThres = ptLWD->tSD.ucPinitTreifen - ptLWD->tSD.ucPanneClearHyst;
-  }
-  if( ucWarnSetThres > ucWarnResetThres){
-    ucWarnResetThres = ucWarnSetThres;
-  }
+   uint8  ucWarnSetThres, ucWarnResetThres, ucRet;
+   ucWarnCfg = ucWarnCfg;
+   ucWarnSetThres = ptLWD->tCOD.ucPanneThresCOD;
+   if(ptLWD->tSD.ucPinitTreifen < ptLWD->tSD.ucPSoll){
+      ucWarnResetThres = ptLWD->tSD.ucPSoll - ptLWD->tSD.ucPanneClearHyst;
+   }
+   else{
+      ucWarnResetThres = ptLWD->tSD.ucPinitTreifen - ptLWD->tSD.ucPanneClearHyst;
+   }
+   if(ucWarnSetThres > ucWarnResetThres){
+      ucWarnResetThres = ucWarnSetThres;
+   }
   ptLWD->ucCurWarnSetThres   = ucWarnSetThres;
   ptLWD->ucCurWarnResetThres = ucWarnResetThres;
-  if( ucGetWarnBitWN( ptLWD->tHFD.ucId, ucWtIx, ucWarnBitIxWNc) == 1){
-    if( ptLWD->tHFD.ucP > ucWarnResetThres){
+   if(ucGetWarnBitWN( ptLWD->tHFD.ucId, ucWtIx, ucWarnBitIxWNc) == 1){
+      if(ptLWD->tHFD.ucP > ucWarnResetThres){
       ClearWarnBitWN( ptLWD->tHFD.ucId, ucWtIx);
       ucRet = 0;
-    }else{
+      }
+      else{
       ucRet = ucWarnBitTonnageIxWNc;
-    }
-  }else{
-    if( ptLWD->tHFD.ucP < ucWarnSetThres){
+      }
+   }
+   else{
+      if(ptLWD->tHFD.ucP < ucWarnSetThres){
       ClearWarnAttrBitWN( ptLWD->tHFD.ucId, ucWtIx, ucWarnBitAirMassIxWNc);
-      if( ucGetWarnBitWN( ptLWD->tHFD.ucId, ucWtIx, ucWarnBitTonnageIxWNc) == 0){
-        if( ptLWD->bNoFreakNoTimer == TRUE){
+      if(ucGetWarnBitWN( ptLWD->tHFD.ucId, ucWtIx, ucWarnBitTonnageIxWNc) == 0){
+          if(ptLWD->bNoFreakNoTimer == TRUE){
           ucRet = ucSetWarnBitWN( ptLWD->tHFD.ucId, ucWtIx, ucWarnBitTonnageIxWNc);
-          if( ucRet == 0){
+          if(ucRet == 0){
             (void) ucSetWarnBitWN( ptLWD->tHFD.ucId, ucWtIx, ucWarnBitTonnageIxWNc);
           }
           (void) ucSetWarnBitWN( ptLWD->tHFD.ucId, ucWtIx, ucWarnBitIxWNc);
           ucRet = ucWarnBitTonnageIxWNc;
-        }else{
+         }
+         else{
           ucRet = ucSetWarnBitWN( ptLWD->tHFD.ucId, ucWtIx, ucWarnBitTonnageIxWNc);
-          if( ucRet == 1){
+          if(ucRet == 1){
             (void) ucSetWarnBitWN( ptLWD->tHFD.ucId, ucWtIx, ucWarnBitIxWNc);
             ucRet = ucWarnBitTonnageIxWNc;
-          }else{
+            }
+            else{
             ucRet = 0;
           }
         }
-      }else{
+      }
+      else{
         ucRet = 0;
       }
-    }else{
+      }
+      else{
       ClearWarnBitWN( ptLWD->tHFD.ucId, ucWtIx);
       ucRet = 0;
-    }
-  }
-  return ucRet;
+      }
+   }
+   return ucRet;
 }

@@ -31,21 +31,21 @@ extern "C"
 #define cTelegramWaitingTime      (uint16)30
 
 typedef struct typedef_struct_tABS_DATA{
-  uint16 ushAbsTimeStamp;
-  uint16 ushAbsCntVl;
-  uint16 ushAbsCntVr;
-  uint16 ushAbsCntHl;
-  uint16 ushAbsCntHr;
-  uint8 ucOverflowCntVl;
-  uint8 ucOverflowCntVr;
-  uint8 ucOverflowCntHl;
-  uint8 ucOverflowCntHr;
+   uint16 ushAbsTimeStamp;
+   uint16 ushAbsCntVl;
+   uint16 ushAbsCntVr;
+   uint16 ushAbsCntHl;
+   uint16 ushAbsCntHr;
+   uint8 ucOverflowCntVl;
+   uint8 ucOverflowCntVr;
+   uint8 ucOverflowCntHl;
+   uint8 ucOverflowCntHr;
 }tABS_DATA;
 
 extern void InitABS(void);
-extern void PutABS( uint16 ushTime, const uint16* ushCnt);
-extern uint8 ucLinABS( uint16 ushRfTimeStamp);
-extern uint8 ucGetLinABS( uint16* ushCnt);
+extern void PutABS(uint16 ushTime, const uint16* ushCnt);
+extern uint8 ucLinABS(uint16 ushRfTimeStamp);
+extern uint8 ucGetLinABS(uint16* ushCnt);
 extern uint8 ucGetLinStatusABS(void);
 extern void EnableRollDetectionABS(void);
 extern void DisableRollDetectionABS(void);

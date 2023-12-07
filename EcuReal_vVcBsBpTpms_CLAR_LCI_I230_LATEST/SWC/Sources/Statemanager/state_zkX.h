@@ -25,13 +25,13 @@ extern "C"
 #define cID_CHANGED_ALL       ((uint8) 0x0f)
 
 extern void InitZK(void);
-extern void SetBitZustandskennungZK( uint16 ushBitMask);
-extern void ClearBitZustandskennungZK( uint16 ushBitMask);
-extern boolean bGetBitZustandskennungZK( uint16 ushBitMask);
-extern uint16 ushGetZustandskennungZK( uint16 ushBitMask);
-extern void SetWpChangedBitZK( uint8 ucWP);
+extern void SetBitZustandskennungZK(uint16 ushBitMask);
+extern void ClearBitZustandskennungZK(uint16 ushBitMask);
+extern boolean bGetBitZustandskennungZK(uint16 ushBitMask);
+extern uint16 ushGetZustandskennungZK(uint16 ushBitMask);
+extern void SetWpChangedBitZK(uint8 ucWP);
 extern uint8 ucGetWpChangedBitsZK(void);
-extern void SetIdChangedBitsZK( uint8 ucChangedBits);
+extern void SetIdChangedBitsZK(uint8 ucChangedBits);
 extern uint8 ucGetIdChangedBitsZK(void);
 extern void ClearIdChangedBitsZK(void);
 extern void ClearWpChangedBitsZK(void);

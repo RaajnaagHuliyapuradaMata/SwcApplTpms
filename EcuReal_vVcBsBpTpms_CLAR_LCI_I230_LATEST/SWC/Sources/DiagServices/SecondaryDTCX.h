@@ -37,21 +37,21 @@ extern "C"
 #define cRDC_POSITION                     (uint32)0x40000u
 
 typedef struct{
-  uint8 ucErrorNumber;
-  uint8 ucCausingWheelPos;
+   uint8 ucErrorNumber;
+   uint8 ucCausingWheelPos;
 }strSecondaryDtcFiFo;
 
 extern uint8 GetSecondaryErrorsSCD(void);
-extern void SetSecondaryErrorSCD( uint8 ucError);
-extern void ClearSecondaryErrorSCD( uint8 ucError);
-extern void SetSecondaryErrChangedFlagSCD( uint8 ucError);
-extern void ClearSecondaryErrChangedFlagSCD( uint8 ucError);
+extern void SetSecondaryErrorSCD(uint8 ucError);
+extern void ClearSecondaryErrorSCD(uint8 ucError);
+extern void SetSecondaryErrChangedFlagSCD(uint8 ucError);
+extern void ClearSecondaryErrChangedFlagSCD(uint8 ucError);
 extern void ClearSecondaryErrChangedFlagsSCD(void);
 extern uint8 GetSecondaryErrChangedFlagsSCD(void);
 extern void InitSecondaryDtcFiFoSCD(void);
 extern void SecondaryDtcFiFoShiftSCD(uint8* pucError, uint8* pucWheelPos);
-extern void SecondaryDtcFiFoGetFirstEntrySCD( uint8* pucError, uint8* pucWheelPos);
-extern void SecondaryDtcFiFoWriteEntrySCD( uint8 ucDtc, uint8 ucPos);
+extern void SecondaryDtcFiFoGetFirstEntrySCD(uint8* pucError, uint8* pucWheelPos);
+extern void SecondaryDtcFiFoWriteEntrySCD(uint8 ucDtc, uint8 ucPos);
 
 #ifdef __cplusplus
 }

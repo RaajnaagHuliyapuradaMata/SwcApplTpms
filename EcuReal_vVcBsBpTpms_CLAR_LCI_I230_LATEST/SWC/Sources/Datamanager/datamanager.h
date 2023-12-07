@@ -18,17 +18,17 @@ extern "C"
 
 typedef struct{
   ImpTypeRecCddRdcData tRdcData;
-  uint8 ucType;
-  uint8 ucWaitingTime;
+   uint8 ucType;
+   uint8 ucWaitingTime;
 }tRdcDataQueue;
 
 typedef struct{
-  uint32 ulReId;
-  uint8 ucTimeCt;
+   uint32 ulReId;
+   uint8 ucTimeCt;
 }tProcIdBufType;
 
-static uint8 ucConvAkAbsPressureInRelDM( uint8 ucRawPres, PhySensorTyrePresType* pucPhyPres, uint8 ucPamb);
-static uint8 ucConvAkTemperatureInCentDM( uint8 ucRawTemp, PhySensorTyreTempType* pscPhyTemp);
+static uint8 ucConvAkAbsPressureInRelDM(uint8 ucRawPres, PhySensorTyrePresType* pucPhyPres, uint8 ucPamb);
+static uint8 ucConvAkTemperatureInCentDM(uint8 ucRawTemp, PhySensorTyreTempType* pscPhyTemp);
 static uint8 ucCalcSignalToNoiseRatio(uint8 ucTelRssi, uint8 ucBackgroundNoise);
 static boolean CompareAllDataToErfsDM(const uint8* pConvRidData, uint8* pIxArray);
 static void CompareTyreDimToErfsDM(const uint8* pConvRidData, uint8* pIxArray);

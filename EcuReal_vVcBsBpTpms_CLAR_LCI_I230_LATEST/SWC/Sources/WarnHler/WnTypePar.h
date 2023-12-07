@@ -99,46 +99,46 @@ extern "C"
 #define ucThresFTc                ((uint8) (500 / ucPResInMBarc))
 
 typedef struct{
-  uint8  ucId;
-  uint8  ucP;
-  sint8  scTWE;
-  uint8  ucLifeTime;
-  uint16 ushVehicleSpeed;
-  sint8  scTa;
-  uint8  ucEnvP;
-  uint8  ucWarnState;
-  uint8  ucWarnAttr;
+   uint8  ucId;
+   uint8  ucP;
+   sint8  scTWE;
+   uint8  ucLifeTime;
+   uint16 ushVehicleSpeed;
+   sint8  scTa;
+   uint8  ucEnvP;
+   uint8  ucWarnState;
+   uint8  ucWarnAttr;
 }tHFTelDat;
 
 typedef struct{
-  uint8 ucPwThresCfactorCOD;
-  uint8 ucPwThresNCfactorCOD;
-  uint8 ucAlThresCfactorCOD;
-  uint8 ucAlThresNCfactorCOD;
-  uint8  ucPrewarnDelayMinCOD;
-  uint8  ucPanneThresCOD;
-  uint8  ucShortHoldTimeCOD;
-  uint8  ucLongHoldTimeCOD;
-  uint8  ucThCTolCOD;
-  uint8  ucThNCTolCOD;
-  uint8  ucSaturierungAktivCOD;
+   uint8 ucPwThresCfactorCOD;
+   uint8 ucPwThresNCfactorCOD;
+   uint8 ucAlThresCfactorCOD;
+   uint8 ucAlThresNCfactorCOD;
+   uint8  ucPrewarnDelayMinCOD;
+   uint8  ucPanneThresCOD;
+   uint8  ucShortHoldTimeCOD;
+   uint8  ucLongHoldTimeCOD;
+   uint8  ucThCTolCOD;
+   uint8  ucThNCTolCOD;
+   uint8  ucSaturierungAktivCOD;
 }tCodingDat;
 
 typedef struct{
-  uint8  ucPSoll;
-  sint8  scTSoll;
-  uint16 ushMSoll;
-  uint8  ucPanneClearHyst;
-  uint8  ucPinitTreifen;
+   uint8  ucPSoll;
+   sint8  scTSoll;
+   uint16 ushMSoll;
+   uint8  ucPanneClearHyst;
+   uint8  ucPinitTreifen;
 }tSollDat;
 
 typedef struct{
-  tHFTelDat   tHFD;
-  tSollDat    tSD;
-  tCodingDat  tCOD;
-  boolean     bNoFreakNoTimer;
-  uint8       ucCurWarnSetThres;
-  uint8       ucCurWarnResetThres;
+   tHFTelDat   tHFD;
+   tSollDat    tSD;
+   tCodingDat  tCOD;
+   boolean     bNoFreakNoTimer;
+   uint8       ucCurWarnSetThres;
+   uint8       ucCurWarnResetThres;
 }tLocalWarnDat;
 
 typedef uint8                 WarnConfigArrayType[2];
@@ -150,15 +150,15 @@ typedef uint8                 LongTimerStateArrayType[cAnzRad];
 
 extern uint8  ucGetPMinCS(void);
 
-extern uint8  ucGetWarnBitWN( uint8 ucIdX, uint8 ucWarnTypeIx, uint8 ucWtAttr);
-extern void   ClearWarnBitWN( uint8 ucIdX, uint8 ucWarnTypeIx);
-extern void   ClearWarnAttrBitWN( uint8 ucIdX, uint8 ucWarnTypeIx, uint8 ucWarnAttr);
-extern uint8  ucSetWarnBitWN( uint8 ucIdX, uint8 ucWarnTypeIx, uint8 ucWtAttr);
-extern uint8  ucGetPTolWN( uint8 ucPenv, uint8 ucPre, sint8 scTre);
+extern uint8  ucGetWarnBitWN(uint8 ucIdX, uint8 ucWarnTypeIx, uint8 ucWtAttr);
+extern void   ClearWarnBitWN(uint8 ucIdX, uint8 ucWarnTypeIx);
+extern void   ClearWarnAttrBitWN(uint8 ucIdX, uint8 ucWarnTypeIx, uint8 ucWarnAttr);
+extern uint8  ucSetWarnBitWN(uint8 ucIdX, uint8 ucWarnTypeIx, uint8 ucWtAttr);
+extern uint8  ucGetPTolWN(uint8 ucPenv, uint8 ucPre, sint8 scTre);
 extern void   PutWarnBitsToNvmWN(Rte_Instance self);
 
-extern uint8  ucPfT( uint16 ushM, sint8 scT, uint8 ucPamb);
-extern uint16 ushMIso( uint8 ucP, sint8 scT, uint8 ucPamb);
+extern uint8  ucPfT(uint16 ushM, sint8 scT, uint8 ucPamb);
+extern uint16 ushMIso(uint8 ucP, sint8 scT, uint8 ucPamb);
 
 extern uint8  bWT_Ppanne( tLocalWarnDat* ptLWD, uint8 ucWarnCfg, uint8 ucWtIx);
 extern uint8  bWT_Pmin( tLocalWarnDat* ptLWD, uint8 ucWarnCfg, uint8 ucWtIx);
@@ -168,26 +168,26 @@ extern uint8  bWT_Pvorw( tLocalWarnDat* ptLWD, uint8 ucWarnCfg, uint8 ucWtIx);
 extern uint8  bWT_DHW( tLocalWarnDat* ptLWD, uint8 ucWarnCfg, uint8 ucWtIx);
 extern uint8  bWT_FT( tLocalWarnDat* ptLWD, uint8 ucWarnCfg, uint8 ucWtIx);
 
-extern void   ResetPresRefDHW( uint8 ucIdx);
+extern void   ResetPresRefDHW(uint8 ucIdx);
 extern void   TimerInitDHW(Rte_Instance self);
 extern void   TimerCountDHW(Rte_Instance self);
 extern void   TimerStopAllDHW(void);
-extern void   GetTimerValDHW( uint8 ucZomPos, uint8* pucRefPres, uint8* pucLastPres, uint16* pushTimCnt, uint16* pushTimCountLatch);
+extern void   GetTimerValDHW(uint8 ucZomPos, uint8* pucRefPres, uint8* pucLastPres, uint16* pushTimCnt, uint16* pushTimCountLatch);
 
 extern void   TimerInitPVORW(Rte_Instance self);
 extern void   TimerCountPVORW(Rte_Instance self);
 extern void   TimerStopAllPVORW(void);
-extern void   GetTimerValPVORW( uint8 ucZomPos, uint8* ucTimState, uint16* ushTimCnt);
+extern void   GetTimerValPVORW(uint8 ucZomPos, uint8* ucTimState, uint16* ushTimCnt);
 
 extern void   TimerInitPWARN(Rte_Instance self);
 extern void   TimerCountPWARN(Rte_Instance self);
 extern void   TimerStopAllPWARN(void);
-extern void   GetTimerValPWARN( uint8 ucZomPos, uint8* ucTimState, uint16* ushTimCnt);
+extern void   GetTimerValPWARN(uint8 ucZomPos, uint8* ucTimState, uint16* ushTimCnt);
 
 extern void   TimerInitPWARNTOL(Rte_Instance self);
 extern void   TimerCountPWARNTOL(Rte_Instance self);
 extern void   TimerStopAllPWARNTOL(void);
-extern void   GetTimerValPWARNTOL( uint8 ucZomPos, uint8* ucTimState, uint16* ushTimCnt);
+extern void   GetTimerValPWARNTOL(uint8 ucZomPos, uint8* ucTimState, uint16* ushTimCnt);
 
 #ifdef __cplusplus
 }

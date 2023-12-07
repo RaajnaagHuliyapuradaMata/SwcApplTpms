@@ -36,72 +36,64 @@ static uint8  ucTGCountAtCalOnErFinish[cMaxLR] = {0xffu, 0xffu, 0xffu, 0xffu};
 
 void SetVehicleSpeedWAM(Rte_Instance self, Rdci_V_VEH_Type vspeed)
 {
-  uint16 ushSpeed;
+   uint16 ushSpeed;
 
-  SetDrivingDirectionWAM();
+   SetDrivingDirectionWAM();
 
-  ushSpeed = vspeed.V_VEH_COG >> 6;
-  SETSpeedFZZ(ushSpeed);
+   ushSpeed = vspeed.V_VEH_COG >> 6;
+   SETSpeedFZZ(ushSpeed);
 
   CountDrivenKilometersWithWarningDS(self);
 }
 
 void SetGearWAM(Rdci_WMOM_DRV_4_Type wmomDriveInfo)
 {
-  if(wmomDriveInfo.ST_DRVDIR_DVCH != 0xf)
-  {
+   if(wmomDriveInfo.ST_DRVDIR_DVCH != 0xf){
     SetGearFZZ(wmomDriveInfo.ST_DRVDIR_DVCH);
     SetDrivingDirectionWAM();
-  }
+   }
 }
 
 static void SetDrivingDirectionWAM(void)
 {
-  static uint8  ucResetAbsRef = cResRefPoint_NoAction;
+   static uint8  ucResetAbsRef = cResRefPoint_NoAction;
 
-  if((GETucGearFZZ() == GEAR_REVERSE))
-  {
+   if((GETucGearFZZ() == GEAR_REVERSE)){
     SetBitFahrzeugzustandFZZ(cRUECKWAERTSFAHRT);
-    ucResetAbsRef |= cResRefPoint_DDBackOk;
+      ucResetAbsRef |= cResRefPoint_DDBackOk;
 
-    if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == TRUE)
-    {
+      if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == TRUE){
       ucResetAbsRef |= cResetRefPoint_SpeedOk;
-    }
-  }
+      }
+   }
 
-  else
-  {
+   else{
     ClearBitFahrzeugzustandFZZ(cRUECKWAERTSFAHRT);
-    if(ucResetAbsRef == (cResRefPoint_DDBackOk | cResetRefPoint_SpeedOk))
-    {
+      if(ucResetAbsRef == (cResRefPoint_DDBackOk | cResetRefPoint_SpeedOk)){
       ReNewABSRef();
-    }
-    ucResetAbsRef = cResRefPoint_NoAction;
-  }
+      }
+      ucResetAbsRef = cResRefPoint_NoAction;
+   }
 }
 
 void SetAbsDataWAM(ImpTypeRecCddAbsData absData)
 {
 	uint32 ulTempTimeStmp;
   #if(WORKAROUND_STBMB == 1)
-  uint32 ulTempLO, ulTempHI;
+   uint32 ulTempLO, ulTempHI;
   #endif
-  uint16 ushTimeStmp;
+   uint16 ushTimeStmp;
 
-  uint8 ucCheckAbsQualifier;
+   uint8 ucCheckAbsQualifier;
 
-  if((absData.ABS_SYNC_TSTMP_LO == 0xffffffffu) && (absData.ABS_SYNC_TSTMP_HI == 0xffffffffu))
-  {
+   if((absData.ABS_SYNC_TSTMP_LO == 0xffffffffu) && (absData.ABS_SYNC_TSTMP_HI == 0xffffffffu)){
 
-    if(ushCountInvalidAbsTstmp < 0xffffu)
-    {
+      if(ushCountInvalidAbsTstmp < 0xffffu){
       ushCountInvalidAbsTstmp++;
-    }
-  }
+      }
+   }
 
-  else
-  {
+   else{
 
     #if(WORKAROUND_STBMB == 1)
       ulTempLO = (uint32)((uint32)absData.ABS_SYNC_TSTMP_LO >> 2);
@@ -125,71 +117,62 @@ void SetAbsDataWAM(ImpTypeRecCddAbsData absData)
 	    ushAbsTicks[3] = absData.ABS_EDGE_CNT_RR;
     #endif
 
-    ucCheckAbsQualifier = 0;
-    if(absData.ABS_QU_SIG_FL == 0)
-    {
+      ucCheckAbsQualifier = 0;
+      if(absData.ABS_QU_SIG_FL == 0){
       ucCheckAbsQualifier++;
-    }
-    if(absData.ABS_QU_SIG_FR == 0)
-    {
+      }
+      if(absData.ABS_QU_SIG_FR == 0){
       ucCheckAbsQualifier++;
-    }
-    if(absData.ABS_QU_SIG_RL == 0)
-    {
+      }
+      if(absData.ABS_QU_SIG_RL == 0){
       ucCheckAbsQualifier++;
-    }
-    if(absData.ABS_QU_SIG_RR == 0)
-    {
+      }
+      if(absData.ABS_QU_SIG_RR == 0){
       ucCheckAbsQualifier++;
-    }
+      }
 
-    if(ucCheckAbsQualifier == cMaxLR)
-    {
+      if(ucCheckAbsQualifier == cMaxLR){
 
       PutABS(ushTimeStmp, ushAbsTicks);
 
-      if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == FALSE)
-      {
+      if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == FALSE){
         EnableRollDetectionABS();
       }
-      else
-      {
+      else{
         DisableRollDetectionABS();
       }
-    }
-  }
+      }
+   }
 }
 
 void ProcessAllocationWAM(Rte_Instance self, ImpTypeRecCddRdcData rdcData)
 {
-  uint32      ulTempTimeStmp;
+   uint32      ulTempTimeStmp;
   #if(WORKAROUND_STBMB == 1)
-  uint32 ulTempLO, ulTempHI;
+   uint32 ulTempLO, ulTempHI;
   #endif
-  uint16      ushTimeStmp, ushlookBackTime;
-  tRFTelType  inputWA;
-  boolean     bUseTelegramForWalloc = FALSE;
+   uint16      ushTimeStmp, ushlookBackTime;
+   tRFTelType  inputWA;
+   boolean     bUseTelegramForWalloc = FALSE;
 
-  inputWA.Header.ucTType = rdcData.PCKG_ID;
-  inputWA.Header.ulID = (uint32)((uint32)rdcData.TYR_ID | ((uint32)rdcData.SUPP_ID << 28));
+   inputWA.Header.ucTType = rdcData.PCKG_ID;
+   inputWA.Header.ulID = (uint32)((uint32)rdcData.TYR_ID | ((uint32)rdcData.SUPP_ID << 28));
 
-  inputWA.Header.ucAvg = rdcData.RDC_DT_7;
+   inputWA.Header.ucAvg = rdcData.RDC_DT_7;
 
-  if(bLearningWheelPosActiveWAM(cFAHRZEUG_LERNT) == TRUE)
-  {
+   if(bLearningWheelPosActiveWAM(cFAHRZEUG_LERNT) == TRUE){
 
     #if(WORKAROUND_STBMB == 1)
-    ulTempLO = (uint32)((uint32)rdcData.RDC_SYNC_TSTMP_LO >> 2);
-    ulTempLO = ulTempLO / (uint32)1000000;
-    ulTempHI = (uint32)((uint32)rdcData.RDC_SYNC_TSTMP_HI * (uint32)1000);
-    ulTempTimeStmp = ulTempHI + ulTempLO;
+      ulTempLO = (uint32)((uint32)rdcData.RDC_SYNC_TSTMP_LO >> 2);
+      ulTempLO = ulTempLO / (uint32)1000000;
+      ulTempHI = (uint32)((uint32)rdcData.RDC_SYNC_TSTMP_HI * (uint32)1000);
+      ulTempTimeStmp = ulTempHI + ulTempLO;
     #else
-    ulTempTimeStmp = ((uint32)((uint32)rdcData.RDC_SYNC_TSTMP_HI * (uint32)1000) + (uint32)((uint32)rdcData.RDC_SYNC_TSTMP_LO / (uint32)1000000));
+      ulTempTimeStmp = ((uint32)((uint32)rdcData.RDC_SYNC_TSTMP_HI * (uint32)1000) + (uint32)((uint32)rdcData.RDC_SYNC_TSTMP_LO / (uint32)1000000));
     #endif
-    ushTimeStmp = (uint16)(ulTempTimeStmp & 0xffffU);
+      ushTimeStmp = (uint16)(ulTempTimeStmp & 0xffffU);
 
-    if((rdcData.PCKG_ID == cTelTypeSELPAL) || (rdcData.PCKG_ID == cTelTypeSELPAL1))
-    {
+      if((rdcData.PCKG_ID == cTelTypeSELPAL) || (rdcData.PCKG_ID == cTelTypeSELPAL1)){
 
       inputWA.SchraderFP.ucP = rdcData.RDC_DT_1;
       inputWA.SchraderFP.ucT = rdcData.RDC_DT_2;
@@ -197,22 +180,18 @@ void ProcessAllocationWAM(Rte_Instance self, ImpTypeRecCddRdcData rdcData)
       inputWA.SchraderFP.ushStatusField = ((uint16)rdcData.RDC_DT_4 << 8) + rdcData.RDC_DT_5;
       inputWA.SchraderFP.ucCRC8 = rdcData.RDC_DT_8;
 
-      if((rdcData.RDC_SYNC_TSTMP_LO == 0xffffffffu) && (rdcData.RDC_SYNC_TSTMP_HI == 0xffffffffu))
-      {
+      if((rdcData.RDC_SYNC_TSTMP_LO == 0xffffffffu) && (rdcData.RDC_SYNC_TSTMP_HI == 0xffffffffu)){
         inputWA.SchraderFP.ucPAL = 0xff;
-        if(ucCountInvalidRdcTstmp < 255)
-        {
+          if(ucCountInvalidRdcTstmp < 255){
           ucCountInvalidRdcTstmp++;
         }
       }
 
-      if((rdcData.RDC_MES_TSTMP / 10) > cMaxTelegramRetention)
-      {
+      if((rdcData.RDC_MES_TSTMP / 10) > cMaxTelegramRetention){
         inputWA.SchraderFP.ucPAL = 0xff;
       }
 
-      if((inputWA.SchraderFP.ucPAL >= 2) && (inputWA.SchraderFP.ucPAL < 255))
-      {
+      if((inputWA.SchraderFP.ucPAL >= 2) && (inputWA.SchraderFP.ucPAL < 255)){
 
         ushlookBackTime = (rdcData.RDC_DT_3 - 2) * 5;
         ushlookBackTime += rdcData.RDC_MES_TSTMP / 10;
@@ -228,10 +207,9 @@ void ProcessAllocationWAM(Rte_Instance self, ImpTypeRecCddRdcData rdcData)
       }
 
       bUseTelegramForWalloc = TRUE;
-    }
+      }
 
-    else if(rdcData.PCKG_ID == cTelTypeContiFP)
-    {
+      else if(rdcData.PCKG_ID == cTelTypeContiFP){
 
       inputWA.ContiFP.ucP = rdcData.RDC_DT_1;
       inputWA.ContiFP.ucT = rdcData.RDC_DT_2;
@@ -240,26 +218,22 @@ void ProcessAllocationWAM(Rte_Instance self, ImpTypeRecCddRdcData rdcData)
       inputWA.ContiFP.ucModeNCode = rdcData.RDC_DT_5;
       inputWA.ContiFP.ucCRC8 = rdcData.RDC_DT_8;
 
-      if((rdcData.RDC_SYNC_TSTMP_LO == 0xffffffffu) && (rdcData.RDC_SYNC_TSTMP_HI == 0xffffffffu))
-      {
+      if((rdcData.RDC_SYNC_TSTMP_LO == 0xffffffffu) && (rdcData.RDC_SYNC_TSTMP_HI == 0xffffffffu)){
         inputWA.ContiFP.ucModeNCode = cLocSyncNoAngleNoFrame;
-        if(ucCountInvalidRdcTstmp < 255)
-        {
+          if(ucCountInvalidRdcTstmp < 255){
           ucCountInvalidRdcTstmp++;
         }
       }
 
-	    if((rdcData.RDC_MES_TSTMP / 10) > cMaxTelegramRetention)
-      {
+	    if((rdcData.RDC_MES_TSTMP / 10) > cMaxTelegramRetention){
         inputWA.ContiFP.ucModeNCode &= cLocSyncNoAngleNoFrame;
       }
 
       if(((inputWA.ContiFP.ucModeNCode & cLocSyncAngleMask) == cLocSyncAngle1)
-        || ((inputWA.ContiFP.ucModeNCode & cLocSyncAngleMask) == cLocSyncAngle2))
-      {
+        || ((inputWA.ContiFP.ucModeNCode & cLocSyncAngleMask) == cLocSyncAngle2)){
         ushlookBackTime = rdcData.RDC_MES_TSTMP / 10;
 
-        if(ushTimeStmp < ushlookBackTime)
+          if(ushTimeStmp < ushlookBackTime)
 	      {
 		      (void)ucLinABS(((0xFFFFU - ushlookBackTime) + ushTimeStmp) + 1);
 	      }
@@ -270,100 +244,85 @@ void ProcessAllocationWAM(Rte_Instance self, ImpTypeRecCddRdcData rdcData)
       }
 
       bUseTelegramForWalloc = TRUE;
-    }
+      }
 
-    else if((rdcData.PCKG_ID == cTelTypeAK35def) || (rdcData.PCKG_ID == cTelTypeAK35defLMA) || (rdcData.PCKG_ID == cTelTypeBeruLong)
-          || (rdcData.PCKG_ID == cTelTypeBeruMed) || (rdcData.PCKG_ID == cTelTypeG4Standard))
-    {
+      else if((rdcData.PCKG_ID == cTelTypeAK35def) || (rdcData.PCKG_ID == cTelTypeAK35defLMA) || (rdcData.PCKG_ID == cTelTypeBeruLong)
+          || (rdcData.PCKG_ID == cTelTypeBeruMed) || (rdcData.PCKG_ID == cTelTypeG4Standard)){
 
       inputWA.AK35def.ucPressure = rdcData.RDC_DT_1;
       inputWA.AK35def.ucTemperature = rdcData.RDC_DT_2;
       inputWA.AK35def.ucCRC8 = rdcData.RDC_DT_8;
 
       bUseTelegramForWalloc = TRUE;
-    }
+      }
 
-    else
-    {
+      else{
       bUseTelegramForWalloc = FALSE;
-    }
+      }
 
-    if(bUseTelegramForWalloc == TRUE)
-    {
+      if(bUseTelegramForWalloc == TRUE){
       SetLearnStateWAM(self, ucLearnID(self, &inputWA));
-    }
-  }
+      }
+   }
 
-  else
-  {
-  }
+   else{
+   }
 
-  (void) CreateSetOfEventSpecificDataDBG(&rdcData);
-  SetStatusBarActivityToGoSBR();
+   (void) CreateSetOfEventSpecificDataDBG(&rdcData);
+   SetStatusBarActivityToGoSBR();
 }
 
 static boolean bLearningWheelPosActiveWAM(uint8 ucSpeedThreshold)
 {
-  boolean bLearnActive = FALSE;
-  boolean bSpeedCondition = FALSE;
+   boolean bLearnActive = FALSE;
+   boolean bSpeedCondition = FALSE;
 
-  if((bGetBitFahrzeugzustandFZZ(cFAHRZEUG_LERNT) == TRUE) && (ucSpeedThreshold == cFAHRZEUG_LERNT))
-  {
+   if((bGetBitFahrzeugzustandFZZ(cFAHRZEUG_LERNT) == TRUE) && (ucSpeedThreshold == cFAHRZEUG_LERNT)){
     bSpeedCondition = TRUE;
-  }
-  else if((bGetBitFahrzeugzustandFZZ(cRS_VTHRES) == TRUE) && (ucSpeedThreshold == cRS_VTHRES))
-  {
+   }
+   else if((bGetBitFahrzeugzustandFZZ(cRS_VTHRES) == TRUE) && (ucSpeedThreshold == cRS_VTHRES)){
     bSpeedCondition = TRUE;
-  }
-  else {}
+   }
+   else {}
 
-  if(ucGetStatusConditionVehicleFZZ() != ST_CON_VEH_Fahren)
-  {
+   if(ucGetStatusConditionVehicleFZZ() != ST_CON_VEH_Fahren){
     bLearnActive = FALSE;
-  }
+   }
 
-  else if(bGetBitFahrzeugzustandFZZ(cRUECKWAERTSFAHRT) == TRUE)
-  {
+   else if(bGetBitFahrzeugzustandFZZ(cRUECKWAERTSFAHRT) == TRUE){
     bLearnActive = FALSE;
-  }
+   }
 
-  else if(bGetBandmodeBM() == TRUE)
-  {
+   else if(bGetBandmodeBM() == TRUE){
     bLearnActive = FALSE;
-  }
+   }
 
-  else if(bGetBitBetriebszustandBZ(cZO_TIMEOUT) == TRUE)
-  {
+   else if(bGetBitBetriebszustandBZ(cZO_TIMEOUT) == TRUE){
     bLearnActive = FALSE;
-  }
+   }
 
-  else if(bGetBitBetriebszustandBZ(cLOC_NOT_POSSIBLE) == TRUE)
-  {
+   else if(bGetBitBetriebszustandBZ(cLOC_NOT_POSSIBLE) == TRUE){
     bLearnActive = FALSE;
-  }
+   }
 
-  else if(bGetBitBetriebszustandBZ(cLOC_INTERRUPTED) == TRUE)
-  {
+   else if(bGetBitBetriebszustandBZ(cLOC_INTERRUPTED) == TRUE){
     bLearnActive = FALSE;
-  }
+   }
 
-  else if(bSpeedCondition == TRUE)
-  {
+   else if(bSpeedCondition == TRUE){
 	  if(bGetBitBetriebszustandBZ(cZO_FINISH) == FALSE)
 	  {
 	    bLearnActive = TRUE;
-    }
-    else
-    {
+      }
+      else{
       bLearnActive = FALSE;
 	  }
-  }
-  else
-  {
+   }
+   else{
 	  bLearnActive = FALSE;
-  }
+   }
 
-  return( bLearnActive);
+   return( bLearnActive);
 }
 
 static void SetLearnStateWAM(Rte_Instance self, uint8 ucWAState){
@@ -586,64 +545,60 @@ void WatoTickWAM(Rte_Instance self){
 
 void WatoRunWAM(Rte_Instance self, boolean bRestart)
 {
-  if(bRestart == cWatoRestart)
-  {
-    ucWatoTimeoutValue = ucDefWATOTime;
+   if(bRestart == cWatoRestart){
+      ucWatoTimeoutValue = ucDefWATOTime;
     PUTWatoEE(self, ucWatoTimeoutValue);
     PutWATOTimeWAL(ucWatoTimeoutValue);
-  }
-  else
-  {
-    ucWatoTimeoutValue = GETWatoEE(self);
+   }
+   else{
+      ucWatoTimeoutValue = GETWatoEE(self);
     PutWATOTimeWAL(ucWatoTimeoutValue);
-  }
+   }
 
-  if(bLearningWheelPosActiveWAM(cRS_VTHRES) == TRUE)
-  {
-    ucWatoState = WATO_STATE_RUN;
-  }
-  else
-  {
-    ucWatoState = WATO_STATE_HALT;
-  }
+   if(bLearningWheelPosActiveWAM(cRS_VTHRES) == TRUE){
+      ucWatoState = WATO_STATE_RUN;
+   }
+   else{
+      ucWatoState = WATO_STATE_HALT;
+   }
 }
 
 void WatoStopWAM(void)
 {
-  ucWatoState = WATO_STATE_STOP;
+   ucWatoState = WATO_STATE_STOP;
 }
 
 void StartLearnLocateWAM(Rte_Instance self)
 {
-  PUTLastLocStateEE(self, 0);
+   PUTLastLocStateEE(self, 0);
   ClearBitBetriebszustandBZ(cER_FINISH | cZO_FINISH);
 
   ClearBitBetriebszustandBZ(cTOO_MUCH_RE | cZO_TIMEOUT | cLOC_NOT_POSSIBLE | cZWANGSZUORDNUNG | cLOC_INTERRUPTED);
 
-  bErAndZoAtOnce = TRUE;
+   bErAndZoAtOnce = TRUE;
   ClearIdChangedBitsZK();
   ClearWpChangedBitsZK();
 
-  (void)InitWAL(self, cRestartLearnLocate);
-  SetAllocMinDeltaValueFPA(ucGetCRdciLearnLocateConfigCD(0));
-  SetAllocAbsoluteMinValueFPA(ucGetCRdciLearnLocateConfigCD(1));
+   (void)InitWAL(self, cRestartLearnLocate);
+   SetAllocMinDeltaValueFPA(ucGetCRdciLearnLocateConfigCD(0));
+   SetAllocAbsoluteMinValueFPA(ucGetCRdciLearnLocateConfigCD(1));
   WatoRunWAM(self, cWatoRestart);
 
-  ucCalOnErFinish = cCalOnErFinishIsInactive;
+   ucCalOnErFinish = cCalOnErFinishIsInactive;
 }
 
 void ContinueLocateWAM(Rte_Instance self)
 {
-  SetbackLocateProbeCountersWAL();
+   SetbackLocateProbeCountersWAL();
   ClearReDriveModeStateWAL();
   ClearBitBetriebszustandBZ(cLOC_INTERRUPTED);
   WatoRunWAM(self, cWatoRestart);
-  StartCalOnErFinishWAM();
+   StartCalOnErFinishWAM();
 }
 
 void ContinueLearnWAM(Rte_Instance self)
 {
-  SetbackLearnProbeCountersWAL();
+   SetbackLearnProbeCountersWAL();
   ClearReDriveModeStateWAL();
   ClearBitBetriebszustandBZ(cLOC_INTERRUPTED);
   WatoRunWAM(self, cWatoRestart);
@@ -651,65 +606,58 @@ void ContinueLearnWAM(Rte_Instance self)
 
 uint16 ushGetWatoTimeoutValueWAM(void)
 {
-  return (uint16)ucWatoTimeoutValue * 5;
+   return (uint16)ucWatoTimeoutValue * 5;
 }
 
 static void StartCalOnErFinishWAM(void)
 {
-  uint8 i;
+   uint8 i;
 
-  for (i=0; i<cMaxLR; i++)
-  {
-    ucTGCountAtCalOnErFinish[i] = ucGetZomAbsoluteProbeCt(i);
-  }
-  ucCalOnErFinish = cCalOnErFinishIsActive;
+   for(i=0; i<cMaxLR; i++){
+      ucTGCountAtCalOnErFinish[i] = ucGetZomAbsoluteProbeCt(i);
+   }
+   ucCalOnErFinish = cCalOnErFinishIsActive;
 }
 
 static void ProcessCalOnErFinishWAM(void)
 {
-  uint8 i;
+   uint8 i;
 
-  if(ucCalOnErFinish != cCalOnErFinishIsInactive)
-  {
-    for (i=0; i<cMaxLR; i++)
-    {
-      if((ucGetZomAbsoluteProbeCt(i) - ucTGCountAtCalOnErFinish[i]) >= 1)
-      {
+   if(ucCalOnErFinish != cCalOnErFinishIsInactive){
+      for(i=0; i<cMaxLR; i++){
+      if((ucGetZomAbsoluteProbeCt(i) - ucTGCountAtCalOnErFinish[i]) >= 1){
         ucCalOnErFinish |= (uint8)(1<<i);
       }
-    }
-  }
+      }
+   }
 }
 
 boolean bAllocationIsActive(Rte_Instance self)
 {
-  boolean bRetVal = FALSE;
-  if(GETLastLocStateEE(self) == (cZO_FINISH | cER_FINISH))
-  {
+   boolean bRetVal = FALSE;
+   if(GETLastLocStateEE(self) == (cZO_FINISH | cER_FINISH)){
     bRetVal = FALSE;
-  }
-  else
-  {
-    if(bLearningWheelPosActiveWAM(cFAHRZEUG_LERNT) == TRUE)
-    {
+   }
+   else{
+      if(bLearningWheelPosActiveWAM(cFAHRZEUG_LERNT) == TRUE){
       bRetVal = TRUE;
-    }
-  }
-  return bRetVal;
+      }
+   }
+   return bRetVal;
 }
 
 uint16 ushGetInvalidAbsTstmpCounterWAM(void)
 {
-  return ushCountInvalidAbsTstmp;
+   return ushCountInvalidAbsTstmp;
 }
 
 uint8 ucGetInvalidRdcTstmpCounterWAM(void)
 {
-  return ucCountInvalidRdcTstmp;
+   return ucCountInvalidRdcTstmp;
 }
 
 uint16* GetPointerToAbsCountersWAM(void)
 {
-  return ushAbsTicks;
+   return ushAbsTicks;
 }
 

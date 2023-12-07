@@ -146,10 +146,10 @@ typedef struct{
 }PreBufContiFP;
 
 typedef union prebuffer{
-  PreBufHeader Header;
-  PreBufAK35def AK35def;
-  PreBufSchraderFP SchraderFP;
-  PreBufContiFP ContiFP;
+   PreBufHeader Header;
+   PreBufAK35def AK35def;
+   PreBufSchraderFP SchraderFP;
+   PreBufContiFP ContiFP;
 }tPreBuf;
 
 typedef tPreBuf tRFTelType;

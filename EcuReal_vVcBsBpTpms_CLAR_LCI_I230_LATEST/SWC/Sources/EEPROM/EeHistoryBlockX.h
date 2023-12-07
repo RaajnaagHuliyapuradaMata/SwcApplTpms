@@ -14,15 +14,15 @@ extern "C"
 #define cNvmRdciZoHistoryWaParam_Size         ( (uint16) sizeof(tWAParameter))
 
 typedef struct HistoryNvmBlock{
-  uint8                       ucInitialized;
-  uint32                      ulWAHistIDSet[cMaxLR];
-  uint8                       ucWAHistWPSet[cMaxLR];
-  uint8                       WAParamSet[sizeof(tWAParameter)];
-  uint8                       ucAllocFailedCounter;
-  uint8                       ucLowBat[cMaxLR];
-  uint8                       ucRfIfStateMachine;
-  uint16                      ushLastLocState;
-  uint8                       Statusbar;
+   uint8                       ucInitialized;
+   uint32                      ulWAHistIDSet[cMaxLR];
+   uint8                       ucWAHistWPSet[cMaxLR];
+   uint8                       WAParamSet[sizeof(tWAParameter)];
+   uint8                       ucAllocFailedCounter;
+   uint8                       ucLowBat[cMaxLR];
+   uint8                       ucRfIfStateMachine;
+   uint16                      ushLastLocState;
+   uint8                       Statusbar;
 }tHistoryNvmBlockType;
 
 extern void InitZoHistoryBlockEE(Rte_Instance self);

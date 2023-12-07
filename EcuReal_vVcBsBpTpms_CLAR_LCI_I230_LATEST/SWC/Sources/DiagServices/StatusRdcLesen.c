@@ -10,97 +10,99 @@
 
 void GetStatusRdcLesenDS(Rte_Instance self, uint8* pucData)
 {
-  uint8         ucHardWarning;
-  uint8         ucWarningState;
-  uint8         ucLoop;
-  if( bGetBandmodeBM() == TRUE)
-  {
+   uint8         ucHardWarning;
+   uint8         ucWarningState;
+   uint8         ucLoop;
+   if(bGetBandmodeBM() == TRUE){
     pucData[cucIxStatEigenraederBekannt]  = (uint8) bGetBitBetriebszustandBZ( cEIGENRAD);
     pucData[cucIxStatRadposErBekannt]     = (uint8) bGetBitBetriebszustandBZ( cZUGEORDNET);
-  }else{
+   }
+   else{
     pucData[cucIxStatEigenraederBekannt]  = (uint8) bGetBitBetriebszustandBZ( cER_FINISH);
     pucData[cucIxStatRadposErBekannt]     = (uint8) bGetBitBetriebszustandBZ( cZO_FINISH);
-  }
+   }
 
-  if( bGetBitBetriebszustandBZ( cDTC_INACTIVE) == TRUE)
-  {
+   if(bGetBitBetriebszustandBZ( cDTC_INACTIVE) == TRUE){
     pucData[cucIxStatDtcInactive]         = (uint8) TRUE;
-  }else{
+   }
+   else{
     pucData[cucIxStatDtcInactive]         = (uint8) FALSE;
-  }
+   }
   pucData[cucIxStatDtcInactive] |= (uint8) (ushGetStateBM() & cushAllReceptionBitsBM);
   pucData[cucIxStatKalAnforderungAktiv] = (uint8) GETTyreSelectionActiveEE(self);
   pucData[cucIxStatRadZuordnungTimeout] = (uint8) bGetBitBetriebszustandBZ( cZO_TIMEOUT);
   pucData[cucIxStatBandmodeAktiv]       = (uint8) bGetBandmodeBM();
 
-  if( bGetStateBitBM( cushTestEigenradFahrtBM) == TRUE)
-  {
+   if(bGetStateBitBM( cushTestEigenradFahrtBM) == TRUE){
     pucData[cucIxStatTestEigenradFahrt] = 1;
-  }else if( bGetStateBitBM( cushTestEigenradFahrtNoSpeedBM) == TRUE)
-  {
+   }
+   else if(bGetStateBitBM( cushTestEigenradFahrtNoSpeedBM) == TRUE){
     pucData[cucIxStatTestEigenradFahrt] = 1;
-  }else{
+   }
+   else{
     pucData[cucIxStatTestEigenradFahrt] = 0;
-  }
+   }
 
   pucData[cucIxStatErFahrtVthresAkiv]   = (uint8) bGetStateBitBM ( cushErFahrtVThresBM);
   pucData[cucIxStatBmTimeoutActive]     = 0;
 
-  ucHardWarning  = GETucWarningGroupTM( cucWT_GrpPanne);
-  ucHardWarning |= GETucWarningGroupTM( cucWT_GrpPmin);
-  ucHardWarning |= GETucWarningGroupTM( cucWT_GrpPwarn);
+   ucHardWarning  = GETucWarningGroupTM( cucWT_GrpPanne);
+   ucHardWarning |= GETucWarningGroupTM( cucWT_GrpPmin);
+   ucHardWarning |= GETucWarningGroupTM( cucWT_GrpPwarn);
 
-  if( bGetBitBetriebszustandBZ( cZUGEORDNET) == TRUE){
+   if(bGetBitBetriebszustandBZ( cZUGEORDNET) == TRUE){
     pucData[cucIxStatHarteWarnungUnspezifischAktiv] = (uint8) 0x00;
 
-    for( ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
-      if( (ucHardWarning & (uint8) (0x01 << ucLoop)) == 0){
+      for(ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
+      if((ucHardWarning & (uint8) (0x01 << ucLoop)) == 0){
 
         ucWarningState = 0x00;
-      }else{
+      }
+      else{
 
         ucWarningState = 0x01;
       }
 
-      if( ucLoop == cRadPosVL)
-      {
+      if(ucLoop == cRadPosVL){
         pucData[cucIxStatHarteWarnungVlAktiv] = ucWarningState;
-      }else if( ucLoop == cRadPosVR)
-      {
+      }else if(ucLoop == cRadPosVR){
         pucData[cucIxStatHarteWarnungVrAktiv] = ucWarningState;
-      }else if( ucLoop == cRadPosHL)
-      {
+      }else if(ucLoop == cRadPosHL){
         pucData[cucIxStatHarteWarnungHlAktiv] = ucWarningState;
-      }else{
+      }
+      else{
         pucData[cucIxStatHarteWarnungHrAktiv] = ucWarningState;
       }
-    }
-  }else{
+      }
+   }
+   else{
     pucData[cucIxStatHarteWarnungVlAktiv] = (uint8) 0x00;
     pucData[cucIxStatHarteWarnungVrAktiv] = (uint8) 0x00;
     pucData[cucIxStatHarteWarnungHlAktiv] = (uint8) 0x00;
     pucData[cucIxStatHarteWarnungHrAktiv] = (uint8) 0x00;
 
-    if( bGetBitBetriebszustandBZ( cEIGENRAD) == TRUE){
-      if( ucHardWarning == 0){
+      if(bGetBitBetriebszustandBZ( cEIGENRAD) == TRUE){
+      if(ucHardWarning == 0){
         pucData[cucIxStatHarteWarnungUnspezifischAktiv] = (uint8) 0x00;
-      }else{
+      }
+      else{
 
         pucData[cucIxStatHarteWarnungUnspezifischAktiv] = (uint8) 0x01;
       }
-    }else{
+      }
+      else{
       pucData[cucIxStatHarteWarnungUnspezifischAktiv] = (uint8) 0x00;
-    }
-  }
+      }
+   }
 
   pucData[cucIxStatKl15Ein] = (uint8) bGetBitFahrzeugzustandFZZ( cKL_15_EIN);
   pucData[cucIxStatFzgFaehrt] = (uint8) bGetBitFahrzeugzustandFZZ( cFAHRZEUG_FAEHRT);
 
-  if( (ushGetStateBM() & cushAllReceptionBitsBM) == 0x0000)
-  {
+   if((ushGetStateBM() & cushAllReceptionBitsBM) == 0x0000){
     pucData[cucIxStatErkennungAlleRe] = (uint8) TRUE;
-  }else{
+   }
+   else{
     pucData[cucIxStatErkennungAlleRe] = (uint8) FALSE;
-  }
+   }
 }
 

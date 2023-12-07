@@ -26,6 +26,6 @@ extern unsigned char ucAxisDetection(void);
 extern unsigned char ucWPConsistent(void);
 extern void BadWayCheck(unsigned char ucPeaks, unsigned short ushTime);
 extern void ResetBadWayCheck(void);
-extern void PutushMaxAxDist( unsigned short ushVal);
-extern void PutushMinAxDist( unsigned short ushVal);
+extern void PutushMaxAxDist(unsigned short ushVal);
+extern void PutushMinAxDist(unsigned short ushVal);
 #endif

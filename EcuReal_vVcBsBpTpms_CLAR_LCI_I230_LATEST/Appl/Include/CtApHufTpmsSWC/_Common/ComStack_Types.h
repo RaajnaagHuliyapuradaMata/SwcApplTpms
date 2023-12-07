@@ -47,8 +47,8 @@
 
 typedef  P2VAR(uint8, TYPEDEF, AUTOSAR_COMSTACKDATA) SduDataPtrType;
 typedef struct{
-  SduDataPtrType SduDataPtr;
-  PduLengthType SduLength;
+   SduDataPtrType SduDataPtr;
+   PduLengthType SduLength;
 }PduInfoType;
 
 typedef enum{
@@ -67,20 +67,20 @@ typedef uint8        NetworkHandleType;
 typedef uint8        PNCHandleType;
 
 typedef enum{
-  TP_DATACONF,
-  TP_DATARETRY,
-  TP_CONFPENDING
+   TP_DATACONF,
+   TP_DATARETRY,
+   TP_CONFPENDING
 }TpDataStateType;
 
 typedef struct{
-  TpDataStateType TpDataState;
-  PduLengthType TxTpDataCnt;
+   TpDataStateType TpDataState;
+   PduLengthType TxTpDataCnt;
 }RetryInfoType;
 
 typedef enum{
-  TP_STMIN,
-  TP_BS,
-  TP_BC
+   TP_STMIN,
+   TP_BS,
+   TP_BC
 }TPParameterType;
 
 #endif

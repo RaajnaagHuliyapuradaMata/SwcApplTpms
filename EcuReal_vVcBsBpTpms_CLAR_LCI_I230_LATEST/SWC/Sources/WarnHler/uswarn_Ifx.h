@@ -16,7 +16,7 @@ extern "C"
 extern uint8 ucCfgReInitSingleUSWIF(Rte_Instance self, uint8 ucPressure, sint8 scTemperature, uint8 ucZomPos, uint8 ucWheelPos);
 extern uint8 ucCfgTReifenSingleUSWIF(Rte_Instance self, sint8 scTemperature, uint8 ucZomPos);
 extern uint8 ucGetPTSollUSWIF(Rte_Instance self, uint8* pucPSollKalt, sint8* pscTSollKalt, uint8* pucPSollWarm, sint8* pscTSollWarm, uint16* pushMSoll, uint8* pucEnvP, uint8 ucZomPos);
-extern uint8 ucGetWpPTSollUSWIF( uint8* pucPSoll, sint8* pscTSoll, uint8 ucWheelPos);
+extern uint8 ucGetWpPTSollUSWIF(uint8* pucPSoll, sint8* pscTSoll, uint8 ucWheelPos);
 extern uint8 ucSetPTSollAfterWpChangedUSWIF(Rte_Instance self, uint8 ucHistSlot, uint8 ucNewWheelPos);
 extern uint8 ucCfgPMinUSWIF(Rte_Instance self, uint8 ucPMin);
 extern uint8 ucCfgPSollMinUSWIF(Rte_Instance self);

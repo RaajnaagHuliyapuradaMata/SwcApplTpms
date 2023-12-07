@@ -23,10 +23,10 @@ extern "C"
 #define cSCC_STATE_DISPLAY_CCM_2159_IN_CUR_DRIV_CYC ( (uint8) 0x80u)
 
 extern void   InitSCC(void);
-extern uint8  ucGetStateSCC( uint8 ucMask);
+extern uint8  ucGetStateSCC(uint8 ucMask);
 extern void   MainSCC(Rte_Instance self);
 
-extern void   GetSpeedCcmValSCC_debug( uint8 * pucState, uint16 * pushSpeedVmaxTime, uint16 * pushSpeedCcmThFa, uint16 * pushSpeedCcmThRa);
+extern void   GetSpeedCcmValSCC_debug(uint8* pucState, uint16* pushSpeedVmaxTime, uint16* pushSpeedCcmThFa, uint16* pushSpeedCcmThRa);
 
 #ifdef __cplusplus
 }

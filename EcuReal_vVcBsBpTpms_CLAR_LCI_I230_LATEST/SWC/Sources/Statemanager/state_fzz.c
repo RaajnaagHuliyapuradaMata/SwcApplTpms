@@ -13,94 +13,86 @@ void InitFZZ(void)
 {
 
   ClearBitFahrzeugzustandFZZ( cFZZ_ALLE_BITS);
-  ushVehicleSpeedFzz = 0;
-  scOutdoorTemperature = cInvalidOutdoorTemperature;
-  ucStatusConditionVehicleFZZ = 0xFFu;
-  ucStatusLastConditionVehicleFZZ = 0xFFu;
+   ushVehicleSpeedFzz = 0;
+   scOutdoorTemperature = cInvalidOutdoorTemperature;
+   ucStatusConditionVehicleFZZ = 0xFFu;
+   ucStatusLastConditionVehicleFZZ = 0xFFu;
 }
 
-void SetBitFahrzeugzustandFZZ( uint16 ushBitMask)
+void SetBitFahrzeugzustandFZZ(uint16 ushBitMask)
 {
    ushFahrzeugzustand |= ushBitMask;
 }
 
-void ClearBitFahrzeugzustandFZZ( uint16 ushBitMask)
+void ClearBitFahrzeugzustandFZZ(uint16 ushBitMask)
 {
    ushFahrzeugzustand &= ~ushBitMask;
 }
 
-boolean bGetBitFahrzeugzustandFZZ( uint16 ushBitMask)
+boolean bGetBitFahrzeugzustandFZZ(uint16 ushBitMask)
 {
-  boolean bRet;
+   boolean bRet;
 
-  if( (ushFahrzeugzustand & ushBitMask) == ushBitMask)
-  {
+   if((ushFahrzeugzustand & ushBitMask) == ushBitMask){
     bRet = TRUE;
-  }
-  else
-  {
+   }
+   else{
     bRet = FALSE;
-  }
+   }
 
-  return bRet;
+   return bRet;
 }
 
-uint16 ushGetFahrzeugzustandFZZ( uint16 ushBitMask)
+uint16 ushGetFahrzeugzustandFZZ(uint16 ushBitMask)
 {
    return (ushFahrzeugzustand & ushBitMask);
 }
 
 void EvTerminal15OnFZZ(void)
 {
-  if( bGetBitFahrzeugzustandFZZ( cKL_15_EIN) == FALSE)
-  {
+   if(bGetBitFahrzeugzustandFZZ( cKL_15_EIN) == FALSE){
     SetBitFahrzeugzustandFZZ( cKL_15_EIN);
 
     InitAfterKl15OnDM();
-  }
+   }
 }
 
 void EvTerminal15OffFZZ(void)
 {
-  if( bGetBitFahrzeugzustandFZZ( cKL_15_EIN) == TRUE)
-  {
+   if(bGetBitFahrzeugzustandFZZ( cKL_15_EIN) == TRUE){
     ClearBitFahrzeugzustandFZZ( cKL_15_EIN);
 
     InitAfterKl15OffDM();
-  }
+   }
 }
 
 void EvVehicleRollingFZZ(void)
 {
-  if( bGetBitFahrzeugzustandFZZ( cFAHRZEUG_FAEHRT) == FALSE)
-  {
+   if(bGetBitFahrzeugzustandFZZ( cFAHRZEUG_FAEHRT) == FALSE){
     SetBitFahrzeugzustandFZZ( cFAHRZEUG_FAEHRT);
-  }
+   }
 }
 
 void EvVehicleStandsStillFZZ(void)
 {
-  if( bGetBitFahrzeugzustandFZZ( cFAHRZEUG_FAEHRT) == TRUE)
-  {
+   if(bGetBitFahrzeugzustandFZZ( cFAHRZEUG_FAEHRT) == TRUE){
     ClearBitFahrzeugzustandFZZ( cFAHRZEUG_FAEHRT);
-  }
+   }
 }
 
 void EvReDiagActiveFZZ(void)
 {
-  if( bGetBitFahrzeugzustandFZZ( cRS_VTHRES) == FALSE)
-  {
+   if(bGetBitFahrzeugzustandFZZ( cRS_VTHRES) == FALSE){
     SetBitFahrzeugzustandFZZ( cRS_VTHRES);
 
-  }
+   }
 }
 
 void EvReDiagInactiveFZZ(void)
 {
-  if( bGetBitFahrzeugzustandFZZ( cRS_VTHRES) == TRUE)
-  {
+   if(bGetBitFahrzeugzustandFZZ( cRS_VTHRES) == TRUE){
     ClearBitFahrzeugzustandFZZ( cRS_VTHRES);
-  }
+   }
 }
 
 void EvDriveDirectionForwardFZZ(void)
@@ -110,168 +102,153 @@ void EvDriveDirectionForwardFZZ(void)
 
 void EvDriveDirectionBackwardFZZ(void)
 {
-  SetBitFahrzeugzustandFZZ( cRUECKWAERTSFAHRT);
+   SetBitFahrzeugzustandFZZ( cRUECKWAERTSFAHRT);
 }
 
 void SETOutdoorTemperatureFZZ( sint8 temperature)
 {
-  scOutdoorTemperature = temperature;
+   scOutdoorTemperature = temperature;
 }
 
 sint8 GETscOutdoorTemperatureFZZ(void)
 {
-  return scOutdoorTemperature;
+   return scOutdoorTemperature;
 }
 
-void SETSpeedFZZ( uint16 speed)
+void SETSpeedFZZ(uint16 speed)
 {
-  static uint16 ushLastVehicleSpeed = 0;
+   static uint16 ushLastVehicleSpeed = 0;
 
-  ushVehicleSpeedFzz = speed;
+   ushVehicleSpeedFzz = speed;
 
-  if( ushVehicleSpeedFzz < cV_TH_FAHRZEUG_LERNT_SET)
-  {
+   if(ushVehicleSpeedFzz < cV_TH_FAHRZEUG_LERNT_SET){
     ClearBitFahrzeugzustandFZZ(cFAHRZEUG_LERNT);
-  }
-  else
-  {
+   }
+   else{
     SetBitFahrzeugzustandFZZ(cFAHRZEUG_LERNT);
-  }
+   }
 
-  if( ushVehicleSpeedFzz < cV_TH_FAHRZEUG_FAEHRT_SET)
-  {
+   if(ushVehicleSpeedFzz < cV_TH_FAHRZEUG_FAEHRT_SET){
     ClearBitFahrzeugzustandFZZ( cFAHRZEUG_FAEHRT);
-    if(ushLastVehicleSpeed >= cV_TH_FAHRZEUG_FAEHRT_SET)
-    {
+      if(ushLastVehicleSpeed >= cV_TH_FAHRZEUG_FAEHRT_SET){
       ClearBitFahrzeugzustandFZZ( cLONG_PARK);
       ClearStopTimeDM();
-    }
-  }else{
+      }
+   }
+   else{
     SetBitFahrzeugzustandFZZ( cFAHRZEUG_FAEHRT);
-  }
+   }
 
-  if( ushVehicleSpeedFzz >= cV_MIN_PAL)
-  {
+   if(ushVehicleSpeedFzz >= cV_MIN_PAL){
     SetBitFahrzeugzustandFZZ( cRS_VTHRES);
-  }else{
+   }
+   else{
     ClearBitFahrzeugzustandFZZ( cRS_VTHRES);
-  }
+   }
 
-  if( ushVehicleSpeedFzz >= cV_MIN_BM)
-  {
+   if(ushVehicleSpeedFzz >= cV_MIN_BM){
     SetBitFahrzeugzustandFZZ( cBM_VTHRES);
-  }else{
+   }
+   else{
       ClearBitFahrzeugzustandFZZ( cBM_VTHRES);
-  }
+   }
 
-  if( ushVehicleSpeedFzz > cV_MAX_PAL)
-  {
+   if(ushVehicleSpeedFzz > cV_MAX_PAL){
     SetBitFahrzeugzustandFZZ( cMP_VTHRES);
-  }else{
+   }
+   else{
     ClearBitFahrzeugzustandFZZ( cMP_VTHRES);
-  }
+   }
 
-  ushLastVehicleSpeed = ushVehicleSpeedFzz;
+   ushLastVehicleSpeed = ushVehicleSpeedFzz;
 }
 
 uint16 GETushSpeedFZZ(void)
 {
-  return (ushVehicleSpeedFzz);
+   return (ushVehicleSpeedFzz);
 }
 
 void SetGearFZZ(uint8 gear)
 {
-  ucGear = gear;
+   ucGear = gear;
 }
 
 uint8 GETucGearFZZ(void)
 {
-  return (ucGear);
+   return (ucGear);
 }
 
 void SETBusStateFZZ( ImpTypeValFrBusState busstate)
 {
-  if(busstate == FR_STATE_ACTIVE)
-  {
-    ucFlexrayStatus &= (uint8)(~cFzzBusState);
-  }
-  else
-  {
-    ucFlexrayStatus |= cFzzBusState;
-  }
+   if(busstate == FR_STATE_ACTIVE){
+      ucFlexrayStatus &= (uint8)(~cFzzBusState);
+   }
+   else{
+      ucFlexrayStatus |= cFzzBusState;
+   }
 
-  if((ucFlexrayStatus & (cFzzBusState | cFzzFSSperre)) > 0)
-  {
+   if((ucFlexrayStatus & (cFzzBusState | cFzzFSSperre)) > 0){
     SetBitFahrzeugzustandFZZ(cNW_DTC_LOCKED);
-  }
-  else
-  {
+   }
+   else{
     ClearBitFahrzeugzustandFZZ(cNW_DTC_LOCKED);
-  }
+   }
 }
 
 void SETFehlerspeicherSperreFZZ( Rdci_ST_ILK_ERRM_FZM_Type fssperre)
 {
-  if(fssperre == ST_ILK_ERRM_FZM_Fehlerspeicherfreigabe)
-  {
-    ucFlexrayStatus &= (uint8)(~cFzzFSSperre);
-  }
-  else
-  {
-    ucFlexrayStatus |= cFzzFSSperre;
-  }
+   if(fssperre == ST_ILK_ERRM_FZM_Fehlerspeicherfreigabe){
+      ucFlexrayStatus &= (uint8)(~cFzzFSSperre);
+   }
+   else{
+      ucFlexrayStatus |= cFzzFSSperre;
+   }
 
-  if((ucFlexrayStatus & (cFzzBusState | cFzzFSSperre)) > 0)
-  {
+   if((ucFlexrayStatus & (cFzzBusState | cFzzFSSperre)) > 0){
     SetBitFahrzeugzustandFZZ(cNW_DTC_LOCKED);
-  }
-  else
-  {
+   }
+   else{
     ClearBitFahrzeugzustandFZZ(cNW_DTC_LOCKED);
-  }
+   }
 }
 
 uint8 ucGetFlexrayStatusFZZ              (void){return ucFlexrayStatus;}
 uint8 ucGetStatusConditionVehicleFZZ     (void){return ucStatusConditionVehicleFZZ;}
 uint8 ucGetStatusLastConditionVehicleFZZ (void){return ucStatusLastConditionVehicleFZZ;}
 
-void PutStatusConditionVehicleFZZ( uint8 ucStatusConditionVehicle)
+void PutStatusConditionVehicleFZZ(uint8 ucStatusConditionVehicle)
 {
-  ucStatusLastConditionVehicleFZZ = ucStatusConditionVehicleFZZ;
-  ucStatusConditionVehicleFZZ = ucStatusConditionVehicle;
-  if(
+   ucStatusLastConditionVehicleFZZ = ucStatusConditionVehicleFZZ;
+   ucStatusConditionVehicleFZZ = ucStatusConditionVehicle;
+   if(
       (ucStatusConditionVehicle  == ST_CON_VEH_Pruefen_Analyse_Diagnose)
    || (ucStatusConditionVehicle  == ST_CON_VEH_Fahrbereitschaft_herstellen)
    || (ucStatusConditionVehicle  == ST_CON_VEH_Fahren)
-   || (ucStatusConditionVehicle  == ST_CON_VEH_Fahrbereitschaft_beenden))
-  {
+   || (ucStatusConditionVehicle  == ST_CON_VEH_Fahrbereitschaft_beenden)){
     EvTerminal15OnFZZ();
-  }
-  else
-  {
+   }
+   else{
     EvTerminal15OffFZZ();
-  }
+   }
 
 }
 
 void ClearStatusLastConditionVehicleFZZ(void)
 {
-  ucStatusLastConditionVehicleFZZ = ST_CON_VEH_Parken_BN_iO;
+   ucStatusLastConditionVehicleFZZ = ST_CON_VEH_Parken_BN_iO;
 }
 
 boolean bPwfIsFahrenFZZ(void)
 {
-  uint8 ucSCV;
-  ucSCV = ucGetStatusConditionVehicleFZZ();
+   uint8 ucSCV;
+   ucSCV = ucGetStatusConditionVehicleFZZ();
 
-  if( ( ucSCV == ST_CON_VEH_Fahren)
-   ||  ( ucSCV == ST_CON_VEH_Fahrbereitschaft_beenden)
-   ||  ( ucSCV == ST_CON_VEH_Fahrbereitschaft_herstellen))
-  {
+   if((ucSCV == ST_CON_VEH_Fahren)
+   ||  (ucSCV == ST_CON_VEH_Fahrbereitschaft_beenden)
+   ||  (ucSCV == ST_CON_VEH_Fahrbereitschaft_herstellen)){
     return TRUE;
-  }
-  else
-  {
+   }
+   else{
     return FALSE;
-  }
+   }
 }

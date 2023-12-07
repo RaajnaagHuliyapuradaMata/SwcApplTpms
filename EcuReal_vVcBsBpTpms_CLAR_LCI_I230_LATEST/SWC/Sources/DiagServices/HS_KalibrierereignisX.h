@@ -38,7 +38,7 @@ extern "C"
 #define cCalRidStatusbar_PA     (cCalRidStatusbar	  + cCalPA)
 #define cCalSeaAdj_PA           (cCalSeaAdj         + cCalPA)
 
-extern void ReadCalibrationEventDS(Rte_Instance self, uint8 * paucData);
+extern void ReadCalibrationEventDS(Rte_Instance self, uint8* paucData);
 extern uint8 SaveCalibrationEventDS(Rte_Instance self);
 extern void SetCalibrationRootCauseDS(Rte_Instance self, uint8 ucRootCause);
 extern uint8 GetLatestCalibrationRootCauseDS(Rte_Instance self);

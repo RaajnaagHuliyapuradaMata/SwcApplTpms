@@ -54,11 +54,11 @@ extern uint8 GetTragfaehigkeitRaw( const uint8 TyreListRow);
 extern uint8 GetSaisonRaw( const uint8 TyreListRow);
 extern uint8 GetMaxTyreTablePos(void);
 extern void SetMaxTyreTablePos( const uint8 ucVal);
-extern uint8 GetTyreListMember( uint8 Element, uint8 Member);
+extern uint8 GetTyreListMember(uint8 Element, uint8 Member);
 extern void SetTyreListMember( const uint8 Element, const uint8 Member, const uint8 Value);
 extern void SetDiagTyreListMember( const uint8 Element, const uint8 Member, const uint8 Value);
 extern uint8 CopyDiagTyreListToTyreList(Rte_Instance self);
-extern boolean CheckTyreListConsistency( uint8 NofE, uint8 MaxIndex);
+extern boolean CheckTyreListConsistency(uint8 NofE, uint8 MaxIndex);
 extern boolean CalcDiagTyreListCrcAndCompare( const uint8* Data);
 
 #ifdef __cplusplus

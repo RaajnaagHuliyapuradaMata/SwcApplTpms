@@ -30,22 +30,22 @@ extern "C"
 #define cIxForIdSpecDataStorage ((uint8)     0)
 #define cIxForWpSpecDataStorage ((uint8)     1)
 
-extern uint8  ucPutPMinCS( uint8 ucPMin, uint8 ucMode);
-extern uint8  ucGetPSollCS( uint8 ucIdX, uint8 ucWheelPos);
-extern sint8  scGetTSollCS( uint8 ucIdX, uint8 ucWheelPos);
-extern uint16 ushGetMSollCS( uint8 ucIdX);
-extern uint8  ucPutMSollCS( uint8 ucIdX, uint16 ushMSoll);
-extern uint8  ucPutCalTabVectorCS( uint8 ucIdX, uint8 ucP, sint8 scT, uint8 ucWheelPos);
-extern uint8  ucPutEnvDataCS( uint8 ucIdX, uint8 ucEnvPres, sint8 scEnvTemp);
-extern uint8  ucGetPambCS( uint8 ucIdX);
-extern sint8  scGetTambCS( uint8 ucIdX);
-extern uint8  ucGetPSollMinCS( uint8 ucIdX);
-extern uint8  ucGetPinitTreifenCS( uint8 ucIdX);
-extern sint8  scGetTreifenCS( uint8 ucIdX);
-extern uint8  ucPutPinitTreifenCS( uint8 ucIdX, sint8 scTreifen);
-extern uint8  ucPutPSollMinCS( uint8 ucIdX, uint8 ucP, uint8 ucMode);
+extern uint8  ucPutPMinCS(uint8 ucPMin, uint8 ucMode);
+extern uint8  ucGetPSollCS(uint8 ucIdX, uint8 ucWheelPos);
+extern sint8  scGetTSollCS(uint8 ucIdX, uint8 ucWheelPos);
+extern uint16 ushGetMSollCS(uint8 ucIdX);
+extern uint8  ucPutMSollCS(uint8 ucIdX, uint16 ushMSoll);
+extern uint8  ucPutCalTabVectorCS(uint8 ucIdX, uint8 ucP, sint8 scT, uint8 ucWheelPos);
+extern uint8  ucPutEnvDataCS(uint8 ucIdX, uint8 ucEnvPres, sint8 scEnvTemp);
+extern uint8  ucGetPambCS(uint8 ucIdX);
+extern sint8  scGetTambCS(uint8 ucIdX);
+extern uint8  ucGetPSollMinCS(uint8 ucIdX);
+extern uint8  ucGetPinitTreifenCS(uint8 ucIdX);
+extern sint8  scGetTreifenCS(uint8 ucIdX);
+extern uint8  ucPutPinitTreifenCS(uint8 ucIdX, sint8 scTreifen);
+extern uint8  ucPutPSollMinCS(uint8 ucIdX, uint8 ucP, uint8 ucMode);
 
-extern void   InitCS( uint8 ucInit);
+extern void   InitCS(uint8 ucInit);
 
 #ifdef __cplusplus
 }

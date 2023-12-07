@@ -55,7 +55,7 @@ extern "C"
 
 #ifdef _EcuVirtual
 #else
-static uint32 FilterSubsequentErrorsNWM( uint32 ulErrorBits);
+static uint32 FilterSubsequentErrorsNWM(uint32 ulErrorBits);
 
 static uint8 CheckRDC_DT_PCKG12_AliveNWM(Rte_Instance self, uint8 ucAlive1, uint8 ucAlive2, uint8 DpNo);
 static uint8 CheckRDC_DT_PCKG12_SignalNWM(Rte_Instance self, uint16 ushRdcMesTstmp, uint8 DpNo);

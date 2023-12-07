@@ -173,7 +173,7 @@ void PUTTyreRuntimeDataEE(Rte_Instance self, uint8 i, uint8 x, uint8 y){
 uint8 GETTyreMountedFlagEE(Rte_Instance self, uint8 i){
    uint8  ucRet;
    uint16 ushIndex;
-   if( i < 6){
+   if(i < 6){
       ushIndex = (i * cTotalSize) + cMountedFlag_StartIx;
       ucRet = Rte_Pim_NvmRdciRidQrBlock1_NVBlock_MirrorBlock(self)->Data[ushIndex];
    }
@@ -186,7 +186,7 @@ uint8 GETTyreMountedFlagEE(Rte_Instance self, uint8 i){
 
 void PUTTyreMountedFlagEE(Rte_Instance self, uint8 i, uint8 y){
    uint16 ushIndex;
-   if( i < 6){
+   if(i < 6){
       ushIndex = (i * cTotalSize) + cMountedFlag_StartIx;
       CheckValueChangesAndSetUpdateFlag(Rte_Pim_NvmRdciRidQrBlock1_NVBlock_MirrorBlock(self)->Data[ushIndex], y, 1);
       Rte_Pim_NvmRdciRidQrBlock1_NVBlock_MirrorBlock(self)->Data[ushIndex] = (y);

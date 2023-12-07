@@ -28,38 +28,38 @@ extern "C"
 #define cSAVE_ON_EVENT      TRUE
 
 typedef struct DiagNvmBlock_1{
-  uint8                     ucInitialize;
-  uint8                     ucWarnereignis1[cSizeWarnereignis];
-  uint8                     ucWe1ZomSlot;
-  uint8                     ucWarnereignis2[cSizeWarnereignis];
-  uint8                     ucWe2ZomSlot;
-  uint8                     ucWarnereignis3[cSizeWarnereignis];
-  uint8                     ucWe3ZomSlot;
-  uint8                     ucWarnereignisWeich1[cSizeWarnereignisWeich];
-  uint8                     ucWarnereignisWeich2[cSizeWarnereignisWeich];
-  uint8                     ucWarnereignisWeich3[cSizeWarnereignisWeich];
-  uint8                     ucWarnereignisRueck[cSizeWarnereignisRuecknahme];
+   uint8                     ucInitialize;
+   uint8                     ucWarnereignis1[cSizeWarnereignis];
+   uint8                     ucWe1ZomSlot;
+   uint8                     ucWarnereignis2[cSizeWarnereignis];
+   uint8                     ucWe2ZomSlot;
+   uint8                     ucWarnereignis3[cSizeWarnereignis];
+   uint8                     ucWe3ZomSlot;
+   uint8                     ucWarnereignisWeich1[cSizeWarnereignisWeich];
+   uint8                     ucWarnereignisWeich2[cSizeWarnereignisWeich];
+   uint8                     ucWarnereignisWeich3[cSizeWarnereignisWeich];
+   uint8                     ucWarnereignisRueck[cSizeWarnereignisRuecknahme];
   Rdci_UHRZEIT_DATUM_Type   tExtParkSupSleepTimeDate;
   Rdci_UHRZEIT_DATUM_Type   tExtParkSupWakeupTimeDate;
 }tDiagNvmBlock1Type;
 
 typedef struct DiagNvmBlock_2{
-  uint8                 ucInitialize;
-  uint16                ushBandmodeState;
-  uint8                 ucHsInaktiv_1[cSizeInaktivereignis];
-  uint8                 ucHsInaktiv_2[cSizeInaktivereignis];
-  uint8                 ucHsInaktiv_3[cSizeInaktivereignis];
-  uint8                 ucHsKalib_1[cSizeKalibrierereignis];
-  uint8                 ucHsKalib_2[cSizeKalibrierereignis];
-  uint8                 ucHsKalib_3[cSizeKalibrierereignis];
-  uint32                ulWumErrors;
-  uint32                ulNwmErrors;
-  strIeFiFo             IeFiFo_0;
-  strIeFiFo             IeFiFo_1;
-  strIeFiFo             IeFiFo_2;
-  uint8                 ucCalRootCause;
-  uint16                ushWSDefectCnt[4];
-  uint8                 ucResEvCt[3];
+   uint8                 ucInitialize;
+   uint16                ushBandmodeState;
+   uint8                 ucHsInaktiv_1[cSizeInaktivereignis];
+   uint8                 ucHsInaktiv_2[cSizeInaktivereignis];
+   uint8                 ucHsInaktiv_3[cSizeInaktivereignis];
+   uint8                 ucHsKalib_1[cSizeKalibrierereignis];
+   uint8                 ucHsKalib_2[cSizeKalibrierereignis];
+   uint8                 ucHsKalib_3[cSizeKalibrierereignis];
+   uint32                ulWumErrors;
+   uint32                ulNwmErrors;
+   strIeFiFo             IeFiFo_0;
+   strIeFiFo             IeFiFo_1;
+   strIeFiFo             IeFiFo_2;
+   uint8                 ucCalRootCause;
+   uint16                ushWSDefectCnt[4];
+   uint8                 ucResEvCt[3];
 }tDiagNvmBlock2Type;
 
 extern void InitDiagBlock1EE(Rte_Instance self);

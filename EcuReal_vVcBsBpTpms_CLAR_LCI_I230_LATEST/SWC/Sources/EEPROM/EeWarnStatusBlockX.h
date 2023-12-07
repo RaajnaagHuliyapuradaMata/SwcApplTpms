@@ -13,22 +13,22 @@ extern "C"
 #include "TAmbFiltX.h"
 
 typedef struct WarnStatusNvmBlock{
-  uint8                 ucInitialize;
-  uint8                 ucWS;
-  tCalibrationTab       tCD;
-  uint8                 ucTS;
+   uint8                 ucInitialize;
+   uint8                 ucWS;
+   tCalibrationTab       tCD;
+   uint8                 ucTS;
   WarnConfigArrayType   aucCB;
   WarnBitArrayType      aucWarnStatus;
-  ShortTimerArrayType   ushWarnStatusShortTimer;
+   ShortTimerArrayType   ushWarnStatusShortTimer;
   LongTimerArrayType    ushWarnStatusLongTimer;
-  TAmbientValueType     scTAinitValue;
-  PhySensorTyrePresType ucLastWuPressure[cAnzRad];
-  PhySensorTyreTempType scLastWuTemperature[cAnzRad];
-  uint32                ulTinitOatLowerTimeStart;
-  uint32                ulTinitOatHigherTimeStart;
-  boolean               bCorrTinitLowerEvent;
-  boolean               bCorrTinitHigherEvent;
-  uint32                ulCoolingCaptTime;
+   TAmbientValueType     scTAinitValue;
+   PhySensorTyrePresType ucLastWuPressure[cAnzRad];
+   PhySensorTyreTempType scLastWuTemperature[cAnzRad];
+   uint32                ulTinitOatLowerTimeStart;
+   uint32                ulTinitOatHigherTimeStart;
+   boolean               bCorrTinitLowerEvent;
+   boolean               bCorrTinitHigherEvent;
+   uint32                ulCoolingCaptTime;
 }tWarnStatusNvmBlockType;
 
 extern void                   InitWarnStatusBlockEE(Rte_Instance self);
@@ -37,12 +37,12 @@ extern boolean                bGetWarnStatusBlockUpdateFlagEE(void);
 extern void                   ClearWarnStatusBlockUpdateFlagEE(void);
 extern uint8                  GETucWarnStatusBlockInitializeEE(Rte_Instance self);
 extern void                   PUTucWarnStatusBlockInitializeEE(Rte_Instance self, uint8 ucNvmInitialize);
-extern void                   GETucWsEE(Rte_Instance self, uint8 * x);
+extern void                   GETucWsEE(Rte_Instance self, uint8* x);
 extern void                   PUTucWsEE(Rte_Instance self, uint8 x, boolean bUpdateOnEvent);
 extern void                   GETtCdEE(Rte_Instance self, tCalibrationTab * x);
 extern void                   PUTtCdInitValEE(Rte_Instance self, boolean bUpdateOnEvent);
 extern void                   PUTtCdEE(Rte_Instance self, const tCalibrationTab * x, boolean bUpdateOnEvent);
-extern void                   GETucTsEE(Rte_Instance self, uint8 * x);
+extern void                   GETucTsEE(Rte_Instance self, uint8* x);
 extern void                   PUTucTsEE(Rte_Instance self, uint8 x, boolean bUpdateOnEvent);
 extern void                   GETaucCbEE(Rte_Instance self, WarnConfigArrayType * x);
 extern void                   PUTaucCbInitValEE(Rte_Instance self, boolean bUpdateOnEvent);

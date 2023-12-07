@@ -36,10 +36,9 @@ uint8 ucSTMANSLCTN = C2BIT_SIG_INVALID;
 
  void SetTyreListMember( const uint8 Element,const uint8 Member,const uint8 Value)
  {
-	  if((Element < TYRE_LIST_MAX_ELEMENTS) && (Member < TYRE_DATA_BYTES))
-    {
+	  if((Element < TYRE_LIST_MAX_ELEMENTS) && (Member < TYRE_DATA_BYTES)){
       TyreList[Element].TyreData[Member] = Value;
-    }
+      }
  }
 
  void SetDiagTyreListMember( const uint8 Element, const uint8 Member, const uint8 Value)
@@ -68,52 +67,45 @@ uint8 ucSTMANSLCTN = C2BIT_SIG_INVALID;
    return (bRet);
  }
 
-boolean CheckTyreListConsistency( uint8 NofE, uint8 MaxIndex)
+boolean CheckTyreListConsistency(uint8 NofE, uint8 MaxIndex)
 {
-  uint8 i,j,ucCheckSum;
-  boolean bRet = TRUE;
+   uint8 i,j,ucCheckSum;
+   boolean bRet = TRUE;
 
-  if((NofE == TYRE_DATA_BYTES) && (MaxIndex < TYRE_LIST_MAX_ELEMENTS))
-  {
-    for (i = 0; i <= MaxIndex; i++)
+   if((NofE == TYRE_DATA_BYTES) && (MaxIndex < TYRE_LIST_MAX_ELEMENTS)){
+      for(i = 0; i <= MaxIndex; i++)
 	  {
 		  ucCheckSum = 0x00;
 
-      for (j = 0; j < (NofE - 1); j++)
+      for(j = 0; j < (NofE - 1); j++)
 		  {
 			  ucCheckSum ^= TyreList[i].TyreData[j];
 		  }
-      if(ucCheckSum != TyreList[i].TyreData[NofE-1])
-      {
+      if(ucCheckSum != TyreList[i].TyreData[NofE-1]){
         bRet = FALSE;
       }
 	  }
-  }
-  else
-  {
+   }
+   else{
     bRet = FALSE;
-  }
-  return(bRet);
+   }
+   return(bRet);
 }
 
 uint8 GetHighNibbleSetPressTyreList( const uint8 ReqLoadState, const uint8 SelTyreListRow)
 {
 	uint8 SetPressVal, Index;
 
-	if(ReqLoadState == REQ_PART_LOAD)
-	{
+	if(ReqLoadState == REQ_PART_LOAD){
 
 		Index = 0x04;
 	}
-	else
-	{
-		if(ReqLoadState == REQ_FULL_LOAD)
-		{
+	else{
+		if(ReqLoadState == REQ_FULL_LOAD){
 
 			Index = 0x05;
 		}
-		else
-		{
+		else{
 
 			Index = 0x06;
 		}
@@ -128,20 +120,16 @@ uint8 GetLowNibbleSetPressTyreList( const uint8 ReqLoadState, const uint8 SelTyr
 {
 	uint8 SetPressVal, Index;
 
-	if(ReqLoadState == REQ_PART_LOAD)
-	{
+	if(ReqLoadState == REQ_PART_LOAD){
 
 		Index = 0x04;
 	}
-	else
-	{
-		if(ReqLoadState == REQ_FULL_LOAD)
-		{
+	else{
+		if(ReqLoadState == REQ_FULL_LOAD){
 
 			Index = 0x05;
 		}
-		else
-		{
+		else{
 
 			Index = 0x06;
 		}
@@ -197,7 +185,7 @@ uint8 GetSaisonRaw( const uint8 TyreListRow)
 	return( (TyreList[TyreListRow].TyreData[3] & 0x03));
 }
 
-uint8 GetTyreListMember( uint8 Element, uint8 Member)
+uint8 GetTyreListMember(uint8 Element, uint8 Member)
 {
 	return(TyreList[Element].TyreData[Member]);
 }
@@ -205,19 +193,17 @@ uint8 GetTyreListMember( uint8 Element, uint8 Member)
 uint8 CopyDiagTyreListToTyreList (Rte_Instance self)
 {
 	uint8 i,j, TyreListEntrySize;
-  uint8 MaxTyreIndex = L_OL_TYP_TYR_SignalUngueltig;
-  boolean bConCheck;
+   uint8 MaxTyreIndex = L_OL_TYP_TYR_SignalUngueltig;
+   boolean bConCheck;
 
 	TyreListEntrySize = GetSizeOfTyreListElementDM();
 
-  for (i = 0; i < TYRE_LIST_MAX_ELEMENTS; i++)
-	{
+   for(i = 0; i < TYRE_LIST_MAX_ELEMENTS; i++){
 		if(DiagTyreList[i].TyreData[0] != 0xFF)
 	  {
 			MaxTyreIndex = i;
-    }
-	  for (j = 0; j < TyreListEntrySize; j++)
-		{
+      }
+	  for(j = 0; j < TyreListEntrySize; j++){
 			SetTyreListMember(i,j,DiagTyreList[i].TyreData[j]);
 		}
 	}
@@ -233,6 +219,6 @@ uint8 CopyDiagTyreListToTyreList (Rte_Instance self)
 	 {
      MaxTyreIndex = L_OL_TYP_TYR_SignalUngueltig;
    }
-  return(MaxTyreIndex);
+   return(MaxTyreIndex);
 }
 

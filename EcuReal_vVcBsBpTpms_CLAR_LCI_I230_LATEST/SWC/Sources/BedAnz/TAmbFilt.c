@@ -8,91 +8,90 @@ static TAmbientFilterValueType sshTAmbientFilterTAF;
 
 void InitTAF(Rte_Instance self)
 {
-  sshTAmbientFilterTAF = GETsshTAmbFiltValEE(self);
+   sshTAmbientFilterTAF = GETsshTAmbFiltValEE(self);
 
-  if( ucGetCRdciDtAmbPrewarnCD() < 254)
-  {
-    if( sshTAmbientFilterTAF == cInvalidTemperatureWord)
-    {
+   if(ucGetCRdciDtAmbPrewarnCD() < 254){
+      if(sshTAmbientFilterTAF == cInvalidTemperatureWord){
 
       sshTAmbientFilterTAF = (GETscTAinitValEE(self) * 100);
       PUTsshTAmbFiltValEE(self, sshTAmbientFilterTAF);
       ClearBitFahrzeugzustandFZZ( cTAMBIENT_RED);
-    }else{
-      if( sshTAmbientFilterTAF < (sint16) ((sint16) (GETscTAinitValEE(self) - ucGetCRdciDtAmbPrewarnCD()) * 100))
-      {
+      }
+      else{
+      if(sshTAmbientFilterTAF < (sint16) ((sint16) (GETscTAinitValEE(self) - ucGetCRdciDtAmbPrewarnCD()) * 100)){
         SetBitFahrzeugzustandFZZ( cTAMBIENT_RED);
-      }else{
+      }
+      else{
         ClearBitFahrzeugzustandFZZ( cTAMBIENT_RED);
       }
-    }
-  }else{
+      }
+   }
+   else{
     PUTsshTAmbFiltValEE(self, cInvalidTemperatureWord);
     PUTucTAmbFiltFactValEE(self, cTAmbientFilterFactorDefaultValue);
     SetBitFahrzeugzustandFZZ( cTAMBIENT_RED);
-  }
+   }
 }
 
 void CyclicTAF(Rte_Instance self)
 {
-  sint8  scTAinit, scTAmbient, scTAmbFilt;
-  uint8  ucTAmbientFactor;
+   sint8  scTAinit, scTAmbient, scTAmbFilt;
+   uint8  ucTAmbientFactor;
 
-  scTAinit             = GETscTAinitValEE(self);
-  sshTAmbientFilterTAF = GETsshTAmbFiltValEE(self);
-  scTAmbient           = GETscTAmbValEE(self);
-  ucTAmbientFactor     = GETucTAmbFiltFactValEE(self);
+   scTAinit             = GETscTAinitValEE(self);
+   sshTAmbientFilterTAF = GETsshTAmbFiltValEE(self);
+   scTAmbient           = GETscTAmbValEE(self);
+   ucTAmbientFactor     = GETucTAmbFiltFactValEE(self);
 
-  if( ucGetCRdciDtAmbPrewarnCD() < 254)
-  {
-    if( ucTAmbientFactor > 100)
-    {
+   if(ucGetCRdciDtAmbPrewarnCD() < 254){
+      if(ucTAmbientFactor > 100){
 
       ucTAmbientFactor = cTAmbientFilterFactorDefaultValue;
-    }
+      }
 
-    if( sshTAmbientFilterTAF == cInvalidTemperatureWord)
-    {
+      if(sshTAmbientFilterTAF == cInvalidTemperatureWord){
 
       sshTAmbientFilterTAF = (scTAinit * 100);
 
       ClearBitFahrzeugzustandFZZ( cTAMBIENT_RED);
-    }else{
-      if( scTAmbient < scTAinit)
-      {
+      }
+      else{
+      if(scTAmbient < scTAinit){
 
-        if( GETsshTAmbFiltValEE(self) < 0)
-        {
+          if(GETsshTAmbFiltValEE(self) < 0){
           scTAmbFilt = (sint8) ((GETsshTAmbFiltValEE(self) - 50) / 100);
-        }else{
+         }
+         else{
           scTAmbFilt = (sint8) ((GETsshTAmbFiltValEE(self) + 50) / 100);
         }
 
-        if( scTAmbient < scTAmbFilt)
-        {
+          if(scTAmbient < scTAmbFilt){
           sshTAmbientFilterTAF = (sint16) ((((sint16) ucTAmbientFactor * scTAmbient * 100) + ((sint16) (100 - ucTAmbientFactor) * sshTAmbientFilterTAF)) / 100);
 
-          if( sshTAmbientFilterTAF < ((sint16) (GETscTAinitValEE(self) - (sint16) ucGetCRdciDtAmbPrewarnCD()) * 100))
-          {
+          if(sshTAmbientFilterTAF < ((sint16) (GETscTAinitValEE(self) - (sint16) ucGetCRdciDtAmbPrewarnCD()) * 100)){
             SetBitFahrzeugzustandFZZ( cTAMBIENT_RED);
-          }else{
+            }
+            else{
             ClearBitFahrzeugzustandFZZ( cTAMBIENT_RED);
           }
-        }else{
+         }
+         else{
           sshTAmbientFilterTAF = (sint16) (scTAmbient * 100);
 
           SetBitFahrzeugzustandFZZ( cTAMBIENT_RED);
         }
-      }else{
+      }
+      else{
         sshTAmbientFilterTAF = (scTAmbient * 100);
 
         ClearBitFahrzeugzustandFZZ( cTAMBIENT_RED);
       }
-    }
+      }
 
     PUTsshTAmbFiltValEE(self, sshTAmbientFilterTAF);
-  }else{
+   }
+   else{
     SetBitFahrzeugzustandFZZ( cTAMBIENT_RED);
-  }
+   }
 }
 

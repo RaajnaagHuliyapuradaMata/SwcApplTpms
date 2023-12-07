@@ -8,7 +8,7 @@ extern "C"
 
 #include "EeHistoryBlockX.h"
 
-static void CompareValuesAndSetUpdateFlagEE( uint8 ucOld, uint8 ucNew);
+static void CompareValuesAndSetUpdateFlagEE(uint8 ucOld, uint8 ucNew);
 static uint8 GETAllocFailCounterEE(Rte_Instance self);
 static void PUTAllocFailCounterEE(Rte_Instance self, uint8 x);
 static uint8 GETCntLoBatEE(Rte_Instance self, uint8 i);

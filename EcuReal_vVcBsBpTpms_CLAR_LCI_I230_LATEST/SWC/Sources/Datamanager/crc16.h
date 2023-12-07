@@ -10,7 +10,7 @@ extern "C"
 
 #include "crc16X.h"
 
-static void updateCRC16( uint8 newByte);
+static void updateCRC16(uint8 newByte);
 
 #ifdef __cplusplus
 }

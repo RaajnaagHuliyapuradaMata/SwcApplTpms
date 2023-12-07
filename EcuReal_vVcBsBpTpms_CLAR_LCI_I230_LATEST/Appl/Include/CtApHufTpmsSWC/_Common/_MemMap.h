@@ -3523,7 +3523,7 @@
     #undef START_SEC_VAR_FAST_ZERO_INIT_32
 #endif
 
-#if( (defined CODE_SEC_OPEN)                            && \
+#if((defined CODE_SEC_OPEN)                            && \
      ((defined START_SEC_CODE) || \
       (defined START_SEC_CODE_FAST) || \
       (defined START_SEC_CODE_ISR)    \
@@ -3531,7 +3531,7 @@
     #error "MemMap.h: Close the former code segment before opening a new one."
 #endif
 
-#if( (defined CONST_SEC_OPEN)                           && \
+#if((defined CONST_SEC_OPEN)                           && \
      ((defined START_SEC_CONST_8BIT) || \
       (defined START_SEC_CONST_16BIT) || \
       (defined START_SEC_CONST_32BIT) || \
@@ -3546,7 +3546,7 @@
     #error "MemMap.h: Close the former const segment before opening a new one."
 #endif
 
-#if( (defined VAR_SEC_OPEN)                             && \
+#if((defined VAR_SEC_OPEN)                             && \
      ((defined START_SEC_VAR_INIT_8BIT) || \
       (defined START_SEC_VAR_INIT_16BIT) || \
       (defined START_SEC_VAR_INIT_32BIT) || \

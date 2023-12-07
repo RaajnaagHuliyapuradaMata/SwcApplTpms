@@ -18,438 +18,370 @@ static uint8 ucSbrActivityStatus = cSbrWaitAt_0;
 void InitSBR(Rte_Instance self)
 {
 
-  if(GETTyreSelectionActiveEE(self) == FALSE)
-  {
-    if(GETucStatusbarEE(self) != QU_RDC_INIT_DISP_KeineAnzeigeDesInitialierungsbalkens)
-    {
+   if(GETTyreSelectionActiveEE(self) == FALSE){
+      if(GETucStatusbarEE(self) != QU_RDC_INIT_DISP_KeineAnzeigeDesInitialierungsbalkens){
       PUTucStatusbarEE(self, QU_RDC_INIT_DISP_KeineAnzeigeDesInitialierungsbalkens);
       SetZoHistoryBlockUpdateFlagEE();
-    }
-    ucStateMachine = cNoDisplay;
-  }
+      }
+      ucStateMachine = cNoDisplay;
+   }
 }
 
 void ContinueSBR(Rte_Instance self)
 {
-  uint8 ucValue;
+   uint8 ucValue;
 
-  ucValue = GETucStatusbarEE(self);
+   ucValue = GETucStatusbarEE(self);
 
-  if(bGetBitFahrzeugzustandFZZ(cLONG_PARK) == FALSE)
-  {
+   if(bGetBitFahrzeugzustandFZZ(cLONG_PARK) == FALSE){
 
-    if(bGetBitBetriebszustandBZ(cER_FINISH) == FALSE)
-    {
+      if(bGetBitBetriebszustandBZ(cER_FINISH) == FALSE){
       ucStateMachine = cSlowTo49;
 
-      if(ucValue >= 50)
-      {
+      if(ucValue >= 50){
         PUTucStatusbarEE(self, 1);
       }
-    }
-    else
-    {
+      }
+      else{
       ucStateMachine = cSlowTo99;
 
-      if((ucValue < 50) || (ucValue >= 100))
-      {
+      if((ucValue < 50) || (ucValue >= 100)){
         PUTucStatusbarEE(self, 50);
       }
-    }
-  }
+      }
+   }
 
-  else
-  {
+   else{
 
-    if(((GETLastLocStateEE(self) & cER_FINISH) != cER_FINISH) && (ucValue < 50))
-    {
+      if(((GETLastLocStateEE(self) & cER_FINISH) != cER_FINISH) && (ucValue < 50)){
       PUTucStatusbarEE(self, 1);
       ucStateMachine = cSlowTo49;
-    }
+      }
 
-    else
-    {
+      else{
       PUTucStatusbarEE(self, 50);
       ucStateMachine = cSlowTo99;
       ucSbrActivityStatus = cSbrWaitForEr;
-    }
-  }
+      }
+   }
 
-  SetTickDelaySBR(self);
+   SetTickDelaySBR(self);
 }
 
 void StartSBR(Rte_Instance self)
 {
-  PUTucStatusbarEE(self, 0);
-  ucSbrActivityStatus = cSbrWaitAt_0;
-  SetTickDelaySBR(self);
-  ucStateMachine = cSlowTo49;
+   PUTucStatusbarEE(self, 0);
+   ucSbrActivityStatus = cSbrWaitAt_0;
+   SetTickDelaySBR(self);
+   ucStateMachine = cSlowTo49;
 }
 
 void StatusbarTimerTickSBR(Rte_Instance self)
 {
   Rdci_ST_TYR_Type statTyre;
 
-  switch (ucStateMachine)
-  {
+   switch(ucStateMachine){
 
-    case cSlowTo49:
+      case cSlowTo49:
 
-    if(bGetBitBetriebszustandBZ(cZO_TIMEOUT) == TRUE)
-    {
+      if(bGetBitBetriebszustandBZ(cZO_TIMEOUT) == TRUE){
       JumpTo254SBR(self);
-    }
+      }
 
-    else
-    {
-      if(bStatusbarActiveSBR() == TRUE)
-      {
-        if(bGetBitBetriebszustandBZ(cER_FINISH) == FALSE)
-        {
-          if(GETucStatusbarEE(self) < 49)
-          {
-            if(ucCountTickDelay() == 0)
-            {
+      else{
+      if(bStatusbarActiveSBR() == TRUE){
+          if(bGetBitBetriebszustandBZ(cER_FINISH) == FALSE){
+          if(GETucStatusbarEE(self) < 49){
+            if(ucCountTickDelay() == 0){
               IncValueSBR(self);
               SetTickDelaySBR(self);
             }
           }
         }
-        else
-        {
+        else{
           ucStateMachine = cFastTo50;
           ucTickDelay = cTickDelay_1sec;
         }
       }
-    }
-    break;
+      }
+      break;
 
-    case cFastTo50:
+      case cFastTo50:
     GetStTyrITY(&statTyre.QU_FN_TYR_INFO, &statTyre.QU_TPL, &statTyre.QU_TFAI);
-    if((statTyre.QU_TPL != cNoWarningActive) && (statTyre.QU_TPL != cWarningModuleNotReady))
-    {
+      if((statTyre.QU_TPL != cNoWarningActive) && (statTyre.QU_TPL != cWarningModuleNotReady)){
       JumpTo50SBR(self);
-    }
+      }
 
-    else if(bGetBitBetriebszustandBZ(cZO_TIMEOUT) == TRUE)
-    {
+      else if(bGetBitBetriebszustandBZ(cZO_TIMEOUT) == TRUE){
       JumpTo254SBR(self);
-    }
+      }
 
-    else
-    {
+      else{
       JumpToNextDecadeSBR(self);
-      if(GETucStatusbarEE(self) == 50)
-      {
+      if(GETucStatusbarEE(self) == 50){
 
-        if(bGetBitBetriebszustandBZ(cLOC_NOT_POSSIBLE) == TRUE)
-        {
+          if(bGetBitBetriebszustandBZ(cLOC_NOT_POSSIBLE) == TRUE){
           JumpTo254SBR(self);
         }
-        else
-        {
+        else{
           ucStateMachine = cSlowTo99;
           SetTickDelaySBR(self);
         }
       }
-      else
-      {
+      else{
         ucTickDelay = cTickDelay_1sec;
       }
-    }
-    break;
+      }
+      break;
 
-    case cSlowTo99:
+      case cSlowTo99:
 
-    if(bGetBitBetriebszustandBZ(cZO_TIMEOUT) == TRUE)
-    {
+      if(bGetBitBetriebszustandBZ(cZO_TIMEOUT) == TRUE){
       JumpTo254SBR(self);
-    }
+      }
 
-    else if(bGetBitBetriebszustandBZ(cLOC_NOT_POSSIBLE) == TRUE)
-    {
+      else if(bGetBitBetriebszustandBZ(cLOC_NOT_POSSIBLE) == TRUE){
       JumpTo254SBR(self);
-    }
+      }
 
-    else if(bGetBitBetriebszustandBZ(cLOC_INTERRUPTED) == TRUE)
-    {
+      else if(bGetBitBetriebszustandBZ(cLOC_INTERRUPTED) == TRUE){
       ucStateMachine = cFastTo100;
       ucTickDelay = cTickDelay_1sec;
-    }
+      }
 
-    else
-    {
+      else{
 
-      if(bGetBitBetriebszustandBZ(cER_FINISH) == FALSE)
-      {
+      if(bGetBitBetriebszustandBZ(cER_FINISH) == FALSE){
         ucSbrActivityStatus = cSbrWaitForEr;
       }
 
-      if(bStatusbarActiveSBR() == TRUE)
-      {
-        if(bGetBitBetriebszustandBZ(cZO_FINISH) == FALSE)
-        {
-          if(GETucStatusbarEE(self) < 99)
-          {
-            if(ucCountTickDelay() == 0)
-            {
+      if(bStatusbarActiveSBR() == TRUE){
+          if(bGetBitBetriebszustandBZ(cZO_FINISH) == FALSE){
+          if(GETucStatusbarEE(self) < 99){
+            if(ucCountTickDelay() == 0){
               IncValueSBR(self);
               SetTickDelaySBR(self);
             }
           }
         }
-        else
-        {
+        else{
           ucStateMachine = cFastTo100;
           ucTickDelay = cTickDelay_1sec;
         }
       }
-    }
-    break;
+      }
+      break;
 
-    case cFastTo100:
+      case cFastTo100:
 
     GetStTyrITY(&statTyre.QU_FN_TYR_INFO, &statTyre.QU_TPL, &statTyre.QU_TFAI);
-    if((statTyre.QU_TPL != cNoWarningActive) && (statTyre.QU_TPL != cWarningModuleNotReady))
-    {
+      if((statTyre.QU_TPL != cNoWarningActive) && (statTyre.QU_TPL != cWarningModuleNotReady)){
       JumpTo100SBR(self);
-    }
+      }
 
-    else
-    {
+      else{
       JumpToNextDecadeSBR(self);
-      if(GETucStatusbarEE(self) == 100)
-      {
+      if(GETucStatusbarEE(self) == 100){
         ucStateMachine = cWait100;
       }
       ucTickDelay = cTickDelay_1sec;
-    }
-    break;
+      }
+      break;
 
-    case cWait100:
+      case cWait100:
     PUTucStatusbarEE(self, QU_RDC_INIT_DISP_InitialisierungAbgeschlossen);
     SetZoHistoryBlockUpdateFlagEE();
-    ucStateMachine = cFinish;
-    ucTickDelay = cTickDelay_8sec;
-    break;
+      ucStateMachine = cFinish;
+      ucTickDelay = cTickDelay_8sec;
+      break;
 
-    case cFinish:
-    if(ucCountTickDelay() == 0)
-    {
+      case cFinish:
+      if(ucCountTickDelay() == 0){
       PUTucStatusbarEE(self, QU_RDC_INIT_DISP_KeineAnzeigeDesInitialierungsbalkens);
       SetZoHistoryBlockUpdateFlagEE();
       ucStateMachine = cNoDisplay;
-    }
-    break;
+      }
+      break;
 
-    default:
-    break;
-  }
+      default:
+      break;
+   }
 
 }
 
 void SetStatusBarActivityToGoSBR(void)
 {
-  if(ucSbrActivityStatus == cSbrWait)
-  {
-    if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == TRUE)
-    {
-      if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_LERNT) == FALSE)
-      {
+   if(ucSbrActivityStatus == cSbrWait){
+      if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == TRUE){
+      if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_LERNT) == FALSE){
         ucSbrActivityStatus = cSbrGo;
       }
-    }
-  }
+      }
+   }
 }
 
 static boolean bStatusbarActiveSBR(void)
 {
-  boolean bRetVal = FALSE;
-  boolean bTemp = TRUE;
-  uint8 i;
+   boolean bRetVal = FALSE;
+   boolean bTemp = TRUE;
+   uint8 i;
 
-  switch (ucSbrActivityStatus)
-  {
+   switch(ucSbrActivityStatus){
 
-    case cSbrWaitAt_0:
-    if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_LERNT) == TRUE)
-    {
-      for (i=0; i<cMaxLR; i++)
-      {
-        if(ucGetZomAbsoluteProbeCt(i) == 0)
-        {
+      case cSbrWaitAt_0:
+      if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_LERNT) == TRUE){
+      for(i=0; i<cMaxLR; i++){
+          if(ucGetZomAbsoluteProbeCt(i) == 0){
           bTemp = FALSE;
         }
       }
-      if(bTemp == TRUE)
-      {
+      if(bTemp == TRUE){
         ucSbrActivityStatus = cSbrGo;
         bRetVal = TRUE;
       }
-    }
-    break;
+      }
+      break;
 
-    case cSbrWaitForEr:
-    if(bGetBitBetriebszustandBZ(cER_FINISH) == TRUE)
-    {
+      case cSbrWaitForEr:
+      if(bGetBitBetriebszustandBZ(cER_FINISH) == TRUE){
       ucSbrActivityStatus = cSbrGo;
       bRetVal = TRUE;
-    }
-    break;
+      }
+      break;
 
-    case cSbrGo:
-    if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == TRUE)
-    {
-      if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_LERNT) == FALSE)
-      {
+      case cSbrGo:
+      if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == TRUE){
+      if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_LERNT) == FALSE){
         ucSbrActivityStatus = cSbrWait;
       }
       bRetVal = TRUE;
-    }
-    break;
+      }
+      break;
 
-    case cSbrWait:
-    if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_LERNT) == TRUE)
-    {
+      case cSbrWait:
+      if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_LERNT) == TRUE){
       ucSbrActivityStatus = cSbrGo;
       bRetVal = TRUE;
-    }
-    break;
+      }
+      break;
 
-    default:
-    break;
-  }
+      default:
+      break;
+   }
 
-  return bRetVal;
+   return bRetVal;
 }
 
 static void SetTickDelaySBR(Rte_Instance self)
 {
-  uint32* pulHistory;
-  uint16 ushEigenrad;
+   uint32* pulHistory;
+   uint16 ushEigenrad;
 
-  if(GETucStatusbarEE(self) < 50)
-  {
+   if(GETucStatusbarEE(self) < 50){
 
     pulHistory = GetPointerToHistoryIdSetWAL();
-    ushEigenrad = ushFindIdSetInZomWAL(pulHistory, 1, 16);
-    if(ucNrOfBitSet16(ushEigenrad) == cMaxLR)
-    {
+      ushEigenrad = ushFindIdSetInZomWAL(pulHistory, 1, 16);
+      if(ucNrOfBitSet16(ushEigenrad) == cMaxLR){
       ucTickDelay = cTickDelay_1sec;
-    }
-    else
-    {
+      }
+      else{
       ucTickDelay = cTickDelay_4sec;
-    }
-  }
+      }
+   }
 
-  else
-  {
+   else{
 
-    if(bCheckAllocConditionSBR() == FALSE)
-    {
+      if(bCheckAllocConditionSBR() == FALSE){
 
-      if(GETushSpeedFZZ() < (cSPW_THRESHOLD - 5))
-      {
+      if(GETushSpeedFZZ() < (cSPW_THRESHOLD - 5)){
         ucTickDelay = cTickDelay_3sec;
       }
 
-      else if(GETushSpeedFZZ() >= cSPW_THRESHOLD)
-      {
+      else if(GETushSpeedFZZ() >= cSPW_THRESHOLD){
         ucTickDelay = cTickDelay_5sec;
       }
-      else
-      {}
-    }
+      else{}
+      }
 
-    else
-    {
+      else{
 
-      if(GETushSpeedFZZ() < (cSPW_THRESHOLD - 5))
-      {
+      if(GETushSpeedFZZ() < (cSPW_THRESHOLD - 5)){
         ucTickDelay = cTickDelay_1sec;
       }
 
-      else if(GETushSpeedFZZ() >= cSPW_THRESHOLD)
-      {
+      else if(GETushSpeedFZZ() >= cSPW_THRESHOLD){
         ucTickDelay = cTickDelay_2sec;
       }
-      else
-      {  }
-    }
-  }
+      else{  }
+      }
+   }
 }
 
 static boolean bCheckAllocConditionSBR(void)
 {
-  boolean bRetVal = TRUE;
-  uint8 i;
+   boolean bRetVal = TRUE;
+   uint8 i;
 
-  for (i=0; i<cMaxLR; i++)
-  {
-    if(ucGetZomLocateProbeCt(i) < 14)
-    {
+   for(i=0; i<cMaxLR; i++){
+      if(ucGetZomLocateProbeCt(i) < 14){
       bRetVal = FALSE;
-    }
-  }
-  return bRetVal;
+      }
+   }
+   return bRetVal;
 }
 
 static uint8 ucCountTickDelay(void)
 {
-  if(ucTickDelay > 0)
-  {
-    ucTickDelay--;
-  }
-  return ucTickDelay;
+   if(ucTickDelay > 0){
+      ucTickDelay--;
+   }
+   return ucTickDelay;
 }
 
 static void JumpToNextDecadeSBR(Rte_Instance self)
 {
-  uint8 ucVal = GETucStatusbarEE(self);
+   uint8 ucVal = GETucStatusbarEE(self);
 
-  if(ucVal < 100)
-  {
+   if(ucVal < 100){
     do
-    {
+      {
       ucVal++;
-    } while ((ucVal % 10) > 0);
+      } while ((ucVal % 10) > 0);
 
     PUTucStatusbarEE(self, ucVal);
-  }
+   }
 }
 
 static void JumpTo50SBR(Rte_Instance self)
 {
-  PUTucStatusbarEE(self, 50);
-  SetZoHistoryBlockUpdateFlagEE();
-  ucStateMachine = cSlowTo99;
-  SetTickDelaySBR(self);
+   PUTucStatusbarEE(self, 50);
+   SetZoHistoryBlockUpdateFlagEE();
+   ucStateMachine = cSlowTo99;
+   SetTickDelaySBR(self);
 }
 
 static void JumpTo100SBR(Rte_Instance self)
 {
-  PUTucStatusbarEE(self, 100);
-  SetZoHistoryBlockUpdateFlagEE();
-  ucStateMachine = cWait100;
-  ucTickDelay = cTickDelay_1sec;
+   PUTucStatusbarEE(self, 100);
+   SetZoHistoryBlockUpdateFlagEE();
+   ucStateMachine = cWait100;
+   ucTickDelay = cTickDelay_1sec;
 }
 
 static void JumpTo254SBR(Rte_Instance self)
 {
-  PUTucStatusbarEE(self, QU_RDC_INIT_DISP_KeineAnzeigeDesInitialierungsbalkens);
-  SetZoHistoryBlockUpdateFlagEE();
-  ucStateMachine = cNoDisplay;
-  ucTickDelay = cTickOff;
+   PUTucStatusbarEE(self, QU_RDC_INIT_DISP_KeineAnzeigeDesInitialierungsbalkens);
+   SetZoHistoryBlockUpdateFlagEE();
+   ucStateMachine = cNoDisplay;
+   ucTickDelay = cTickOff;
 }
 
 static void IncValueSBR(Rte_Instance self)
 {
-  uint8 ucValue = GETucStatusbarEE(self);
-  if(ucValue < 100)
-  {
-    ucValue++;
-  }
-  PUTucStatusbarEE(self, ucValue);
+   uint8 ucValue = GETucStatusbarEE(self);
+   if(ucValue < 100){
+      ucValue++;
+   }
+   PUTucStatusbarEE(self, ucValue);
 }
 

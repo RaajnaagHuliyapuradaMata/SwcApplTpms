@@ -71,28 +71,28 @@ extern "C"
 #define cucWarnOutAttrIx      ((uint8) 1)
 
 typedef struct{
-  uint8 ucAccess;
-  uint8 ucParaByte[2];
+   uint8 ucAccess;
+   uint8 ucParaByte[2];
 }tParaSubSet;
 
 typedef struct{
-  uint8 ucId;
-  uint8 ucPos;
-  uint8 ucSystemState;
-  uint8  ucWarnState;
-  uint8  ucWarnAttr;
+   uint8 ucId;
+   uint8 ucPos;
+   uint8 ucSystemState;
+   uint8  ucWarnState;
+   uint8  ucWarnAttr;
 }tTPMSMsgData;
 
 typedef struct{
-    uint8  ucPMinAbs;
-    uint8  aucPSollMin[cAnzRad];
-    uint8  aucPSoll[2][cAnzRad];
-    sint8  ascTSoll[2][cAnzRad];
-    uint16 aushMSoll[cAnzRad];
-    uint8  aucPinitTreifen[cAnzRad];
-    sint8  ascTreifen[cAnzRad];
-    uint8  aucEnvPres[cAnzRad];
-    sint8  ascEnvTemp[cAnzRad];
+      uint8  ucPMinAbs;
+      uint8  aucPSollMin[cAnzRad];
+      uint8  aucPSoll[2][cAnzRad];
+      sint8  ascTSoll[2][cAnzRad];
+      uint16 aushMSoll[cAnzRad];
+      uint8  aucPinitTreifen[cAnzRad];
+      sint8  ascTreifen[cAnzRad];
+      uint8  aucEnvPres[cAnzRad];
+      sint8  ascEnvTemp[cAnzRad];
 }tCalibrationTab;
 
 extern uint8 ucWarnManagerWN(Rte_Instance self, uint8 ucAction, uint8* pucData);
@@ -103,7 +103,7 @@ extern uint8 ucUSWAlgoParaWN(Rte_Instance self, uint8 ucAction, const uint8* puc
 extern void InitUSWAlgo(Rte_Instance self, const uint8* ptWPos);
 extern uint32 GETulWarnOutTM(void);
 extern uint32 GETulWarnAttrOutTM(void);
-extern uint8  GETucWarningGroupTM( uint8 ucWarningGroup);
+extern uint8  GETucWarningGroupTM(uint8 ucWarningGroup);
 extern uint8 ucGetUSEUCode(void);
 extern uint8 GetDropIsoCodVal(void);
 

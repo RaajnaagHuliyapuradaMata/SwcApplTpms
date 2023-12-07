@@ -51,11 +51,11 @@ typedef enum{
 }tWuErrors;
 
 typedef struct{
-  uint8 ucErrorNumber;
-  uint8 ucIeSent;
+   uint8 ucErrorNumber;
+   uint8 ucIeSent;
 }strIeFiFo;
 
-extern void ReadInaktivereignisDS(Rte_Instance self, uint8 * paucData);
+extern void ReadInaktivereignisDS(Rte_Instance self, uint8* paucData);
 extern void ProcessIeFiFoDS(Rte_Instance self);
 extern void InitIeFiFoDS(Rte_Instance self);
 extern void IeFiFoWriteEntryDS(Rte_Instance self, uint8 ucErrorNumber);

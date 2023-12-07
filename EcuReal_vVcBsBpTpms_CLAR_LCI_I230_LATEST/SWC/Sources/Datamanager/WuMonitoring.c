@@ -28,51 +28,51 @@ static uint8   ucDefectThreshold = 3;
 static uint16  ushTimeSinceLastRecEvent[4];
 
 void InitWUM(Rte_Instance self){
-  uint8 i;
-  uint32 j;
-  uint32 ulLastWumErrorState;
-  for (i=0; i<cMaxLR; i++){
+   uint8 i;
+   uint32 j;
+   uint32 ulLastWumErrorState;
+   for(i=0; i<cMaxLR; i++){
     tWuMonitoring[i].ushCountGood       = GETushCntGoodTelEE(self, i);
     tWuMonitoring[i].ushCountMissing    = GETushCntMissTelEE(self, i);
     tWuMonitoring[i].ushTimerBlockFail  = GETushBlockFailTimerEE(self, i);
     GETSensorDefectCounterFromNvmMirrorEE(self, (uint16*) &tWuMonitoring[i].ushCountDefect, i);
     tWuMonitoring[i].ushTimerSingleFail = cWU_TIMER_STOPPED;
     tWuMonitoring[i].ucCountLoBat = GetCntLoBatFromNvmZOMirrorblockEE(self, i);
-    ushTimeSinceLastRecEvent[i] = GETucTimeSinceLastRecEventFromNvmMirrorEE(self, i) * 5;
-  }
-  ucAllocFailedCounter = GetAllocFailCounterFromNvmZOMirrorblockEE(self);
-  if(ucAllocFailedCounter > 10){
-    ucAllocFailedCounter = 0;
-  }
-  ushAliveTelTimeout[cDataPackage12Ix] = GETushFbd4AliveTimerEE(self);
-  if(ushAliveTelTimeout[cDataPackage12Ix] > cALIVE_TEL_TIMEOUT){
-    ushAliveTelTimeout[cDataPackage12Ix] = cALIVE_TEL_TIMEOUT;
-  }
-  if(GETucFBD4CountEE(self) > 1){
-    ushAliveTelTimeout[cDataPackage34Ix] = GETushFbd4AliveTimerEE(self);
-    if(ushAliveTelTimeout[cDataPackage34Ix] > cALIVE_TEL_TIMEOUT){
+      ushTimeSinceLastRecEvent[i] = GETucTimeSinceLastRecEventFromNvmMirrorEE(self, i) * 5;
+   }
+   ucAllocFailedCounter = GetAllocFailCounterFromNvmZOMirrorblockEE(self);
+   if(ucAllocFailedCounter > 10){
+      ucAllocFailedCounter = 0;
+   }
+   ushAliveTelTimeout[cDataPackage12Ix] = GETushFbd4AliveTimerEE(self);
+   if(ushAliveTelTimeout[cDataPackage12Ix] > cALIVE_TEL_TIMEOUT){
+      ushAliveTelTimeout[cDataPackage12Ix] = cALIVE_TEL_TIMEOUT;
+   }
+   if(GETucFBD4CountEE(self) > 1){
+      ushAliveTelTimeout[cDataPackage34Ix] = GETushFbd4AliveTimerEE(self);
+      if(ushAliveTelTimeout[cDataPackage34Ix] > cALIVE_TEL_TIMEOUT){
       ushAliveTelTimeout[cDataPackage34Ix] = cALIVE_TEL_TIMEOUT;
-    }
-  }
-  ucRfIfStateMachine = GetRfIfStateMachineFromNvmZOMirrorblockEE(self);
-  if(ucRfIfStateMachine == cRfIfIsActive){
+      }
+   }
+   ucRfIfStateMachine = GetRfIfStateMachineFromNvmZOMirrorblockEE(self);
+   if(ucRfIfStateMachine == cRfIfIsActive){
     RfInterferenceInLastCycleDetectedWUM(self);
-  }
-  ulLastWumErrorState = GETulWumErrorsEE(self);
-  for (j=0; j<32; j++){
-    if((ulLastWumErrorState & (uint32)(1<<j)) == (uint32)(1<<j)){
+   }
+   ulLastWumErrorState = GETulWumErrorsEE(self);
+   for(j=0; j<32; j++){
+      if((ulLastWumErrorState & (uint32)(1<<j)) == (uint32)(1<<j)){
       if((ulWheelUnitErrors & (uint32)(1<<j)) == 0){
         ulWheelUnitErrChangedFlags |= (uint32)(1<<j);
       }
-    }
-  }
-  ulWheelUnitErrors |= ulLastWumErrorState;
+      }
+   }
+   ulWheelUnitErrors |= ulLastWumErrorState;
 }
 
 void ResetWUM(Rte_Instance self, uint8 ucSlots, uint8 ucWLowBatt, uint8 ucWDtcs){
-  uint8 i;
-  for (i=0; i<cMaxLR; i++){
-    if((ucSlots & (1u << i)) == (1u << i)){
+   uint8 i;
+   for(i=0; i<cMaxLR; i++){
+      if((ucSlots & (1u << i)) == (1u << i)){
       SetWheelUnitGoodCounterWUM(i, 0);
       SetWheelUnitMissingCounterWUM(i, 0);
       tWuMonitoring[i].ushTimerBlockFail = cWU_BLOCK_FAIL_TIME;
@@ -88,7 +88,7 @@ void ResetWUM(Rte_Instance self, uint8 ucSlots, uint8 ucWLowBatt, uint8 ucWDtcs)
       PutCntLoBatToNvmZOMirrorblockEE(self, tWuMonitoring[i].ucCountLoBat, i);
       PUTushBlockFailTimerEE(self, tWuMonitoring[i].ushTimerBlockFail, i);
       if(ucWDtcs == cWithWuRelatedDtcs){
-        if(ucSlots == cAllSlots){
+          if(ucSlots == cAllSlots){
           ClearMuteWUM(self, i, i);
           ClearDefectWUM(self, i, i);
         }
@@ -101,65 +101,56 @@ void ResetWUM(Rte_Instance self, uint8 ucSlots, uint8 ucWLowBatt, uint8 ucWDtcs)
       ClearRFInterferenceWUM(self);
       CheckWrongWuMountedWUM(self);
       CheckForeignSupplierWUM(self);
-    }
-  }
-  if((ucSlots > 0) && (ucWLowBatt == cWithLowBat)){
+      }
+   }
+   if((ucSlots > 0) && (ucWLowBatt == cWithLowBat)){
     ClearLowBatWUM(self);
-  }
+   }
 }
 
 void SwitchUnspecificToSpecificErrorsWUM(Rte_Instance self){
-  uint8 i;
-  if(bGetBitBetriebszustandBZ(cZO_FINISH) == TRUE){
+   uint8 i;
+   if(bGetBitBetriebszustandBZ(cZO_FINISH) == TRUE){
     ClearWheelUnitErrorWUM(self, cAllocUnspecifiedWfcDefect);
     ClearWheelUnitErrorWUM(self, cAllocUnspecifiedWuMute);
     ClearWheelUnitErrorWUM(self, cAllocWuMuteFl);
     ClearWheelUnitErrorWUM(self, cAllocWuMuteFr);
     ClearWheelUnitErrorWUM(self, cAllocWuMuteRl);
     ClearWheelUnitErrorWUM(self, cAllocWuMuteRr);
-    for (i=0; i<cMaxLR; i++){
-      switch (ucGetWPOfColWAL(i))
-      {
+      for(i=0; i<cMaxLR; i++){
+      switch(ucGetWPOfColWAL(i)){
         case cWheelPos_FL:
-          if(tWuMonitoring[i].ushCountDefect > 2)
-          {
+          if(tWuMonitoring[i].ushCountDefect > 2){
             SetWheelUnitErrorWUM(self, cAllocWuDefectFl);
           }
-          if(tWuMonitoring[i].ucCountLoBat >= cNO_OF_LO_BAT_TELEGRAMS)
-          {
+          if(tWuMonitoring[i].ucCountLoBat >= cNO_OF_LO_BAT_TELEGRAMS){
             SetWheelUnitErrorWUM(self, cAllocWuLowBatteryFl);
           }
         break;
 
         case cWheelPos_FR:
-          if(tWuMonitoring[i].ushCountDefect > 2)
-          {
+          if(tWuMonitoring[i].ushCountDefect > 2){
             SetWheelUnitErrorWUM(self, cAllocWuDefectFr);
           }
-          if(tWuMonitoring[i].ucCountLoBat >= cNO_OF_LO_BAT_TELEGRAMS)
-          {
+          if(tWuMonitoring[i].ucCountLoBat >= cNO_OF_LO_BAT_TELEGRAMS){
             SetWheelUnitErrorWUM(self, cAllocWuLowBatteryFr);
           }
         break;
 
         case cWheelPos_RL:
-          if(tWuMonitoring[i].ushCountDefect > 2)
-          {
+          if(tWuMonitoring[i].ushCountDefect > 2){
             SetWheelUnitErrorWUM(self, cAllocWuDefectRl);
           }
-          if(tWuMonitoring[i].ucCountLoBat >= cNO_OF_LO_BAT_TELEGRAMS)
-          {
+          if(tWuMonitoring[i].ucCountLoBat >= cNO_OF_LO_BAT_TELEGRAMS){
             SetWheelUnitErrorWUM(self, cAllocWuLowBatteryRl);
           }
         break;
 
         case cWheelPos_RR:
-          if(tWuMonitoring[i].ushCountDefect > 2)
-          {
+          if(tWuMonitoring[i].ushCountDefect > 2){
             SetWheelUnitErrorWUM(self, cAllocWuDefectRr);
           }
-          if(tWuMonitoring[i].ucCountLoBat >= cNO_OF_LO_BAT_TELEGRAMS)
-          {
+          if(tWuMonitoring[i].ucCountLoBat >= cNO_OF_LO_BAT_TELEGRAMS){
             SetWheelUnitErrorWUM(self, cAllocWuLowBatteryRr);
           }
         break;
@@ -167,226 +158,187 @@ void SwitchUnspecificToSpecificErrorsWUM(Rte_Instance self){
         default:
         break;
       }
-    }
-  }
+      }
+   }
 }
 
 void SwitchSpecificToUnspecificErrorsWUM(Rte_Instance self)
 {
-  uint8 ucNoOfSetDtcs = 0;
+   uint8 ucNoOfSetDtcs = 0;
 
-  if(bGetWheelUnitErrorWUM(cAllocWuMuteFl) == TRUE)
-  {
+   if(bGetWheelUnitErrorWUM(cAllocWuMuteFl) == TRUE){
     ClearWheelUnitErrorWUM(self, cAllocWuMuteFl);
-    ucNoOfSetDtcs++;
-  }
-  if(bGetWheelUnitErrorWUM(cAllocWuMuteFr) == TRUE)
-  {
+      ucNoOfSetDtcs++;
+   }
+   if(bGetWheelUnitErrorWUM(cAllocWuMuteFr) == TRUE){
     ClearWheelUnitErrorWUM(self, cAllocWuMuteFr);
-    ucNoOfSetDtcs++;
-  }
-  if(bGetWheelUnitErrorWUM(cAllocWuMuteRl) == TRUE)
-  {
+      ucNoOfSetDtcs++;
+   }
+   if(bGetWheelUnitErrorWUM(cAllocWuMuteRl) == TRUE){
     ClearWheelUnitErrorWUM(self, cAllocWuMuteRl);
-    ucNoOfSetDtcs++;
-  }
-  if(bGetWheelUnitErrorWUM(cAllocWuMuteRr) == TRUE)
-  {
+      ucNoOfSetDtcs++;
+   }
+   if(bGetWheelUnitErrorWUM(cAllocWuMuteRr) == TRUE){
     ClearWheelUnitErrorWUM(self, cAllocWuMuteRr);
-    ucNoOfSetDtcs++;
-  }
+      ucNoOfSetDtcs++;
+   }
 
-  ucNoOfSetDtcs = 0;
+   ucNoOfSetDtcs = 0;
 
-  if(bGetWheelUnitErrorWUM(cAllocWuDefectFl) == TRUE)
-  {
+   if(bGetWheelUnitErrorWUM(cAllocWuDefectFl) == TRUE){
     ClearWheelUnitErrorWUM(self, cAllocWuDefectFl);
-    ucNoOfSetDtcs++;
-  }
-  if(bGetWheelUnitErrorWUM(cAllocWuDefectFr) == TRUE)
-  {
+      ucNoOfSetDtcs++;
+   }
+   if(bGetWheelUnitErrorWUM(cAllocWuDefectFr) == TRUE){
     ClearWheelUnitErrorWUM(self, cAllocWuDefectFr);
-    ucNoOfSetDtcs++;
-  }
-  if(bGetWheelUnitErrorWUM(cAllocWuDefectRl) == TRUE)
-  {
+      ucNoOfSetDtcs++;
+   }
+   if(bGetWheelUnitErrorWUM(cAllocWuDefectRl) == TRUE){
     ClearWheelUnitErrorWUM(self, cAllocWuDefectRl);
-    ucNoOfSetDtcs++;
-  }
-  if(bGetWheelUnitErrorWUM(cAllocWuDefectRr) == TRUE)
-  {
+      ucNoOfSetDtcs++;
+   }
+   if(bGetWheelUnitErrorWUM(cAllocWuDefectRr) == TRUE){
     ClearWheelUnitErrorWUM(self, cAllocWuDefectRr);
-    ucNoOfSetDtcs++;
-  }
+      ucNoOfSetDtcs++;
+   }
 
-  if(ucNoOfSetDtcs > 0)
-  {
+   if(ucNoOfSetDtcs > 0){
     SetWheelUnitErrorWUM(self, cAllocUnspecifiedWfcDefect);
-  }
+   }
 }
 
 void ProcessWuMonitoringWUM(Rte_Instance self, ImpTypeRecCddRdcData rdcData, uint8 ucTelType)
 {
-  uint32  ulTyrID;
-  uint8   ucCol;
-  uint8   ucWP;
+   uint32  ulTyrID;
+   uint8   ucCol;
+   uint8   ucWP;
 
-  if(ucWumActivityStatus == cWUM_DISABLED)
-  {
+   if(ucWumActivityStatus == cWUM_DISABLED){
     return;
-  }
+   }
 
-  if((ucTelType & TELTYPE_FBD4_ALIVE) == TELTYPE_FBD4_ALIVE)
-  {
+   if((ucTelType & TELTYPE_FBD4_ALIVE) == TELTYPE_FBD4_ALIVE){
     ClearGatewayAntennaWUM(self, rdcData.DP_NO);
     return;
-  }
+   }
 
-  ulTyrID = (uint32)rdcData.TYR_ID | ((uint32)rdcData.SUPP_ID << 28);
-  ucCol = ucGetColOfID((const uint32*)&ulTyrID);
+   ulTyrID = (uint32)rdcData.TYR_ID | ((uint32)rdcData.SUPP_ID << 28);
+   ucCol = ucGetColOfID((const uint32*)&ulTyrID);
 
-  if(ucCol >= cMaxLR)
-  {
+   if(ucCol >= cMaxLR){
     return;
-  }
+   }
 
   ClearTimeSinceLastRecEventWUM(self, ucCol);
 
-  ucWP = ucGetWPOfColWAL(ucCol);
+   ucWP = ucGetWPOfColWAL(ucCol);
 
-  if((ucTelType & TELTYPE_FOREIGN_SUPPLIER) == TELTYPE_FOREIGN_SUPPLIER)
-  {
+   if((ucTelType & TELTYPE_FOREIGN_SUPPLIER) == TELTYPE_FOREIGN_SUPPLIER){
     tWuMonitoring[ucCol].ucForeignSupplier = 1;
-  }
-  else
-  {
+   }
+   else{
     tWuMonitoring[ucCol].ucForeignSupplier = 0;
-  }
+   }
 
-  if((ucTelType & TELTYPE_RID) == TELTYPE_RID)
-  {
+   if((ucTelType & TELTYPE_RID) == TELTYPE_RID){
 
     ClearMuteWUM(self, ucCol, ucWP);
     ClearRFInterferenceWUM(self);
     CheckForeignSupplierWUM(self);
-  }
+   }
 
-  else
-  {
+   else{
 
-    if((ucTelType & TELTYPE_ALLOCATABLE) == TELTYPE_ALLOCATABLE)
-    {
+      if((ucTelType & TELTYPE_ALLOCATABLE) == TELTYPE_ALLOCATABLE){
       tWuMonitoring[ucCol].ucLocPossible = 1;
-    }
-    else
-    {
+      }
+      else{
       tWuMonitoring[ucCol].ucLocPossible = 0;
-    }
+      }
 
     CheckDefectWUM(self, &rdcData, ucCol, ucWP);
 
-    if(ucWumActivityStatus == cWUM_ENABLED)
-    {
+      if(ucWumActivityStatus == cWUM_ENABLED){
       CheckLowBatWUM(self, &rdcData, ucCol, ucWP);
       ClearMuteWUM(self, ucCol, ucWP);
       ClearRFInterferenceWUM(self);
       CheckWrongWuMountedWUM(self);
       CheckForeignSupplierWUM(self);
-    }
-  }
+      }
+   }
 
-  if(bGoodCounterReachedMaximumWUM() == FALSE)
-  {
-    if(((bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == TRUE) && (ucWumActivityStatus == cWUM_BM_DIENST_START))
-     || (ucWumActivityStatus == cWUM_ENABLED))
-    {
+   if(bGoodCounterReachedMaximumWUM() == FALSE){
+      if(((bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == TRUE) && (ucWumActivityStatus == cWUM_BM_DIENST_START))
+     || (ucWumActivityStatus == cWUM_ENABLED)){
       tWuMonitoring[ucCol].ushCountGood++;
       PUTushCntGoodTelEE(self, tWuMonitoring[ucCol].ushCountGood, ucCol);
-    }
-  }
+      }
+   }
 
-  tWuMonitoring[ucCol].ushTimerSingleFail = cWU_SINGLE_FAIL_TIME_1;
+   tWuMonitoring[ucCol].ushTimerSingleFail = cWU_SINGLE_FAIL_TIME_1;
 }
 
 void WuMonitoringTimerTickWUM(Rte_Instance self)
 {
-  uint8 i;
-  uint8 ucNoOfMissingWUs = 0;
+   uint8 i;
+   uint8 ucNoOfMissingWUs = 0;
 
-  uint8 ucNoOfDelayedWUs = 0;
+   uint8 ucNoOfDelayedWUs = 0;
 
-  if( ucWumActivityStatus == cWUM_ENABLED)
-  {
+   if(ucWumActivityStatus == cWUM_ENABLED){
 
-    if( (bGetBitFahrzeugzustandFZZ( cNW_DTC_LOCKED) == FALSE) && (ucGetStatusConditionVehicleFZZ() >= ST_CON_VEH_Pruefen_Analyse_Diagnose))
-    {
+      if((bGetBitFahrzeugzustandFZZ( cNW_DTC_LOCKED) == FALSE) && (ucGetStatusConditionVehicleFZZ() >= ST_CON_VEH_Pruefen_Analyse_Diagnose)){
 
-      if(ushAliveTelTimeout[cDataPackage12Ix] > 0)
-      {
+      if(ushAliveTelTimeout[cDataPackage12Ix] > 0){
         ushAliveTelTimeout[cDataPackage12Ix]--;
 
-        if(ushAliveTelTimeout[cDataPackage12Ix] < ushAliveTelTimeout[cDataPackage34Ix])
-        {
+          if(ushAliveTelTimeout[cDataPackage12Ix] < ushAliveTelTimeout[cDataPackage34Ix]){
           PUTushFbd4AliveTimerEE(self, ushAliveTelTimeout[cDataPackage12Ix]);
         }
-        else
-        {
+        else{
           PUTushFbd4AliveTimerEE(self, ushAliveTelTimeout[cDataPackage34Ix]);
         }
-        if(ushAliveTelTimeout[cDataPackage12Ix] == 0)
-        {
+          if(ushAliveTelTimeout[cDataPackage12Ix] == 0){
           SetWheelUnitErrorWUM(self, cAllocGatewayOrAntennaError);
         }
       }
-      if(GETucFBD4CountEE(self) > 1)
-      {
+      if(GETucFBD4CountEE(self) > 1){
 
-        if(ushAliveTelTimeout[cDataPackage34Ix] > 0)
-        {
+          if(ushAliveTelTimeout[cDataPackage34Ix] > 0){
           ushAliveTelTimeout[cDataPackage34Ix]--;
 
-          if(ushAliveTelTimeout[cDataPackage12Ix] < ushAliveTelTimeout[cDataPackage34Ix])
-          {
+          if(ushAliveTelTimeout[cDataPackage12Ix] < ushAliveTelTimeout[cDataPackage34Ix]){
             PUTushFbd4AliveTimerEE(self, ushAliveTelTimeout[cDataPackage12Ix]);
           }
-          else
-          {
+          else{
             PUTushFbd4AliveTimerEE(self, ushAliveTelTimeout[cDataPackage34Ix]);
           }
-          if(ushAliveTelTimeout[cDataPackage34Ix] == 0)
-          {
+          if(ushAliveTelTimeout[cDataPackage34Ix] == 0){
             SetWheelUnitErrorWUM(self, cAllocGatewayOrAntennaError);
           }
         }
       }
-    }
+      }
 
-    if(bCheckMuteMonitorActive() == TRUE)
-    {
+      if(bCheckMuteMonitorActive() == TRUE){
 
-      for (i=0; i<cMaxLR; i++)
-      {
+      for(i=0; i<cMaxLR; i++){
 
-        if((tWuMonitoring[i].ushTimerBlockFail != cWU_TIMER_STOPPED) && (tWuMonitoring[i].ushTimerBlockFail > 0))
-        {
+          if((tWuMonitoring[i].ushTimerBlockFail != cWU_TIMER_STOPPED) && (tWuMonitoring[i].ushTimerBlockFail > 0)){
           tWuMonitoring[i].ushTimerBlockFail--;
           PUTushBlockFailTimerEE(self, tWuMonitoring[i].ushTimerBlockFail, i);
         }
 
-        if((tWuMonitoring[i].ushTimerSingleFail != cWU_TIMER_STOPPED) && (tWuMonitoring[i].ushTimerSingleFail > 0))
-        {
+          if((tWuMonitoring[i].ushTimerSingleFail != cWU_TIMER_STOPPED) && (tWuMonitoring[i].ushTimerSingleFail > 0)){
           tWuMonitoring[i].ushTimerSingleFail--;
         }
 
         IncTimeSinceLastRecEventWUM(self, i);
 
-        if(tWuMonitoring[i].ushTimerSingleFail == 0)
-        {
-          if(tWuMonitoring[i].ushCountMissing < 0xFFFFU)
-          {
+          if(tWuMonitoring[i].ushTimerSingleFail == 0){
+          if(tWuMonitoring[i].ushCountMissing < 0xFFFFU){
             if((bGoodCounterReachedMaximumWUM() == FALSE)
-              && (tWuMonitoring[i].ushTimerBlockFail != 0))
-            {
+              && (tWuMonitoring[i].ushTimerBlockFail != 0)){
               tWuMonitoring[i].ushCountMissing++;
               PUTushCntMissTelEE(self, tWuMonitoring[i].ushCountMissing, i);
             }
@@ -394,49 +346,39 @@ void WuMonitoringTimerTickWUM(Rte_Instance self)
           tWuMonitoring[i].ushTimerSingleFail = cWU_SINGLE_FAIL_TIME_2;
         }
 
-        if(tWuMonitoring[i].ushTimerBlockFail == 0)
-        {
+          if(tWuMonitoring[i].ushTimerBlockFail == 0){
           ucNoOfMissingWUs++;
         }
       }
 
-      if(ucNoOfMissingWUs > 0)
-      {
+      if(ucNoOfMissingWUs > 0){
 
-        if((ulGetWheelUnitErrorsWUM(cNoFilter) & (cAllocWuMuteFl | cAllocWuMuteFr |cAllocWuMuteRl | cAllocWuMuteRr | cAllocUnspecifiedWuMute)) > 0)
-        {
+          if((ulGetWheelUnitErrorsWUM(cNoFilter) & (cAllocWuMuteFl | cAllocWuMuteFr |cAllocWuMuteRl | cAllocWuMuteRr | cAllocUnspecifiedWuMute)) > 0){
 
           SetMuteErrorStatusWUM(self);
         }
 
-        else
-        {
+        else{
 
-          if(bGetWheelUnitErrorWUM(cAllocRdciRfExternalInterference) == FALSE)
-          {
+          if(bGetWheelUnitErrorWUM(cAllocRdciRfExternalInterference) == FALSE){
 
-            if(bGetBitBetriebszustandBZ(cER_FINISH) == TRUE)
-            {
+            if(bGetBitBetriebszustandBZ(cER_FINISH) == TRUE){
 
-              if(ucNoOfMissingWUs > 1)
-              {
+              if(ucNoOfMissingWUs > 1){
                 SetWheelUnitErrorWUM(self, cAllocRdciRfExternalInterference);
                 ucRfIfStateMachine = cRfIfIsActive;
                 PutRfIfStateMachineToNvmZOMirrorblockEE(self, ucRfIfStateMachine);
               }
 
-              else
-              {
-                for (i=0; i<cMaxLR; i++)
-                {
+              else{
+                for(i=0; i<cMaxLR; i++){
                   if(bWuIsDownForCountWUM(i) == TRUE)
                   {
                     ucNoOfDelayedWUs++;
                   }
                 }
 
-                if(ucNoOfDelayedWUs > 0)
-                {
+                if(ucNoOfDelayedWUs > 0){
                   SetWheelUnitErrorWUM(self, cAllocRdciRfExternalInterference);
                   ucRfIfStateMachine = cRfIfIsActive;
                   PutRfIfStateMachineToNvmZOMirrorblockEE(self, ucRfIfStateMachine);
@@ -456,121 +398,103 @@ void WuMonitoringTimerTickWUM(Rte_Instance self)
           }
         }
       }
-    }
-  }
+      }
+   }
 
 }
 
 void SetAutoLearnErrorStatusWUM(Rte_Instance self, uint8 ucStatus)
 {
-  if(ucStatus == cAUTOLEARN_FAILED)
-  {
+   if(ucStatus == cAUTOLEARN_FAILED){
     SetWheelUnitErrorWUM(self, cAllocAutoLearningFailed);
 
-    if(ucRfIfStateMachine == cLastDrvCycEndedWithRfIf)
-    {
+      if(ucRfIfStateMachine == cLastDrvCycEndedWithRfIf){
       ClearWheelUnitErrorWUM(self, cAllocRdciRfExternalInterference);
       ucRfIfStateMachine = cNoRfIf;
       PutRfIfStateMachineToNvmZOMirrorblockEE(self, ucRfIfStateMachine);
-    }
-  }
-  else if(ucStatus == cAUTOLEARN_SUCCESSFUL)
-  {
+      }
+   }
+   else if(ucStatus == cAUTOLEARN_SUCCESSFUL){
     ClearWheelUnitErrorWUM(self, cAllocAutoLearningFailed);
     ClearRFInterferenceWUM(self);
     CheckWrongWuMountedWUM(self);
     CheckForeignSupplierWUM(self);
-  }
-  else
-  {
-  }
+   }
+   else{
+   }
 }
 
 uint8 ucSetAutolocErrorStatusWUM(Rte_Instance self, uint8 ucStatus)
 {
-  if(ucStatus == cAUTOLOC_FAILED)
-  {
-    ucAllocFailedCounter++;
-    if(ucAllocFailedCounter >= cXCLOC_FALSE)
-    {
+   if(ucStatus == cAUTOLOC_FAILED){
+      ucAllocFailedCounter++;
+      if(ucAllocFailedCounter >= cXCLOC_FALSE){
       ucAllocFailedCounter = cXCLOC_FALSE;
       SetWheelUnitErrorWUM(self, cAllocWuLocalisationFailed);
-    }
-  }
-  else if(ucStatus == cAUTOLOC_SUCCESSFUL)
-  {
-    ucAllocFailedCounter = 0;
+      }
+   }
+   else if(ucStatus == cAUTOLOC_SUCCESSFUL){
+      ucAllocFailedCounter = 0;
     ClearWheelUnitErrorWUM(self, cAllocWuLocalisationFailed);
-  }
-  else
-  {
-  }
+   }
+   else{
+   }
 
-  PutAllocFailCounterToNvmZOMirrorblockEE(self, ucAllocFailedCounter);
+   PutAllocFailCounterToNvmZOMirrorblockEE(self, ucAllocFailedCounter);
 
-  return ucAllocFailedCounter;
+   return ucAllocFailedCounter;
 }
 
 uint8 ucGetAutoLocFailedCounterWUM(void)
 {
-  return ucAllocFailedCounter;
+   return ucAllocFailedCounter;
 }
 
 static boolean bWuIsDownForCountWUM(uint8 ucCol)
 {
-  boolean bRetVal = FALSE;
+   boolean bRetVal = FALSE;
 
-  if(ushGetMuteTimerValueWUM(ucCol) > 0)
-  {
-    if(ushGetTimeSinceLastRxWUM(ucCol) >= cWU_DOUBLE_FAIL_TIME)
-    {
+   if(ushGetMuteTimerValueWUM(ucCol) > 0){
+      if(ushGetTimeSinceLastRxWUM(ucCol) >= cWU_DOUBLE_FAIL_TIME){
       bRetVal = TRUE;
-    }
-  }
-  return bRetVal;
+      }
+   }
+   return bRetVal;
 }
 
 static void SetMuteErrorStatusWUM(Rte_Instance self)
 {
-  uint8 i;
+   uint8 i;
 
-  for (i=0; i<cMaxLR; i++)
-  {
-    switch (ucGetWPOfColWAL(i))
-    {
+   for(i=0; i<cMaxLR; i++){
+      switch(ucGetWPOfColWAL(i)){
       case cWheelPos_FL:
-      if(ushGetMuteTimerValueWUM(i) == 0)
-      {
+      if(ushGetMuteTimerValueWUM(i) == 0){
         SetWheelUnitErrorWUM(self, cAllocWuMuteFl);
       }
       break;
 
       case cWheelPos_FR:
-      if(ushGetMuteTimerValueWUM(i) == 0)
-      {
+      if(ushGetMuteTimerValueWUM(i) == 0){
         SetWheelUnitErrorWUM(self, cAllocWuMuteFr);
       }
       break;
 
       case cWheelPos_RL:
-      if(ushGetMuteTimerValueWUM(i) == 0)
-      {
+      if(ushGetMuteTimerValueWUM(i) == 0){
         SetWheelUnitErrorWUM(self, cAllocWuMuteRl);
       }
       break;
 
       case cWheelPos_RR:
-      if(ushGetMuteTimerValueWUM(i) == 0)
-      {
+      if(ushGetMuteTimerValueWUM(i) == 0){
         SetWheelUnitErrorWUM(self, cAllocWuMuteRr);
       }
       break;
 
       case cWheelPos_NA:
-      if(ushGetMuteTimerValueWUM(i) == 0)
-      {
-        if(bGetBitBetriebszustandBZ(cTEILEIGENRAD) == FALSE)
-        {
+      if(ushGetMuteTimerValueWUM(i) == 0){
+          if(bGetBitBetriebszustandBZ(cTEILEIGENRAD) == FALSE){
           SetWheelUnitErrorWUM(self, cAllocUnspecifiedWuMute);
           ClearWheelUnitErrorWUM(self, cAllocWuMuteFl);
           ClearWheelUnitErrorWUM(self, cAllocWuMuteFr);
@@ -583,116 +507,96 @@ static void SetMuteErrorStatusWUM(Rte_Instance self)
       default:
       break;
 
-    }
+      }
 
-    if(ushGetMuteTimerValueWUM(i) == 0)
-    {
+      if(ushGetMuteTimerValueWUM(i) == 0){
       PUTucWheelSensorStatusToNvmMirrorEE(self, cRE_STATUS_MUTE, i);
-    }
-  }
+      }
+   }
 }
 
 static boolean bCheckMuteMonitorActive(void)
 {
-  boolean bRetVal;
+   boolean bRetVal;
 
-  if((bGetNetworkErrorNWM(cNetwork_RDC_DT_PCKG_MsgMissing) == FALSE)
-   && ((ulWheelUnitErrors & cAllocGatewayOrAntennaError) != cAllocGatewayOrAntennaError))
-  {
+   if((bGetNetworkErrorNWM(cNetwork_RDC_DT_PCKG_MsgMissing) == FALSE)
+   && ((ulWheelUnitErrors & cAllocGatewayOrAntennaError) != cAllocGatewayOrAntennaError)){
 
-    if(bGetBitFahrzeugzustandFZZ(cRS_VTHRES) == TRUE)
-    {
+      if(bGetBitFahrzeugzustandFZZ(cRS_VTHRES) == TRUE){
       bRetVal = TRUE;
-    }
-    else
-    {
+      }
+      else{
       bRetVal = FALSE;
-    }
-  }
-  else
-  {
+      }
+   }
+   else{
     bRetVal = FALSE;
-  }
+   }
 
-  return bRetVal;
+   return bRetVal;
 }
 
 static void CheckLowBatWUM(Rte_Instance self, const ImpTypeRecCddRdcData* rdcData, uint8 ucCol, uint8 ucWP)
 {
-  uint8 ucBatLevel;
-  uint8 ucBatStatus;
-  boolean bRestoreCounter = FALSE;
+   uint8 ucBatLevel;
+   uint8 ucBatStatus;
+   boolean bRestoreCounter = FALSE;
 
-  ucBatLevel = ucCalcBatteryLevelDM(rdcData);
-  if(ucBatLevel <= 10)
-  {
-    if((rdcData->RDC_DT_2 >= 52) && (rdcData->RDC_DT_2 < 0xF0))
-    {
+   ucBatLevel = ucCalcBatteryLevelDM(rdcData);
+   if(ucBatLevel <= 10){
+      if((rdcData->RDC_DT_2 >= 52) && (rdcData->RDC_DT_2 < 0xF0)){
       ucBatStatus = cBAT_LOW;
-    }
-    else
-    {
+      }
+      else{
       ucBatStatus = cBAT_UNKNOWN;
-    }
-  }
-  else
-  {
-    ucBatStatus = cBAT_OK;
-  }
+      }
+   }
+   else{
+      ucBatStatus = cBAT_OK;
+   }
 
-  switch (ucWP)
-  {
-    case cWheelPos_FL:
-    if(bGetWheelUnitErrorWUM(cAllocWuLowBatteryFl) == TRUE)
-    {
+   switch(ucWP){
+      case cWheelPos_FL:
+      if(bGetWheelUnitErrorWUM(cAllocWuLowBatteryFl) == TRUE){
       bRestoreCounter = TRUE;
-    }
-    break;
+      }
+      break;
 
-    case cWheelPos_FR:
-    if(bGetWheelUnitErrorWUM(cAllocWuLowBatteryFr) == TRUE)
-    {
+      case cWheelPos_FR:
+      if(bGetWheelUnitErrorWUM(cAllocWuLowBatteryFr) == TRUE){
       bRestoreCounter = TRUE;
-    }
-    break;
+      }
+      break;
 
-    case cWheelPos_RL:
-    if(bGetWheelUnitErrorWUM(cAllocWuLowBatteryRl) == TRUE)
-    {
+      case cWheelPos_RL:
+      if(bGetWheelUnitErrorWUM(cAllocWuLowBatteryRl) == TRUE){
       bRestoreCounter = TRUE;
-    }
-    break;
+      }
+      break;
 
-    case cWheelPos_RR:
-    if(bGetWheelUnitErrorWUM(cAllocWuLowBatteryRr) == TRUE)
-    {
+      case cWheelPos_RR:
+      if(bGetWheelUnitErrorWUM(cAllocWuLowBatteryRr) == TRUE){
       bRestoreCounter = TRUE;
-    }
-    break;
+      }
+      break;
 
-    default:
-    break;
-  }
-  if(bRestoreCounter == TRUE)
-  {
-    if(tWuMonitoring[ucCol].ucCountLoBat < cNO_OF_LO_BAT_TELEGRAMS)
-    {
+      default:
+      break;
+   }
+   if(bRestoreCounter == TRUE){
+      if(tWuMonitoring[ucCol].ucCountLoBat < cNO_OF_LO_BAT_TELEGRAMS){
       tWuMonitoring[ucCol].ucCountLoBat = cNO_OF_LO_BAT_TELEGRAMS;
-    }
-  }
+      }
+   }
 
-  if(ucBatStatus == cBAT_LOW)
-  {
-    if(tWuMonitoring[ucCol].ucCountLoBat < cNO_OF_LO_BAT_TELEGRAMS)
-    {
+   if(ucBatStatus == cBAT_LOW){
+      if(tWuMonitoring[ucCol].ucCountLoBat < cNO_OF_LO_BAT_TELEGRAMS){
       tWuMonitoring[ucCol].ucCountLoBat++;
-    }
+      }
 
-    if(tWuMonitoring[ucCol].ucCountLoBat >= cNO_OF_LO_BAT_TELEGRAMS)
-    {
+      if(tWuMonitoring[ucCol].ucCountLoBat >= cNO_OF_LO_BAT_TELEGRAMS){
       tWuMonitoring[ucCol].ucCountLoBat = cNO_OF_LO_BAT_TELEGRAMS;
-      switch (ucWP)
-      {
+      switch(ucWP){
         case cWheelPos_FL:
           SetWheelUnitErrorWUM(self, cAllocWuLowBatteryFl);
         break;
@@ -708,22 +612,17 @@ static void CheckLowBatWUM(Rte_Instance self, const ImpTypeRecCddRdcData* rdcDat
         default:
         break;
       }
-    }
-  }
+      }
+   }
 
-  else if(ucBatStatus == cBAT_OK)
-  {
-    if(tWuMonitoring[ucCol].ucCountLoBat < cNO_OF_LO_BAT_TELEGRAMS)
-    {
+   else if(ucBatStatus == cBAT_OK){
+      if(tWuMonitoring[ucCol].ucCountLoBat < cNO_OF_LO_BAT_TELEGRAMS){
       tWuMonitoring[ucCol].ucCountLoBat = 0;
-    }
-    else
-    {
+      }
+      else{
       tWuMonitoring[ucCol].ucCountLoBat++;
-      if(tWuMonitoring[ucCol].ucCountLoBat >= (2 * cNO_OF_LO_BAT_TELEGRAMS))
-      {
-        switch (ucWP)
-        {
+      if(tWuMonitoring[ucCol].ucCountLoBat >= (2 * cNO_OF_LO_BAT_TELEGRAMS)){
+        switch(ucWP){
           case cWheelPos_FL:
             ClearWheelUnitErrorWUM(self, cAllocWuLowBatteryFl);
           break;
@@ -741,100 +640,89 @@ static void CheckLowBatWUM(Rte_Instance self, const ImpTypeRecCddRdcData* rdcDat
         }
         tWuMonitoring[ucCol].ucCountLoBat = 0;
       }
-    }
-  }
-  else {}
+      }
+   }
+   else {}
 
-  PutCntLoBatToNvmZOMirrorblockEE(self, tWuMonitoring[ucCol].ucCountLoBat, ucCol);
+   PutCntLoBatToNvmZOMirrorblockEE(self, tWuMonitoring[ucCol].ucCountLoBat, ucCol);
 }
 
 static void CheckWrongWuMountedWUM(Rte_Instance self)
 {
-  uint8 ucNoOfWUsWithoutLocPossibility = 0;
-  uint8 i;
+   uint8 ucNoOfWUsWithoutLocPossibility = 0;
+   uint8 i;
 
-  for (i=0; i<cMaxLR; i++)
-  {
-    if(tWuMonitoring[i].ucLocPossible == 0)
-    {
+   for(i=0; i<cMaxLR; i++){
+      if(tWuMonitoring[i].ucLocPossible == 0){
       ucNoOfWUsWithoutLocPossibility++;
-    }
-  }
+      }
+   }
 
-  if(ucNoOfWUsWithoutLocPossibility == cMaxLR)
-  {
+   if(ucNoOfWUsWithoutLocPossibility == cMaxLR){
     SetWheelUnitErrorWUM(self, cAlloc4WrongWuMounted);
-  }
-  else if(ucNoOfWUsWithoutLocPossibility > 0)
-  {
+   }
+   else if(ucNoOfWUsWithoutLocPossibility > 0){
     SetWheelUnitErrorWUM(self, cAlloc1To3WrongWuMounted);
-  }
-  else
-  {
+   }
+   else{
     ClearWheelUnitErrorWUM(self, cAlloc1To3WrongWuMounted);
     ClearWheelUnitErrorWUM(self, cAlloc4WrongWuMounted);
-  }
+   }
 }
 
 static void CheckForeignSupplierWUM(Rte_Instance self)
 {
-  uint8 ucWUsFromForeignSupplier = 0;
-  uint8 i;
+   uint8 ucWUsFromForeignSupplier = 0;
+   uint8 i;
 
-  for (i=0; i<cMaxLR; i++)
-  {
-    if(tWuMonitoring[i].ucForeignSupplier == 1)
-    {
+   for(i=0; i<cMaxLR; i++){
+      if(tWuMonitoring[i].ucForeignSupplier == 1){
       ucWUsFromForeignSupplier++;
-    }
-  }
+      }
+   }
 
-  if(ucWUsFromForeignSupplier > 0)
-  {
+   if(ucWUsFromForeignSupplier > 0){
     SetWheelUnitErrorWUM(self, cAllocRdciOtherWuSensorType);
-  }
-  else
-  {
+   }
+   else{
     ClearWheelUnitErrorWUM(self, cAllocRdciOtherWuSensorType);
-  }
+   }
 }
 
 void ClearMuteWUM(Rte_Instance self, uint8 ucCol, uint8 ucWP)
 {
 
-  tWuMonitoring[ucCol].ushTimerBlockFail = cWU_BLOCK_FAIL_TIME;
-  PUTushBlockFailTimerEE(self, tWuMonitoring[ucCol].ushTimerBlockFail, ucCol);
+   tWuMonitoring[ucCol].ushTimerBlockFail = cWU_BLOCK_FAIL_TIME;
+   PUTushBlockFailTimerEE(self, tWuMonitoring[ucCol].ushTimerBlockFail, ucCol);
 
-  if((tWuMonitoring[0].ushTimerBlockFail > 0)
+   if((tWuMonitoring[0].ushTimerBlockFail > 0)
    && (tWuMonitoring[1].ushTimerBlockFail > 0)
    && (tWuMonitoring[2].ushTimerBlockFail > 0)
-   && (tWuMonitoring[3].ushTimerBlockFail > 0))
-  {
+   && (tWuMonitoring[3].ushTimerBlockFail > 0)){
     ClearWheelUnitErrorWUM(self, cAllocUnspecifiedWuMute);
-  }
+   }
 
-  switch (ucWP)
-  {
-    case cWheelPos_FL:
+   switch(ucWP){
+      case cWheelPos_FL:
       ClearWheelUnitErrorWUM(self, cAllocWuMuteFl);
-    break;
+      break;
 
-    case cWheelPos_FR:
+      case cWheelPos_FR:
       ClearWheelUnitErrorWUM(self, cAllocWuMuteFr);
-    break;
+      break;
 
-    case cWheelPos_RL:
+      case cWheelPos_RL:
       ClearWheelUnitErrorWUM(self, cAllocWuMuteRl);
-    break;
+      break;
 
-    case cWheelPos_RR:
+      case cWheelPos_RR:
       ClearWheelUnitErrorWUM(self, cAllocWuMuteRr);
-    break;
+      break;
 
-    case cWheelPos_NA:
-    default:
-    break;
-  }
+      case cWheelPos_NA:
+      default:
+      break;
+   }
 }
 
 void ClearAllSpecificMutesWUM(Rte_Instance self)
@@ -848,38 +736,36 @@ void ClearAllSpecificMutesWUM(Rte_Instance self)
 static void ClearDefectWUM(Rte_Instance self, uint8 ucCol, uint8 ucWP)
 {
 
-  tWuMonitoring[ucCol].ushCountDefect = 0;
+   tWuMonitoring[ucCol].ushCountDefect = 0;
 
-  if((tWuMonitoring[0].ushCountDefect == 0)
+   if((tWuMonitoring[0].ushCountDefect == 0)
    && (tWuMonitoring[1].ushCountDefect == 0)
    && (tWuMonitoring[2].ushCountDefect == 0)
-   && (tWuMonitoring[3].ushCountDefect == 0))
-  {
+   && (tWuMonitoring[3].ushCountDefect == 0)){
     ClearWheelUnitErrorWUM(self, cAllocUnspecifiedWfcDefect);
-  }
+   }
 
-  switch (ucWP)
-  {
-    case cWheelPos_FL:
+   switch(ucWP){
+      case cWheelPos_FL:
       ClearWheelUnitErrorWUM(self, cAllocWuDefectFl);
-    break;
+      break;
 
-    case cWheelPos_FR:
+      case cWheelPos_FR:
       ClearWheelUnitErrorWUM(self, cAllocWuDefectFr);
-    break;
+      break;
 
-    case cWheelPos_RL:
+      case cWheelPos_RL:
       ClearWheelUnitErrorWUM(self, cAllocWuDefectRl);
-    break;
+      break;
 
-    case cWheelPos_RR:
+      case cWheelPos_RR:
       ClearWheelUnitErrorWUM(self, cAllocWuDefectRr);
-    break;
+      break;
 
-    case cWheelPos_NA:
-    default:
-    break;
-  }
+      case cWheelPos_NA:
+      default:
+      break;
+   }
 }
 
 static void ClearLowBatWUM(Rte_Instance self)
@@ -892,82 +778,69 @@ static void ClearLowBatWUM(Rte_Instance self)
 
 static void ClearGatewayAntennaWUM(Rte_Instance self, uint8 DpNo)
 {
-  uint8 i,DpIx;
+   uint8 i,DpIx;
 
-  if( 0x34 == DpNo)
-  {
+   if(0x34 == DpNo){
     DpIx = cDataPackage34Ix;
-  }
-  else
-  {
+   }
+   else{
     DpIx = cDataPackage12Ix;
-  }
+   }
 
-  ushAliveTelTimeout[DpIx] = cALIVE_TEL_TIMEOUT;
+   ushAliveTelTimeout[DpIx] = cALIVE_TEL_TIMEOUT;
 
-  if((ulGetWheelUnitErrorsWUM(cFilterSubseqErr) & cAllocGatewayOrAntennaError) == cAllocGatewayOrAntennaError)
-  {
-    if(ResetDataPackageErrorIndNWM(self, cGA_SHIFT, DpIx) == TRUE)
-    {
+   if((ulGetWheelUnitErrorsWUM(cFilterSubseqErr) & cAllocGatewayOrAntennaError) == cAllocGatewayOrAntennaError){
+      if(ResetDataPackageErrorIndNWM(self, cGA_SHIFT, DpIx) == TRUE){
       ClearWheelUnitErrorWUM(self, cAllocGatewayOrAntennaError);
-    }
-    for (i=0; i<cMaxLR; i++)
-    {
-      if(bGetReMuteStatusBySlotWUM(i) == FALSE)
-      {
+      }
+      for(i=0; i<cMaxLR; i++){
+      if(bGetReMuteStatusBySlotWUM(i) == FALSE){
         ClearMuteWUM(self, i, ucGetWPOfColWAL(i));
       }
-    }
-  }
+      }
+   }
 }
 
 static void ClearRFInterferenceWUM(Rte_Instance self)
 {
-  boolean bCondition = TRUE;
-  uint8 i;
+   boolean bCondition = TRUE;
+   uint8 i;
 
-  if(ucWumActivityStatus == cWUM_ENABLED)
-  {
-    for (i=0; i<cMaxLR; i++)
-    {
-      if(ushGetTimeSinceLastRxWUM(i) >= cWU_DOUBLE_FAIL_TIME)
-      {
+   if(ucWumActivityStatus == cWUM_ENABLED){
+      for(i=0; i<cMaxLR; i++){
+      if(ushGetTimeSinceLastRxWUM(i) >= cWU_DOUBLE_FAIL_TIME){
         bCondition = FALSE;
       }
-    }
+      }
 
-    if(bCondition == TRUE)
+      if(bCondition == TRUE)
 
-    {
+      {
       ClearWheelUnitErrorWUM(self, cAllocRdciRfExternalInterference);
       ucRfIfStateMachine = cNoRfIf;
       PutRfIfStateMachineToNvmZOMirrorblockEE(self, ucRfIfStateMachine);
-    }
-  }
+      }
+   }
 }
 
 static void CheckDefectWUM(Rte_Instance self, const ImpTypeRecCddRdcData* rdcData, uint8 ucCol, uint8 ucWP)
 {
-  static uint8 ucUnspecDefectQualifier = 0;
+   static uint8 ucUnspecDefectQualifier = 0;
 
-  uint8 ucBasicState = (uint8)(rdcData->RDC_DT_4 & (uint8)0xE0) >> (uint8)5;
+   uint8 ucBasicState = (uint8)(rdcData->RDC_DT_4 & (uint8)0xE0) >> (uint8)5;
 
-  if(((rdcData->RDC_DT_1 == 0x00)
+   if(((rdcData->RDC_DT_1 == 0x00)
    ||  (rdcData->RDC_DT_2 == 0x00))
    || ((rdcData->RDC_DT_3 == 0xff)
    &&  ((ucBasicState == cNormalDriveWMotion) || (ucBasicState == cNormalDriveWoMotion))
-   &&  (rdcData->SUPP_ID == cSupplCodeHuf)))
-  {
-    if(tWuMonitoring[ucCol].ushCountDefect < ucDefectThreshold)
-    {
+   &&  (rdcData->SUPP_ID == cSupplCodeHuf))){
+      if(tWuMonitoring[ucCol].ushCountDefect < ucDefectThreshold){
       tWuMonitoring[ucCol].ushCountDefect++;
       PUTSensorDefectCounterToNvmMirrorEE(self, tWuMonitoring[ucCol].ushCountDefect, ucCol);
-    }
+      }
 
-    if(tWuMonitoring[ucCol].ushCountDefect >= ucDefectThreshold)
-    {
-      switch (ucWP)
-      {
+      if(tWuMonitoring[ucCol].ushCountDefect >= ucDefectThreshold){
+      switch(ucWP){
         case cWheelPos_FL:
           SetWheelUnitErrorWUM(self, cAllocWuDefectFl);
           ucUnspecDefectQualifier &= (uint8)~(uint8)(1 << ucCol);
@@ -1002,28 +875,24 @@ static void CheckDefectWUM(Rte_Instance self, const ImpTypeRecCddRdcData* rdcDat
       }
 
       PUTucWheelSensorStatusToNvmMirrorEE(self, cRE_STATUS_DEFECT, ucCol);
-    }
+      }
 
-    if((ucUnspecDefectQualifier & 0x0f) == 0)
-    {
+      if((ucUnspecDefectQualifier & 0x0f) == 0){
       ClearWheelUnitErrorWUM(self, cAllocUnspecifiedWfcDefect);
-    }
-  }
+      }
+   }
 
-  else
-  {
+   else{
     tWuMonitoring[ucCol].ushCountDefect = 0;
     PUTSensorDefectCounterToNvmMirrorEE(self, tWuMonitoring[ucCol].ushCountDefect, ucCol);
     PUTucWheelSensorStatusToNvmMirrorEE(self, cRE_STATUS_IO, ucCol);
-    ucUnspecDefectQualifier &= (uint8)~(uint8)(1 << ucCol);
+      ucUnspecDefectQualifier &= (uint8)~(uint8)(1 << ucCol);
 
-    if((ucUnspecDefectQualifier & 0x0f) == 0)
-    {
+      if((ucUnspecDefectQualifier & 0x0f) == 0){
       ClearWheelUnitErrorWUM(self, cAllocUnspecifiedWfcDefect);
-    }
+      }
 
-    switch (ucWP)
-    {
+      switch(ucWP){
       case cWheelPos_FL:
         ClearWheelUnitErrorWUM(self, cAllocWuDefectFl);
       break;
@@ -1043,35 +912,32 @@ static void CheckDefectWUM(Rte_Instance self, const ImpTypeRecCddRdcData* rdcDat
       case cWheelPos_NA:
       default:
       break;
-    }
-  }
+      }
+   }
 }
 
 static boolean bGoodCounterReachedMaximumWUM(void)
 {
-  uint8 i;
-  boolean retVal = FALSE;
+   uint8 i;
+   boolean retVal = FALSE;
 
-  for (i=0; i<cMaxLR; i++)
-  {
-    if(tWuMonitoring[i].ushCountGood == 0xFFFFU)
-    {
+   for(i=0; i<cMaxLR; i++){
+      if(tWuMonitoring[i].ushCountGood == 0xFFFFU){
       retVal = TRUE;
-    }
-  }
+      }
+   }
 
-  return retVal;
+   return retVal;
 }
 
 static uint32 FilterSubsequentErrorsWUM(uint32 ulErrorBits)
 {
-  uint32 ulRetVal = ulErrorBits;
-  static uint32 ulLastErrorState = 0;
-  uint32 ulErrorChanges;
+   uint32 ulRetVal = ulErrorBits;
+   static uint32 ulLastErrorState = 0;
+   uint32 ulErrorChanges;
 
-  if(bGetNetworkErrorNWM(cNetwork_RDC_DT_PCKG_MsgMissing) == TRUE)
-  {
-    ulRetVal &= ~ (cAllocGatewayOrAntennaError
+   if(bGetNetworkErrorNWM(cNetwork_RDC_DT_PCKG_MsgMissing) == TRUE){
+      ulRetVal &= ~ (cAllocGatewayOrAntennaError
                  | cAllocAutoLearningFailed
                  | cAllocWuMuteFl
                  | cAllocWuMuteFr
@@ -1079,149 +945,133 @@ static uint32 FilterSubsequentErrorsWUM(uint32 ulErrorBits)
                  | cAllocWuMuteRr
                  | cAllocUnspecifiedWuMute
                  | cAllocRdciRfExternalInterference);
-  }
+   }
 
-  if((ulErrorBits & cAllocAutoLearningFailed) == cAllocAutoLearningFailed)
-  {
-    ulRetVal &= ~ cAllocWuLocalisationFailed;
-  }
+   if((ulErrorBits & cAllocAutoLearningFailed) == cAllocAutoLearningFailed){
+      ulRetVal &= ~ cAllocWuLocalisationFailed;
+   }
 
-  if((ulErrorBits & cAllocRdciRfExternalInterference) == cAllocRdciRfExternalInterference)
-  {
-    ulRetVal &= ~ (cAllocWuMuteFl
+   if((ulErrorBits & cAllocRdciRfExternalInterference) == cAllocRdciRfExternalInterference){
+      ulRetVal &= ~ (cAllocWuMuteFl
                  | cAllocWuMuteFr
                  | cAllocWuMuteRl
                  | cAllocWuMuteRr
                  | cAllocUnspecifiedWuMute);
-  }
+   }
 
-  if((ulErrorBits & cAlloc4WrongWuMounted) == cAlloc4WrongWuMounted)
-  {
-    ulRetVal &= ~ (cAlloc1To3WrongWuMounted
+   if((ulErrorBits & cAlloc4WrongWuMounted) == cAlloc4WrongWuMounted){
+      ulRetVal &= ~ (cAlloc1To3WrongWuMounted
                  | cAllocWuLocalisationFailed);
-  }
+   }
 
-  if((ulErrorBits & cAlloc1To3WrongWuMounted) == cAlloc1To3WrongWuMounted)
-  {
-    ulRetVal &= ~ (cAllocWuLocalisationFailed);
-  }
+   if((ulErrorBits & cAlloc1To3WrongWuMounted) == cAlloc1To3WrongWuMounted){
+      ulRetVal &= ~ (cAllocWuLocalisationFailed);
+   }
 
-  if(bGetBitBetriebszustandBZ(cEIGENRAD) == FALSE)
-  {
-    if(bGetBitBetriebszustandBZ(cTOO_MUCH_RE) == TRUE)
-    {
+   if(bGetBitBetriebszustandBZ(cEIGENRAD) == FALSE){
+      if(bGetBitBetriebszustandBZ(cTOO_MUCH_RE) == TRUE){
       ulRetVal &= ~ (cAllocUnspecifiedWuMute);
-    }
-  }
+      }
+   }
 
-  ulErrorChanges = ulLastErrorState ^ ulRetVal;
-  ulWheelUnitErrChangedFlags |= ulErrorChanges;
-  ulLastErrorState = ulRetVal;
+   ulErrorChanges = ulLastErrorState ^ ulRetVal;
+   ulWheelUnitErrChangedFlags |= ulErrorChanges;
+   ulLastErrorState = ulRetVal;
 
-  return ulRetVal;
+   return ulRetVal;
 }
 
 void SetWheelUnitGoodCounterWUM(uint8 ucCol, uint16 ushVal)
 {
-  tWuMonitoring[ucCol].ushCountGood = ushVal;
+   tWuMonitoring[ucCol].ushCountGood = ushVal;
 }
 
 void SetWheelUnitMissingCounterWUM(uint8 ucCol, uint16 ushVal)
 {
-  tWuMonitoring[ucCol].ushCountMissing = ushVal;
+   tWuMonitoring[ucCol].ushCountMissing = ushVal;
 }
 
 uint16 ushGetWheelUnitGoodCounterWUM(uint8 ucCol)
 {
-  return tWuMonitoring[ucCol].ushCountGood;
+   return tWuMonitoring[ucCol].ushCountGood;
 }
 
 uint16 ushGetWheelUnitMissingCounterWUM(uint8 ucCol)
 {
-  return tWuMonitoring[ucCol].ushCountMissing;
+   return tWuMonitoring[ucCol].ushCountMissing;
 }
 
 uint8 ucGetSingleFailTimerValueWUM(uint8 ucCol)
 {
-  return (uint8)(tWuMonitoring[ucCol].ushTimerSingleFail & 0xff);
+   return (uint8)(tWuMonitoring[ucCol].ushTimerSingleFail & 0xff);
 }
 
 void SetWheelUnitErrorWUM(Rte_Instance self, uint32 ulDtcBit)
 {
-  if((ulWheelUnitErrors & ulDtcBit) == 0)
-  {
-    ulWheelUnitErrors |= ulDtcBit;
+   if((ulWheelUnitErrors & ulDtcBit) == 0){
+      ulWheelUnitErrors |= ulDtcBit;
     PUTulWumErrorsEE(self, ulWheelUnitErrors);
-  }
+   }
 }
 
 void ClearWheelUnitErrorWUM(Rte_Instance self, uint32 ulDtcBit)
 {
-  if((ulWheelUnitErrors & ulDtcBit) == ulDtcBit)
-  {
-    ulWheelUnitErrors ^= ulDtcBit;
+   if((ulWheelUnitErrors & ulDtcBit) == ulDtcBit){
+      ulWheelUnitErrors ^= ulDtcBit;
     PUTulWumErrorsEE(self, ulWheelUnitErrors);
-  }
+   }
 }
 
 void ClearWheelUnitErrChangedFlagWUM(uint32 ulDtcBit)
 {
-  if((ulWheelUnitErrChangedFlags & ulDtcBit) == ulDtcBit)
-  {
-    ulWheelUnitErrChangedFlags ^= ulDtcBit;
-  }
+   if((ulWheelUnitErrChangedFlags & ulDtcBit) == ulDtcBit){
+      ulWheelUnitErrChangedFlags ^= ulDtcBit;
+   }
 }
 
 void ClearWheelUnitErrChangedFlagsWUM(void)
 {
-  ulWheelUnitErrChangedFlags = cAllocNoError;
+   ulWheelUnitErrChangedFlags = cAllocNoError;
 }
 
 uint32 ulGetWheelUnitErrorsWUM(boolean bUseFilter)
 {
-  uint32 ulRetVal;
+   uint32 ulRetVal;
 
-  if(bUseFilter == cFilterSubseqErr)
-  {
-    ulRetVal = FilterSubsequentErrorsWUM(ulWheelUnitErrors);
-  }
-  else
-  {
-    ulRetVal = ulWheelUnitErrors;
-  }
+   if(bUseFilter == cFilterSubseqErr){
+      ulRetVal = FilterSubsequentErrorsWUM(ulWheelUnitErrors);
+   }
+   else{
+      ulRetVal = ulWheelUnitErrors;
+   }
 
-  return ulRetVal;
+   return ulRetVal;
 }
 
 uint32 ulGetWheelUnitErrChangedFlagsWUM(void)
 {
-  return ulWheelUnitErrChangedFlags;
+   return ulWheelUnitErrChangedFlags;
 }
 
 boolean bGetWheelUnitErrorWUM(uint32 ulErrorBit)
 {
-  if((ulWheelUnitErrors & ulErrorBit) == ulErrorBit)
-  {
+   if((ulWheelUnitErrors & ulErrorBit) == ulErrorBit){
     return TRUE;
-  }
-  else
-  {
+   }
+   else{
     return FALSE;
-  }
+   }
 }
 
 uint8 ucGetReMuteStatusWUM(void)
 {
-  uint8 i;
-  uint8 ucRetVal = 0;
+   uint8 i;
+   uint8 ucRetVal = 0;
 
-  for (i=0; i<cMaxLR; i++)
-  {
-    if(tWuMonitoring[i].ushTimerBlockFail == 0)
-    {
+   for(i=0; i<cMaxLR; i++){
+      if(tWuMonitoring[i].ushTimerBlockFail == 0){
       ucRetVal |= (uint8)((uint8)0x01 << i);
-      switch (ucGetWPOfColWAL(i))
-      {
+      switch(ucGetWPOfColWAL(i)){
         case cWheelPos_FL:
           ucRetVal |= 0x10;
         break;
@@ -1242,39 +1092,34 @@ uint8 ucGetReMuteStatusWUM(void)
         default:
         break;
       }
-    }
-  }
+      }
+   }
 
-  return ucRetVal;
+   return ucRetVal;
 }
 
 boolean bGetReMuteStatusBySlotWUM(uint8 ucSlot)
 {
-  boolean ucRetVal;
+   boolean ucRetVal;
 
-  if(tWuMonitoring[ucSlot].ushTimerBlockFail == 0)
-  {
-    ucRetVal = TRUE;
-  }
-  else
-  {
-    ucRetVal = FALSE;
-  }
-  return ucRetVal;
+   if(tWuMonitoring[ucSlot].ushTimerBlockFail == 0){
+      ucRetVal = TRUE;
+   }
+   else{
+      ucRetVal = FALSE;
+   }
+   return ucRetVal;
 }
 
 uint8 ucGetReDefectStatusWUM(void)
 {
-  uint8 i;
-  uint8 ucRetVal = 0;
+   uint8 i;
+   uint8 ucRetVal = 0;
 
-  for (i=0; i<cMaxLR; i++)
-  {
-    if(tWuMonitoring[i].ushCountDefect >= ucDefectThreshold)
-    {
+   for(i=0; i<cMaxLR; i++){
+      if(tWuMonitoring[i].ushCountDefect >= ucDefectThreshold){
       ucRetVal |= (uint8)((uint8)0x01 << i);
-      switch (ucGetWPOfColWAL(i))
-      {
+      switch(ucGetWPOfColWAL(i)){
         case cWheelPos_FL:
           ucRetVal |= (uint8)0x10;
         break;
@@ -1295,75 +1140,66 @@ uint8 ucGetReDefectStatusWUM(void)
         default:
         break;
       }
-    }
-  }
+      }
+   }
 
-  return ucRetVal;
+   return ucRetVal;
 }
 
 boolean bGetReDefectStatusBySlotWUM(uint8 ucSlot)
 {
-  boolean ucRetVal;
-  if(tWuMonitoring[ucSlot].ushCountDefect >= ucDefectThreshold)
-  {
-    ucRetVal = TRUE;
-  }
-  else
-  {
-    ucRetVal = FALSE;
-  }
-  return ucRetVal;
+   boolean ucRetVal;
+   if(tWuMonitoring[ucSlot].ushCountDefect >= ucDefectThreshold){
+      ucRetVal = TRUE;
+   }
+   else{
+      ucRetVal = FALSE;
+   }
+   return ucRetVal;
 }
 
 uint16 ushGetReDefectCounterBySlotWUM(uint8 ucSlot)
 {
-  return tWuMonitoring[ucSlot].ushCountDefect;
+   return tWuMonitoring[ucSlot].ushCountDefect;
 }
 
 uint8 ucGetYieldRateWUM(uint8 ucCol)
 {
-  uint32 ulYield = 0;
+   uint32 ulYield = 0;
 
-  if((tWuMonitoring[ucCol].ushCountGood) > 0)
-  {
-    ulYield = ((uint32)(tWuMonitoring[ucCol].ushCountGood * 1000) / ((uint32)tWuMonitoring[ucCol].ushCountGood + (uint32)tWuMonitoring[ucCol].ushCountMissing));
-    ulYield += 5;
-    ulYield /= 10;
-  }
-  return (uint8)(ulYield & 0xff);
+   if((tWuMonitoring[ucCol].ushCountGood) > 0){
+      ulYield = ((uint32)(tWuMonitoring[ucCol].ushCountGood * 1000) / ((uint32)tWuMonitoring[ucCol].ushCountGood + (uint32)tWuMonitoring[ucCol].ushCountMissing));
+      ulYield += 5;
+      ulYield /= 10;
+   }
+   return (uint8)(ulYield & 0xff);
 }
 
 boolean bGetLocalisationPossibilityWUM(void)
 {
-  uint8 ucNoOfWUsWithoutLocPossibility = 0;
-  uint8 i;
+   uint8 ucNoOfWUsWithoutLocPossibility = 0;
+   uint8 i;
 
-  for (i=0; i<cMaxLR; i++)
-  {
-    if(tWuMonitoring[i].ucLocPossible == 0)
-    {
+   for(i=0; i<cMaxLR; i++){
+      if(tWuMonitoring[i].ucLocPossible == 0){
       ucNoOfWUsWithoutLocPossibility++;
-    }
-  }
+      }
+   }
 
-  if(ucNoOfWUsWithoutLocPossibility > 1)
-  {
+   if(ucNoOfWUsWithoutLocPossibility > 1){
     return FALSE;
-  }
-  else
-  {
+   }
+   else{
     return TRUE;
-  }
+   }
 }
 
 void SetWumActivityStatusWUM(Rte_Instance self, uint8 ucStatus, uint8 ucEvaluation)
 {
-  uint8 i;
+   uint8 i;
 
-  if(ucStatus != ucWumActivityStatus)
-  {
-    switch (ucStatus)
-    {
+   if(ucStatus != ucWumActivityStatus){
+      switch(ucStatus){
       case cWUM_BM_DIENST_START:
       SetWheelUnitGoodCounterWUM(0, 0);
       SetWheelUnitGoodCounterWUM(1, 0);
@@ -1384,20 +1220,15 @@ void SetWumActivityStatusWUM(Rte_Instance self, uint8 ucStatus, uint8 ucEvaluati
       break;
 
       case cWUM_DISABLED:
-      if(ucEvaluation == cDO_EVALUATION)
-      {
-        for (i=0; i<cMaxLR; i++)
-        {
-          if(tWuMonitoring[i].ushCountGood > 0)
-          {
+      if(ucEvaluation == cDO_EVALUATION){
+        for(i=0; i<cMaxLR; i++){
+          if(tWuMonitoring[i].ushCountGood > 0){
             tWuMonitoring[i].ushTimerBlockFail = cWU_BLOCK_FAIL_TIME;
           }
         }
       }
-      else
-      {
-        for (i=0; i<cMaxLR; i++)
-        {
+      else{
+        for(i=0; i<cMaxLR; i++){
           ClearMuteWUM(self, i, i);
           ClearDefectWUM(self, i, i);
         }
@@ -1408,20 +1239,20 @@ void SetWumActivityStatusWUM(Rte_Instance self, uint8 ucStatus, uint8 ucEvaluati
 
       default:
       break;
-    }
-  }
+      }
+   }
 }
 
 void RfInterferenceInLastCycleDetectedWUM(Rte_Instance self)
 {
-  ucRfIfStateMachine = cLastDrvCycEndedWithRfIf;
-  PutRfIfStateMachineToNvmZOMirrorblockEE(self, ucRfIfStateMachine);
+   ucRfIfStateMachine = cLastDrvCycEndedWithRfIf;
+   PutRfIfStateMachineToNvmZOMirrorblockEE(self, ucRfIfStateMachine);
 }
 
 boolean bPrio1ErrorIsSetWUM(void)
 {
-  boolean bRetVal = FALSE;
-  uint32 ulPrio1Errors =    cAllocAutoLearningFailed
+   boolean bRetVal = FALSE;
+   uint32 ulPrio1Errors =    cAllocAutoLearningFailed
                           | cAllocWuMuteFl
                           | cAllocWuMuteFr
                           | cAllocWuMuteRl
@@ -1434,23 +1265,21 @@ boolean bPrio1ErrorIsSetWUM(void)
                           | cAllocUnspecifiedWfcDefect
                           | cAllocGatewayOrAntennaError;
 
-  if((ulWheelUnitErrors & ulPrio1Errors) == 0)
-  {
+   if((ulWheelUnitErrors & ulPrio1Errors) == 0){
     bRetVal = FALSE;
-  }
-  else
-  {
+   }
+   else{
 
     bRetVal = TRUE;
-  }
+   }
 
-  return bRetVal;
+   return bRetVal;
 }
 
 boolean bSystemInactiveByRfInterferenceWUM(void)
 {
-  boolean bRetVal = FALSE;
-  uint32 ulPrio1Errors =    cAllocAutoLearningFailed
+   boolean bRetVal = FALSE;
+   uint32 ulPrio1Errors =    cAllocAutoLearningFailed
 
                           | cAllocWuDefectFl
                           | cAllocWuDefectFr
@@ -1459,177 +1288,156 @@ boolean bSystemInactiveByRfInterferenceWUM(void)
                           | cAllocUnspecifiedWfcDefect
                           | cAllocGatewayOrAntennaError;
 
-  if((ulWheelUnitErrors & cAllocRdciRfExternalInterference) == cAllocRdciRfExternalInterference)
-  {
+   if((ulWheelUnitErrors & cAllocRdciRfExternalInterference) == cAllocRdciRfExternalInterference){
 
-    if((ulWheelUnitErrors & ulPrio1Errors) == 0)
-    {
+      if((ulWheelUnitErrors & ulPrio1Errors) == 0){
 
       bRetVal = TRUE;
-    }
-    else
-    {
+      }
+      else{
 
       bRetVal = FALSE;
-    }
-  }
-  else
-  {
+      }
+   }
+   else{
     bRetVal = FALSE;
-  }
+   }
 
-  return bRetVal;
+   return bRetVal;
 }
 
 void ClearErrorConditionsWUM(Rte_Instance self, uint8 ucWP, uint8 ucParamToClear)
 {
-  uint8 ucSlot;
+   uint8 ucSlot;
 
-  ucSlot = ucGetColOfWP(ucWP);
+   ucSlot = ucGetColOfWP(ucWP);
 
-  switch (ucParamToClear)
-  {
-    case cPTC_Mute:
-    if(ucSlot < cMaxLR)
-    {
+   switch(ucParamToClear){
+      case cPTC_Mute:
+      if(ucSlot < cMaxLR){
       tWuMonitoring[ucSlot].ushTimerBlockFail = cWU_BLOCK_FAIL_TIME;
       PUTushBlockFailTimerEE(self, tWuMonitoring[ucSlot].ushTimerBlockFail, ucSlot);
-    }
-    else
-    {
-      for (ucSlot=0; ucSlot<cMaxLR; ucSlot++)
-      {
+      }
+      else{
+      for(ucSlot=0; ucSlot<cMaxLR; ucSlot++){
         tWuMonitoring[ucSlot].ushTimerBlockFail = cWU_BLOCK_FAIL_TIME;
         PUTushBlockFailTimerEE(self, tWuMonitoring[ucSlot].ushTimerBlockFail, ucSlot);
       }
-    }
-    break;
+      }
+      break;
 
-    case cPTC_Defect:
-    if(ucSlot < cMaxLR)
-    {
+      case cPTC_Defect:
+      if(ucSlot < cMaxLR){
       tWuMonitoring[ucSlot].ushCountDefect = 0;
       PUTSensorDefectCounterToNvmMirrorEE(self, tWuMonitoring[ucSlot].ushCountDefect, ucSlot);
-    }
-    else
-    {
-      for (ucSlot=0; ucSlot<cMaxLR; ucSlot++)
-      {
+      }
+      else{
+      for(ucSlot=0; ucSlot<cMaxLR; ucSlot++){
         tWuMonitoring[ucSlot].ushCountDefect = 0;
         PUTSensorDefectCounterToNvmMirrorEE(self, tWuMonitoring[ucSlot].ushCountDefect, ucSlot);
       }
-    }
-    break;
+      }
+      break;
 
-    case cPTC_LowBat:
-    if(ucSlot < cMaxLR)
-    {
+      case cPTC_LowBat:
+      if(ucSlot < cMaxLR){
       tWuMonitoring[ucSlot].ucCountLoBat = 0;
       PutCntLoBatToNvmZOMirrorblockEE(self, tWuMonitoring[ucSlot].ucCountLoBat, ucSlot);
-    }
-    else
-    {
-      for (ucSlot=0; ucSlot<cMaxLR; ucSlot++)
-      {
+      }
+      else{
+      for(ucSlot=0; ucSlot<cMaxLR; ucSlot++){
         tWuMonitoring[ucSlot].ucCountLoBat = 0;
         PutCntLoBatToNvmZOMirrorblockEE(self, tWuMonitoring[ucSlot].ucCountLoBat, ucSlot);
       }
-    }
-    break;
+      }
+      break;
 
-    case cPTC_WrongMounted:
-    for (ucSlot=0; ucSlot<cMaxLR; ucSlot++)
-    {
+      case cPTC_WrongMounted:
+      for(ucSlot=0; ucSlot<cMaxLR; ucSlot++){
       tWuMonitoring[ucSlot].ucLocPossible = 1;
-    }
-    break;
+      }
+      break;
 
-    case cPTC_WrongSupplier:
-    for (ucSlot=0; ucSlot<cMaxLR; ucSlot++)
-    {
+      case cPTC_WrongSupplier:
+      for(ucSlot=0; ucSlot<cMaxLR; ucSlot++){
       tWuMonitoring[ucSlot].ucForeignSupplier = 0;
-    }
-    break;
+      }
+      break;
 
-    case cPTC_AntennaGateway:
-    ushAliveTelTimeout[cDataPackage12Ix] = cALIVE_TEL_TIMEOUT;
-    ushAliveTelTimeout[cDataPackage34Ix] = cALIVE_TEL_TIMEOUT;
+      case cPTC_AntennaGateway:
+      ushAliveTelTimeout[cDataPackage12Ix] = cALIVE_TEL_TIMEOUT;
+      ushAliveTelTimeout[cDataPackage34Ix] = cALIVE_TEL_TIMEOUT;
     PUTushFbd4AliveTimerEE(self, cALIVE_TEL_TIMEOUT);
-    break;
+      break;
 
-    case cPTC_LocalisationFailed:
-    ucAllocFailedCounter = 0;
+      case cPTC_LocalisationFailed:
+      ucAllocFailedCounter = 0;
     PutAllocFailCounterToNvmZOMirrorblockEE(self, ucAllocFailedCounter);
-    break;
+      break;
 
-    case cPTC_RfInterference:
-    ucRfIfStateMachine = cNoRfIf;
+      case cPTC_RfInterference:
+      ucRfIfStateMachine = cNoRfIf;
     PutRfIfStateMachineToNvmZOMirrorblockEE(self, ucRfIfStateMachine);
-    break;
+      break;
 
-    default:
-    break;
-  }
+      default:
+      break;
+   }
 
 }
 
 uint16 ushGetGatewayAntennaTimerValueWUM(void)
 {
-  uint16 ushRetVal;
+   uint16 ushRetVal;
 
-  if(ushAliveTelTimeout[cDataPackage12Ix] < ushAliveTelTimeout[cDataPackage34Ix])
-  {
-    ushRetVal = ushAliveTelTimeout[cDataPackage12Ix];
-  }
-  else
-  {
-    ushRetVal = ushAliveTelTimeout[cDataPackage34Ix];
-  }
-  return ushRetVal;
+   if(ushAliveTelTimeout[cDataPackage12Ix] < ushAliveTelTimeout[cDataPackage34Ix]){
+      ushRetVal = ushAliveTelTimeout[cDataPackage12Ix];
+   }
+   else{
+      ushRetVal = ushAliveTelTimeout[cDataPackage34Ix];
+   }
+   return ushRetVal;
 }
 
 static void IncTimeSinceLastRecEventWUM(Rte_Instance self, uint8 ucCol)
 {
-  if(ushTimeSinceLastRecEvent[ucCol] < (0x4ffu))
-  {
-    ushTimeSinceLastRecEvent[ucCol]++;
+   if(ushTimeSinceLastRecEvent[ucCol] < (0x4ffu)){
+      ushTimeSinceLastRecEvent[ucCol]++;
     PUTucTimeSinceLastRecEventToNvmMirrorEE(self, (uint8)(ushTimeSinceLastRecEvent[ucCol] / ((uint16)5)), ucCol);
-  }
+   }
 }
 
 static void ClearTimeSinceLastRecEventWUM(Rte_Instance self, uint8 ucCol){
-    ushTimeSinceLastRecEvent[ucCol] = 0;
+      ushTimeSinceLastRecEvent[ucCol] = 0;
     PUTucTimeSinceLastRecEventToNvmMirrorEE(self, (uint8)(ushTimeSinceLastRecEvent[ucCol]), ucCol);
 }
 
 static uint16 ushGetTimeSinceLastRxWUM(uint8 ucCol)
 {
-  uint16 ushRet;
+   uint16 ushRet;
 
-  if(ushTimeSinceLastRecEvent[ucCol] >= cWU_BLOCK_FAIL_TIME)
-  {
-    ushRet = cWU_BLOCK_FAIL_TIME;
-  }
-  else
-  {
-    ushRet = ushTimeSinceLastRecEvent[ucCol];
-  }
+   if(ushTimeSinceLastRecEvent[ucCol] >= cWU_BLOCK_FAIL_TIME){
+      ushRet = cWU_BLOCK_FAIL_TIME;
+   }
+   else{
+      ushRet = ushTimeSinceLastRecEvent[ucCol];
+   }
 
-  return ushRet;
+   return ushRet;
 }
 
 uint16 ushGetMuteTimerValueWUM(uint8 ucCol)
 {
-  return tWuMonitoring[ucCol].ushTimerBlockFail;
+   return tWuMonitoring[ucCol].ushTimerBlockFail;
 }
 
 uint8 ucGetLoBatCounterValueWUM(uint8 ucCol)
 {
-  return tWuMonitoring[ucCol].ucCountLoBat;
+   return tWuMonitoring[ucCol].ucCountLoBat;
 }
 
 uint8 ucGetWumActivityStatusWUM(void)
 {
-  return ucWumActivityStatus;
+   return ucWumActivityStatus;
 }
 

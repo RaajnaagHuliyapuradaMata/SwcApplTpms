@@ -11,9 +11,9 @@ extern "C"
 #include "EeDiagBlockX.h"
 
 typedef struct{
-  uint8 ucRInitCallEvents;
-  uint8 ucInitByHufEvents;
-  uint8 ucCodingChangedEvents;
+   uint8 ucRInitCallEvents;
+   uint8 ucInitByHufEvents;
+   uint8 ucCodingChangedEvents;
 }
 ResetEventCounterType;
 

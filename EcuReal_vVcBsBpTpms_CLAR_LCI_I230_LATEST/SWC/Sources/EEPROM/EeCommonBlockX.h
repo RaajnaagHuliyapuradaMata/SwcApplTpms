@@ -11,62 +11,62 @@ extern "C"
 #include "TAmbFiltX.h"
 
 typedef struct CommonNvmBlock{
-  uint8                         ucInitialize;
-  uint8                         ucUnitTemperature;
-  uint8                         ucUnitPressure;
-  uint8                         ucUnitSpeed;
+   uint8                         ucInitialize;
+   uint8                         ucUnitTemperature;
+   uint8                         ucUnitPressure;
+   uint8                         ucUnitSpeed;
   Rdci_MILE_KM_Type             ulKm;
   Rdci_UHRZEIT_DATUM_Type       tUhrzeitDatum;
-  uint32                        ulTimestamp;
-  uint16                        aushCntGoodTel[cAnzRad];
-  uint16                        aushCntMissTel[cAnzRad];
-  uint16                        aushBlockFailTimer[cAnzRad];
-  uint16                        aushSingleFailTimer[cAnzRad];
-  uint16                        ushFbd4AliveTimer;
-  TAmbientValueType             scTAmbientValue;
-  TAmbientFilterValueType       sshTAmbientFilterValue;
-  TAmbientFilterFactorValueType ucTAmbientFilterFactorValue;
-  uint8                         ucPAmbientValue;
-  uint16                        aushFilDetMIso[cAnzRad];
-  uint8                         ucFilDetActive;
-  uint8                         aucFilDetRecFlag[cAnzRad];
-  uint16                        ushCrcCodingData;
-  uint8                         aucWheelSensorStatus[cAnzRad];
-  uint8                         aucLastTelegramType[cAnzRad];
-  uint16                        aushLastPalStatus[cAnzRad];
-  uint8                         aucLastBatState[cAnzRad];
-  uint8                         aucLastSNR[cAnzRad];
-  uint8                         aucTimeSinceLastRecEv[cAnzRad];
-  uint8                         ucLastIdChangedInfo;
-  uint8                         ucAipEngDrv;
-  uint16                        ushPositionAltitude;
-  uint16                        ushErrorAltitudeMeters;
-  uint16                        ushGpsTioTicks;
-  uint8                         ucAipGpsState;
-  uint8                         ucFBD4Count;
-  sint32                        slOATavg;
+   uint32                        ulTimestamp;
+   uint16                        aushCntGoodTel[cAnzRad];
+   uint16                        aushCntMissTel[cAnzRad];
+   uint16                        aushBlockFailTimer[cAnzRad];
+   uint16                        aushSingleFailTimer[cAnzRad];
+   uint16                        ushFbd4AliveTimer;
+   TAmbientValueType             scTAmbientValue;
+   TAmbientFilterValueType       sshTAmbientFilterValue;
+   TAmbientFilterFactorValueType ucTAmbientFilterFactorValue;
+   uint8                         ucPAmbientValue;
+   uint16                        aushFilDetMIso[cAnzRad];
+   uint8                         ucFilDetActive;
+   uint8                         aucFilDetRecFlag[cAnzRad];
+   uint16                        ushCrcCodingData;
+   uint8                         aucWheelSensorStatus[cAnzRad];
+   uint8                         aucLastTelegramType[cAnzRad];
+   uint16                        aushLastPalStatus[cAnzRad];
+   uint8                         aucLastBatState[cAnzRad];
+   uint8                         aucLastSNR[cAnzRad];
+   uint8                         aucTimeSinceLastRecEv[cAnzRad];
+   uint8                         ucLastIdChangedInfo;
+   uint8                         ucAipEngDrv;
+   uint16                        ushPositionAltitude;
+   uint16                        ushErrorAltitudeMeters;
+   uint16                        ushGpsTioTicks;
+   uint8                         ucAipGpsState;
+   uint8                         ucFBD4Count;
+   sint32                        slOATavg;
 }tCommonNvmBlockType;
 
 typedef enum{
-  ePRESSURE_UNIT_DEFAULT  = UN_AIP_Default,
-  ePRESSURE_UNIT_BAR      = UN_AIP_bar,
-  ePRESSURE_UNIT_KPA      = UN_AIP_kPa,
-  ePRESSURE_UNIT_PSI      = UN_AIP_psi,
-  ePRESSURE_UNIT_INVALID  = UN_AIP_SignalUngueltig
+   ePRESSURE_UNIT_DEFAULT  = UN_AIP_Default,
+   ePRESSURE_UNIT_BAR      = UN_AIP_bar,
+   ePRESSURE_UNIT_KPA      = UN_AIP_kPa,
+   ePRESSURE_UNIT_PSI      = UN_AIP_psi,
+   ePRESSURE_UNIT_INVALID  = UN_AIP_SignalUngueltig
 }tPressureUnitType;
 
 typedef enum{
-  eTEMPERATURE_UNIT_DEFAULT     = UN_TEMP_Default,
-  eTEMPERATURE_UNIT_CELSIUS     = UN_TEMP_DegreeC,
-  eTEMPERATURE_UNIT_FAHRENHEIT  = UN_TEMP_DegreeF,
-  eTEMPERATURE_UNIT_INVALID     = UN_TEMP_SignalUngueltig
+   eTEMPERATURE_UNIT_DEFAULT     = UN_TEMP_Default,
+   eTEMPERATURE_UNIT_CELSIUS     = UN_TEMP_DegreeC,
+   eTEMPERATURE_UNIT_FAHRENHEIT  = UN_TEMP_DegreeF,
+   eTEMPERATURE_UNIT_INVALID     = UN_TEMP_SignalUngueltig
 }tTemperatureUnitType;
 
 typedef enum{
-  eMILEAGE_UNIT_DEFAULT   = UN_MILE_Default,
-  eMILEAGE_UNIT_KILOMETER = UN_MILE_Kilometer,
-  eMILEAGE_UNIT_MEILEN    = UN_MILE_Meilen,
-  eMILEAGE_UNIT_INVALID   = UN_MILE_SignalUngueltig
+   eMILEAGE_UNIT_DEFAULT   = UN_MILE_Default,
+   eMILEAGE_UNIT_KILOMETER = UN_MILE_Kilometer,
+   eMILEAGE_UNIT_MEILEN    = UN_MILE_Meilen,
+   eMILEAGE_UNIT_INVALID   = UN_MILE_SignalUngueltig
 }tMileageUnitType;
 
 extern void InitCommonBlockEE(Rte_Instance self);

@@ -13,222 +13,204 @@
 #include "InfotyreX.h"
 #include "SeasRcpAdjX.h"
 
-void GetStatusRdcErfsEcoTabLesenDS( uint8 * pucData)
+void GetStatusRdcErfsEcoTabLesenDS(uint8* pucData)
 {
-  uint8 ucElement;
-  uint8 ucMember;
-  uint8 ucOffset,ucIndex;
+   uint8 ucElement;
+   uint8 ucMember;
+   uint8 ucOffset,ucIndex;
 
   pucData[0] = GetMaxTyreTablePos();
 
-  for( ucElement = 0; ucElement < TYRE_LIST_MAX_ELEMENTS; ucElement++)
-  {
-    ucOffset = (ucElement*TYRE_DATA_BYTES);
+   for(ucElement = 0; ucElement < TYRE_LIST_MAX_ELEMENTS; ucElement++){
+      ucOffset = (ucElement*TYRE_DATA_BYTES);
 
-    for (ucMember = 0; ucMember < TYRE_DATA_BYTES; ucMember++)
-    {
+      for(ucMember = 0; ucMember < TYRE_DATA_BYTES; ucMember++){
       ucIndex = (1+ucOffset+ucMember);
 
       pucData[ucIndex] = GetTyreListMember(ucElement, ucMember);
-    }
-  }
+      }
+   }
 
-  ucIndex++;
+   ucIndex++;
   pucData[ucIndex] = 0x00;
-  ucIndex++;
+   ucIndex++;
   pucData[ucIndex] = 0x00;
 
 }
 
 void GetStatusRdcErfsAktReifenEcoLesenDS(Rte_Instance self, uint8* pucData)
 {
-  uint8 ucCurIndex,ucSuIndex, ucWiIndex;
-  uint8 ucPtrIndex;
+   uint8 ucCurIndex,ucSuIndex, ucWiIndex;
+   uint8 ucPtrIndex;
 
-  ucCurIndex = GETSelectedTyreIndexEE(self);
+   ucCurIndex = GETSelectedTyreIndexEE(self);
 
-  if(ucCurIndex < GetLengthOfTyreListDM())
-  {
+   if(ucCurIndex < GetLengthOfTyreListDM()){
 
-    if(GetSaisonRaw(ucCurIndex) == CSEASON_SUMMER)
-    {
+      if(GetSaisonRaw(ucCurIndex) == CSEASON_SUMMER){
 
       ucSuIndex = ucCurIndex;
       ucWiIndex = GETSelectedWiTyreIndexEE(self);
-    }
-    else
-    {
+      }
+      else{
 
       ucWiIndex = ucCurIndex;
       ucSuIndex = GETSelectedSuTyreIndexEE(self);
-    }
-  }
-  else
-  {
+      }
+   }
+   else{
 
-    ucSuIndex = GETSelectedSuTyreIndexEE(self);
-    ucWiIndex = GETSelectedWiTyreIndexEE(self);
-  }
+      ucSuIndex = GETSelectedSuTyreIndexEE(self);
+      ucWiIndex = GETSelectedWiTyreIndexEE(self);
+   }
 
-  for (ucPtrIndex=0;ucPtrIndex<34;ucPtrIndex++)
-  {
+   for(ucPtrIndex=0;ucPtrIndex<34;ucPtrIndex++){
     pucData[ucPtrIndex] = 0x00;
-  }
+   }
 
-  ucPtrIndex = 0;
+   ucPtrIndex = 0;
 
-  if(ucSuIndex < TYRE_LIST_MAX_ELEMENTS)
-  {
+   if(ucSuIndex < TYRE_LIST_MAX_ELEMENTS){
 
-    if(ucSuIndex == ucCurIndex)
-    {
+      if(ucSuIndex == ucCurIndex){
       pucData[ucPtrIndex] = (uint8)TRUE;
-    }
-    else
-    {
+      }
+      else{
       pucData[ucPtrIndex] = (uint8)FALSE;
-    }
-    ucPtrIndex++;
+      }
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = ucSuIndex;
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetReifenbreiteRaw(ucSuIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetQuerschnittRaw(ucSuIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetDurchmesserRaw(ucSuIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetTragfaehigkeitRaw(ucSuIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetGeschwIndexRaw(ucSuIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetSaisonRaw(ucSuIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetKarkasseRaw(ucSuIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetReifentypRaw(ucSuIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetWerksauslieferungRaw(ucSuIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = ((GetFrontAxleSetPressTyreList(REQ_PART_LOAD, ucSuIndex)-80)/4);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = ((GetRearAxleSetPressTyreList(REQ_PART_LOAD, ucSuIndex)-80)/4);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = ((GetFrontAxleSetPressTyreList(REQ_ECO_LOAD, ucSuIndex)-80)/4);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = ((GetRearAxleSetPressTyreList(REQ_ECO_LOAD, ucSuIndex)-80)/4);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = ((GetFrontAxleSetPressTyreList(REQ_FULL_LOAD, ucSuIndex)-80)/4);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = ((GetRearAxleSetPressTyreList(REQ_FULL_LOAD, ucSuIndex)-80)/4);
-    ucPtrIndex++;
-  }
-  else
-  {
-    ucPtrIndex = 17;
-  }
+      ucPtrIndex++;
+   }
+   else{
+      ucPtrIndex = 17;
+   }
 
-  if(ucWiIndex < TYRE_LIST_MAX_ELEMENTS)
-  {
+   if(ucWiIndex < TYRE_LIST_MAX_ELEMENTS){
 
-    if(ucWiIndex == ucCurIndex)
-    {
+      if(ucWiIndex == ucCurIndex){
       pucData[ucPtrIndex] = (uint8)TRUE;
-    }
-    else
-    {
+      }
+      else{
       pucData[ucPtrIndex] = (uint8)FALSE;
-    }
-    ucPtrIndex++;
+      }
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = ucWiIndex;
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetReifenbreiteRaw(ucWiIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetQuerschnittRaw(ucWiIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetDurchmesserRaw(ucWiIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetTragfaehigkeitRaw(ucWiIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetGeschwIndexRaw(ucWiIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetSaisonRaw(ucWiIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetKarkasseRaw(ucWiIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetReifentypRaw(ucWiIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = GetWerksauslieferungRaw(ucWiIndex);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = ((GetFrontAxleSetPressTyreList(REQ_PART_LOAD, ucWiIndex)-80)/4);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = ((GetRearAxleSetPressTyreList(REQ_PART_LOAD, ucWiIndex)-80)/4);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = ((GetFrontAxleSetPressTyreList(REQ_ECO_LOAD, ucWiIndex)-80)/4);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = ((GetRearAxleSetPressTyreList(REQ_ECO_LOAD, ucWiIndex)-80)/4);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = ((GetFrontAxleSetPressTyreList(REQ_FULL_LOAD, ucWiIndex)-80)/4);
-    ucPtrIndex++;
+      ucPtrIndex++;
 
     pucData[ucPtrIndex] = ((GetRearAxleSetPressTyreList(REQ_FULL_LOAD, ucWiIndex)-80)/4);
-  }
+   }
 
 }
 
 void GetStatusRdcErfsAktReifenLesenDS(Rte_Instance self, uint8* pucData)
 {
-  uint8 ucElement;
-  uint8 ucIndex;
+   uint8 ucElement;
+   uint8 ucIndex;
 
-  for (ucIndex = 0; ucIndex < 30; ucIndex++)
-  {
+   for(ucIndex = 0; ucIndex < 30; ucIndex++){
     pucData[ucIndex] = 0x00;
-  }
+   }
 
-  ucIndex = 0x00;
+   ucIndex = 0x00;
 
-  ucElement = GETSelectedSuTyreIndexEE(self);
+   ucElement = GETSelectedSuTyreIndexEE(self);
 
-  if(ucElement < TYRE_LIST_MAX_ELEMENTS)
-  {
+   if(ucElement < TYRE_LIST_MAX_ELEMENTS){
 
-      if( ucElement == GETSelectedTyreIndexEE(self))
-      {
+      if(ucElement == GETSelectedTyreIndexEE(self)){
         pucData[ucIndex] = (uint8)TRUE;
       }
-      else
-      {
+      else{
         pucData[ucIndex] = (uint8)FALSE;
       }
       ucIndex++;
@@ -274,112 +256,99 @@ void GetStatusRdcErfsAktReifenLesenDS(Rte_Instance self, uint8* pucData)
 
       pucData[ucIndex] = ((GetRearAxleSetPressTyreList(REQ_FULL_LOAD, ucElement)-80)/4);
       ucIndex++;
-  }
-  else
-  {
-    ucIndex = 15;
-  }
-  ucElement = GETSelectedWiTyreIndexEE(self);
+   }
+   else{
+      ucIndex = 15;
+   }
+   ucElement = GETSelectedWiTyreIndexEE(self);
 
-  if(ucElement < TYRE_LIST_MAX_ELEMENTS)
-  {
+   if(ucElement < TYRE_LIST_MAX_ELEMENTS){
 
-    if(ucElement == GETSelectedTyreIndexEE(self))
-    {
+      if(ucElement == GETSelectedTyreIndexEE(self)){
       pucData[ucIndex] = (uint8)TRUE;
-    }
-    else
-    {
+      }
+      else{
       pucData[ucIndex] = (uint8)FALSE;
-    }
-    ucIndex++;
+      }
+      ucIndex++;
 
     pucData[ucIndex] = ucElement;
-    ucIndex++;
+      ucIndex++;
 
     pucData[ucIndex] = GetReifenbreiteRaw(ucElement);
-    ucIndex++;
+      ucIndex++;
 
     pucData[ucIndex] = GetQuerschnittRaw(ucElement);
-    ucIndex++;
+      ucIndex++;
 
     pucData[ucIndex] = GetDurchmesserRaw(ucElement);
-    ucIndex++;
+      ucIndex++;
 
     pucData[ucIndex] = GetTragfaehigkeitRaw(ucElement);
-    ucIndex++;
+      ucIndex++;
 
     pucData[ucIndex] = GetGeschwIndexRaw(ucElement);
-    ucIndex++;
+      ucIndex++;
 
     pucData[ucIndex] = GetSaisonRaw(ucElement);
-    ucIndex++;
+      ucIndex++;
 
     pucData[ucIndex] = GetKarkasseRaw(ucElement);
-    ucIndex++;
+      ucIndex++;
 
     pucData[ucIndex] = GetReifentypRaw(ucElement);
-    ucIndex++;
+      ucIndex++;
 
     pucData[ucIndex] = GetWerksauslieferungRaw(ucElement);
-    ucIndex++;
+      ucIndex++;
 
     pucData[ucIndex] = ((GetFrontAxleSetPressTyreList(REQ_PART_LOAD, ucElement)-80)/4);
-    ucIndex++;
+      ucIndex++;
 
     pucData[ucIndex] = ((GetRearAxleSetPressTyreList(REQ_PART_LOAD, ucElement)-80)/4);
-    ucIndex++;
+      ucIndex++;
 
     pucData[ucIndex] = ((GetFrontAxleSetPressTyreList(REQ_FULL_LOAD, ucElement)-80)/4);
-    ucIndex++;
+      ucIndex++;
 
     pucData[ucIndex] = ((GetRearAxleSetPressTyreList(REQ_FULL_LOAD, ucElement)-80)/4);
-  }
+   }
 
 }
 
 uint8 ucPutSteuernRdcErfsEcoAktReifenposVorgebenDS(Rte_Instance self, const uint8* pucData)
 {
-  uint8 Position,i;
-  uint8 Index = 0;
-  uint8 ucRet = cRetOk;
+   uint8 Position,i;
+   uint8 Index = 0;
+   uint8 ucRet = cRetOk;
 
-  Position = pucData[Index];
+   Position = pucData[Index];
   Index++;
 
-  for (i=0; i<TYRE_DATA_BYTES; i++)
-  {
-    if(pucData[Index] != GetTyreListMember(Position, i))
-    {
+   for(i=0; i<TYRE_DATA_BYTES; i++){
+      if(pucData[Index] != GetTyreListMember(Position, i)){
       ucRet = cRetError;
-    }
+      }
     Index++;
-  }
+   }
 
-  if(ucRet == cRetOk)
-  {
+   if(ucRet == cRetOk){
     SetStatusManSelectionDM(ST_MAN_SLCTN_Manuelle_Reifenauswahl);
     SetSelectedTyreIndexDM(Position);
 
-    if(GetSeasonDM() == OP_TYR_SEA_TPCT_Winterreifen)
-    {
+      if(GetSeasonDM() == OP_TYR_SEA_TPCT_Winterreifen){
        SetWinterTyreIndexDM(Position);
-    }
-    else
-    {
-      if(GetSeasonDM() == OP_TYR_SEA_TPCT_Sommerreifen)
-      {
+      }
+      else{
+      if(GetSeasonDM() == OP_TYR_SEA_TPCT_Sommerreifen){
         SetSummerTyreIndexDM(Position);
       }
-      else
-      {
+      else{
         ucRet = cRetError;
       }
-    }
-    if(ucRet == cRetOk)
-    {
-      if(TRUE == bGetBitBetriebszustandBZ(cZUGEORDNET))
-      {
+      }
+      if(ucRet == cRetOk){
+      if(TRUE == bGetBitBetriebszustandBZ(cZUGEORDNET)){
         SetSolldruckDM(self, GetLoadStateDM(), Position);
         (void) ZoPlausiInitPressINIT(self, TRUE, Position);
 
@@ -399,37 +368,34 @@ uint8 ucPutSteuernRdcErfsEcoAktReifenposVorgebenDS(Rte_Instance self, const uint
 
         SaveCurrentTyreSelectionDM(self);
       }
-      else
-      {
+      else{
         ucRet = cRetError;
       }
-    }
-  }
-  return(ucRet);
+      }
+   }
+   return(ucRet);
 }
 
 uint8 ucPutSteuernRdcErfsEcoNeueReifenVorgebenDS(Rte_Instance self, const uint8* pucData)
 {
-  uint8 ucRet = cRetOk;
+   uint8 ucRet = cRetOk;
 
-  PutErfsEcoNeuerReifenEE(self, &pucData[1]);
+   PutErfsEcoNeuerReifenEE(self, &pucData[1]);
 
-  return(ucRet);
+   return(ucRet);
 }
 
 uint8 ucPutSteuernRdcErfsEcoReifentabelleVorgebenDS(Rte_Instance self, const uint8* pucData, const uint8 ucElement)
 {
-  uint8 ucRet = cRetOk;
+   uint8 ucRet = cRetOk;
 
-  if(ucElement <= TYRE_LIST_MAX_ELEMENTS)
-  {
+   if(ucElement <= TYRE_LIST_MAX_ELEMENTS){
     PutErfsEcoReifenTabelleEE(self, pucData, ucElement);
-  }
-  else
-  {
-    ucRet = cRetError;
-  }
+   }
+   else{
+      ucRet = cRetError;
+   }
 
-  return(ucRet);
+   return(ucRet);
 }
 

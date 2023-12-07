@@ -23,18 +23,18 @@ extern "C"
 #define cushThisBitsSavedInEeBM         ((uint16) 0x0FFF)
 #define cushResetAllStatusBitsBM        ((uint16) 0x0000 | cushAllReceptionBitsBM)
 
-extern void PutStateBM ( uint16 ushState);
+extern void PutStateBM (uint16 ushState);
 extern uint16 ushGetStateBM (void);
-extern boolean bGetStateBitBM ( uint16 ushBitMask);
-extern void    SetStateBitBM ( uint16 ushBitMask, boolean bState);
+extern boolean bGetStateBitBM (uint16 ushBitMask);
+extern void    SetStateBitBM (uint16 ushBitMask, boolean bState);
 extern boolean bGetBandmodeBM(void);
 extern void    StopServiceBM(void);
-extern boolean bStartServiceBM( uint16 ushService);
-extern void InitBM( uint16 ushState);
+extern boolean bStartServiceBM(uint16 ushService);
+extern void InitBM(uint16 ushState);
 extern void BandmodeActivateBM (void);
 extern void BandmodeDeactivateBM (void);
 extern void CycleBandModeServiceBM (Rte_Instance self, boolean bSpeedThresBM);
-extern void CountWheelElectronicDataBM( uint8 ucWheelPos);
+extern void CountWheelElectronicDataBM(uint8 ucWheelPos);
 
 #ifdef __cplusplus
 }

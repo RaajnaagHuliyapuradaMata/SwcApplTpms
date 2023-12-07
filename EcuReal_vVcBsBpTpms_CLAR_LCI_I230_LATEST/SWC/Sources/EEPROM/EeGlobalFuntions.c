@@ -15,10 +15,10 @@ void CheckMemoryReserveEE(Rte_Instance self){
 #ifdef _EcuVirtual
    UNUSED(self);
 #else
-  uint16 ushTotalMem;
-  uint16 ushMaxUsedMem;
-  uint16 ushOfcBits = 0;
-  uint16 i;
+   uint16 ushTotalMem;
+   uint16 ushMaxUsedMem;
+   uint16 ushOfcBits = 0;
+   uint16 i;
   #ifndef TESSY
     #ifdef WIN32
       ushTotalMem = sizeof(Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data) - 1;
@@ -52,8 +52,8 @@ void CheckMemoryReserveEE(Rte_Instance self){
       ushTotalMem = sizeof(Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data) - 1;
       ushMaxUsedMem = ushTotalMem - 2;
 
-      for (i=ushTotalMem; i>ushMaxUsedMem; i--){
-        if(Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[i] != 0xff){
+      for(i=ushTotalMem; i>ushMaxUsedMem; i--){
+          if(Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[i] != 0xff){
           ushOfcBits |= cOfcErfsBlock;
         }
       }
@@ -61,8 +61,8 @@ void CheckMemoryReserveEE(Rte_Instance self){
       ushTotalMem = sizeof(Rte_Pim_NvmRdciRidQrBlock1_NVBlock_MirrorBlock(self)->Data) - 1;
       ushMaxUsedMem = ushTotalMem - cMinNvmMemReserve;
 
-      for (i=ushTotalMem; i>ushMaxUsedMem; i--){
-        if(Rte_Pim_NvmRdciRidQrBlock1_NVBlock_MirrorBlock(self)->Data[i] != 0xff){
+      for(i=ushTotalMem; i>ushMaxUsedMem; i--){
+          if(Rte_Pim_NvmRdciRidQrBlock1_NVBlock_MirrorBlock(self)->Data[i] != 0xff){
           ushOfcBits |= cOfcRidQrBlock1;
         }
       }
@@ -70,8 +70,8 @@ void CheckMemoryReserveEE(Rte_Instance self){
       ushTotalMem = sizeof(Rte_Pim_NvmRdciRidQrBlock2_NVBlock_MirrorBlock(self)->Data) - 1;
       ushMaxUsedMem = ushTotalMem - cMinNvmMemReserve;
 
-      for (i=ushTotalMem; i>ushMaxUsedMem; i--){
-        if(Rte_Pim_NvmRdciRidQrBlock2_NVBlock_MirrorBlock(self)->Data[i] != 0xff){
+      for(i=ushTotalMem; i>ushMaxUsedMem; i--){
+          if(Rte_Pim_NvmRdciRidQrBlock2_NVBlock_MirrorBlock(self)->Data[i] != 0xff){
           ushOfcBits |= cOfcRidQrBlock2;
         }
       }

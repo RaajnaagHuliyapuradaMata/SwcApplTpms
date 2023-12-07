@@ -25,13 +25,13 @@ extern void    SaveRidDataAndCompareInBmRID(void);
 extern void    InitRidDataRID(Rte_Instance self);
 extern void    DeleteRidDataOfHisColRID(Rte_Instance self, uint8 HisIx);
 extern boolean GetReliableRSCInfoRID(Rte_Instance self, uint8 ucRadPos, boolean* bRSCInfoVal);
-extern boolean GetFAxisTyreDataRID( uint8* pRidData);
+extern boolean GetFAxisTyreDataRID(uint8* pRidData);
 extern boolean GetRAxisTyreDataRID(Rte_Instance self, uint8* pRidData);
 extern boolean CheckRearAxisRidDataAvailRID(void);
 extern uint8   GetTyreDimDataRID( const uint8 HisIx, const uint8 x);
 extern uint8   GetTyreDOTDataRID( const uint8 HisIx, const uint8 x);
 extern uint8   GetTyreOEMDataRID( const uint8 HisIx, const uint8 x);
-extern void    CheckDefaultSerNumAndReplaceRID( uint8 HisIx);
+extern void    CheckDefaultSerNumAndReplaceRID(uint8 HisIx);
 extern uint8   SaveOemDataRID(void);
 extern uint8   GetRidManAutoFLagRID(void);
 

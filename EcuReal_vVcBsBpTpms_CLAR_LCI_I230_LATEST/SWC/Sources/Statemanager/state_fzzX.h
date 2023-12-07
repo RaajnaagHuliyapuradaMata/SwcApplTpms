@@ -36,10 +36,10 @@ extern "C"
 #define cFzzFSSperre          (uint8)0x02
 
 extern void InitFZZ(void);
-extern void SetBitFahrzeugzustandFZZ( uint16 ushBitMask);
-extern void ClearBitFahrzeugzustandFZZ( uint16 ushBitMask);
-extern boolean bGetBitFahrzeugzustandFZZ( uint16 ushBitMask);
-extern uint16 ushGetFahrzeugzustandFZZ( uint16 ushBitMask);
+extern void SetBitFahrzeugzustandFZZ(uint16 ushBitMask);
+extern void ClearBitFahrzeugzustandFZZ(uint16 ushBitMask);
+extern boolean bGetBitFahrzeugzustandFZZ(uint16 ushBitMask);
+extern uint16 ushGetFahrzeugzustandFZZ(uint16 ushBitMask);
 extern void EvTerminal15OnFZZ(void);
 extern void EvTerminal15OffFZZ(void);
 extern void EvVehicleRollingFZZ(void);
@@ -50,15 +50,15 @@ extern void EvDriveDirectionForwardFZZ(void);
 extern void EvDriveDirectionBackwardFZZ(void);
 extern void SETOutdoorTemperatureFZZ( sint8 temperature);
 extern sint8 GETscOutdoorTemperatureFZZ(void);
-extern void SETSpeedFZZ( uint16 speed);
+extern void SETSpeedFZZ(uint16 speed);
 extern uint16 GETushSpeedFZZ(void);
-extern void SetGearFZZ( uint8 gear);
+extern void SetGearFZZ(uint8 gear);
 extern uint8 GETucGearFZZ(void);
 extern void SETBusStateFZZ( ImpTypeValFrBusState busstate);
 extern void SETFehlerspeicherSperreFZZ( Rdci_ST_ILK_ERRM_FZM_Type fssperre);
 extern uint8 ucGetFlexrayStatusFZZ(void);
 extern uint8 ucGetStatusConditionVehicleFZZ(void);
-extern void PutStatusConditionVehicleFZZ( uint8);
+extern void PutStatusConditionVehicleFZZ(uint8);
 extern uint8 ucGetStatusLastConditionVehicleFZZ(void);
 extern void ClearStatusLastConditionVehicleFZZ(void);
 extern boolean bPwfIsFahrenFZZ(void);

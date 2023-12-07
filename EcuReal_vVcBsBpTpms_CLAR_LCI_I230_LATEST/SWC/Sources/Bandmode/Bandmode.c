@@ -39,71 +39,69 @@ static void VerifyGutEmpfCtBM(Rte_Instance self){
    }
 }
 
-static boolean bGetOtherBmServiceSetBM( uint16 ushService)
+static boolean bGetOtherBmServiceSetBM(uint16 ushService)
 {
-  boolean bRet = FALSE;
-  uint16 ushOtherServices;
+   boolean bRet = FALSE;
+   uint16 ushOtherServices;
 
-  ushOtherServices = ~ushService;
+   ushOtherServices = ~ushService;
 
-  if( ((ushStateBM & cushAllServiceBitsBM) & ushOtherServices) != 0)
-  {
+   if(((ushStateBM & cushAllServiceBitsBM) & ushOtherServices) != 0){
      bRet = TRUE;
-  }
+   }
 
-  return bRet;
+   return bRet;
 }
 
-void InitBM( uint16 ushState)
+void InitBM(uint16 ushState)
 {
   const uint16 ushWheelPosOrderConvZ2CW[cAnzRad] = { cushReceptionReFlBM, cushReceptionReFrBM, cushReceptionReRlBM, cushReceptionReRrBM };
-  uint8 ucLoop;
+   uint8 ucLoop;
 
-  PutStateBM( ushState);
+   PutStateBM(ushState);
 
-  for( ucLoop = 0; ucLoop < cAnzRad; ucLoop++)
-  {
-    if( bGetStateBitBM( ushWheelPosOrderConvZ2CW[ucLoop]) == TRUE)
-    {
+   for(ucLoop = 0; ucLoop < cAnzRad; ucLoop++){
+      if(bGetStateBitBM(ushWheelPosOrderConvZ2CW[ucLoop]) == TRUE){
       ucCounterWheelElectronicBM[ucLoop] = 0;
-    }else{
+      }
+      else{
       ucCounterWheelElectronicBM[ucLoop] = cucMaxCountWheelElectronicBM;
-    }
-  }
+      }
+   }
 }
 
-void PutStateBM ( uint16 ushState)
+void PutStateBM (uint16 ushState)
 {
-  ushStateBM = ushState;
+   ushStateBM = ushState;
 }
 
 uint16 ushGetStateBM (void)
 {
-  return ushStateBM;
+   return ushStateBM;
 }
 
-boolean bGetStateBitBM ( uint16 ushBitMask)
+boolean bGetStateBitBM (uint16 ushBitMask)
 {
-  boolean bRet;
+   boolean bRet;
 
-  if( (ushStateBM & ushBitMask) == ushBitMask)
-  {
+   if((ushStateBM & ushBitMask) == ushBitMask){
     bRet = TRUE;
-  }else{
+   }
+   else{
     bRet = FALSE;
-  }
+   }
 
-  return bRet;
+   return bRet;
 }
 
-void SetStateBitBM ( uint16 ushBitMask, boolean bState)
+void SetStateBitBM (uint16 ushBitMask, boolean bState)
 {
-  if( bState == TRUE)
-  {
-    ushStateBM |= ushBitMask;
-  }else{
-    ushStateBM &= (uint16) ~ushBitMask;
-  }
+   if(bState == TRUE){
+      ushStateBM |= ushBitMask;
+   }
+   else{
+      ushStateBM &= (uint16) ~ushBitMask;
+   }
 }
 
 void BandmodeActivateBM (void)
@@ -118,7 +116,7 @@ void BandmodeDeactivateBM (void)
 
 boolean bGetBandmodeBM(void)
 {
-  return bGetStateBitBM ( cushBandmodeActivationBM);
+   return bGetStateBitBM ( cushBandmodeActivationBM);
 }
 
 void StopServiceBM(void)
@@ -126,73 +124,68 @@ void StopServiceBM(void)
   InitBM( (cushResetAllStatusBitsBM | cushBandmodeActivationBM));
 }
 
-boolean bStartServiceBM( uint16 ushService)
+boolean bStartServiceBM(uint16 ushService)
 {
-  boolean bRet = FALSE;
+   boolean bRet = FALSE;
 
-  if( bGetOtherBmServiceSetBM( ushService) == FALSE)
-  {
-    if( bGetStateBitBM( ushService) == FALSE)
-    {
+   if(bGetOtherBmServiceSetBM(ushService) == FALSE){
+      if(bGetStateBitBM(ushService) == FALSE){
       InitBM( (cushResetAllStatusBitsBM | cushBandmodeActivationBM | ushService));
-    }else{
-    }
-  }else{
+      }
+      else{
+      }
+   }
+   else{
     bRet = TRUE;
-  }
+   }
 
-  return bRet;
+   return bRet;
 }
 
 void CycleBandModeServiceBM (Rte_Instance self, boolean bSpeedThresBM)
 {
-  if( bGetStateBitBM( cushTestEigenradFahrtBM) == TRUE)
-  {
+   if(bGetStateBitBM( cushTestEigenradFahrtBM) == TRUE){
     SetStateBitBM ( cushErFahrtVThresBM, bSpeedThresBM);
 
     VerifyGutEmpfCtBM(self);
-  }else if( bGetStateBitBM( cushTestEigenradFahrtNoSpeedBM) == TRUE)
-  {
+   }
+   else if(bGetStateBitBM( cushTestEigenradFahrtNoSpeedBM) == TRUE){
     SetStateBitBM ( cushErFahrtVThresBM, TRUE);
 
     VerifyGutEmpfCtBM(self);
-  }else{
-  }
+   }
+   else{
+   }
 }
 
-void CountWheelElectronicDataBM( uint8 ucWheelPos)
+void CountWheelElectronicDataBM(uint8 ucWheelPos)
 {
-  boolean bState;
+   boolean bState;
 
-  bState = (bGetBandmodeBM() & (bGetStateBitBM ( cushTestEigenradFahrtNoSpeedBM) | (bGetStateBitBM ( cushTestEigenradFahrtBM) & bGetStateBitBM ( cushErFahrtVThresBM))));
+   bState = (bGetBandmodeBM() & (bGetStateBitBM ( cushTestEigenradFahrtNoSpeedBM) | (bGetStateBitBM ( cushTestEigenradFahrtBM) & bGetStateBitBM ( cushErFahrtVThresBM))));
 
-  if( bState == TRUE)
-  {
-    if( ucWheelPos < cAnzRad)
-    {
-      if( ucCounterWheelElectronicBM[ucWheelPos] < 250)
-      {
+   if(bState == TRUE){
+      if(ucWheelPos < cAnzRad){
+      if(ucCounterWheelElectronicBM[ucWheelPos] < 250){
         ucCounterWheelElectronicBM[ucWheelPos]++;
       }
-    }
-  }
+      }
+   }
 }
 
 static void SaveRidDataAndCompareInBM(Rte_Instance self)
 {
-  uint8 AutoIx,CurIx;
+   uint8 AutoIx,CurIx;
 
   AutoIx = GETSelectedAutoTyreIndexEE(self);
   CurIx = GETSelectedTyreIndexEE(self);
 
-  if((AutoIx == OP_SLCTN_TYR_AVLB_AndererReifen) || (AutoIx != CurIx))
-  {
+   if((AutoIx == OP_SLCTN_TYR_AVLB_AndererReifen) || (AutoIx != CurIx)){
 
-    if(CheckRearAxisRidDataAvailRID() == TRUE)
-    {
+      if(CheckRearAxisRidDataAvailRID() == TRUE){
 
       SaveRidDataAndCompareRID(self);
-    }
-  }
+      }
+   }
 }
 
