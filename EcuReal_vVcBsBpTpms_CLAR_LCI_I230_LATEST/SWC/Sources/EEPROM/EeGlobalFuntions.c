@@ -6,9 +6,9 @@
 #include "EeHistoryBlockX.h"
 
 #ifndef TESSY
-  #ifdef WIN32
+#ifdef WIN32
     #include "assert.h"
-  #endif
+#endif
 #endif
 
 void CheckMemoryReserveEE(Rte_Instance self){
@@ -19,7 +19,7 @@ void CheckMemoryReserveEE(Rte_Instance self){
    uint16 ushMaxUsedMem;
    uint16 ushOfcBits = 0;
    uint16 i;
-  #ifndef TESSY
+#ifndef TESSY
     #ifdef WIN32
       ushTotalMem = sizeof(Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data) - 1;
       ushMaxUsedMem = sizeof(tCommonNvmBlockType);
@@ -77,7 +77,7 @@ void CheckMemoryReserveEE(Rte_Instance self){
       }
       assert(ushOfcBits == 0);
     #endif
-  #endif
+#endif
 #endif
 }
 

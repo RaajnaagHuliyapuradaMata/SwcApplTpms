@@ -1,16 +1,38 @@
 #ifndef datamanagerX_h
 #define datamanagerX_h
+/******************************************************************************/
+/* File   : datamanagerX.h                                                    */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "tss_stdx.h"
 
 #include "Rte_CtApHufTpmsSWC.h"
 #include "Rte_CtApHufTpmsSWC_Type.h"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
 #define cReAkPresError        ((RawSensorTyrePresType) 0x00)
 #define cReAkPresUnderflow    ((RawSensorTyrePresType) 0x01)
 #define cReAkPresOverflow     ((RawSensorTyrePresType) 0xff)
@@ -42,6 +64,13 @@ extern "C"
 #define cAGS_Pat2500Mtr         ((uint16)   750)
 #define cAGS_Pat5000Mtr         ((uint16)   540)
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
 typedef enum{
    eParkenWohnen         = 0,
    eWohnenFahren         = 1,
@@ -52,6 +81,25 @@ typedef enum{
    ePWFInvalid           = 0xff
 }ePWFStateTransitions;
 
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 extern void InitRDCiEepromDM(Rte_Instance self);
 extern void InitRDCiFunctionsPartOneDM(Rte_Instance self);
 extern void InitRDCiFunctionsPartTwoDM(Rte_Instance self);
@@ -159,4 +207,8 @@ extern void WriteReIdLatelyProcBufDM(const uint32 ReID);
 }
 #endif
 
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 #endif
+

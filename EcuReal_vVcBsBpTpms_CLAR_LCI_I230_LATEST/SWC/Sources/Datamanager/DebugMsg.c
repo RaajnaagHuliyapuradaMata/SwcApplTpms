@@ -1,4 +1,30 @@
-#include "DebugMsg.h"
+/******************************************************************************/
+/* File   : DebugMsg.c                                                        */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright � 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
+#include "DebugMsgX.h"
+
 #include "datamanagerX.h"
 #include "WallocX.h"
 #include "Walloc_If.h"
@@ -18,7 +44,7 @@
 #include "EeGlobalFunctionsX.h"
 #include "Rid_X.h"
 #include "BreakTireX.h"
-#include "SeasRcpAdj.h"
+#include "SeasRcpAdjX.h"
 #include "EeWarnStatusBlockX.h"
 #include "WarningLampX.h"
 #include "ccmX.h"
@@ -26,12 +52,63 @@
 #include "InfoTyreX.h"
 #include "SpeedCcmX.h"
 
-static uint8 aucEvSpecData[NO_OF_EV_SPEC_DATASETS][EV_SPEC_DATA_SIZE];
-static uint8 ucEvSpecDatasetWritePointer = 0xffu;
-static uint8 ucEvSpecDatasetReadPointer = 0xffu;
-static uint8 ucSwcRunTime;
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define EV_SPEC_DATA_SIZE  39
+#define START_MPX_ID_SYS_SPEC_DATA  2
+
+#define NO_OF_EV_SPEC_DATASETS 15
+
+#define TRANSMIT_EVENT_SPEC_DATA  (uint8)0
+#define TRANSMIT_SYS_SPEC_DATA    (uint8)1
+#define REPEAT_EVENT_SPEC_DATA    (uint8)2
+
+#define SPEC_NORM   0
+#define SPEC_MIRR   1
+
+#define cNoDataAvailable      0x00
+#define cDataAvailable        0x01
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+static uint8  aucEvSpecData[NO_OF_EV_SPEC_DATASETS][EV_SPEC_DATA_SIZE];
+static uint8  ucEvSpecDatasetWritePointer = 0xffu;
+static uint8  ucEvSpecDatasetReadPointer = 0xffu;
+static uint8  ucSwcRunTime;
 static uint16 ushRCyclicCallCounter = 0;
-static uint8 ucWriteErrorCounterForNvmWarnstatusBlock;
+static uint8  ucWriteErrorCounterForNvmWarnstatusBlock;
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+static uint8 CreateSetOfEventSpecificData32DBG   (const ImpTypeRecCddRdcData* rdcData);
+static uint8 ucSelectNextEventSpecificDataSetDBG (void);
+static void  GetNextEventSpecificDataBlock32DBG  (uint8*  pucBuffer, uint8* ucMuxID, uint8* ucTransmitState);
+static uint8 GetNextSystemSpecificDataBlockDBG   (Rte_Instance self, uint8* pucBuffer);
+static uint8 GetNextSystemSpecificDataBlock32DBG (Rte_Instance self, uint8* pucBuffer);
+
+#if(DEBUG_MESSAGE_SIZE == 16)
+static uint8 CreateSetOfEventSpecificData16DBG(ImpTypeRecCddRdcData rdcData);
+static uint8 GetNextSystemSpecificDataBlock16DBG(uint8* pucBuffer);
+#endif
 
 void SetSwcRunTimeDBG(uint8 ucRunTime){
    ucSwcRunTime = ucRunTime;
@@ -48,13 +125,13 @@ void IncreaseWriteErrorCounterForNvmWarnstatusBlock(void){
 }
 
 uint8 CreateSetOfEventSpecificDataDBG(const ImpTypeRecCddRdcData* rdcData){
-  #if(DEBUG_MESSAGE_SIZE == 16)
+#if(DEBUG_MESSAGE_SIZE == 16)
    return (CreateSetOfEventSpecificData16DBG(rdcData));
-  #endif
+#endif
 
-  #if(DEBUG_MESSAGE_SIZE == 32)
+#if(DEBUG_MESSAGE_SIZE == 32)
    return (CreateSetOfEventSpecificData32DBG(rdcData));
-  #endif
+#endif
 }
 
 void GetDebugMessageContentDBG(Rte_Instance self, uint8* pucBuffer){
@@ -112,8 +189,8 @@ static uint8 CreateSetOfEventSpecificData32DBG(const ImpTypeRecCddRdcData* rdcDa
 
    if(ucEvSpecDatasetWritePointer == 0xFFU){
       ucEvSpecDatasetWritePointer = 0;
-    bLockPosition = FALSE;
-    queueFillStatus = 1;
+      bLockPosition = FALSE;
+      queueFillStatus = 1;
    }
    else{
       if(((ucEvSpecDatasetWritePointer + 1) % NO_OF_EV_SPEC_DATASETS) == ucEvSpecDatasetReadPointer){
@@ -243,9 +320,9 @@ static void GetNextEventSpecificDataBlock32DBG(uint8* pucBuffer, uint8* ucMuxID,
    static uint8 ucEvSpecDataPointer = 0;
 
   pucBuffer[ucMessageBufferPointer] = *ucMuxID;
-  #if(DEBUG_MESSAGE_SIZE == 32)
+#if(DEBUG_MESSAGE_SIZE == 32)
   pucBuffer[ucMessageBufferPointer+16] = *ucMuxID;
-  #endif
+#endif
    ucMessageBufferPointer++;
 
   while ((ucMessageBufferPointer < DEBUG_MESSAGE_SIZE)
@@ -272,13 +349,13 @@ static void GetNextEventSpecificDataBlock32DBG(uint8* pucBuffer, uint8* ucMuxID,
 
 static uint8 GetNextSystemSpecificDataBlockDBG(Rte_Instance self, uint8* pucBuffer)
 {
-  #if(DEBUG_MESSAGE_SIZE == 16)
+#if(DEBUG_MESSAGE_SIZE == 16)
    return (GetNextSystemSpecificDataBlock16DBG(pucBuffer));
-  #endif
+#endif
 
-  #if(DEBUG_MESSAGE_SIZE == 32)
+#if(DEBUG_MESSAGE_SIZE == 32)
    return ( GetNextSystemSpecificDataBlock32DBG(self, pucBuffer));
-  #endif
+#endif
 
 }
 
@@ -823,4 +900,8 @@ static uint8  GetNextSystemSpecificDataBlock16DBG(uint8* pucBuffer){
 
 }
 #endif
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

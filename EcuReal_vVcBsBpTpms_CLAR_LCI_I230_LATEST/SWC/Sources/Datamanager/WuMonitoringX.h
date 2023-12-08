@@ -1,15 +1,37 @@
 #ifndef _wu_monitoring_X_H
 #define _wu_monitoring_X_H
+/******************************************************************************/
+/* File   : WuMonitoringX.h                                                   */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "tss_stdx.h"
 
 #include "Rte_CtApHufTpmsSWC.h"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
 #define cAllocNoError                     (uint32)0x00000000U
 #define cAllocAutoLearningFailed          (uint32)0x00000001U
 #define cAlloc4WrongWuMounted             (uint32)0x00000002U
@@ -88,6 +110,33 @@ extern "C"
 #define cRE_STATUS_NOT_REC    (uint8) 3
 #define cRE_STATUS_INVALID    (uint8) 0xffu
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 extern void InitWUM(Rte_Instance self);
 extern void ResetWUM(Rte_Instance self, uint8 ucSlots, uint8 ucWLowBatt, uint8 ucWDtcs);
 extern void SwitchUnspecificToSpecificErrorsWUM(Rte_Instance self);
@@ -132,4 +181,8 @@ extern void ClearErrorConditionsWUM(Rte_Instance self, uint8 ucWP, uint8 ucParam
 }
 #endif
 
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 #endif
+

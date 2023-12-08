@@ -1,4 +1,30 @@
-#include "InfoTyre.h"
+/******************************************************************************/
+/* File   : InfoTyre.c                                                        */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
+#include "InfoTyreX.h"
+
 #include "datamanagerX.h"
 #include "state_bzX.h"
 #include "state_fzzX.h"
@@ -17,8 +43,75 @@
 #include "RID_X.h"
 #include "BandmodeX.h"
 
-#define cInitValCoolingDownTime   ((uint16) 0xffffu)
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define cQuFnTyrInfo_Ready                                    ((uint8)     0x20)
+#define cQuFnTyrInfo_Init                                     ((uint8)     0x80)
+#define cQuFnTyrInfo_Error                                    ((uint8)     0x60)
+#define cQuFnTyrInfo_Interference                             ((uint8)     0xE0)
+#define cQuFnTyrInfo_LearningPhase                            ((uint8)     0xE8)
+#define cQuFnTyrInfo_Active                                   ((uint8)     0xA0)
+#define cQuFnTyrInfo_Fallback                                 ((uint8)     0xB0)
+#define cQuFnTyrInfo_Active_Reset                             ((uint8)     0xA8)
+#define cQuFnTyrInfo_Fallback_Reset                           ((uint8)     0xB8)
+#define cQuTpl_Init                                           ((uint8)     0x80)
+#define cQuTpl_BreakTyrePosBase                               ((uint8)     0x20)
+#define cQuTpl_BreakTyrePosMaskFr                             ((uint8)     0x21)
+#define cQuTpl_BreakTyrePosMaskFl                             ((uint8)     0x22)
+#define cQuTpl_BreakTyrePosMaskRr                             ((uint8)     0x24)
+#define cQuTpl_BreakTyrePosMaskRl                             ((uint8)     0x28)
+#define cQuTpl_BreakTyreNoPos                                 ((uint8)     0x30)
+#define cQuTpl_Diffusion                                      ((uint8)     0x31)
+#define cQuTpl_Active                                         ((uint8)     0xA0)
+#define cQuTfai_Init                                          ((uint8)     0x80)
+#define cQuTfai_FlatTyreFr                                    ((uint8)     0x21)
+#define cQuTfai_FlatTyreFl                                    ((uint8)     0x22)
+#define cQuTfai_FlatTyreRr                                    ((uint8)     0x24)
+#define cQuTfai_FlatTyreRl                                    ((uint8)     0x28)
+#define cQuTfai_Active                                        ((uint8)     0xA0)
+#define cCoolTyreMonInit                                      ((uint8)     0x00)
+#define cCoolTyreMonRunning                                   ((uint8)     0x01)
+#define cCoolTyreMonWaiting                                   ((uint8)     0x02)
+#define cCoolTyreMonFinish                                    ((uint8)     0x03)
+#define cCoolTyreMonDriving                                   ((uint8)     0x7f)
+#define cCoolTyreMonDeactivated                               ((uint8)     0xff)
+#define cInitValCoolingDownTime                               ((uint16) 0xffffu)
+#define cCoolingIntervalInitVal                               ((uint16) 0xffffu)
+#define cCoolingIntervalResetVal                              ((uint16) 0x7fffu)
+#define cCoolingIntervalTicksVal                              ((uint16)     600)
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+typedef struct{
+   uint8 ucAvlPTyre_warm;
+   sint8 scAvlTTyre_warm;
+   uint8 ucAvlPTyre_kalt;
+   sint8 scAvlTTyre_kalt;
+   uint8 ucAvlPTyre_t;
+   sint8 scAvlTTyre_t;
+   uint8 ucTarPTyre_warm;
+   uint8 ucTarPTyre_kalt;
+   sint8 scTarTTyre_kalt;
+   uint8 ucTarPTyre_t;
+}tCoolTyreMonDataDeclCD;
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static PhySensorTyrePresType ucTarPTyreFlh = cInvalidREpressure;
 static PhySensorTyrePresType ucTarPTyreFrh = cInvalidREpressure;
 static PhySensorTyrePresType ucTarPTyreRlh = cInvalidREpressure;
@@ -65,6 +158,9 @@ static boolean bTelReceived                = FALSE;
 static boolean bBeladungChanged            = FALSE;
 static uint16  ushElapsedCoolingTime_debug = 0;
 
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 void InitITY(Rte_Instance self){
    uint8 ucHistSlot;
 
@@ -1187,4 +1283,8 @@ void GetAvlPTyreCoolingValITY(uint8 ucHistSlot, uint8* pucAvlPTyre_warm, sint8* 
    *pushTimeTicks          = ushCoolingTicks;
    *pulCoolingCaptTime     = ulCoolingCaptTime_g;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

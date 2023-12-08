@@ -1,6 +1,9 @@
-#include "SecondaryDTC.h"
+#include "SecondaryDTCX.h"
+
 #include "HS_InaktivereignisX.h"
 #include "state_bzX.h"
+
+#define cMaxSizeSecDtcFifo  5
 
 static uint8 ucSecondaryErrors = 0;
 static uint8 ucSecondaryErrChangedFlags = 0;

@@ -1,4 +1,5 @@
-#include "HS_Warnereignis.h"
+#include "HS_WarnereignisX.h"
+
 #include "DatamanagerX.h"
 #include "EeDiagBlockX.h"
 #include "EeWarnStatusBlockX.h"
@@ -14,11 +15,29 @@
 #include "RdcTsaServicesX.h"
 
 #ifndef TESSY
-  #ifdef WIN32
+#ifdef WIN32
     #include "assert.h"
-  #endif
+#endif
 #endif
 
+#define cGroupMask_A  (uint32)0xfU
+#define cGroupMask_B  (uint32)0xf0U
+#define cGroupMask_C  (uint32)0xf00U
+#define cGroupMask_D  (uint32)0xf000U
+#define cGroupMask_E  (uint32)0xf0000U
+
+#define cGroupOffset_A (uint8)0
+#define cGroupOffset_B (uint8)4
+#define cGroupOffset_C (uint8)8
+#define cGroupOffset_D (uint8)12
+#define cGroupOffset_E (uint8)16
+
+#define cFindBitSet     1
+#define cFindBitCleared 0
+
+#define cEventTypePanne 0
+#define cEventTypeWarn  1
+#define cEventTypeWeich 2
 #define cMaxNrOfWarningGroups    8
 
 static uint32 ulLastWSB = 0xffffffffU;
@@ -32,6 +51,24 @@ static uint32 ulMileage160_We2 = 0;
 static uint32 ulMileage0_We3 = 0;
 static uint32 ulMileage100_We3 = 0;
 static uint32 ulMileage160_We3 = 0;
+
+static uint8 ucCheckWarningGroup(uint32 ulBitsOld, uint32 ulBitsNew, uint32 ulGroupMask, uint8 ucDirection);
+static uint8 ucNoOfActivePreWarningsDS(void);
+static uint8 SaveWarnereignisDS(Rte_Instance self, uint8 ucPos, uint8 ucWarningType);
+static uint8 SaveWarnereignisWeichDS(Rte_Instance self, uint8 ucPos);
+static uint8 SaveWarnereignisRuecknahmeDS(Rte_Instance self, uint8 ucPos);
+static void SaveHighestSpeedWithActiveWarningDS(Rte_Instance self, uint8 ucVMax);
+static void CumulateKilometers_160_to_max_DS(Rte_Instance self);
+static void CumulateKilometers_100_to_160_DS(Rte_Instance self);
+static void CumulateKilometers_0_to_100_DS(Rte_Instance self);
+static boolean bWarnereignis3ActiveDS(Rte_Instance self);
+static boolean bWarnereignis2ActiveDS(Rte_Instance self);
+static boolean bWarnereignis1ActiveDS(Rte_Instance self);
+static void WriteWarnereignis_3_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize);
+static void WriteWarnereignis_2_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize);
+static void WriteWarnereignis_1_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize);
+static void ShiftMileageDS(uint8 ucEventNumber);
+static uint8 ucFindFirstBitInLoNibbleDS(uint8 ucByte);
 
 void InitFastaWarnEventsDS(Rte_Instance self)
 {
@@ -203,12 +240,12 @@ static uint8 SaveWarnereignisDS(Rte_Instance self, uint8 ucPos, uint8 ucWarningT
    uint16 ushTemp, ushM;
    uint8 ucCounterWarn;
 
-  #ifndef TESSY
+#ifndef TESSY
     #ifdef WIN32
 
     assert(sizeof(ImpTypeArrayDcm_RdcHsWarnereignis1ReadDataType) == cNvmRdciDiagBlock1HsWarn_1_Size);
     #endif
-  #endif
+#endif
 
    ucCounterWarn = GetHsWarnereignis_1_CounterEE(self);
 
@@ -725,12 +762,12 @@ static uint8 SaveWarnereignisWeichDS(Rte_Instance self, uint8 ucPos)
    uint32 ulTemp;
    uint8 ucCounterWarnWeich;
 
-  #ifndef TESSY
+#ifndef TESSY
     #ifdef WIN32
 
     assert(sizeof(ImpTypeArrayDcm_RdcHsWarnereignisWeich1ReadDataType) == cNvmRdciDiagBlock1HsWeich_1_Size);
     #endif
-  #endif
+#endif
 
    ucCounterWarnWeich = GetHsWarnereignisWeich_1_CounterEE(self);
 
@@ -950,12 +987,12 @@ static uint8 SaveWarnereignisRuecknahmeDS(Rte_Instance self, uint8 ucPos)
    uint32 ulTemp;
    uint8 ucCounterWarnRuecknahme;
 
-  #ifndef TESSY
+#ifndef TESSY
     #ifdef WIN32
 
       assert(sizeof(ImpTypeArrayDcm_RdcHsWarnereignisRuecknahmeReadDataType) == cNvmRdciDiagBlock1HsWRueck_Size);
     #endif
-  #endif
+#endif
 
    ucCounterWarnRuecknahme = GetHsWarnereignisRuecknahmeCounterEE(self);
    if(ucCounterWarnRuecknahme == 0xff){

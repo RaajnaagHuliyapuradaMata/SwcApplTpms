@@ -1,4 +1,30 @@
-#include "WuMonitoring.h"
+/******************************************************************************/
+/* File   : WuMonitoring.c                                                    */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright � 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
+#include "WuMonitoringX.h"
+
 #include "NwMonitoringX.h"
 #include "wallocX.h"
 #include "state_bzX.h"
@@ -10,6 +36,42 @@
 #include "walloc_managerX.h"
 #include "datamanagerX.h"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define cBAT_UNKNOWN                0
+#define cBAT_LOW                    1
+#define cBAT_OK                     2
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+typedef struct{
+   uint16    ushTimerBlockFail;
+   uint16    ushTimerSingleFail;
+   uint16    ushCountGood;
+   uint16    ushCountMissing;
+   uint16    ushCountDefect;
+   uint8     ucCountLoBat;
+   uint8     ucLocPossible;
+   uint8     ucForeignSupplier;
+}tWuMonitoringData;
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static uint32 ulWheelUnitErrors = cAllocNoError;
 static uint32 ulWheelUnitErrChangedFlags = cAllocNoError;
 static uint8  ucAllocFailedCounter = 0;
@@ -26,6 +88,26 @@ static tWuMonitoringData tWuMonitoring[cMaxLR] = {
 static uint8   ucWumActivityStatus = cWUM_ENABLED;
 static uint8   ucDefectThreshold = 3;
 static uint16  ushTimeSinceLastRecEvent[4];
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+static boolean bGoodCounterReachedMaximumWUM(void);
+static uint32  FilterSubsequentErrorsWUM(uint32 ulErrorBits);
+static void    CheckLowBatWUM(Rte_Instance self, const ImpTypeRecCddRdcData* rdcData, uint8 ucCol, uint8 ucWP);
+static void    CheckDefectWUM(Rte_Instance self, const ImpTypeRecCddRdcData* rdcData, uint8 ucCol, uint8 ucWP);
+static void    CheckWrongWuMountedWUM(Rte_Instance self);
+static void    CheckForeignSupplierWUM(Rte_Instance self);
+static void    ClearRFInterferenceWUM(Rte_Instance self);
+static void    ClearGatewayAntennaWUM(Rte_Instance self, uint8 DpNo);
+static void    ClearDefectWUM(Rte_Instance self, uint8 ucCol, uint8 ucWP);
+static void    ClearLowBatWUM(Rte_Instance self);
+static void    SetMuteErrorStatusWUM(Rte_Instance self);
+static boolean bWuIsDownForCountWUM(uint8 ucCol);
+static boolean bCheckMuteMonitorActive(void);
+static void    ClearTimeSinceLastRecEventWUM(Rte_Instance self, uint8 ucCol);
+static void    IncTimeSinceLastRecEventWUM(Rte_Instance self, uint8 ucCol);
+static uint16  ushGetTimeSinceLastRxWUM(uint8 ucCol);
 
 void InitWUM(Rte_Instance self){
    uint8 i;
@@ -1440,4 +1522,8 @@ uint8 ucGetWumActivityStatusWUM(void)
 {
    return ucWumActivityStatus;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

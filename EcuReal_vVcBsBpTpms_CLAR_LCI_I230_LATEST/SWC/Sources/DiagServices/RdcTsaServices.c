@@ -1,4 +1,5 @@
-#include "RdcTsaServices.h"
+#include "RdcTsaServicesX.h"
+
 #include "RID_X.h"
 #include "EeRidQrBlockX.h"
 #include "EeErfsBlockX.h"
@@ -9,9 +10,9 @@
 #include "State_bzX.h"
 
 #ifndef TESSY
-  #ifdef WIN32
+#ifdef WIN32
     #include "assert.h"
-  #endif
+#endif
 #endif
 
 #define cMaxTyreElements                ((uint8)12)
@@ -23,17 +24,23 @@
 
 static boolean UpdateTyreQrCodeDataInNvRam;
 
+static uint8 CompareTyreSerNumRID(Rte_Instance self, uint8 HisIx);
+static void SetTyreRuntimeDataDS(Rte_Instance self, const uint8* OldMountIx);
+static void SaveRuntimeDataInEE(Rte_Instance self, const uint8 Ix, const uint8 StartIx, const uint8* Buffer, const uint8 Size);
+static void GetLatestUnmountedQrDataEntries(Rte_Instance self, uint8* pUnmountEntryIndex);
+static void SearchOldestUnmountEntryIndex(Rte_Instance self, uint8* pEntryIx, const uint8* OldMountIx);
+
 void GetRdcRidAktReifenQRCodeLesenDS(Rte_Instance self, uint8* paucData)
 {
    uint8 QrIx,j,index, ucHelp;
    uint8 ucOffset, ucPrev, ucCur;
 
-  #ifndef TESSY
+#ifndef TESSY
     #ifdef WIN32
 
       assert(sizeof(ImpTypeArrayDcm_RdcRidAktReifenQrCodeLesenReadDataType) == (cMountedTyreElements * cQRCodeDataSize));
     #endif
-  #endif
+#endif
 
    index = 0x00;
 

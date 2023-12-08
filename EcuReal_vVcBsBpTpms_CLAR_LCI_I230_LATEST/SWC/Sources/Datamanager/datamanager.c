@@ -1,4 +1,32 @@
-#include "datamanager.h"
+/******************************************************************************/
+/* File   : datamanager.c                                                     */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
+#include "DataManagerX.h"
+#include "WallocX.h"
+#include "abs_linX.h"
+
 #include "CodingDataX.h"
 #include "state_bzX.h"
 #include "state_fzzX.h"
@@ -10,7 +38,6 @@
 #include "eRFS_X.h"
 #include "RID_X.h"
 #include "walloc_managerX.h"
-#include "WallocX.h"
 #include "WarningLampX.h"
 #include "InfoTyreX.h"
 #include "EeWarnStatusBlockX.h"
@@ -38,6 +65,15 @@
 #include "SeasRcpAdjX.h"
 #include "SpeedCcmX.h"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define cInit                                                      ((uint8)   0)
+#define cCarStop                                                   ((uint8)   1)
+#define cCarDrive                                                  ((uint8)   2)
+#define cReIdProcBufTimeLimit                                      ((uint8) 100)
+#define cTEL_WAIT_TIME                               (cTelegramWaitingTime / 10)
+
 #define TELEGRAM_QUEUE_SIZE 10
 #define WIDTH_IX         (uint8)0
 #define SIDEREL_IX       (uint8)1
@@ -47,6 +83,35 @@
 #define PRESS_BYTE_2_IX  (uint8)5
 #define PRESS_BYTE_3_IX  (uint8)6
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+typedef struct{
+   ImpTypeRecCddRdcData tRdcData;
+   uint8 ucType;
+   uint8 ucWaitingTime;
+}tRdcDataQueue;
+
+typedef struct{
+   uint32 ulReId;
+   uint8 ucTimeCt;
+}tProcIdBufType;
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static uint8                  ucRePckgIdDM[cAnzRad]           = { cInvalidTelType,            cInvalidTelType,            cInvalidTelType,            cInvalidTelType           };
 static uint32                 ulReIdDM[cAnzRad]               = { cInvalidREid,               cInvalidREid,               cInvalidREid,               cInvalidREid              };
 static uint8                  ucReSuppIdDM[cAnzRad]           = { cInvalidREsuppId,           cInvalidREsuppId,           cInvalidREsuppId,           cInvalidREsuppId          };
@@ -57,7 +122,7 @@ static uint16                 ushRePalStatusDM[cAnzRad]       = { cInvalidRePalS
 static uint8                  ucTelRssiLevelDM[cAnzRad]       = { cInvalidRSSIsum,            cInvalidRSSIsum,            cInvalidRSSIsum,            cInvalidRSSIsum           };
 static uint8                  ucReBatteryLevel[cAnzRad]       = { cInvalidBatteryLevel,       cInvalidBatteryLevel,       cInvalidBatteryLevel,       cInvalidBatteryLevel      };
 
-static uint8 ucSetLevelDW[cAnzRad][ucMaxWarnTypeWNc]   = {
+static uint8 ucSetLevelDW[cAnzRad][ucMaxWarnTypeWNc] = {
       {cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure}
    ,  {cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure}
    ,  {cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure, cInvalidREpressure}
@@ -98,6 +163,21 @@ static tProcIdBufType ProcIdBuf[TELEGRAM_QUEUE_SIZE] = {
 };
 
 static uint8 ucReIdBufTimeCt = 0x00;
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+static uint8 ucConvAkAbsPressureInRelDM(uint8 ucRawPres, PhySensorTyrePresType* pucPhyPres, uint8 ucPamb);
+static uint8 ucConvAkTemperatureInCentDM(uint8 ucRawTemp, PhySensorTyreTempType* pscPhyTemp);
+static uint8 ucCalcSignalToNoiseRatio(uint8 ucTelRssi, uint8 ucBackgroundNoise);
+static boolean CompareAllDataToErfsDM(const uint8* pConvRidData, uint8* pIxArray);
+static void CompareTyreDimToErfsDM(const uint8* pConvRidData, uint8* pIxArray);
+static void CompareLoadIxToErfsDM(const uint8* pConvRidData, uint8* pIxArray);
+static void CompareSpeedIxToErfsDM(const uint8* pConvRidData, uint8* pIxArray);
+static boolean ComparePressValOfMatchingErfsEntriesDM(const uint8* pIxArray);
+
+void CheckTirePressureDM(Rte_Instance self, uint8 ucSlotNo, uint8 ucWheelPos, PhySensorTyrePresType ucPressure, sint8 scTemperature);
+void TransferWarnStateToTpmsMsgManOnCycEventDM(Rte_Instance self);
 
 uint8 SetParkenWohnenFahrenDM(Rdci_CON_VEH_Type tPWF){
    uint8 retVal = ePWFInvalid;
@@ -1625,3 +1705,8 @@ void WriteReIdLatelyProcBufDM(const uint32 ReID){
    ProcIdBuf[ucWriteProcReIdBufIx].ucTimeCt = ucReIdBufTimeCt;
    ucWriteProcReIdBufIx++;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
+

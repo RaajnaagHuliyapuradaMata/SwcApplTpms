@@ -1,4 +1,30 @@
-#include "SeasRcpAdj.h"
+/******************************************************************************/
+/* File   : SeasRcpAdj.c                                                      */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
+#include "SeasRcpAdjX.h"
+
 #include "State_BzX.h"
 #include "CodingDataX.h"
 #include "InitializationX.h"
@@ -9,6 +35,34 @@
 #include "datamanagerX.h"
 #include "state_fzzx.h"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define cLoNibblePassedSRA ((uint8) 0x0Fu)
+#define cHiNibblePassedSRA ((uint8) 0xF0u)
+#define cCyclicDriveTime   ((uint8)  120 )
+#define cPermDriveTime     ((uint8)   12 )
+#define cHyst              ((uint8)   2  )
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static uint8    ucDeltaTinitLowerThSRA              = 0xFFu;
 static uint8    ucDeltaTinitHigherThSRA             = 0xFFu;
 static uint8    ucSlowTimeConstSRA                  = 0xFFu;
@@ -20,6 +74,14 @@ static uint32   ulTinitOatHigherSysTimeEndPointSRA  = 0xFFFFFFFFu;
 static boolean  bCorrTinitLowerEventSRA             = FALSE;
 static boolean  bCorrTinitHigherEventSRA            = FALSE;
 static uint16   ushTimeDiffInMinsSRA               = 0x0000u;
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+static void StartOatLowerTimeSRA(Rte_Instance self);
+static void StartOatHigherTimeSRA(Rte_Instance self);
+static void CalculateOATavgSRA(Rte_Instance self);
+static void CyclicOATSampleFuncSRA(uint16 ushCurSpeed, Rte_Instance self);
 
 void InitSRA(Rte_Instance self){
    uint8  ucNibble;
@@ -352,4 +414,8 @@ static void CalculateOATavgSRA(Rte_Instance self){
       ushTimeDiffInMinsSRA = 0x0000u;
    }
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

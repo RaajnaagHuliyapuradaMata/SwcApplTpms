@@ -18,7 +18,7 @@
 #define COMSTACKTYPE_SW_MINOR_VERSION       (0u)
 #define COMSTACKTYPE_SW_PATCH_VERSION       (0u)
 
-#define COMSTACKTYPE_VENDOR_ID              (30u)
+#define COMSTACKTYPE_VENDOR_ID              (1u)
 
 #define NTFRSLT_OK                        0x00
 #define NTFRSLT_E_NOT_OK                  0x01
@@ -30,10 +30,10 @@
 #define NTFRSLT_E_UNEXP_PDU               0x07
 #define NTFRSLT_E_WFT_OVRN                0x08
 
-#  define NTFRSLT_E_ABORT                  0x09
-#  define NTFRSLT_E_NO_BUFFER              0x0A
-#  define NTFRSLT_E_CANCELATION_OK         0x0B
-#  define NTFRSLT_E_CANCELATION_NOT_OK     0x0C
+#define NTFRSLT_E_ABORT                  0x09
+#define NTFRSLT_E_NO_BUFFER              0x0A
+#define NTFRSLT_E_CANCELATION_OK         0x0B
+#define NTFRSLT_E_CANCELATION_NOT_OK     0x0C
 
 #define NTFRSLT_PARAMETER_OK              0x0D
 #define NTFRSLT_E_PARAMETER_NOT_OK        0x0E

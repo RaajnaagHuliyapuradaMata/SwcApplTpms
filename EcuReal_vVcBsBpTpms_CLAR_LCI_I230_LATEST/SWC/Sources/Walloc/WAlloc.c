@@ -308,23 +308,23 @@ static uint8 ucSearchWheelPositionsWAL(uint8 ucID, const tRFTelType * ptInputWA)
 {
    uint8 ucRet = 0;
 
-  #ifdef AEC
+#ifdef AEC
    if(ptInputWA->Header .ucTType == cTelTypePeak)
     Concept5pb8(ucID, ptInputWA);
    else
-  #endif
+#endif
 
-  #ifdef FPA
+#ifdef FPA
       ucRet = ucTriggerFixPointAllocationFPA(ucID, ptInputWA);
-  #endif
+#endif
 
-  #ifdef AEC
+#ifdef AEC
    if  (ucDirectionDetection((uint8) 1) == 0x0F){
 
-  #ifdef CONCEPT4
+#ifdef CONCEPT4
    if(((tZOM[ucID].ucStatus & 0x30) == 0) && (ptInputWA->Header .ucTType == cTelTypeEdgeCnt))
     Concept4Op2(ucID,ushGetTruECt(ptInputWA,ucID));
-  #endif
+#endif
 
       if(ucAxisDetection() == 1){
       if(ucWPConsistent() == 1){
@@ -346,7 +346,7 @@ static uint8 ucSearchWheelPositionsWAL(uint8 ucID, const tRFTelType * ptInputWA)
       if(ucRet == 0)
       ResetWP();
    }
-  #endif
+#endif
    return((uint8) ucRet);
 }
 

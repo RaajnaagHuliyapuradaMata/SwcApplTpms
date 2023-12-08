@@ -1,10 +1,36 @@
-#include "walloc_manager.h"
+/******************************************************************************/
+/* File   : walloc_manager.c                                                  */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright � 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
+#include "walloc_managerX.h"
 #include "datamanagerX.h"
+#include "abs_linX.h"
+
 #include "InitializationX.h"
 #include "state_fzzX.h"
 #include "state_bzX.h"
 #include "State_ZKX.h"
-#include "abs_linX.h"
 #include "wallocX.h"
 #include "FPA_X.h"
 #include "eRFS_X.h"
@@ -25,32 +51,70 @@
 #include "CodingDataX.h"
 #include "DebugMsgX.h"
 
-static uint8  ucWatoTimeoutValue = ucDefWATOTime;
-static uint8  ucWatoState = WATO_STATE_STOP;
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define WATO_STATE_STOP   (0U)
+#define WATO_STATE_RUN    (1U)
+#define WATO_STATE_HALT   (2U)
+#define SPIN_FORWARD      (0U)
+#define SPIN_REVERSE      (1U)
+#define SPIN_NA           (2U)
+#define SPIN_INVALID      (0xff)
+#define cSHORT_PARK_TIME  (5*60U)
+#define cResRefPoint_NoAction  (uint8)0x00
+#define cResRefPoint_DDBackOk  (uint8)0x01
+#define cResetRefPoint_SpeedOk (uint8)0x02
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+static uint8   ucWatoTimeoutValue = ucDefWATOTime;
+static uint8   ucWatoState = WATO_STATE_STOP;
 static boolean bErAndZoAtOnce = TRUE;
-static uint16 ushCountInvalidAbsTstmp = 0;
-static uint8  ucCountInvalidRdcTstmp = 0;
-static uint16 ushAbsTicks[4];
-static uint8  ucCalOnErFinish = cCalOnErFinishIsInactive;
-static uint8  ucTGCountAtCalOnErFinish[cMaxLR] = {0xffu, 0xffu, 0xffu, 0xffu};
+static uint16  ushCountInvalidAbsTstmp = 0;
+static uint8   ucCountInvalidRdcTstmp = 0;
+static uint16  ushAbsTicks[4];
+static uint8   ucCalOnErFinish = cCalOnErFinishIsInactive;
+static uint8   ucTGCountAtCalOnErFinish[cMaxLR] = {0xffu, 0xffu, 0xffu, 0xffu};
 
-void SetVehicleSpeedWAM(Rte_Instance self, Rdci_V_VEH_Type vspeed)
-{
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+static boolean bLearningWheelPosActiveWAM(uint8 ucSpeedThreshold);
+static void    SetLearnStateWAM(Rte_Instance self, uint8 ucWAState);
+static void    SetDrivingDirectionWAM(void);
+static void    StartCalOnErFinishWAM(void);
+static void    ProcessCalOnErFinishWAM(void);
+
+void SetVehicleSpeedWAM(Rte_Instance self, Rdci_V_VEH_Type vspeed){
    uint16 ushSpeed;
-
    SetDrivingDirectionWAM();
-
    ushSpeed = vspeed.V_VEH_COG >> 6;
    SETSpeedFZZ(ushSpeed);
-
-  CountDrivenKilometersWithWarningDS(self);
+   CountDrivenKilometersWithWarningDS(self);
 }
 
-void SetGearWAM(Rdci_WMOM_DRV_4_Type wmomDriveInfo)
-{
+void SetGearWAM(Rdci_WMOM_DRV_4_Type wmomDriveInfo){
    if(wmomDriveInfo.ST_DRVDIR_DVCH != 0xf){
-    SetGearFZZ(wmomDriveInfo.ST_DRVDIR_DVCH);
-    SetDrivingDirectionWAM();
+      SetGearFZZ(wmomDriveInfo.ST_DRVDIR_DVCH);
+      SetDrivingDirectionWAM();
    }
 }
 
@@ -79,9 +143,9 @@ static void SetDrivingDirectionWAM(void)
 void SetAbsDataWAM(ImpTypeRecCddAbsData absData)
 {
 	uint32 ulTempTimeStmp;
-  #if(WORKAROUND_STBMB == 1)
+#if(WORKAROUND_STBMB == 1)
    uint32 ulTempLO, ulTempHI;
-  #endif
+#endif
    uint16 ushTimeStmp;
 
    uint8 ucCheckAbsQualifier;
@@ -148,9 +212,9 @@ void SetAbsDataWAM(ImpTypeRecCddAbsData absData)
 void ProcessAllocationWAM(Rte_Instance self, ImpTypeRecCddRdcData rdcData)
 {
    uint32      ulTempTimeStmp;
-  #if(WORKAROUND_STBMB == 1)
+#if(WORKAROUND_STBMB == 1)
    uint32 ulTempLO, ulTempHI;
-  #endif
+#endif
    uint16      ushTimeStmp, ushlookBackTime;
    tRFTelType  inputWA;
    boolean     bUseTelegramForWalloc = FALSE;
@@ -660,4 +724,8 @@ uint16* GetPointerToAbsCountersWAM(void)
 {
    return ushAbsTicks;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

@@ -1,4 +1,30 @@
-#include "BreakTire.h"
+/******************************************************************************/
+/* File   : BreakTire.c                                                       */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
+#include "BreakTireX.h"
+
 #include "state_bzX.h"
 #include "state_fzzX.h"
 #include "USWarn_ifX.h"
@@ -8,23 +34,45 @@
 #include "EeWarnStatusBlockX.h"
 #include "WallocX.h"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static uint8  ucActBreakTireStateBT = cBtWsBreakTireInit;
 static uint8  ucOldPrewarnStateBT   = 0;
 
-void InitBT(Rte_Instance self)
-{
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+void InitBT(Rte_Instance self){
    SetBreakTireStateBT(self);
    ucOldPrewarnStateBT = (GETucWarningGroupTM( cucWT_GrpPvorw) & (uint8) 0x0F);
 }
 
-void SetBreakTireStateBT(Rte_Instance self)
-{
-
+void SetBreakTireStateBT(Rte_Instance self){
    ucActBreakTireStateBT = ucGetWarnOutStateBT(self);
 }
 
-uint8 ucGetWarnOutStateBT(Rte_Instance self)
-{
+uint8 ucGetWarnOutStateBT(Rte_Instance self){
    uint8 ucResult   = cBtWsBreakTireInit;
    uint8 ucResultLo = cBtWsBreakTireInit;
    uint8 ucResultHi = cBtWsBreakTireInit;
@@ -160,13 +208,11 @@ uint8 ucGetWarnOutStateBT(Rte_Instance self)
    return ucResult;
 }
 
-uint8 ucGetBreakTireStateBT(void)
-{
+uint8 ucGetBreakTireStateBT(void){
    return (ucActBreakTireStateBT);
 }
 
-boolean bGetBefuellhinweisBT(void)
-{
+boolean bGetBefuellhinweisBT(void){
    boolean bRetVal = FALSE;
    uint8   ucPrewarnActState, ucPreWarnAttrBits;
    uint8   ucBitCounter, ucLoop;
@@ -218,7 +264,10 @@ boolean bGetBefuellhinweisBT(void)
    return bRetVal;
 }
 
-void PwfChangeParken2WohnenBT(void)
-{
+void PwfChangeParken2WohnenBT(void){
    ucOldPrewarnStateBT = (GETucWarningGroupTM( cucWT_GrpPvorw) & (uint8) 0x0F);
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/

@@ -26,12 +26,12 @@
 #include "Rte_CtApHufTpmsSWC.h"
 
 #if defined( TESSY) || defined( QAC_MISRA_CHECK)
-  #undef WIN32
+#undef WIN32
 #else
-  #ifdef WIN32
+#ifdef WIN32
     #include <stdio.h>
     #include <string.h>
-  #endif
+#endif
 #endif
 
 #include "Rte_Type.h"
@@ -5734,7 +5734,7 @@ static void UpdateFbd4ParkingMonitorSWC(Rte_Instance self, uint8 ucPmControl, ui
 static void SendDebugMessageSWC(Rte_Instance self){
    uint8 ucDebugMessageData[DEBUG_MESSAGE_SIZE];
 
-  #ifdef WIN32
+#ifdef WIN32
 
    static FILE* fStream;
    static const char filename[] = "debug_msg_telegram_log.csv";
@@ -5747,7 +5747,7 @@ static void SendDebugMessageSWC(Rte_Instance self){
     bFirst = FALSE;
    }
 
-  #endif
+#endif
 
   GetDebugMessageContentDBG(self, ucDebugMessageData);
   Rte_IWrite_RCyclicRDCiTask_PpFrPdu_FR_DBG_DSC_SUPP_1_RDCI_DATA_0(self, ucDebugMessageData[0]);
@@ -5767,7 +5767,7 @@ static void SendDebugMessageSWC(Rte_Instance self){
   Rte_IWrite_RCyclicRDCiTask_PpFrPdu_FR_DBG_DSC_SUPP_1_RDCI_DATA_14(self, ucDebugMessageData[14]);
   Rte_IWrite_RCyclicRDCiTask_PpFrPdu_FR_DBG_DSC_SUPP_1_RDCI_DATA_15(self, ucDebugMessageData[15]);
 
-  #if(DEBUG_MESSAGE_SIZE == 32)
+#if(DEBUG_MESSAGE_SIZE == 32)
   Rte_IWrite_RCyclicRDCiTask_PpFrPdu_FR_DBG_DSC_SUPP_2_RDCI_DATA_16(self, ucDebugMessageData[16]);
   Rte_IWrite_RCyclicRDCiTask_PpFrPdu_FR_DBG_DSC_SUPP_2_RDCI_DATA_17(self, ucDebugMessageData[17]);
   Rte_IWrite_RCyclicRDCiTask_PpFrPdu_FR_DBG_DSC_SUPP_2_RDCI_DATA_18(self, ucDebugMessageData[18]);
@@ -5785,7 +5785,7 @@ static void SendDebugMessageSWC(Rte_Instance self){
   Rte_IWrite_RCyclicRDCiTask_PpFrPdu_FR_DBG_DSC_SUPP_2_RDCI_DATA_30(self, ucDebugMessageData[30]);
   Rte_IWrite_RCyclicRDCiTask_PpFrPdu_FR_DBG_DSC_SUPP_2_RDCI_DATA_31(self, ucDebugMessageData[31]);
 
-  #ifdef WIN32
+#ifdef WIN32
 
    switch(ucDebugMessageData[0]){
       case 0:
@@ -5818,8 +5818,8 @@ static void SendDebugMessageSWC(Rte_Instance self){
       break;
    }
 
-  #endif
-  #endif
+#endif
+#endif
 }
 
 static void SendTPMSInternalLastValuesSWC(Rte_Instance self){

@@ -1,6 +1,29 @@
+/******************************************************************************/
+/* File   : NwMonitoring.c                                                    */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
 
-
-#include "nwmonitoring.h"
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
+#include "NwMonitoringX.h"
 
 #include "state_fzzX.h"
 #include "EeCommonBlockX.h"
@@ -10,15 +33,77 @@
 #include "WallocX.h"
 #include "BandmodeX.h"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define cRDC_DT_PCKG12_MSG_TOUT     360
+#define cRDC_DT_PCKG12_SIG_TOUT     360
+#define cA_TEMP_MSG_TOUT             60
+#define cA_TEMP_SIG_TOUT             60
+#define cEINHEITEN_BN2020_MSG_TOUT   60
+#define cCON_VEH_MSG_TOUT             3
+#define cBN2020_RELATIVZEIT_MSG_TOUT 30
+#define cBN2020_RELATIVZEIT_SIG_TOUT 30
+#define cDT_PT_1_MSG_TOUT            60
+#define cDT_PT_1_SIG_TOUT            60
+#define cNMEARawData2Part2_MSG_TOUT  60
+#define cNMEARawData2Part2_SIG_TOUT  60
+#define cNMEARawData2Part3_MSG_TOUT  60
+#define cNMEARawData2Part3_SIG_TOUT  60
+#define cUHRZEIT_DATUM_SIG_TOUT     300
+#define cKILOMETERSTAND_SIG_TOUT    300
+#define cWMOM_DRV_4_MSG_TOUT          3
+#define cWMOM_DRV_4_SIG_TOUT          3
+#define cV_VEH_MSG_TOUT              30
+#define cV_VEH_ALIVE_TOUT            30
+#define cV_VEH_CRC_TOUT              30
+#define cV_VEH_SIGQUALIF_TOUT        30
+#define cUHRZEIT_DATUM_SIG_TOUT_OFF   0xffffU
+#define cKILOMETERSTAND_SIG_TOUT_OFF  0xffffU
+#define cEINHEITEN_BN2020_SIG_CNT    50
+#define cCON_VEH_SIG_CNT             15
+#define cCON_VEH_CRC_CNT             15
+#define cCON_VEH_ALV_CNT             15
+#define cRDC_DT_PCKG12_ALV_CNT        4
+#define cRDC_DT_PCKG12_ALV_GOOD_CNT   2
+#define E2E_STATUS_OK              0x00
+#define E2E_STATUS_NO_NEW_DATA     0x01
+#define E2E_STATUS_WRONG_CRC       0x02
+#define E2E_STATUS_SYNC            0x03
+#define E2E_STATUS_INITIAL         0x04
+#define E2E_STATUS_REPEATED        0x08
+#define E2E_STATUS_OK_SOME_LOST    0x20
+#define E2E_STATUS_WRONG_SEQUENCE  0x40
+#define E2E_STATUS_DATA_INVALID    0x80
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static uint32 ulNetworkErrors = cNetworkNoError;
 static uint32 ulNetworkErrChangedFlags = cNetworkNoError;
 static uint8 ucDpErrInd = 0xFF;
-
 static tNwMonitoringData tNwMonitoring;
 
-#ifdef _EcuVirtual
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 static uint32 FilterSubsequentErrorsNWM(uint32 ulErrorBits);
-
 static uint8 CheckRDC_DT_PCKG12_AliveNWM(Rte_Instance self, uint8 ucAlive1, uint8 ucAlive2, uint8 DpNo);
 static uint8 CheckRDC_DT_PCKG12_SignalNWM(Rte_Instance self, uint16 ushRdcMesTstmp, uint8 DpNo);
 static uint8 CheckA_TEMP_SignalNWM(Rte_Instance self, Rdci_TEMP_EX_Type tempEx);
@@ -36,8 +121,6 @@ static uint8 CheckNMEARawData2Part3_SignalNWM(Rte_Instance self, Rdci_GNSSErrorA
 static uint8 CheckV_VEH_SigQualifNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh);
 static uint8 CheckV_VEH_CrcNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh);
 static uint8 CheckV_VEH_AliveNWM(Rte_Instance self, uint8 ucAlive);
-#else
-#endif
 
 void InitNWM(Rte_Instance self)
 {
@@ -1074,3 +1157,8 @@ uint8 GetDataPackageErrorIndNWM(Rte_Instance self, uint8 ShiftValue){
 void GetNwMonitoringDataNWM(tNwMonitoringData* data){
   *data = tNwMonitoring;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
+

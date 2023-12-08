@@ -79,9 +79,9 @@ void PutABS(uint16 ushTime, const uint16* ushCnt)
 	uint8 ucTempDiff;
 	uint8 ucAbsIndex200msOffset;
 
-  #ifdef SIG_SIZE_ONEBYTE
+#ifdef SIG_SIZE_ONEBYTE
    uint16 ushTempdiff = 0xFFFFU;
-  #endif
+#endif
 
 	if(ucAbsState == cABS_STATE_INIT){
   	tAbsDataBuff[ucAbsIndex].ushAbsTimeStamp = ushTime;
@@ -140,14 +140,14 @@ void PutABS(uint16 ushTime, const uint16* ushCnt)
       ucAbsIndex200msOffset = (uint8)((cAbsBufferSize - ucTempDiff) + ucAbsIndex);
    }
 
-  #ifdef SIG_SIZE_ONEBYTE
+#ifdef SIG_SIZE_ONEBYTE
    if(tAbsDataBuff[ucAbsIndex].ucOverflowCntVl >= tAbsDataBuff[ucAbsIndex200msOffset].ucOverflowCntVl){
       ushTempdiff = tAbsDataBuff[ucAbsIndex].ucOverflowCntVl - tAbsDataBuff[ucAbsIndex200msOffset].ucOverflowCntVl;
    }
    else{
       ushTempdiff = ((0xFFU + tAbsDataBuff[ucAbsIndex].ucOverflowCntVl) - tAbsDataBuff[ucAbsIndex200msOffset].ucOverflowCntVl) + 1;
    }
-  #endif
+#endif
 
    if(tAbsDataBuff[ucAbsIndex].ushAbsCntVl >= tAbsDataBuff[ucAbsIndex200msOffset].ushAbsCntVl){
       ushAbsTickDiff200msOffset = (uint16)(tAbsDataBuff[ucAbsIndex].ushAbsCntVl - tAbsDataBuff[ucAbsIndex200msOffset].ushAbsCntVl);
@@ -156,10 +156,10 @@ void PutABS(uint16 ushTime, const uint16* ushCnt)
       ushAbsTickDiff200msOffset = (uint16)((uint32)((uint32)(cAbsOverflowValue + tAbsDataBuff[ucAbsIndex].ushAbsCntVl) - (uint32)tAbsDataBuff[ucAbsIndex200msOffset].ushAbsCntVl) + cAbsOverflowCorrection);
    }
 
-  #ifdef SIG_SIZE_ONEBYTE
+#ifdef SIG_SIZE_ONEBYTE
    ushAbsTickDiff200msOffset = (uint16) (ushAbsTickDiff200msOffset + (ushTempdiff * cAbsOverflowValue));
 
-  #endif
+#endif
 
 	RollDetectionABS();
 	ucAbsIndex++;

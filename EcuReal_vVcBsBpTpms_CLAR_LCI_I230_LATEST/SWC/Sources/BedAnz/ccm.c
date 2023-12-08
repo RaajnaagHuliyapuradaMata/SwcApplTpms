@@ -1,4 +1,30 @@
-#include "Ccm.h"
+/******************************************************************************/
+/* File   : ccm.c                                                             */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
+#include "ccmX.h"
+
 #include "state_bzX.h"
 #include "BreakTireX.h"
 #include "WarningLampX.h"
@@ -11,6 +37,31 @@
 #include "DatamanagerX.h"
 #include "SpeedCcmX.h"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define cCcUnspecWarningInFahrzyklusFlagInitState              ((boolean) FALSE)
+#define cCcUnspecWarningInFahrzyklusFlagActiveState            ((boolean) TRUE)
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static const tCcStructDecl tCcStruct[cCcIX_NumberOfMessages] = {
    {  cCcInactive,             cCcFixLampStateBlinking },
    {  cCcExternalInterference, cCcFixLampStateBlinking },
@@ -40,6 +91,7 @@ static const tCcStructDecl tCcStruct[cCcIX_NumberOfMessages] = {
    {  cCcInvalid,              cCcFixLampStateInvalid  }
 };
 
+static uint8 ucNokCounterCCM                        = 0;
 static uint8 ucCcIxMalfunction                      = cCcIX_Invalid;
 static uint8 ucCcIxInterference                     = cCcIX_Invalid;
 static uint8 ucCcIxFlatTire                         = cCcIX_Invalid;
@@ -53,6 +105,22 @@ static uint8 ucCcIxSpeedCcm2158                     = cCcIX_Invalid;
 static uint8 ucCcIxSpeedCcm2159                     = cCcIX_Invalid;
 static boolean bCcUnspecWarningInFahrzyklusFlag     = cCcUnspecWarningInFahrzyklusFlagInitState;
 static uint8 aucVklBits[cCcIX_NumberOfMessages];
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+static uint8 ucGetMalfunctionCCM(void);
+static uint8 ucGetInterferenceCCM(void);
+static uint8 ucGetFlatTireCCM(Rte_Instance self);
+static uint8 ucGetLernphaseCCM(Rte_Instance self);
+static uint8 ucGetReifenwechselCCM(Rte_Instance self);
+static uint8 ucGetBefuellhinweisCCM(void);
+static uint8 ucGetPlausiCheckCCM(Rte_Instance self);
+static uint8 ucGetAutoSelFailedCCM(Rte_Instance self);
+static uint8 ucGetSpeedCcm2158CCM(void);
+static uint8 ucGetSpeedCcm2159CCM(void);
+static void StartCCM(uint8 ucCcmIx);
+static void StopCCM(uint8 ucCcmIx);
 
 void InitCCM(void)
 {
@@ -770,4 +838,8 @@ uint16 ushGetCcNumberOfIxCCM(uint8 ucIx)
 
    return (ushNum);
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

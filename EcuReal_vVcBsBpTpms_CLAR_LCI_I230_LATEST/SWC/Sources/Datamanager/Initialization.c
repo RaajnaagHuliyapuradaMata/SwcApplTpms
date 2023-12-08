@@ -1,4 +1,30 @@
-#include "Initialization.h"
+/******************************************************************************/
+/* File   : Initialization.c                                                  */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
+#include "InitializationX.h"
+
 #include "CodingDataX.h"
 #include "State_FzzX.h"
 #include "USWarn_IfX.h"
@@ -10,14 +36,37 @@
 #include "EeErfsBlockX.h"
 #include "InfoTyreX.h"
 
-static sint8 scTinitDM[cAnzRad]               = { cInvalidREtemperature, cInvalidREtemperature, cInvalidREtemperature, cInvalidREtemperature };
-static uint8 ucPinitTinitDM[cAnzRad]          = {
-                                                  cInvalidREpressure,
-                                                  cInvalidREpressure,
-                                                  cInvalidREpressure,
-                                                  cInvalidREpressure
-};
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define cPWarnMinEUbar                                             ((uint8) 64u)
+#define cPWarnMinUSbar                                             ((uint8) 64u)
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+static sint8 scTinitDM[cAnzRad]      = {cInvalidREtemperature, cInvalidREtemperature, cInvalidREtemperature, cInvalidREtemperature };
+static uint8 ucPinitTinitDM[cAnzRad] = {cInvalidREpressure,    cInvalidREpressure,    cInvalidREpressure,    cInvalidREpressure};
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 void StartInitializationProcessDM(Rte_Instance self){
    InitRatedValuesDM(self);
   ResetWarningsUSWIF(self);
@@ -281,4 +330,8 @@ uint8 ZoPlausiInitPressINIT(Rte_Instance self, boolean bZO, uint8 ucTyreIndex){
 
    return ucRet;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

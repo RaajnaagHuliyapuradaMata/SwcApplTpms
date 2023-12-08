@@ -18,8 +18,7 @@ typedef struct{
    uint32 ulStatKilometerstandWert;
    uint8 ucStatInternerFehlercode;
    uint8 ucStatZaehlerInaktivWert;
-}
-tHsInaktivereignisType;
+}tHsInaktivereignisType;
 
 static uint8 SaveInaktivereignisDS(Rte_Instance self, uint8 ucErrorCode);
 static void IeFiFoShiftDS(Rte_Instance self);

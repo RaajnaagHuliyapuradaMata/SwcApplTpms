@@ -29,11 +29,11 @@
 #include "abs_linX.h"
 
 #if defined( TESSY) || defined( QAC_MISRA_CHECK)
-  #undef WIN32
+#undef WIN32
 #else
-  #ifdef WIN32
+#ifdef WIN32
   #include "stdio.h"
-  #endif
+#endif
 #endif
 
 #ifdef _EcuVirtual
@@ -280,14 +280,14 @@ static void ClearAverageDistanceSumValuesFPA(uint8 ucSlot)
 static void GenerateAbsoluteCompareValuesFPA(uint8 ucSlot)
 {
 
-  #ifdef WIN32
+#ifdef WIN32
    static FILE* fStream;
    static const char filename[] = "zo_statistik.csv";
    static boolean bFirst = TRUE;
   char line[110] = {"Slot; ID; WPos; CurTick; CurTooth; DistRefVal; dN1; dN2; AvgdN1; AvgdN2; Dev1; Dev2; CmpVal1; CmpVal2;"};
    uint8 ucPos, ucLen;
    uint8 j;
-  #endif    
+#endif    
   
    uint16 ushCurrentTooth;
    uint16 ushDistRefVal;
@@ -461,13 +461,13 @@ uint8 ucLocateWheelPositionsFPA(boolean bUseForcedAlloc)
    uint8 ucUnusedWp;
    tIdEvaluation tIdEval = {0};
 
-  #ifdef Test_LOG_ENABLE
+#ifdef Test_LOG_ENABLE
    uint8  ucLocalRelCmpVal[cSumWE][cMaxLR];
   #else
    uint8  ucLocalRelCmpVal[cMaxLR][cMaxLR];
-  #endif
+#endif
 
-  #ifdef Test_LOG_ENABLE
+#ifdef Test_LOG_ENABLE
    for(i=0; i<cSumWE; i++){
       for(j=0; j<cMaxLR; j++){
       ucLocalRelCmpVal[i][j] = 25;
@@ -480,17 +480,17 @@ uint8 ucLocateWheelPositionsFPA(boolean bUseForcedAlloc)
       ucRelCmpVal[i][j] = 25;
       }
    }
-  #endif
+#endif
 
    for(i=0; i<cMaxLR; i++){
     tIdEval.tIdChar[i].ucAimsWheelPos = cWheelPos_NA;
    }
 
-  #ifdef Test_LOG_ENABLE
+#ifdef Test_LOG_ENABLE
    for(i=0; i<cSumWE; i++)
   #else
    for(i=0; i<cMaxLR; i++)
-  #endif
+#endif
   {
 
       ulCmpSum = ulCalcCompareSumFPA(i);
@@ -703,13 +703,13 @@ uint8 ucLocateWheelPositionsPartialFPA(uint8 ucNoOfSlots)
    uint8  ucCheckAllocConditions[cMaxLR];
    uint8  ucFailedIds;
 
-  #ifdef Test_LOG_ENABLE
+#ifdef Test_LOG_ENABLE
    uint8  ucLocalRelCmpVal[cSumWE][cMaxLR];
   #else
    uint8  ucLocalRelCmpVal[cMaxLR][cMaxLR];
-  #endif
+#endif
 
-  #ifdef Test_LOG_ENABLE
+#ifdef Test_LOG_ENABLE
    for(i=0; i<cSumWE; i++){
       for(j=0; j<cMaxLR; j++){
       ucLocalRelCmpVal[i][j] = 25;
@@ -722,13 +722,13 @@ uint8 ucLocateWheelPositionsPartialFPA(uint8 ucNoOfSlots)
       ucRelCmpVal[i][j] = 25;
       }
    }
-  #endif
+#endif
 
-  #ifdef Test_LOG_ENABLE
+#ifdef Test_LOG_ENABLE
    for(i=0; i<cSumWE; i++)
   #else
    for(i=0; i<ucNoOfSlots; i++)
-  #endif
+#endif
   {
 
       ulCmpSum = ulCalcCompareSumFPA(i);

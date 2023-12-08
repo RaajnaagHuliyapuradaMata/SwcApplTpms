@@ -1,4 +1,4 @@
-#include "HS_Inaktivereignis.h"
+#include "HS_InaktivereignisX.h"
 
 #include "DatamanagerX.h"
 #include "EeCommonBlockX.h"
@@ -9,12 +9,27 @@
 #include "state_BZX.h"
 
 #ifndef TESSY
-  #ifdef WIN32
+#ifdef WIN32
     #include "assert.h"
-  #endif
+#endif
 #endif
 
+#define cErrorNoAction  0x00
+#define cErrorNotActive 0x01
+#define cErrorUnknown   0x03
+
+typedef struct{
+   uint8 ucStatDatumText[8];
+   uint8 ucStatUhrzeitText[8];
+   uint32 ulStatKilometerstandWert;
+   uint8 ucStatInternerFehlercode;
+   uint8 ucStatZaehlerInaktivWert;
+}tHsInaktivereignisType;
+
 static strIeFiFo tIEFifo[cMaxSizeIeFiFo];
+
+static uint8 SaveInaktivereignisDS(Rte_Instance self, uint8 ucErrorCode);
+static void IeFiFoShiftDS(Rte_Instance self);
 
 static uint8 SaveInaktivereignisDS(Rte_Instance self, uint8 ucErrorCode)
 {
@@ -27,12 +42,12 @@ static uint8 SaveInaktivereignisDS(Rte_Instance self, uint8 ucErrorCode)
    uint8 ucRetVal = 0xff;
    uint8 ucCounterInactive;
 
-  #ifndef TESSY
+#ifndef TESSY
     #ifdef WIN32
 
       assert(sizeof(ImpTypeArrayDcm_RdcHsInaktivereignisReadDataType) == (3 * cSizeInaktivereignis));
     #endif
-  #endif
+#endif
 
    ucCounterInactive = GetHsInaktivereignis_1_CounterEE(self);
    if(ucCounterInactive == 0xff){

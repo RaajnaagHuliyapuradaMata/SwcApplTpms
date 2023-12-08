@@ -1,4 +1,5 @@
-#include "HS_Kalibrierereignis.h"
+#include "HS_KalibrierereignisX.h"
+
 #include "DatamanagerX.h"
 #include "EeCommonBlockX.h"
 #include "EeDiagBlockX.h"
@@ -11,10 +12,16 @@
 #include "RdcTsaServicesX.h"
 
 #ifndef TESSY
-  #ifdef WIN32
+#ifdef WIN32
     #include "assert.h"
-  #endif
 #endif
+#endif
+
+#define cCalEvPlausiFailed          (uint8)0
+#define cCalEvPlausiSuccessful      (uint8)1
+#define cCalEvManPlausiFailed       (uint8)2
+#define cCalEvManPlausiSuccessful   (uint8)3
+#define cCalEvInvalid               (uint8)0xff
 
 void SetCalibrationRootCauseDS(Rte_Instance self, uint8 ucRootCause)
 {
@@ -40,12 +47,12 @@ uint8 SaveCalibrationEventDS(Rte_Instance self)
    uint8 ucCounterKalib;
    uint8 ucCalStatus, ucCalStatusBackup;
 
-  #ifndef TESSY
+#ifndef TESSY
     #ifdef WIN32
 
     assert(sizeof(ImpTypeArrayDcm_RdcHsKalibrierereignisReadDataType) == (cSizeKalibrierereignis * 3));
     #endif
-  #endif
+#endif
 
    ucCalStatus = ucGetCalibrationRootCauseDS(self);
    ucCalStatusBackup = ucCalStatus;

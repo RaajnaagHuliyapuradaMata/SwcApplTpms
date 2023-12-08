@@ -1,6 +1,29 @@
+/******************************************************************************/
+/* File   : FillingDetect.c                                                   */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
 
-
-#include "FillingDetect.h"
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
+#include "FillingDetectX.h"
 
 #include "EeCommonBlockX.h"
 #include "EeWarnStatusBlockX.h"
@@ -11,6 +34,33 @@
 #include "HS_KalibrierereignisX.h"
 #include "EeErfsBlockX.h"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 void StartFillingDetectionFID(Rte_Instance self)
 {
    uint8 i;
@@ -62,15 +112,10 @@ boolean ProcessFillingDetectionFID(Rte_Instance self, uint8 ucSlot)
           if(bGetBitFahrzeugzustandFZZ(cFAHRZEUG_FAEHRT) == TRUE){
 
           scTakt = GETscLastWuTemperatureEE(self, ucSlot);
-
           ushSteigung = GETushFilDetMIsoEE(self, ucSlot);
-
           ucPerwartet = ucPfT(ushSteigung, scTakt, GETucPAmbValEE(self));
-
           ucPakt = GETucLastWuPressureEE(self, ucSlot);
-
           scPdiff = (sint8)(ucPakt - ucPerwartet);
-
           PUTucFilDetRecFlag(self, 1, ucSlot);
 
           if(scPdiff >= 4){
@@ -101,3 +146,8 @@ boolean ProcessFillingDetectionFID(Rte_Instance self, uint8 ucSlot)
    }
    return bRetVal;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
+

@@ -1,17 +1,39 @@
 #ifndef _nw_monitoring_X_H
 #define _nw_monitoring_X_H
+/******************************************************************************/
+/* File   : NwMonitoringX.h                                                   */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "tss_stdx.h"
 
 #include "Rte_CtApHufTpmsSWC.h"
 
 #include "datamanagerX.h"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
 #define cNetworkNoError                           (uint32)0x00000000U
 #define cNetwork_RDC_DT_PCKG_MsgMissing           (uint32)0x00000001U
 #define cNetwork_RDC_DT_PCKG_AliveError           (uint32)0x00000002U
@@ -75,6 +97,13 @@ extern "C"
 #define cDP_SE_SHIFT        (uint8)0x02
 #define cDP_TO_SHIFT        (uint8)0x03
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
 typedef struct{
    uint16 ushMsgTimeout;
    uint16 ushSignalErrorTimeout;
@@ -159,6 +188,25 @@ typedef struct{
    tMonitorV_VEH tMonV_VEH;
 }tNwMonitoringData;
 
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 extern void InitNWM(Rte_Instance self);
 extern void TimerTickNWM(Rte_Instance self);
 extern uint8 CheckRDC_DT_PCKG12_MsgNWM(Rte_Instance self, const ImpTypeRecCddRdcData* rdcData);
@@ -190,9 +238,12 @@ extern boolean bRelativzeitMessageFailNWM(void);
 extern boolean ResetDataPackageErrorIndNWM(Rte_Instance self, uint8 ShiftValue, uint8 Ix);
 extern void SetDataPackageErrorIndNWM(uint8 ShiftValue, uint8 Ix);
 extern uint8 GetDataPackageErrorIndNWM(Rte_Instance self, uint8 ShiftValue);
-
 #ifdef __cplusplus
 }
 #endif
 
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 #endif
+

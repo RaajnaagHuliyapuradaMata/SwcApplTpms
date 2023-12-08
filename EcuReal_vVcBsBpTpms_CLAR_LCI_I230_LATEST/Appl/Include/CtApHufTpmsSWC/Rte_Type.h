@@ -1,8 +1,43 @@
 #ifndef _RTE_TYPE_H
 #define _RTE_TYPE_H
+/******************************************************************************/
+/* File   : Rte_Type.h                                                        */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
 
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "Rte.h"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
 typedef uint8  ImpTypeValCRdciDeltaPLR;
 typedef uint8  ImpTypeValCRdciDispConfTimeout;
 typedef uint8  ImpTypeValCRdciDpToIPmin;
@@ -475,14 +510,14 @@ typedef struct{
 }Rdci_ST_TYR_Type;
 
 typedef struct{
-  Rte_DT_Rdci_UHRZEIT_DATUM_Type_0 DISP_HR;
-  Rte_DT_Rdci_UHRZEIT_DATUM_Type_1 DISP_MN;
-  Rte_DT_Rdci_UHRZEIT_DATUM_Type_2 DISP_SEC;
-  Rte_DT_Rdci_UHRZEIT_DATUM_Type_3 DISP_DATE_DAY;
-  Rte_DT_Rdci_UHRZEIT_DATUM_Type_4 DISP_DATE_WDAY;
-  Rte_DT_Rdci_UHRZEIT_DATUM_Type_5 DISP_DATE_MON;
-  Rte_DT_Rdci_UHRZEIT_DATUM_Type_6 DISP_DATE_YR;
-  Rte_DT_Rdci_UHRZEIT_DATUM_Type_7 ST_DISP_CTI_DATE;
+   Rte_DT_Rdci_UHRZEIT_DATUM_Type_0 DISP_HR;
+   Rte_DT_Rdci_UHRZEIT_DATUM_Type_1 DISP_MN;
+   Rte_DT_Rdci_UHRZEIT_DATUM_Type_2 DISP_SEC;
+   Rte_DT_Rdci_UHRZEIT_DATUM_Type_3 DISP_DATE_DAY;
+   Rte_DT_Rdci_UHRZEIT_DATUM_Type_4 DISP_DATE_WDAY;
+   Rte_DT_Rdci_UHRZEIT_DATUM_Type_5 DISP_DATE_MON;
+   Rte_DT_Rdci_UHRZEIT_DATUM_Type_6 DISP_DATE_YR;
+   Rte_DT_Rdci_UHRZEIT_DATUM_Type_7 ST_DISP_CTI_DATE;
 }Rdci_UHRZEIT_DATUM_Type;
 
 typedef struct{
@@ -515,7 +550,7 @@ typedef uint8  NvM_ServiceIdType;
 typedef uint8  StbMB_SyncStatusType;
 
 typedef struct{
-  Rte_DT_ImpTypeRecCRdciErfsReifenEco_0 DeData;
+   Rte_DT_ImpTypeRecCRdciErfsReifenEco_0 DeData;
    uint16                                DeCrc;
 }ImpTypeRecCRdciErfsReifenEco;
 
@@ -544,4 +579,23 @@ typedef struct{uint16 Chksum; uint16 Version; uint8 Data[120];} Rte_PimType_CtAp
 typedef struct{uint16 Chksum; uint16 Version; uint8 Data[450];} Rte_PimType_CtApHufTpmsSWC_NvmRdciZomBlock1Type;
 typedef struct{uint16 Chksum; uint16 Version; uint8 Data[450];} Rte_PimType_CtApHufTpmsSWC_NvmRdciZomBlock2Type;
 
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 #endif

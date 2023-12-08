@@ -1,18 +1,47 @@
 #ifndef CodingDataX_h
 #define CodingDataX_h
+/******************************************************************************/
+/* File   : CodingDataX.h                                                     */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "tss_stdx.h"
 #include "Rte_CtApHufTpmsSWC.h"
 
-#define cucShortHoldTimeOffValue         ( (uint8)  8)
-#define cucLongHoldTimeOffValue          ( (uint8) 19)
-#define cushWarnDelayTimerOffValue       ( (uint16) 0xFFFFu)
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define cucShortHoldTimeOffValue                              ((uint8)        8)
+#define cucLongHoldTimeOffValue                               ((uint8)       19)
+#define cushWarnDelayTimerOffValue                            ((uint16) 0xFFFFu)
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
 typedef struct{
    boolean bCRdciTPrewarnNc;
    boolean bCRdciMaxThreshold;
@@ -75,6 +104,25 @@ typedef struct{
    uint8   ucCRdciParkSupWarningThNcValue;
 }tCodingDataDeclCD;
 
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 extern boolean bGetCRdciTPrewarnNcCD(void);
 extern boolean bGetCRdciMaxThresholdCD(void);
 extern boolean bGetCRdciPrewarnEnableCD(void);
@@ -195,9 +243,12 @@ extern void PutCRdciParkSupWarningThCValueCD(uint8 ucCRdciParkSupWarningThCValue
 extern void PutCRdciParkSupWarningThNcValueCD(uint8 ucCRdciParkSupWarningThNcValue);
 extern boolean CheckCodingDataCrcCD(Rte_Instance self);
 extern void RestartSystemAfterCodingCD(Rte_Instance self);
-
 #ifdef __cplusplus
 }
 #endif
 
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 #endif
+
