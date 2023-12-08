@@ -462,10 +462,10 @@ Rdci_UHRZEIT_DATUM_Type GETtExtParkSupSleepTimeDateEE(Rte_Instance self)
 
    ucStDispCtiDate = ((tDiagNvmBlock1Type *) (void*) Rte_Pim_NvmRdciDiagBlock1_NVBlock_MirrorBlock(self)->Data)->tExtParkSupSleepTimeDate.ST_DISP_CTI_DATE;
    if(((ucStDispCtiDate & 0x01) == 0) || (ucStDispCtiDate == 0x0f)){
-    return( cUhrzeitDatumInitVal);
+      return( cUhrzeitDatumInitVal);
    }
    else{
-    return( ((tDiagNvmBlock1Type *) (void*) Rte_Pim_NvmRdciDiagBlock1_NVBlock_MirrorBlock(self)->Data)->tExtParkSupSleepTimeDate);
+      return( ((tDiagNvmBlock1Type *) (void*) Rte_Pim_NvmRdciDiagBlock1_NVBlock_MirrorBlock(self)->Data)->tExtParkSupSleepTimeDate);
    }
 }
 
@@ -481,10 +481,10 @@ Rdci_UHRZEIT_DATUM_Type GETtExtParkSupWakeupTimeDateEE(Rte_Instance self)
 
    ucStDispCtiDate = ((tDiagNvmBlock1Type *) (void*) Rte_Pim_NvmRdciDiagBlock1_NVBlock_MirrorBlock(self)->Data)->tExtParkSupWakeupTimeDate.ST_DISP_CTI_DATE;
    if(((ucStDispCtiDate & 0x01) == 0) || (ucStDispCtiDate == 0x0f)){
-    return( cUhrzeitDatumInitVal);
+      return( cUhrzeitDatumInitVal);
    }
    else{
-    return( ((tDiagNvmBlock1Type *) (void*) Rte_Pim_NvmRdciDiagBlock1_NVBlock_MirrorBlock(self)->Data)->tExtParkSupWakeupTimeDate);
+      return( ((tDiagNvmBlock1Type *) (void*) Rte_Pim_NvmRdciDiagBlock1_NVBlock_MirrorBlock(self)->Data)->tExtParkSupWakeupTimeDate);
    }
 }
 

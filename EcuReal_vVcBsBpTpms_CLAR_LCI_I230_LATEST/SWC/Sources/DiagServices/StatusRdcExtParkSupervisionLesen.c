@@ -37,7 +37,7 @@ void GetStatusRdcExtParkSupervisionLesen(Rte_Instance self, uint8 *pucData){
   GetStTyrITY( &ucQuFnTyrInfo, &ucQuTpl, &ucQuTfai);
 
    if(bGetBitBetriebszustandBZ( cZUGEORDNET) == TRUE){
-    (void) ucGetPTSollUSWIF(self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosVL));
+      (void) ucGetPTSollUSWIF(self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosVL));
       if((ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature)){
       (void) ucGetPTSollUSWIF(self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosVR));
       if((ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature)){
@@ -54,7 +54,7 @@ void GetStatusRdcExtParkSupervisionLesen(Rte_Instance self, uint8 *pucData){
       ucPva   = (uint8) ((((uint16) ucPress * 25) + 50) / 100);
       }
 
-    (void) ucGetPTSollUSWIF(self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosHL));
+      (void) ucGetPTSollUSWIF(self, &ucPress, &scTemp, &ucDummy, &scDummy, &ushDummy, &ucDummy, ucGetColOfWP( cRadPosHL));
 
       if((ucPress == cInvalidREpressure) || (scTemp == cInvalidREtemperature)){
 

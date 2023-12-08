@@ -17,7 +17,7 @@ extern "C"
 #define cReIdProcBufTimeLimit (uint8)100
 
 typedef struct{
-  ImpTypeRecCddRdcData tRdcData;
+   ImpTypeRecCddRdcData tRdcData;
    uint8 ucType;
    uint8 ucWaitingTime;
 }tRdcDataQueue;

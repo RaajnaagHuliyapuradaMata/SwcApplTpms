@@ -122,10 +122,10 @@ uint16 ushGetABSingleTick(uint8 ucIx){
 uint8 ucGetSpeed(void){
    uint16 ushV = GETushSpeedFZZ();
    if(ushV > 255){
-    return ((uint8) 255);
+      return ((uint8) 255);
    }
    else{
-    return ((uint8) ushV);
+      return ((uint8) ushV);
    }
 }
 

@@ -18,17 +18,17 @@ uint8 ucSaturierungAktiv = 0;
 
 static void ChangeWNParaSubSet(Rte_Instance self){
    if(tPSSA.ucAccess == ucRdParaSubSetc){
-    (void) ucWarnManagerWN(self, ucDiagServicec, &tPSSA.ucAccess);
+      (void) ucWarnManagerWN(self, ucDiagServicec, &tPSSA.ucAccess);
     tPSSA.ucAccess = ucRdWnValidTMc;
-    (void) ucTPMSMsgManagerTM(self, ucDiagServicec, &tPSSA.ucAccess);
+      (void) ucTPMSMsgManagerTM(self, ucDiagServicec, &tPSSA.ucAccess);
     tPSSA.ucAccess = 0;
    }
    if(tPSSA.ucAccess == ucWrParaSubSetc){
-    (void) ucWarnManagerWN(self, ucDiagServicec,&tPSSA.ucAccess);
+      (void) ucWarnManagerWN(self, ucDiagServicec,&tPSSA.ucAccess);
     tPSSA.ucAccess = ucWrWnValidTMc;
-    (void) ucTPMSMsgManagerTM(self, ucDiagServicec, &tPSSA.ucAccess);
+      (void) ucTPMSMsgManagerTM(self, ucDiagServicec, &tPSSA.ucAccess);
     tPSSA.ucAccess = ucRdParaSubSetc;
-    (void) ucWarnManagerWN(self, ucDiagServicec,&tPSSA.ucAccess);
+      (void) ucWarnManagerWN(self, ucDiagServicec,&tPSSA.ucAccess);
    }
 }
 

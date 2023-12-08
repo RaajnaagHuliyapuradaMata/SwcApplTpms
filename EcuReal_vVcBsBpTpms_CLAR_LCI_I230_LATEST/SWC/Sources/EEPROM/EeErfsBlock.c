@@ -112,13 +112,13 @@ void  PUTTyreDimDataEE                    (Rte_Instance self, uint8 i, uint8 x, 
 
 uint8 GETTyreDOTDataEE(Rte_Instance self, uint8 i, uint8 x){
    uint8 Index;
-  Index = cTyreDOT1_StartIx + (cDimDOTSize * i) + (x);
+   Index = cTyreDOT1_StartIx + (cDimDOTSize * i) + (x);
    return(Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[Index]);
 }
 
 void PUTTyreDOTDataEE(Rte_Instance self, uint8 i, uint8 x, uint8 y){
    uint8 Index;
-  Index = cTyreDOT1_StartIx + (cDimDOTSize * i) + (x);
+   Index = cTyreDOT1_StartIx + (cDimDOTSize * i) + (x);
   CheckValueChangesAndSetUpdateFlag(Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[Index], y);
   Rte_Pim_NvmRdciErfsBlock_NVBlock_MirrorBlock(self)->Data[Index] = (y);
 }

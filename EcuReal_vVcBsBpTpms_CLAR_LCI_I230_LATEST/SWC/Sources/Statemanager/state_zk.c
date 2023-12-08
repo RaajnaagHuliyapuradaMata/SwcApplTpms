@@ -66,16 +66,16 @@ uint8 ucGetWpChangedBitsZK(void)
 {
    uint8 retVal = 0;
    if((ushZustandskennung & cPOS_CHANGED_VL) != 0){
-    retVal |= 0x01;
+      retVal |= 0x01;
    }
    if((ushZustandskennung & cPOS_CHANGED_VR) != 0){
-    retVal |= 0x02;
+      retVal |= 0x02;
    }
    if((ushZustandskennung & cPOS_CHANGED_HL) != 0){
-    retVal |= 0x04;
+      retVal |= 0x04;
    }
    if((ushZustandskennung & cPOS_CHANGED_HR) != 0){
-    retVal |= 0x08;
+      retVal |= 0x08;
    }
    return (retVal);
 }

@@ -318,7 +318,7 @@ static uint8 SaveWarnereignisDS(Rte_Instance self, uint8 ucPos, uint8 ucWarningT
       cData[26 + (6 * i)] = 0x05;
       }
 
-    (void)ucGetPTSollUSWIF(self, &ucPcold, &scTcold, &ucPwarm, &scTwarm, &ushM, &ucPamb, i);
+      (void)ucGetPTSollUSWIF(self, &ucPcold, &scTcold, &ucPwarm, &scTwarm, &ushM, &ucPamb, i);
       if(ucPwarm == cInvalidREpressure){
       ushTemp = 0xffffu;
       }
@@ -555,7 +555,7 @@ static void SaveHighestSpeedWithActiveWarningDS(Rte_Instance self, uint8 ucVMax)
    uint8 ucData[cNvmRdciDiagBlock1HsWarn_1_Size];
 
    if(bWarnereignis1ActiveDS(self) == TRUE){
-    ReadWarnereignis_1_DS(self, ucData);
+      ReadWarnereignis_1_DS(self, ucData);
       if(ucVMax > ucData[57]){
       ucData[57] = ucVMax;
       WriteWarnereignis_1_DS(self, ucData, sizeof(ucData));
@@ -564,7 +564,7 @@ static void SaveHighestSpeedWithActiveWarningDS(Rte_Instance self, uint8 ucVMax)
    }
 
    if(bWarnereignis2ActiveDS(self) == TRUE){
-    ReadWarnereignis_2_DS(self, ucData);
+      ReadWarnereignis_2_DS(self, ucData);
       if(ucVMax > ucData[57]){
       ucData[57] = ucVMax;
       WriteWarnereignis_2_DS(self, ucData, sizeof(ucData));
@@ -573,7 +573,7 @@ static void SaveHighestSpeedWithActiveWarningDS(Rte_Instance self, uint8 ucVMax)
    }
 
    if(bWarnereignis3ActiveDS(self) == TRUE){
-    ReadWarnereignis_3_DS(self, ucData);
+      ReadWarnereignis_3_DS(self, ucData);
       if(ucVMax > ucData[57]){
       ucData[57] = ucVMax;
       WriteWarnereignis_3_DS(self, ucData, sizeof(ucData));
@@ -589,7 +589,7 @@ static void CumulateKilometers_0_to_100_DS(Rte_Instance self)
 
    if(bWarnereignis1ActiveDS(self) == TRUE){
       ulDiff = GETulMileKmEE(self) - ulMileage0_We1;
-    ReadWarnereignis_1_DS(self, ucData);
+      ReadWarnereignis_1_DS(self, ucData);
       ushTemp = (uint16)((uint16)(ucData[51]) << 8) + (uint16)(ucData[52]);
       if((ushTemp + (uint16)ulDiff) < 0xffffu){
       ushTemp += (uint16)ulDiff;
@@ -601,7 +601,7 @@ static void CumulateKilometers_0_to_100_DS(Rte_Instance self)
 
    if(bWarnereignis2ActiveDS(self) == TRUE){
       ulDiff = GETulMileKmEE(self) - ulMileage0_We2;
-    ReadWarnereignis_2_DS(self, ucData);
+      ReadWarnereignis_2_DS(self, ucData);
       ushTemp = (uint16)((uint16)(ucData[51]) << 8) + (uint16)(ucData[52]);
       if((ushTemp + (uint16)ulDiff) < 0xffffu){
       ushTemp += (uint16)ulDiff;
@@ -613,7 +613,7 @@ static void CumulateKilometers_0_to_100_DS(Rte_Instance self)
 
    if(bWarnereignis3ActiveDS(self) == TRUE){
       ulDiff = GETulMileKmEE(self) - ulMileage0_We3;
-    ReadWarnereignis_3_DS(self, ucData);
+      ReadWarnereignis_3_DS(self, ucData);
       ushTemp = (uint16)((uint16)(ucData[51]) << 8) + (uint16)(ucData[52]);
       if((ushTemp + (uint16)ulDiff) < 0xffffu){
       ushTemp += (uint16)ulDiff;
@@ -632,7 +632,7 @@ static void CumulateKilometers_100_to_160_DS(Rte_Instance self)
 
    if(bWarnereignis1ActiveDS(self) == TRUE){
       ulDiff = GETulMileKmEE(self) - ulMileage100_We1;
-    ReadWarnereignis_1_DS(self, ucData);
+      ReadWarnereignis_1_DS(self, ucData);
       ushTemp = (uint16)((uint16)(ucData[53]) << 8) + (uint16)(ucData[54]);
       if((ushTemp + (uint16)ulDiff) < 0xffffu){
       ushTemp += (uint16)ulDiff;
@@ -644,7 +644,7 @@ static void CumulateKilometers_100_to_160_DS(Rte_Instance self)
 
    if(bWarnereignis2ActiveDS(self) == TRUE){
       ulDiff = GETulMileKmEE(self) - ulMileage100_We2;
-    ReadWarnereignis_2_DS(self, ucData);
+      ReadWarnereignis_2_DS(self, ucData);
       ushTemp = ((uint16)(ucData[53]) << 8) + (uint16)(ucData[54]);
       if((ushTemp + (uint16)ulDiff) < 0xffffu){
       ushTemp += (uint16)ulDiff;
@@ -656,7 +656,7 @@ static void CumulateKilometers_100_to_160_DS(Rte_Instance self)
 
    if(bWarnereignis3ActiveDS(self) == TRUE){
       ulDiff = GETulMileKmEE(self) - ulMileage100_We3;
-    ReadWarnereignis_3_DS(self, ucData);
+      ReadWarnereignis_3_DS(self, ucData);
       ushTemp = (uint16)((uint16)(ucData[53]) << 8) + (uint16)(ucData[54]);
       if((ushTemp + (uint16)ulDiff) < 0xffffu){
       ushTemp += (uint16)ulDiff;
@@ -675,7 +675,7 @@ static void CumulateKilometers_160_to_max_DS(Rte_Instance self)
 
    if(bWarnereignis1ActiveDS(self) == TRUE){
       ulDiff = GETulMileKmEE(self) - ulMileage160_We1;
-    ReadWarnereignis_1_DS(self, ucData);
+      ReadWarnereignis_1_DS(self, ucData);
       ushTemp = (uint16)((uint16)(ucData[55]) << 8) + (uint16)(ucData[56]);
       if((ushTemp + (uint16)ulDiff) < 0xffffu){
       ushTemp += (uint16)ulDiff;
@@ -687,7 +687,7 @@ static void CumulateKilometers_160_to_max_DS(Rte_Instance self)
 
    if(bWarnereignis2ActiveDS(self) == TRUE){
       ulDiff = GETulMileKmEE(self) - ulMileage160_We2;
-    ReadWarnereignis_2_DS(self, ucData);
+      ReadWarnereignis_2_DS(self, ucData);
       ushTemp = (uint16)((uint16)(ucData[55]) << 8) + (uint16)(ucData[56]);
       if((ushTemp + (uint16)ulDiff) < 0xffffu){
       ushTemp += (uint16)ulDiff;
@@ -699,7 +699,7 @@ static void CumulateKilometers_160_to_max_DS(Rte_Instance self)
 
    if(bWarnereignis3ActiveDS(self) == TRUE){
       ulDiff = GETulMileKmEE(self) - ulMileage160_We3;
-    ReadWarnereignis_3_DS(self, ucData);
+      ReadWarnereignis_3_DS(self, ucData);
       ushTemp = (uint16)((uint16)(ucData[55]) << 8) + (uint16)(ucData[56]);
       if((ushTemp + (uint16)ulDiff) < 0xffffu){
       ushTemp += (uint16)ulDiff;
@@ -859,7 +859,7 @@ static uint8 SaveWarnereignisWeichDS(Rte_Instance self, uint8 ucPos)
       cData[26 + (6 * i)] = 0x05;
       }
 
-    (void)ucGetPTSollUSWIF(self, &ucPcold, &scTcold, &ucPwarm, &scTwarm, &ushM, &ucPamb, i);
+      (void)ucGetPTSollUSWIF(self, &ucPcold, &scTcold, &ucPwarm, &scTwarm, &ushM, &ucPamb, i);
       if(ucPwarm == cInvalidREpressure){
       ushTemp = 0xffffu;
       }
@@ -1075,7 +1075,7 @@ static uint8 SaveWarnereignisRuecknahmeDS(Rte_Instance self, uint8 ucPos)
       cData[26 + (6 * i)] = 0x05;
       }
 
-    (void)ucGetPTSollUSWIF(self, &ucPcold, &scTcold, &ucPwarm, &scTwarm, &ushM, &ucPamb, i);
+      (void)ucGetPTSollUSWIF(self, &ucPcold, &scTcold, &ucPwarm, &scTwarm, &ushM, &ucPamb, i);
       if(ucPwarm == cInvalidREpressure){
       ushTemp = 0xffffu;
       }

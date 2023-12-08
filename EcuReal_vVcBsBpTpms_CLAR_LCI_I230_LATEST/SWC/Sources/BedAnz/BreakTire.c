@@ -58,8 +58,8 @@ uint8 ucGetWarnOutStateBT(Rte_Instance self)
 
    if(bGetCRdciFastDeflateEnableCD() == TRUE){
 
-    (void) ucGetWarnBitTonnageIdIntIFH(self, aucWbitTonnage);
-    (void) ucGetWarnBitAirMassIdIntIFH(self, aucWbitAirMass);
+      (void) ucGetWarnBitTonnageIdIntIFH(self, aucWbitTonnage);
+      (void) ucGetWarnBitAirMassIdIntIFH(self, aucWbitAirMass);
 
       for(ucHistSlot = 0; ucHistSlot < cAnzRad; ucHistSlot++){
       if((((aucWbitTonnage[ucHistSlot] & (cucWN_Pwarn | cucWN_Pmin)) | (aucWbitAirMass[ucHistSlot] & (cucWN_Pwarn | cucWN_Pmin))) & (uint8) ~(aucWbitTonnage[ucHistSlot] & cucWN_Ppanne)) != 0){

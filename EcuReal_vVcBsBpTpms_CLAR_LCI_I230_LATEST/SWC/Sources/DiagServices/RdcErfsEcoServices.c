@@ -323,7 +323,7 @@ uint8 ucPutSteuernRdcErfsEcoAktReifenposVorgebenDS(Rte_Instance self, const uint
    uint8 ucRet = cRetOk;
 
    Position = pucData[Index];
-  Index++;
+   Index++;
 
    for(i=0; i<TYRE_DATA_BYTES; i++){
       if(pucData[Index] != GetTyreListMember(Position, i)){

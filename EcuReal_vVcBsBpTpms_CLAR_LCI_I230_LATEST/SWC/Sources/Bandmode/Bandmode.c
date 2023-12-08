@@ -106,12 +106,12 @@ void SetStateBitBM (uint16 ushBitMask, boolean bState)
 
 void BandmodeActivateBM (void)
 {
-  InitBM( (cushResetAllStatusBitsBM | cushBandmodeActivationBM));
+   InitBM( (cushResetAllStatusBitsBM | cushBandmodeActivationBM));
 }
 
 void BandmodeDeactivateBM (void)
 {
-  InitBM( cushResetAllStatusBitsBM);
+   InitBM( cushResetAllStatusBitsBM);
 }
 
 boolean bGetBandmodeBM(void)
@@ -121,7 +121,7 @@ boolean bGetBandmodeBM(void)
 
 void StopServiceBM(void)
 {
-  InitBM( (cushResetAllStatusBitsBM | cushBandmodeActivationBM));
+   InitBM( (cushResetAllStatusBitsBM | cushBandmodeActivationBM));
 }
 
 boolean bStartServiceBM(uint16 ushService)

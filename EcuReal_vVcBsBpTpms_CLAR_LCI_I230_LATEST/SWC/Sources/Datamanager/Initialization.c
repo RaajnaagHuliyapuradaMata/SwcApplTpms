@@ -19,7 +19,7 @@ static uint8 ucPinitTinitDM[cAnzRad]          = {
 };
 
 void StartInitializationProcessDM(Rte_Instance self){
-  InitRatedValuesDM(self);
+   InitRatedValuesDM(self);
   ResetWarningsUSWIF(self);
    (void) ucSetPminFzgAsSetPressureUSWIF(self);
 }

@@ -10,7 +10,7 @@ void InitZomBlock1EE(Rte_Instance self)
    uint16 i;
 
    for(i = 0; i < sizeof(Rte_Pim_NvmRdciZomBlock1_NVBlock_MirrorBlock(self)->Data); i++){
-    Rte_Pim_NvmRdciZomBlock1_NVBlock_MirrorBlock(self)->Data[i] = 0xff;
+      Rte_Pim_NvmRdciZomBlock1_NVBlock_MirrorBlock(self)->Data[i] = 0xff;
    }
 
    PUTucZomBlock1InitializeEE(self, 0xff);
@@ -33,7 +33,7 @@ void InitZomBlock2EE(Rte_Instance self)
    uint16 i;
 
    for(i = 0; i < sizeof(Rte_Pim_NvmRdciZomBlock2_NVBlock_MirrorBlock(self)->Data); i++){
-    Rte_Pim_NvmRdciZomBlock2_NVBlock_MirrorBlock(self)->Data[i] = 0xff;
+      Rte_Pim_NvmRdciZomBlock2_NVBlock_MirrorBlock(self)->Data[i] = 0xff;
    }
 
    PUTucZomBlock2InitializeEE(self, 0xff);

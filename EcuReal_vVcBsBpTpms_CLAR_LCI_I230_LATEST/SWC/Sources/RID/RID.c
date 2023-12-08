@@ -312,7 +312,7 @@ void SaveRidDataAndCompareRID(Rte_Instance self){
       }
       }
 
-    (void)CheckAxisRidDataRID(self, &ResHistReDimDataFA[0], cFrontAxis);
+      (void)CheckAxisRidDataRID(self, &ResHistReDimDataFA[0], cFrontAxis);
 
       ucIx = 0x00;
 
@@ -795,7 +795,7 @@ static uint8 CheckRidDataRID(Rte_Instance self, const uint8 Col1, const uint8 Co
       ((SavedDimDataChangedFlagRID & (uint8)(cDimDataHisUse << Col2)) == (uint8)(cDimDataHisUse << Col2))){
     DeleteRidDataOfHisColRID(self, (uint8)(0x01 << Col2));
 
-    ResCol = Col1;
+      ResCol = Col1;
    }
    else{
 
@@ -880,12 +880,12 @@ static uint8 CompareHistReDimBufRID(uint8 Ix1, uint8 Ix2, uint8* pResData)
 
    if(HistReDimBufRID[Ix1][0] == cBufInitValRID){
     Ix1 = cAnzRad;
-    ResCol = Ix2;
+      ResCol = Ix2;
    }
 
    if(HistReDimBufRID[Ix2][0] == cBufInitValRID){
     Ix2 = cAnzRad;
-    ResCol = Ix1;
+      ResCol = Ix1;
    }
 
    if((Ix1 != cAnzRad) && (Ix2 != cAnzRad)){

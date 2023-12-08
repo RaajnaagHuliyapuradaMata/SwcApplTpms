@@ -40,7 +40,7 @@ uint8 ucCalcCrc8( const uint8 *pui8Buffer, uint8 ui8MessageLen)
 
    uint8 ui8BitsInFirstByte = 8;
 
-  do
+   do
   {
       uint8 ui8BitNumber = 0x00U;
       uint8 byteContent = (pui8Buffer[0] << (8 - ui8BitsInFirstByte));

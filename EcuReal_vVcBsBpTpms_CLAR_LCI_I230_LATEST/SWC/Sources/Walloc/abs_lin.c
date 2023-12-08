@@ -487,13 +487,13 @@ static uint16 ushCalcABS(uint16 ushRfTimeStamp, uint16 ush1stAbsTimeStamp, uint1
 
    if(ushAbsTimeDiff == 0){
 
-    retVal = 0;
+      retVal = 0;
    }
 
    else{
       ulInterpol = ((uint32)ushAbsCntDiff * 10) * (uint32)ushAbs2RfTimeDiff;
       ulInterpol = ((ulInterpol / (uint32)ushAbsTimeDiff) + 5) / 10;
-    retVal = ((uint16)ulInterpol);
+      retVal = ((uint16)ulInterpol);
    }
 
    return (retVal);
@@ -502,10 +502,10 @@ static uint16 ushCalcABS(uint16 ushRfTimeStamp, uint16 ush1stAbsTimeStamp, uint1
 uint16 ushGetLinABSValue(uint8 ucIndex)
 {
    if(ucIndex < 4){
-    return ushLinAbsData[ucIndex];
+      return ushLinAbsData[ucIndex];
    }
    else{
-    return 0;
+      return 0;
    }
 }
 

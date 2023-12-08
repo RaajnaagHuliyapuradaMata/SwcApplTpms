@@ -14,7 +14,7 @@ void InitUSWIF(Rte_Instance self){
       aucData[ucLoop] = cRadPosUndef;
       }
    }
-  InitUSWAlgo(self, aucData);
+   InitUSWAlgo(self, aucData);
    if(ucGetCRdciTpmsMarketCD() == cMARKET_US){
     aucData[0] = (uint8) 0x01;
     aucData[1] = (uint8) 0x00;

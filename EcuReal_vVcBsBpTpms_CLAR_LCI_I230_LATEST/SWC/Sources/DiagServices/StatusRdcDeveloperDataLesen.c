@@ -91,7 +91,7 @@ void GetStatusRdcDeveloperDataLesenDS(Rte_Instance self, uint8* pucData)
     GetStatusRdcDevDataLesen_Ch16DS( pucData);
       break;
 
-  default:
+   default:
     GetStatusRdcDevDataLesen_Ch0DS(self, pucData);
       break;
    }

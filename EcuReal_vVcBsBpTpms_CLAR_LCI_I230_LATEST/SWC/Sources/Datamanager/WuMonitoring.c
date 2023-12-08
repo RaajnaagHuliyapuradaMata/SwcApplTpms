@@ -56,7 +56,7 @@ void InitWUM(Rte_Instance self){
    }
    ucRfIfStateMachine = GetRfIfStateMachineFromNvmZOMirrorblockEE(self);
    if(ucRfIfStateMachine == cRfIfIsActive){
-    RfInterferenceInLastCycleDetectedWUM(self);
+      RfInterferenceInLastCycleDetectedWUM(self);
    }
    ulLastWumErrorState = GETulWumErrorsEE(self);
    for(j=0; j<32; j++){
@@ -214,19 +214,19 @@ void ProcessWuMonitoringWUM(Rte_Instance self, ImpTypeRecCddRdcData rdcData, uin
    uint8   ucWP;
 
    if(ucWumActivityStatus == cWUM_DISABLED){
-    return;
+      return;
    }
 
    if((ucTelType & TELTYPE_FBD4_ALIVE) == TELTYPE_FBD4_ALIVE){
     ClearGatewayAntennaWUM(self, rdcData.DP_NO);
-    return;
+      return;
    }
 
    ulTyrID = (uint32)rdcData.TYR_ID | ((uint32)rdcData.SUPP_ID << 28);
    ucCol = ucGetColOfID((const uint32*)&ulTyrID);
 
    if(ucCol >= cMaxLR){
-    return;
+      return;
    }
 
   ClearTimeSinceLastRecEventWUM(self, ucCol);
@@ -1056,10 +1056,10 @@ uint32 ulGetWheelUnitErrChangedFlagsWUM(void)
 boolean bGetWheelUnitErrorWUM(uint32 ulErrorBit)
 {
    if((ulWheelUnitErrors & ulErrorBit) == ulErrorBit){
-    return TRUE;
+      return TRUE;
    }
    else{
-    return FALSE;
+      return FALSE;
    }
 }
 
@@ -1187,10 +1187,10 @@ boolean bGetLocalisationPossibilityWUM(void)
    }
 
    if(ucNoOfWUsWithoutLocPossibility > 1){
-    return FALSE;
+      return FALSE;
    }
    else{
-    return TRUE;
+      return TRUE;
    }
 }
 

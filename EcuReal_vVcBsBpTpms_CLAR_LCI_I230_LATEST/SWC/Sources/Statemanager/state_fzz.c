@@ -246,9 +246,9 @@ boolean bPwfIsFahrenFZZ(void)
    if((ucSCV == ST_CON_VEH_Fahren)
    ||  (ucSCV == ST_CON_VEH_Fahrbereitschaft_beenden)
    ||  (ucSCV == ST_CON_VEH_Fahrbereitschaft_herstellen)){
-    return TRUE;
+      return TRUE;
    }
    else{
-    return FALSE;
+      return FALSE;
    }
 }

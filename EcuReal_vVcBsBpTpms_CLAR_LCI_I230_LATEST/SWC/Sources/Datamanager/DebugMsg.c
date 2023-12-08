@@ -729,7 +729,7 @@ static uint8 CreateSetOfEventSpecificData16DBG(ImpTypeRecCddRdcData rdcData){
    ucEvSpecDatasetWritePointer %= NO_OF_EV_SPEC_DATASETS;
    if(ucEvSpecDatasetWritePointer == ucEvSpecDatasetReadPointer){
       ucEvSpecDatasetWritePointer = ucTemp;
-    return 0xff;
+      return 0xff;
    }
    ulValue = (uint32)((uint32)rdcData.TYR_ID | ((uint32)rdcData.SUPP_ID << 28));
    ucZomPos = ucGetZOMPosOfID(&ulValue);

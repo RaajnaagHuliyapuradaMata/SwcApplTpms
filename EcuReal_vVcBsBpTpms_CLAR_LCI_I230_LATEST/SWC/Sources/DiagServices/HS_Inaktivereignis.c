@@ -252,10 +252,10 @@ void ClearIeFifoDS(Rte_Instance self){
 
 uint8 GetCurrentInactiveReasonDS(void){
    if(tIEFifo[0].ucErrorNumber == cIeFiFoEmpty){
-    return cDtcInvalid;
+      return cDtcInvalid;
    }
    else{
-    return tIEFifo[0].ucErrorNumber;
+      return tIEFifo[0].ucErrorNumber;
    }
 }
 

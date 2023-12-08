@@ -66,10 +66,10 @@ Rdci_UHRZEIT_DATUM_Type GETtTimeDateEE(Rte_Instance self)
 
    ucStDispCtiDate = ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->tUhrzeitDatum.ST_DISP_CTI_DATE;
    if(((ucStDispCtiDate & 0x01) == 0) || (ucStDispCtiDate == 0x0f)){
-    return( cUhrzeitDatumInitVal);
+      return( cUhrzeitDatumInitVal);
    }
    else{
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->tUhrzeitDatum);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->tUhrzeitDatum);
    }
 }
 
@@ -91,10 +91,10 @@ void PUTulTimestampEE(Rte_Instance self, uint32 ulValue)
 uint16 GETushCntGoodTelEE(Rte_Instance self, uint8 i)
 {
    if(i < cAnzRad){
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushCntGoodTel[(i)]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushCntGoodTel[(i)]);
    }
    else{
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushCntGoodTel[0]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushCntGoodTel[0]);
    }
 }
 
@@ -110,10 +110,10 @@ void PUTushCntGoodTelEE(Rte_Instance self, uint16 x, uint8 i)
 uint16 GETushCntMissTelEE(Rte_Instance self, uint8 i)
 {
    if(i < cAnzRad){
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushCntMissTel[(i)]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushCntMissTel[(i)]);
    }
    else{
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushCntMissTel[0]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushCntMissTel[0]);
    }
 }
 
@@ -129,10 +129,10 @@ void PUTushCntMissTelEE(Rte_Instance self, uint16 x, uint8 i)
 uint16 GETushBlockFailTimerEE(Rte_Instance self, uint8 i)
 {
    if(i < cAnzRad){
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushBlockFailTimer[(i)]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushBlockFailTimer[(i)]);
    }
    else{
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushBlockFailTimer[0]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushBlockFailTimer[0]);
    }
 }
 
@@ -177,10 +177,10 @@ void PUTushCrcCodingDataEE(Rte_Instance self, uint16 x)
 uint16 GETushLastPalStatusEE(Rte_Instance self, uint8 i)
 {
    if(i < cAnzRad){
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushLastPalStatus[(i)]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushLastPalStatus[(i)]);
    }
    else{
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushLastPalStatus[0]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushLastPalStatus[0]);
    }
 }
 
@@ -196,10 +196,10 @@ void PUTushLastPalStatusEE(Rte_Instance self, uint16 x, uint8 i)
 uint8 GETucWheelSensorStatusFromNvmMirrorEE(Rte_Instance self, uint8 i)
 {
    if(i < cAnzRad){
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucWheelSensorStatus[(i)]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucWheelSensorStatus[(i)]);
    }
    else{
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucWheelSensorStatus[0]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucWheelSensorStatus[0]);
    }
 }
 
@@ -215,10 +215,10 @@ void PUTucWheelSensorStatusToNvmMirrorEE(Rte_Instance self, uint8 x, uint8 i)
 uint8 GETucLastTelegramTypeFromNvmMirrorEE(Rte_Instance self, uint8 i)
 {
    if(i < cAnzRad){
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucLastTelegramType[(i)]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucLastTelegramType[(i)]);
    }
    else{
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucLastTelegramType[0]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucLastTelegramType[0]);
    }
 }
 
@@ -234,10 +234,10 @@ void PUTucLastTelegramTypeToNvmMirrorEE(Rte_Instance self, uint8 x, uint8 i)
 uint8 GETucLastBatteryStateFromNvmMirrorEE(Rte_Instance self, uint8 i)
 {
    if(i < cAnzRad){
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucLastBatState[(i)]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucLastBatState[(i)]);
    }
    else{
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucLastBatState[0]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucLastBatState[0]);
    }
 }
 
@@ -253,11 +253,11 @@ void PUTucLastBatteryStateToNvmMirrorEE(Rte_Instance self, uint8 x, uint8 i)
 uint8 GETucLastSNRFromNvmMirrorEE(Rte_Instance self, uint8 i)
 {
    if(i < cAnzRad){
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucLastSNR[(i)]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucLastSNR[(i)]);
    }
    else{
 
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucLastSNR[0]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucLastSNR[0]);
    }
 }
 
@@ -273,10 +273,10 @@ void PUTucLastSNRToNvmMirrorEE(Rte_Instance self, uint8 x, uint8 i)
 uint8 GETucTimeSinceLastRecEventFromNvmMirrorEE(Rte_Instance self, uint8 i)
 {
    if(i < cAnzRad){
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucTimeSinceLastRecEv[(i)]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucTimeSinceLastRecEv[(i)]);
    }
    else{
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucTimeSinceLastRecEv[0]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucTimeSinceLastRecEv[0]);
    }
 }
 
@@ -392,10 +392,10 @@ void PUTucAipGpsStateEE(Rte_Instance self, uint8 x)
 uint16 GETushFilDetMIsoEE(Rte_Instance self, uint8 i)
 {
    if(i < cAnzRad){
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushFilDetMIso[(i)]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushFilDetMIso[(i)]);
    }
    else{
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushFilDetMIso[0]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aushFilDetMIso[0]);
    }
 }
 
@@ -421,10 +421,10 @@ void PUTucFilDetActiveEE(Rte_Instance self, uint8 x)
 uint8 GETucFilDetRecFlag(Rte_Instance self, uint8 i)
 {
    if(i < cAnzRad){
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucFilDetRecFlag[(i)]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucFilDetRecFlag[(i)]);
    }
    else{
-    return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucFilDetRecFlag[0]);
+      return( ((tCommonNvmBlockType *) (void*) Rte_Pim_NvmRdciCommonBlock_NVBlock_MirrorBlock(self)->Data)->aucFilDetRecFlag[0]);
    }
 }
 

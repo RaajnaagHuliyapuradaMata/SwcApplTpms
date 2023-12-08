@@ -6,7 +6,7 @@ void InitWarnStatusBlockEE(Rte_Instance self){
    uint8   ucHistPos;
    uint16  ushLoop;
    for(ushLoop = 0; ushLoop < sizeof(Rte_Pim_NvmRdciWarnStatusBlock_NVBlock_MirrorBlock(self)->Data); ushLoop++){
-    Rte_Pim_NvmRdciWarnStatusBlock_NVBlock_MirrorBlock(self)->Data[ushLoop] = 0xff;
+      Rte_Pim_NvmRdciWarnStatusBlock_NVBlock_MirrorBlock(self)->Data[ushLoop] = 0xff;
    }
 
    PUTucWarnStatusBlockInitializeEE(self, 0xff);

@@ -767,28 +767,28 @@ static uint8 ucHWPfitSpin(uint8 ucWP, uint8 ucZOMIx)
 
 uint8 ucGetZomLearnProbeCt(uint8 ucIdx){
    if(ucIdx < cSumWE){
-    return (tZOM[ucIdx].ucLearnProbeCt);
+      return (tZOM[ucIdx].ucLearnProbeCt);
    }
    else{
-    return 0;
+      return 0;
    }
 }
 
 uint8 ucGetZomPressure(uint8 ucIdx){
    if(ucIdx < cSumWE){
-    return (tZOM[ucIdx].ucP);
+      return (tZOM[ucIdx].ucP);
    }
    else{
-    return 0;
+      return 0;
    }
 }
 
 uint8 ucGetZomTemperature(uint8 ucIdx){
    if(ucIdx < cSumWE){
-    return (tZOM[ucIdx].ucT);
+      return (tZOM[ucIdx].ucT);
    }
    else{
-    return 0;
+      return 0;
    }
 }
 
@@ -804,10 +804,10 @@ uint8 ucGetZOMPosOfID(const uint32* pt2ID){
 
 uint8 ucGetZomPalFrameCounter(uint8 ucIx){
    if(ucIx < cSumWE){
-    return (tZOM[ucIx].ucFrameCounter);
+      return (tZOM[ucIx].ucFrameCounter);
    }
    else{
-    return ( (uint8) 0);
+      return ( (uint8) 0);
    }
 }
 
@@ -822,37 +822,37 @@ void SetZOMWP(uint8 ucIx, uint8 ucWP){
 
 uint32 ulGetZOMID(uint8 ucIx){
    if(ucIx < cSumWE){
-    return (tZOM[ucIx].ulID);
+      return (tZOM[ucIx].ulID);
    }
    else{
-    return ( (uint32) 0);
+      return ( (uint32) 0);
    }
 }
 
 uint32 ulGetIDOfColWAL(uint8 ucIx){
    if(ucIx < cMaxLR){
-    return (aulHistoryID[ucIx]);
+      return (aulHistoryID[ucIx]);
    }
    else{
-    return ( (uint8) 0);
+      return ( (uint8) 0);
    }
 }
 
 uint8 ucGetWPOfColWAL(uint8 ucIx){
    if(ucIx < cMaxLR){
-    return (aucHistoryWP[ucIx]);
+      return (aucHistoryWP[ucIx]);
    }
    else{
-    return ((uint8) cMaxLR);
+      return ((uint8) cMaxLR);
    }
 }
 
 uint8 ucGetSuppIdOfColWAL(uint8 ucIx){
    if(ucIx < cMaxLR){
-    return ((uint8)(aulHistoryID[ucIx] >> 28) & 0x0fu);
+      return ((uint8)(aulHistoryID[ucIx] >> 28) & 0x0fu);
    }
    else{
-    return ((uint8) 0xff);
+      return ((uint8) 0xff);
    }
 }
 
@@ -1189,7 +1189,7 @@ uint8 ucWATO(Rte_Instance self, uint8* ucOpenPositions){
    uint16 ushSlots = 0;
    uint8 ucNrOfErs;
    if(bGetERState() == FALSE){
-    (void) bSearchEigenraederWAL(&ushSlots);
+      (void) bSearchEigenraederWAL(&ushSlots);
       ucNrOfErs = ucNrOfBitSet16(ushSlots);
       if(ucNrOfErs == 0){
       *ucOpenPositions = cMaxLR;
@@ -1341,80 +1341,80 @@ uint8 InitWAL(Rte_Instance self, boolean bClearZom){
 uint8 ucGetZomStatus(uint8 ucIdx)
 {
    if(ucIdx < cSumWE){
-    return (tZOM[ucIdx].ucStatus);
+      return (tZOM[ucIdx].ucStatus);
    }
    else{
-    return ((uint8) cNoWPos);
+      return ((uint8) cNoWPos);
    }
 }
 
 uint8 ucGetZomToothTelCtCorrLearnBit(uint8 ucIdx)
 {
    if(ucIdx < cSumWE){
-    return (tZOMInfo[ucIdx].ucToothTelCtCorrLearnBit);
+      return (tZOMInfo[ucIdx].ucToothTelCtCorrLearnBit);
    }
    else{
-    return ((uint8) 0);
+      return ((uint8) 0);
    }
 }
 
 uint8 ucGetZomToothTelCtCorrNoLearnBit(uint8 ucIdx)
 {
    if(ucIdx < cSumWE){
-    return (tZOMInfo[ucIdx].ucToothTelCtCorrNoLearnBit);
+      return (tZOMInfo[ucIdx].ucToothTelCtCorrNoLearnBit);
    }
    else{
-    return ((uint8) 0);
+      return ((uint8) 0);
    }
 }
 
 uint8 ucGetZomToothTelCtrNoCorr(uint8 ucIdx)
 {
    if(ucIdx < cSumWE){
-    return (tZOMInfo[ucIdx].ucToothTelCtNoCorr);
+      return (tZOMInfo[ucIdx].ucToothTelCtNoCorr);
    }
    else{
-    return ((uint8) 0);
+      return ((uint8) 0);
    }
 }
 
 uint8 ucGetZomToothTelCtNoLearnMode(uint8 ucIdx)
 {
    if(ucIdx < cSumWE){
-    return (tZOMInfo[ucIdx].ucToothTelCtNoLearnMode);
+      return (tZOMInfo[ucIdx].ucToothTelCtNoLearnMode);
    }
    else{
-    return ((uint8) 0);
+      return ((uint8) 0);
    }
 }
 
 uint8 ucGetZomLocateProbeCt(uint8 ucIdx)
 {
    if(ucIdx < cSumWE){
-    return (tZOM[ucIdx].ucLocateProbeCt);
+      return (tZOM[ucIdx].ucLocateProbeCt);
    }
    else{
-    return ((uint8)0);
+      return ((uint8)0);
    }
 }
 
 uint8 ucGetZomResetAbsRefFlag(uint8 ucIdx)
 {
    if(ucIdx < cSumWE){
-    return (tZOM[ucIdx].ucResetABSRefFlag);
+      return (tZOM[ucIdx].ucResetABSRefFlag);
    }
    else{
-    return ((uint8) 0);
+      return ((uint8) 0);
    }
 }
 
 uint8 ucGetZomDeltaMin(uint8 ucIdx)
 {
    if(ucIdx < cSumWE){
-    return (tZOMInfo[ucIdx].ucDeltaMin);
+      return (tZOMInfo[ucIdx].ucDeltaMin);
    }
    else{
-    return ((uint8) 0);
+      return ((uint8) 0);
    }
 }
 
@@ -1429,37 +1429,37 @@ uint16 ushGetZomDeltaSum(uint8 ucIdx, uint8 ucWP, uint8 ucSpec)
       }
    }
    else{
-    return 0;
+      return 0;
    }
 }
 
 uint8 ucGetZomAbsComp(uint8 ucIdx, uint8 ucPos)
 {
    if(ucIdx < cSumWE){
-    return (tZOMInfo[ucIdx].ucABSComp[ucPos]);
+      return (tZOMInfo[ucIdx].ucABSComp[ucPos]);
    }
    else{
-    return (0);
+      return (0);
    }
 }
 
 uint8 ucGetZomAbsMetrics(uint8 ucIdx, uint8 ucPos)
 {
    if(ucIdx < cSumWE){
-    return (tZOMInfo[ucIdx].ucRelCmpVal[ucPos]);
+      return (tZOMInfo[ucIdx].ucRelCmpVal[ucPos]);
    }
    else{
-    return (0);
+      return (0);
    }
 }
 
 uint8 ucGetZomAbsRefStartValue(uint8 ucIdx, uint8 ucPos)
 {
    if(ucIdx < cSumWE){
-    return (tZOM[ucIdx].ucABSRef[ucPos]);
+      return (tZOM[ucIdx].ucABSRef[ucPos]);
    }
    else{
-    return 0;
+      return 0;
    }
 }
 
@@ -1474,17 +1474,17 @@ uint16 ushGetZomAbsRefValue(uint8 ucSpectrum, uint8 ucIdx, uint8 ucPos)
       }
    }
    else{
-    return 0xffffU;
+      return 0xffffU;
    }
 }
 
 uint8 ucGetZomAbsoluteProbeCt(uint8 ucIdx)
 {
    if(ucIdx < cSumWE){
-    return (tZOM[ucIdx].ucAbsoluteProbeCt);
+      return (tZOM[ucIdx].ucAbsoluteProbeCt);
    }
    else{
-    return 0;
+      return 0;
    }
 }
 
@@ -1499,7 +1499,7 @@ uint8 ucGetZomDistanceValue(uint8 ucSpectrum, uint8 ucIdx, uint8 ucPos)
       }
    }
    else{
-    return 0xffU;
+      return 0xffU;
    }
 }
 

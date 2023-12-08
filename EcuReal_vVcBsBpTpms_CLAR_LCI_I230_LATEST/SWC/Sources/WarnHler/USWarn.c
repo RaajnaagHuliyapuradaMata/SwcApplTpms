@@ -332,9 +332,9 @@ static uint8 ucGenWNVector(Rte_Instance self, uint8* pucData)
       (void) ucPutMSollCS( tLWD.tHFD.ucId, ushMIso(ucGetPSollCS( tLWD.tHFD.ucId, cRadPosUndef), scGetTSollCS( tLWD.tHFD.ucId, cRadPosUndef), tLWD.tHFD.ucEnvP));
       }
 
-    (void) ucPutEnvDataCS( tLWD.tHFD.ucId, tLWD.tHFD.ucEnvP, tLWD.tHFD.scTa);
+      (void) ucPutEnvDataCS( tLWD.tHFD.ucId, tLWD.tHFD.ucEnvP, tLWD.tHFD.scTa);
 
-    (void) ucPutPinitTreifenCS( tLWD.tHFD.ucId, tLWD.tHFD.scTWE);
+      (void) ucPutPinitTreifenCS( tLWD.tHFD.ucId, tLWD.tHFD.scTWE);
     tLWD.tSD.ucPinitTreifen = ucGetPinitTreifenCS( tLWD.tHFD.ucId);
 
     PutDataEE(self, cucCdIdWN, &tCDA, FALSE);
@@ -628,7 +628,7 @@ static uint8 ucWarnManagerDs_CfgTReifenSingleWM(Rte_Instance self, const uint8* 
 
 static uint8 ucWarnManagerDs_ResetWarnVectorWM(Rte_Instance self, const uint8* pucData)
 {
-  InitWN( cInitSingleId, pucData[0]);
+   InitWN( cInitSingleId, pucData[0]);
    PutDataEE(self, cucWarnTypeArrayIdWN, &aucWarnBitsWN, TRUE);
 
    return 0;

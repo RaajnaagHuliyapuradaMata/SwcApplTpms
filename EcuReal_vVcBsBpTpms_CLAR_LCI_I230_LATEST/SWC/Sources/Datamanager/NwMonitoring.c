@@ -101,10 +101,10 @@ void InitNWM(Rte_Instance self)
 void TimerTickNWM(Rte_Instance self){
    static uint8 ucSecond = 10;
    if(bGetBandmodeBM() == TRUE){
-    return;
+      return;
    }
    if(bGetBitFahrzeugzustandFZZ(cNW_DTC_LOCKED) == TRUE){
-    return;
+      return;
    }
    ucSecond--;
    switch(ucSecond){
@@ -302,7 +302,7 @@ uint8 CheckRDC_DT_PCKG12_MsgNWM(Rte_Instance self, const ImpTypeRecCddRdcData* r
    uint8 ucRetVal = cNoError;
    uint8 i,DpIx;
    if(bGetBandmodeBM() == TRUE){
-    return cNoError;
+      return cNoError;
    }
    if(0x34 == rdcData->DP_NO){
     PUTucFBD4CountEE(self, 2);
@@ -324,7 +324,7 @@ uint8 CheckRDC_DT_PCKG12_MsgNWM(Rte_Instance self, const ImpTypeRecCddRdcData* r
       }
    }
    else{
-    (void)ResetDataPackageErrorIndNWM(self, cDP_TO_SHIFT, DpIx);
+      (void)ResetDataPackageErrorIndNWM(self, cDP_TO_SHIFT, DpIx);
    }
    ucRetVal |= CheckRDC_DT_PCKG12_AliveNWM(self, rdcData->ALIV_RDC_DT_PCK_1, rdcData->ALIV_RDC_DT_PCK_2, rdcData->DP_NO);
    ucRetVal |= CheckRDC_DT_PCKG12_SignalNWM(self, rdcData->RDC_MES_TSTMP, rdcData->DP_NO);
@@ -333,7 +333,7 @@ uint8 CheckRDC_DT_PCKG12_MsgNWM(Rte_Instance self, const ImpTypeRecCddRdcData* r
 
 uint8 CheckA_TEMP_MsgNWM(Rte_Instance self, Rdci_TEMP_EX_Type tempEx){
    if(bGetBandmodeBM() == TRUE){
-    return cNoError;
+      return cNoError;
    }
    tNwMonitoring.tMonA_TEMP.ucMsgTimeout = cA_TEMP_MSG_TOUT;
    if(bGetNetworkErrorNWM(cNetwork_A_TEMP_MsgMissing) == TRUE){
@@ -345,7 +345,7 @@ uint8 CheckA_TEMP_MsgNWM(Rte_Instance self, Rdci_TEMP_EX_Type tempEx){
 
 uint8 CheckEINHEITEN_BN2020_MsgNWM(Rte_Instance self, Rdci_UN_AIP_Type unitAipData, Rdci_UN_TEMP_Type unitTempData){
    if(bGetBandmodeBM() == TRUE){
-    return cNoError;
+      return cNoError;
    }
    tNwMonitoring.tMonEINH_BN2020.ucMsgTimeout = cEINHEITEN_BN2020_MSG_TOUT;
   ClearNetworkErrorNWM(self, cNetwork_EINHEITEN_MsgMissing);
@@ -355,7 +355,7 @@ uint8 CheckEINHEITEN_BN2020_MsgNWM(Rte_Instance self, Rdci_UN_AIP_Type unitAipDa
 uint8 CheckCON_VEH_MsgNWM(Rte_Instance self, Rdci_CON_VEH_Type conVeh){
    uint8 retVal = cNoError;
    if(bGetBandmodeBM() == TRUE){
-    return cNoError;
+      return cNoError;
    }
    tNwMonitoring.tMonCON_VEH.ucMsgTimeout = cCON_VEH_MSG_TOUT;
   ClearNetworkErrorNWM(self, cNetwork_CON_VEH_MsgMissing);
@@ -368,7 +368,7 @@ uint8 CheckCON_VEH_MsgNWM(Rte_Instance self, Rdci_CON_VEH_Type conVeh){
 uint8 CheckV_VEH_MsgNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh){
    uint8 retVal = cNoError;
    if(bGetBandmodeBM() == TRUE){
-    return cNoError;
+      return cNoError;
    }
    tNwMonitoring.tMonV_VEH.ucMsgTimeout = cV_VEH_MSG_TOUT;
    if(bGetNetworkErrorNWM(cNetwork_V_VEH_MsgMissing) == TRUE){
@@ -385,7 +385,7 @@ uint8 CheckV_VEH_MsgNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh){
 
 uint8 CheckBN2020_RELATIVZEIT_MsgNWM(Rte_Instance self, Rdci_T_SEC_COU_REL_Type relTime){
    if(bGetBandmodeBM() == TRUE){
-    return cNoError;
+      return cNoError;
    }
    tNwMonitoring.tMonRELATIVZEIT.ucMsgTimeout = cBN2020_RELATIVZEIT_MSG_TOUT;
    if(bGetNetworkErrorNWM(cNetwork_RELATIVZEIT_MsgMissing) == TRUE){
@@ -397,7 +397,7 @@ uint8 CheckBN2020_RELATIVZEIT_MsgNWM(Rte_Instance self, Rdci_T_SEC_COU_REL_Type 
 
 uint8 CheckDT_PT_1_MsgNWM(Rte_Instance self, Rdci_AIP_ENG_DRV_Type aip){
    if(bGetBandmodeBM() == TRUE){
-    return cNoError;
+      return cNoError;
    }
    tNwMonitoring.tMonDT_PT_1.ucMsgTimeout = cDT_PT_1_MSG_TOUT;
    if(bGetNetworkErrorNWM(cNetwork_DT_PT_1_MsgMissing) == TRUE){
@@ -409,7 +409,7 @@ uint8 CheckDT_PT_1_MsgNWM(Rte_Instance self, Rdci_AIP_ENG_DRV_Type aip){
 
 uint8 CheckNMEARawData2Part2_MsgNWM(Rte_Instance self, Rdci_GNSSPositionAltitude_Type GNSSPositionAltitude){
    if(bGetBandmodeBM() == TRUE){
-    return cNoError;
+      return cNoError;
    }
    tNwMonitoring.tMonNMEARawData2Part2.ucMsgTimeout = cNMEARawData2Part2_MSG_TOUT;
    if(bGetNetworkErrorNWM(cNetwork_NMEARawData2Part2_MsgMissing) == TRUE){
@@ -421,7 +421,7 @@ uint8 CheckNMEARawData2Part2_MsgNWM(Rte_Instance self, Rdci_GNSSPositionAltitude
 
 uint8 CheckNMEARawData2Part3_MsgNWM(Rte_Instance self, Rdci_GNSSErrorAltitudeMeters_Type GNSSErrorAltitudeMeters){
    if(bGetBandmodeBM() == TRUE){
-    return cNoError;
+      return cNoError;
    }
    tNwMonitoring.tMonNMEARawData2Part3.ucMsgTimeout = cNMEARawData2Part3_MSG_TOUT;
    if(bGetNetworkErrorNWM(cNetwork_NMEARawData2Part3_MsgMissing) == TRUE){
@@ -433,14 +433,14 @@ uint8 CheckNMEARawData2Part3_MsgNWM(Rte_Instance self, Rdci_GNSSErrorAltitudeMet
 
 uint8 CheckUHRZEIT_DATUM_MsgNWM(Rte_Instance self, Rdci_UHRZEIT_DATUM_Type timeDate){
    if(bGetBandmodeBM() == TRUE){
-    return cNoError;
+      return cNoError;
    }
    return ( CheckUHRZEIT_DATUM_SignalNWM(self, timeDate));
 }
 
 uint8 CheckWMOM_DRV_4_MsgNWM(Rte_Instance self, Rdci_WMOM_DRV_4_Type wmom){
    if(bGetBandmodeBM() == TRUE){
-    return cNoError;
+      return cNoError;
    }
    tNwMonitoring.tMonWMOM_DRV_4.ucMsgTimeout = cWMOM_DRV_4_MSG_TOUT;
    if(bGetNetworkErrorNWM(cNetwork_WMOM_DRV_4_MsgMissing) == TRUE){
@@ -461,7 +461,7 @@ uint8 CheckFZZSTD_MsgNWM( Rdci_ST_ILK_ERRM_FZM_Type fzzstd){
 
 uint8 CheckKILOMETERSTAND_MsgNWM(Rte_Instance self, Rdci_MILE_KM_Type mileKm){
    if(bGetBandmodeBM() == TRUE){
-    return cNoError;
+      return cNoError;
    }
    return CheckKILOMETERSTAND_SignalNWM(self, mileKm);
 }
@@ -493,10 +493,10 @@ void ClearNetworkErrChangedFlagsNWM(void){
 
 boolean bGetNetworkErrorNWM(uint32 ulDtcBit){
    if((ulNetworkErrors & ulDtcBit) == ulDtcBit){
-    return TRUE;
+      return TRUE;
    }
    else{
-    return FALSE;
+      return FALSE;
    }
 }
 
@@ -1025,10 +1025,10 @@ boolean bSystemErrorIsSetNWM(void){
 
 boolean bRelativzeitMessageFailNWM(void){
    if((cBN2020_RELATIVZEIT_MSG_TOUT - tNwMonitoring.tMonRELATIVZEIT.ucMsgTimeout) > 2){
-    return TRUE;
+      return TRUE;
    }
    else{
-    return FALSE;
+      return FALSE;
    }
 }
 

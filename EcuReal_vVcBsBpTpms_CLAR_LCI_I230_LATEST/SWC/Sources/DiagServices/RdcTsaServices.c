@@ -213,7 +213,7 @@ void GetRdcRidAlteReifenQRCodeLesenDS(Rte_Instance self, uint8* paucData)
           break;
         }
       }
-    return(uc8BitId + 0x20);
+      return(uc8BitId + 0x20);
  }
 
 void GetRdcRidAktReifenLaufstreckeLesenDS(Rte_Instance self, uint8* paucData)
@@ -343,7 +343,7 @@ void SaveCompleteQrCodeDataDS(Rte_Instance self)
 
    if(bGetBitBetriebszustandBZ(cZO_FINISH) == TRUE){
     OemDataAvl = SaveOemDataRID();
-    RidDotDataAvl = GetRidManAutoFLagRID();
+      RidDotDataAvl = GetRidManAutoFLagRID();
 
       for(HisIx = 0;HisIx < cAnzRad; HisIx++){
       HelpPos = ucGetWPOfColWAL(HisIx);
@@ -407,7 +407,7 @@ static uint8 CompareTyreSerNumRID(Rte_Instance self, uint8 HisIx)
 {
    uint8 Ix,i,j,ucMask, ucCmp1,ucCmp2;
 
-  Ix = cMaxQRCodeSets;
+   Ix = cMaxQRCodeSets;
 
   CheckDefaultSerNumAndReplaceRID(HisIx);
 
@@ -640,7 +640,7 @@ void ResetQRTyreMountedFlags(Rte_Instance self, uint8 HisFlags)
 
   ChangePos = 0x00;
 
-  Ix2 = 0x00;
+   Ix2 = 0x00;
 
    for(Ix1=0;Ix1<cMaxQRCodeSets;Ix1++){
     CompVal1 = GETTyreMountedFlagEE(self, Ix1);
