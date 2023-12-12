@@ -1,9 +1,10 @@
-
-
-#include "EeZomBlock.h"
+#include "EeZomBlockX.h"
 
 static boolean bBlock1NeedsUpdate = FALSE;
 static boolean bBlock2NeedsUpdate = FALSE;
+
+static uint8 GETtZomEE(Rte_Instance self, uint16 i);
+static void PUTtZomEE(Rte_Instance self, uint8 x, uint16 i);
 
 void InitZomBlock1EE(Rte_Instance self)
 {

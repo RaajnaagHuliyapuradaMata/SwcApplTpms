@@ -1,5 +1,14 @@
-#include "StatusReLesenDruckcodierung.h"
+#include "StatusReLesenDruckcodierungX.h"
 #include "WAllocX.h"
+
+#define cRecCounterDefaultVal                         ((uint8)  0xff)
+
+typedef struct{
+   uint32 ulReID;
+   uint8  ucPres;
+   uint8  ucBatt;
+   uint8  ucRecCounter;
+}StatusReLesenDruckcodierungDataType;
 
 static StatusReLesenDruckcodierungDataType tStatusReLesenDruckcodierungData[cStatusReLesenDruckcodierungDataArraySize] = {
    { 0u, 0u, 0u, 0u },

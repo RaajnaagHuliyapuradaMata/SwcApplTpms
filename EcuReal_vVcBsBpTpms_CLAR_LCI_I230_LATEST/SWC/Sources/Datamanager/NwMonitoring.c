@@ -13,7 +13,7 @@
 /* certain responsibilities, if you distribute copies of the software, or if  */
 /* you modify it: responsibilities to respect the freedom of others.          */
 /*                                                                            */
-/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/* All rights reserved. Copyright ï¿½ 1982 Raajnaag HULIYAPURADA MATA           */
 /*                                                                            */
 /* Always refer latest software version from:                                 */
 /* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
@@ -36,45 +36,45 @@
 /******************************************************************************/
 /* #DEFINES                                                                   */
 /******************************************************************************/
-#define cRDC_DT_PCKG12_MSG_TOUT     360
-#define cRDC_DT_PCKG12_SIG_TOUT     360
-#define cA_TEMP_MSG_TOUT             60
-#define cA_TEMP_SIG_TOUT             60
-#define cEINHEITEN_BN2020_MSG_TOUT   60
-#define cCON_VEH_MSG_TOUT             3
-#define cBN2020_RELATIVZEIT_MSG_TOUT 30
-#define cBN2020_RELATIVZEIT_SIG_TOUT 30
-#define cDT_PT_1_MSG_TOUT            60
-#define cDT_PT_1_SIG_TOUT            60
-#define cNMEARawData2Part2_MSG_TOUT  60
-#define cNMEARawData2Part2_SIG_TOUT  60
-#define cNMEARawData2Part3_MSG_TOUT  60
-#define cNMEARawData2Part3_SIG_TOUT  60
-#define cUHRZEIT_DATUM_SIG_TOUT     300
-#define cKILOMETERSTAND_SIG_TOUT    300
-#define cWMOM_DRV_4_MSG_TOUT          3
-#define cWMOM_DRV_4_SIG_TOUT          3
-#define cV_VEH_MSG_TOUT              30
-#define cV_VEH_ALIVE_TOUT            30
-#define cV_VEH_CRC_TOUT              30
-#define cV_VEH_SIGQUALIF_TOUT        30
-#define cUHRZEIT_DATUM_SIG_TOUT_OFF   0xffffU
-#define cKILOMETERSTAND_SIG_TOUT_OFF  0xffffU
-#define cEINHEITEN_BN2020_SIG_CNT    50
-#define cCON_VEH_SIG_CNT             15
-#define cCON_VEH_CRC_CNT             15
-#define cCON_VEH_ALV_CNT             15
-#define cRDC_DT_PCKG12_ALV_CNT        4
-#define cRDC_DT_PCKG12_ALV_GOOD_CNT   2
-#define E2E_STATUS_OK              0x00
-#define E2E_STATUS_NO_NEW_DATA     0x01
-#define E2E_STATUS_WRONG_CRC       0x02
-#define E2E_STATUS_SYNC            0x03
-#define E2E_STATUS_INITIAL         0x04
-#define E2E_STATUS_REPEATED        0x08
-#define E2E_STATUS_OK_SOME_LOST    0x20
-#define E2E_STATUS_WRONG_SEQUENCE  0x40
-#define E2E_STATUS_DATA_INVALID    0x80
+#define cRDC_DT_PCKG12_MSG_TOUT                                              360
+#define cRDC_DT_PCKG12_SIG_TOUT                                              360
+#define cA_TEMP_MSG_TOUT                                                      60
+#define cA_TEMP_SIG_TOUT                                                      60
+#define cEINHEITEN_BN2020_MSG_TOUT                                            60
+#define cCON_VEH_MSG_TOUT                                                      3
+#define cBN2020_RELATIVZEIT_MSG_TOUT                                          30
+#define cBN2020_RELATIVZEIT_SIG_TOUT                                          30
+#define cDT_PT_1_MSG_TOUT                                                     60
+#define cDT_PT_1_SIG_TOUT                                                     60
+#define cNMEARawData2Part2_MSG_TOUT                                           60
+#define cNMEARawData2Part2_SIG_TOUT                                           60
+#define cNMEARawData2Part3_MSG_TOUT                                           60
+#define cNMEARawData2Part3_SIG_TOUT                                           60
+#define cUHRZEIT_DATUM_SIG_TOUT                                              300
+#define cKILOMETERSTAND_SIG_TOUT                                             300
+#define cWMOM_DRV_4_MSG_TOUT                                                   3
+#define cWMOM_DRV_4_SIG_TOUT                                                   3
+#define cV_VEH_MSG_TOUT                                                       30
+#define cV_VEH_ALIVE_TOUT                                                     30
+#define cV_VEH_CRC_TOUT                                                       30
+#define cV_VEH_SIGQUALIF_TOUT                                                 30
+#define cUHRZEIT_DATUM_SIG_TOUT_OFF                                      0xffffU
+#define cKILOMETERSTAND_SIG_TOUT_OFF                                     0xffffU
+#define cEINHEITEN_BN2020_SIG_CNT                                             50
+#define cCON_VEH_SIG_CNT                                                      15
+#define cCON_VEH_CRC_CNT                                                      15
+#define cCON_VEH_ALV_CNT                                                      15
+#define cRDC_DT_PCKG12_ALV_CNT                                                 4
+#define cRDC_DT_PCKG12_ALV_GOOD_CNT                                            2
+#define E2E_STATUS_OK                                                       0x00
+#define E2E_STATUS_NO_NEW_DATA                                              0x01
+#define E2E_STATUS_WRONG_CRC                                                0x02
+#define E2E_STATUS_SYNC                                                     0x03
+#define E2E_STATUS_INITIAL                                                  0x04
+#define E2E_STATUS_REPEATED                                                 0x08
+#define E2E_STATUS_OK_SOME_LOST                                             0x20
+#define E2E_STATUS_WRONG_SEQUENCE                                           0x40
+#define E2E_STATUS_DATA_INVALID                                             0x80
 
 /******************************************************************************/
 /* MACROS                                                                     */
@@ -95,9 +95,9 @@
 /******************************************************************************/
 /* OBJECTS                                                                    */
 /******************************************************************************/
-static uint32 ulNetworkErrors = cNetworkNoError;
-static uint32 ulNetworkErrChangedFlags = cNetworkNoError;
-static uint8 ucDpErrInd = 0xFF;
+static uint32            ulNetworkErrors          = cNetworkNoError;
+static uint32            ulNetworkErrChangedFlags = cNetworkNoError;
+static uint8             ucDpErrInd               = 0xFF;
 static tNwMonitoringData tNwMonitoring;
 
 /******************************************************************************/
@@ -122,8 +122,7 @@ static uint8 CheckV_VEH_SigQualifNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh);
 static uint8 CheckV_VEH_CrcNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh);
 static uint8 CheckV_VEH_AliveNWM(Rte_Instance self, uint8 ucAlive);
 
-void InitNWM(Rte_Instance self)
-{
+void InitNWM(Rte_Instance self){
    uint32 ulLastNwmErrorState;
    uint32 j;
 
@@ -384,7 +383,7 @@ void TimerTickNWM(Rte_Instance self){
 uint8 CheckRDC_DT_PCKG12_MsgNWM(Rte_Instance self, const ImpTypeRecCddRdcData* rdcData){
    uint8 ucRetVal = cNoError;
    uint8 i,DpIx;
-   if(bGetBandmodeBM() == TRUE){
+   if(TRUE == bGetBandmodeBM()){
       return cNoError;
    }
    if(0x34 == rdcData->DP_NO){
@@ -395,15 +394,15 @@ uint8 CheckRDC_DT_PCKG12_MsgNWM(Rte_Instance self, const ImpTypeRecCddRdcData* r
     DpIx = cDataPackage12Ix;
    }
    tNwMonitoring.tMonRDC_DT_PCKG[DpIx].ushMsgTimeout = cRDC_DT_PCKG12_MSG_TOUT;
-   if(bGetNetworkErrorNWM(cNetwork_RDC_DT_PCKG_MsgMissing) == TRUE){
-      if(ResetDataPackageErrorIndNWM(self, cDP_TO_SHIFT, DpIx) == TRUE){
-      ClearNetworkErrorNWM(self, cNetwork_RDC_DT_PCKG_MsgMissing);
+   if(TRUE == bGetNetworkErrorNWM(cNetwork_RDC_DT_PCKG_MsgMissing)){
+      if(TRUE == ResetDataPackageErrorIndNWM(self, cDP_TO_SHIFT, DpIx)){
+         ClearNetworkErrorNWM(self, cNetwork_RDC_DT_PCKG_MsgMissing);
       }
     tNwMonitoring.tMonRDC_DT_PCKG[DpIx].ushSignalErrorTimeout = cRDC_DT_PCKG12_SIG_TOUT;
       for(i=0; i<cMaxLR; i++){
-      if(bGetReMuteStatusBySlotWUM(i) == FALSE){
-        ClearMuteWUM(self, i, ucGetWPOfColWAL(i));
-      }
+         if(FALSE == bGetReMuteStatusBySlotWUM(i)){
+            ClearMuteWUM(self, i, ucGetWPOfColWAL(i));
+         }
       }
    }
    else{
@@ -415,33 +414,33 @@ uint8 CheckRDC_DT_PCKG12_MsgNWM(Rte_Instance self, const ImpTypeRecCddRdcData* r
 }
 
 uint8 CheckA_TEMP_MsgNWM(Rte_Instance self, Rdci_TEMP_EX_Type tempEx){
-   if(bGetBandmodeBM() == TRUE){
+   if(TRUE == bGetBandmodeBM()){
       return cNoError;
    }
    tNwMonitoring.tMonA_TEMP.ucMsgTimeout = cA_TEMP_MSG_TOUT;
-   if(bGetNetworkErrorNWM(cNetwork_A_TEMP_MsgMissing) == TRUE){
-    ClearNetworkErrorNWM(self, cNetwork_A_TEMP_MsgMissing);
-    tNwMonitoring.tMonA_TEMP.ucSignalErrorTimeout = cA_TEMP_SIG_TOUT;
+   if(TRUE == bGetNetworkErrorNWM(cNetwork_A_TEMP_MsgMissing)){
+      ClearNetworkErrorNWM(self, cNetwork_A_TEMP_MsgMissing);
+      tNwMonitoring.tMonA_TEMP.ucSignalErrorTimeout = cA_TEMP_SIG_TOUT;
    }
    return CheckA_TEMP_SignalNWM(self, tempEx);
 }
 
 uint8 CheckEINHEITEN_BN2020_MsgNWM(Rte_Instance self, Rdci_UN_AIP_Type unitAipData, Rdci_UN_TEMP_Type unitTempData){
-   if(bGetBandmodeBM() == TRUE){
+   if(TRUE == bGetBandmodeBM()){
       return cNoError;
    }
    tNwMonitoring.tMonEINH_BN2020.ucMsgTimeout = cEINHEITEN_BN2020_MSG_TOUT;
-  ClearNetworkErrorNWM(self, cNetwork_EINHEITEN_MsgMissing);
+   ClearNetworkErrorNWM(self, cNetwork_EINHEITEN_MsgMissing);
    return CheckEINHEITEN_BN2020_SignalNWM(self, unitAipData, unitTempData);
 }
 
 uint8 CheckCON_VEH_MsgNWM(Rte_Instance self, Rdci_CON_VEH_Type conVeh){
    uint8 retVal = cNoError;
-   if(bGetBandmodeBM() == TRUE){
+   if(TRUE == bGetBandmodeBM()){
       return cNoError;
    }
    tNwMonitoring.tMonCON_VEH.ucMsgTimeout = cCON_VEH_MSG_TOUT;
-  ClearNetworkErrorNWM(self, cNetwork_CON_VEH_MsgMissing);
+   ClearNetworkErrorNWM(self, cNetwork_CON_VEH_MsgMissing);
    retVal |= CheckCON_VEH_SignalNWM(self, conVeh);
    retVal |= CheckCON_VEH_CrcNWM(self, conVeh);
    retVal |= CheckCON_VEH_AliveNWM(self, conVeh.ALIV_CON_VEH);
@@ -450,42 +449,42 @@ uint8 CheckCON_VEH_MsgNWM(Rte_Instance self, Rdci_CON_VEH_Type conVeh){
 
 uint8 CheckV_VEH_MsgNWM(Rte_Instance self, Rdci_V_VEH_Type vVeh){
    uint8 retVal = cNoError;
-   if(bGetBandmodeBM() == TRUE){
+   if(TRUE == bGetBandmodeBM()){
       return cNoError;
    }
    tNwMonitoring.tMonV_VEH.ucMsgTimeout = cV_VEH_MSG_TOUT;
-   if(bGetNetworkErrorNWM(cNetwork_V_VEH_MsgMissing) == TRUE){
-    ClearNetworkErrorNWM(self, cNetwork_V_VEH_MsgMissing);
-    tNwMonitoring.tMonV_VEH.ucSigQualifErrorTimeout = cV_VEH_SIGQUALIF_TOUT;
-    tNwMonitoring.tMonV_VEH.ucAliveErrorTimeout = cV_VEH_ALIVE_TOUT;
-    tNwMonitoring.tMonV_VEH.ucCrcErrorTimeout = cV_VEH_CRC_TOUT;
+   if(TRUE == bGetNetworkErrorNWM(cNetwork_V_VEH_MsgMissing)){
+      ClearNetworkErrorNWM(self, cNetwork_V_VEH_MsgMissing);
+      tNwMonitoring.tMonV_VEH.ucSigQualifErrorTimeout = cV_VEH_SIGQUALIF_TOUT;
+      tNwMonitoring.tMonV_VEH.ucAliveErrorTimeout     = cV_VEH_ALIVE_TOUT;
+      tNwMonitoring.tMonV_VEH.ucCrcErrorTimeout       = cV_VEH_CRC_TOUT;
    }
-   retVal |= CheckV_VEH_SigQualifNWM(self, vVeh);
-   retVal |= CheckV_VEH_CrcNWM(self, vVeh);
-   retVal |= CheckV_VEH_AliveNWM(self, vVeh.ALIV_V_VEH);
+   retVal |= CheckV_VEH_SigQualifNWM (self, vVeh);
+   retVal |= CheckV_VEH_CrcNWM       (self, vVeh);
+   retVal |= CheckV_VEH_AliveNWM     (self, vVeh.ALIV_V_VEH);
    return retVal;
 }
 
 uint8 CheckBN2020_RELATIVZEIT_MsgNWM(Rte_Instance self, Rdci_T_SEC_COU_REL_Type relTime){
-   if(bGetBandmodeBM() == TRUE){
+   if(TRUE == bGetBandmodeBM()){
       return cNoError;
    }
    tNwMonitoring.tMonRELATIVZEIT.ucMsgTimeout = cBN2020_RELATIVZEIT_MSG_TOUT;
-   if(bGetNetworkErrorNWM(cNetwork_RELATIVZEIT_MsgMissing) == TRUE){
-    ClearNetworkErrorNWM(self, cNetwork_RELATIVZEIT_MsgMissing);
-    tNwMonitoring.tMonRELATIVZEIT.ucSignalErrorTimeout = cBN2020_RELATIVZEIT_SIG_TOUT;
+   if(TRUE == bGetNetworkErrorNWM(cNetwork_RELATIVZEIT_MsgMissing)){
+      ClearNetworkErrorNWM(self, cNetwork_RELATIVZEIT_MsgMissing);
+      tNwMonitoring.tMonRELATIVZEIT.ucSignalErrorTimeout = cBN2020_RELATIVZEIT_SIG_TOUT;
    }
    return (CheckBN2020_RELATIVZEIT_SignalNWM(self, relTime));
 }
 
 uint8 CheckDT_PT_1_MsgNWM(Rte_Instance self, Rdci_AIP_ENG_DRV_Type aip){
-   if(bGetBandmodeBM() == TRUE){
+   if(TRUE == bGetBandmodeBM()){
       return cNoError;
    }
    tNwMonitoring.tMonDT_PT_1.ucMsgTimeout = cDT_PT_1_MSG_TOUT;
-   if(bGetNetworkErrorNWM(cNetwork_DT_PT_1_MsgMissing) == TRUE){
-    ClearNetworkErrorNWM(self, cNetwork_DT_PT_1_MsgMissing);
-    tNwMonitoring.tMonDT_PT_1.ucSignalErrorTimeout = cDT_PT_1_SIG_TOUT;
+   if(TRUE == bGetNetworkErrorNWM(cNetwork_DT_PT_1_MsgMissing)){
+      ClearNetworkErrorNWM(self, cNetwork_DT_PT_1_MsgMissing);
+      tNwMonitoring.tMonDT_PT_1.ucSignalErrorTimeout = cDT_PT_1_SIG_TOUT;
    }
    return (CheckDT_PT_1_SignalNWM(self, aip));
 }

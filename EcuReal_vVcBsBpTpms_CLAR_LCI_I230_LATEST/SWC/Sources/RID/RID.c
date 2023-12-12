@@ -1,4 +1,4 @@
-#include "RID.h"
+#include "RID_X.h"
 #include "wallocX.h"
 #include "datamanagerX.h"
 #include "infotyreX.h"
@@ -32,6 +32,18 @@ static uint8 ucRidOem1Oem2Flag = 0x00;
 static const uint8 cBufInitValRID = 0xFF;
 static uint8 ResHistReDimDataFA[cTyreDimSize] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
 static uint8 SavedDimDataChangedFlagRID = 0x00;
+
+static void ConvertReDimToErfsCoding(uint8* pRidData);
+static uint8 ConvertSpeedIndex( const uint8 ucIndexValue);
+static uint8 SearchRIDBufSlot( const uint32 ReId);
+static void SaveHistReRidDataRID(Rte_Instance self, const uint8 HisIx, const uint8 ZOMIx);
+static void RestoreSavedReRidDataRID(Rte_Instance self, const uint8 HisIx);
+static boolean CheckRidDataRID(Rte_Instance self, const uint8 Col1, const uint8 Col2, const uint8 Axis);
+static uint8 CheckAxisRidDataRID(Rte_Instance self, uint8* pResData, const uint8 Axis);
+static uint8 CompareHistReDimBufRID(uint8 Ix1, uint8 Ix2, uint8* pResData);
+static boolean CompareSavedRidDataRID( const uint8 Col);
+static void ResetTyreDOTOEDataOfReIdRID(const uint32 l_ulID);
+static void ResetTyreDimDataOfReIdRID(const uint32 l_ulID);
 
 uint8 GetTyreDimDataRID(const uint8 HisIx, const uint8 x)
 {

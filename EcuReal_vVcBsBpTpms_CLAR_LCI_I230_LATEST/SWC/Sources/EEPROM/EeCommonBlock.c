@@ -1,8 +1,10 @@
-#include "EeCommonBlock.h"
+#include "EeCommonBlockX.h"
 #include "WallocX.h"
 #include "WuMonitoringX.h"
 
 static boolean bBlockNeedsUpdate = FALSE;
+
+static void CompareValuesAndSetUpdateFlagEE(uint8 ucOld, uint8 ucNew);
 
 void InitCommonBlockEE(Rte_Instance self){
    uint8 ucLoop;

@@ -1,10 +1,16 @@
-
-
-#include "EeHistoryBlock.h"
+#include "EeHistoryBlockX.h"
 
 #include "WuMonitoringX.h"
 
 static boolean bBlockNeedsUpdate = FALSE;
+
+static void CompareValuesAndSetUpdateFlagEE(uint8 ucOld, uint8 ucNew);
+static uint8 GETAllocFailCounterEE(Rte_Instance self);
+static void PUTAllocFailCounterEE(Rte_Instance self, uint8 x);
+static uint8 GETCntLoBatEE(Rte_Instance self, uint8 i);
+static void PUTCntLoBatEE(Rte_Instance self, uint8 x, uint8 i);
+static uint8 GETRfIfStateMachineEE (Rte_Instance self);
+static void PUTRfIfStateMachineEE (Rte_Instance self, uint8 x);
 
 void InitZoHistoryBlockEE(Rte_Instance self)
 {

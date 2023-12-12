@@ -1,6 +1,4 @@
-
-
-#include "eRFS.h"
+#include "eRFS_X.h"
 
 #include "datamanagerX.h"
 #include "EeErfsBlockX.h"

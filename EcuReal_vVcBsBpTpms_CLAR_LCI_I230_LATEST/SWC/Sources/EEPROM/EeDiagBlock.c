@@ -1,7 +1,11 @@
-
-
-#include "EeDiagBlock.h"
+#include "EeDiagBlockX.h"
 #include "HS_KalibrierereignisX.h"
+
+typedef struct{
+   uint8 ucRInitCallEvents;
+   uint8 ucInitByHufEvents;
+   uint8 ucCodingChangedEvents;
+}ResetEventCounterType;
 
 static boolean bBlock1NeedsUpdate = FALSE;
 static boolean bBlock2NeedsUpdate = FALSE;

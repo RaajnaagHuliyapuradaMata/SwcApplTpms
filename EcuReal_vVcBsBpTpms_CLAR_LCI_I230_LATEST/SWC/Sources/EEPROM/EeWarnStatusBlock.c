@@ -1,4 +1,4 @@
-#include "EeWarnStatusBlock.h"
+#include "EeWarnStatusBlockX.h"
 
 static boolean bBlockNeedsUpdate = FALSE;
 

@@ -288,7 +288,7 @@ FUNC(void, CtApHufTpmsSWC_CODE) RCyclicRDCiTask(Rte_Instance self){
       (void)InitTyreListCyclically(self);
       if(TRUE == Rte_IsUpdated_RpFrPdu_V_VEH_V_VEH(self)){
          (void) Rte_Read_RpFrPdu_V_VEH_V_VEH(self, &speedData);
-         if(CheckV_VEH_MsgNWM(self, speedData) != cNoError){
+         if(cNoError != CheckV_VEH_MsgNWM(self, speedData)){
             speedData.V_VEH_COG = 0;
          }
          SetVehicleSpeedWAM(self, speedData);

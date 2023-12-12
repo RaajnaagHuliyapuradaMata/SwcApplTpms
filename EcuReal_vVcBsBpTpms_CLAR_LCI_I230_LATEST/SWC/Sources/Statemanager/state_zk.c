@@ -1,6 +1,4 @@
-
-
-#include "state_zk.h"
+#include "state_zkX.h"
 
 static uint16 ushZustandskennung = 0;
 static uint8 ucIdChanged = 0;

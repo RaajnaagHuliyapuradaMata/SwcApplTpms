@@ -1,4 +1,4 @@
-#include "SteuernDigitalRdc.h"
+#include "SteuernDigitalRdcX.h"
 #include "DataManagerX.h"
 #include "BandmodeX.h"
 #include "state_bzX.h"
@@ -11,6 +11,10 @@
 #include "HS_KalibrierereignisX.h"
 #include "CodingDataX.h"
 #include "StatusbarX.h"
+
+static uint8 ucBandmodeDS(Rte_Instance self, uint8 ucAction);
+static uint8 ucTestErFahrtDS(Rte_Instance self, uint8 ucAction);
+static uint8 ucCalRequestDS(Rte_Instance self, uint8 ucAction);
 
 uint8 ucPutSteuernDigitalRdcDS(Rte_Instance self, uint8 ucFunctionNo, uint8 ucActionNo){
    uint8 ucRet;
