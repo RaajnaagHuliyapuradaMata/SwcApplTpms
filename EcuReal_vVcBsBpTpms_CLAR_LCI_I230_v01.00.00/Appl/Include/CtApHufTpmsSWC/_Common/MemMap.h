@@ -14,7 +14,7 @@
 #undef MEM_SW_MINOR_VERSION
 #undef MEM_SW_PATCH_VERSION
 
-#define MEM_VENDOR_ID        (30u)
+#define MEM_VENDOR_ID        (1u)
 
 #  define MEM_AR_RELEASE_MAJOR_VERSION       (4u)
 #  define MEM_AR_RELEASE_MINOR_VERSION       (0u)

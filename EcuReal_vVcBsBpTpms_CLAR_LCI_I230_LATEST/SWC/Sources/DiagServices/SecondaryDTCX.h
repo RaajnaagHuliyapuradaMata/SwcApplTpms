@@ -1,14 +1,36 @@
 #ifndef SecondaryDTCX_h
 #define SecondaryDTCX_h
+/******************************************************************************/
+/* File   : SecondaryDTCX.h                                                   */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "tss_stdx.h"
 #include "Rte_CtApHufTpmsSWC.h"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
 #define cSecondaryNoError                 (uint32)0x00
 #define cSecondaryRdciKalibrierung        (uint32)0x01
 #define cSecondaryRdciAusfall             (uint32)0x02
@@ -36,11 +58,37 @@ extern "C"
 #define cRDC_SOLLDRUCK_HINTEN             (uint32)0x20000u
 #define cRDC_POSITION                     (uint32)0x40000u
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
 typedef struct{
    uint8 ucErrorNumber;
    uint8 ucCausingWheelPos;
 }strSecondaryDtcFiFo;
 
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 extern uint8 GetSecondaryErrorsSCD(void);
 extern void SetSecondaryErrorSCD(uint8 ucError);
 extern void ClearSecondaryErrorSCD(uint8 ucError);
@@ -52,9 +100,12 @@ extern void InitSecondaryDtcFiFoSCD(void);
 extern void SecondaryDtcFiFoShiftSCD(uint8* pucError, uint8* pucWheelPos);
 extern void SecondaryDtcFiFoGetFirstEntrySCD(uint8* pucError, uint8* pucWheelPos);
 extern void SecondaryDtcFiFoWriteEntrySCD(uint8 ucDtc, uint8 ucPos);
-
 #ifdef __cplusplus
 }
 #endif
 
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 #endif
+

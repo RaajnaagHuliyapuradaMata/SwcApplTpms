@@ -1,3 +1,28 @@
+/******************************************************************************/
+/* File   : StatusRdcDeveloperDataLesen.c                                     */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "StatusRdcDeveloperDataLesenX.h"
 
 #include "DataManagerX.h"
@@ -19,11 +44,36 @@
 #include "InfoTyreX.h"
 #include "CodingDataX.h"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
 #define cStatusRdcDeveloperDataLesen_MuxChannelDefValue ( cStatusRdcDeveloperDataLesen_MuxChannel0)
 #define cStatusRdcDeveloperDataLesen_MuxChannelMaxValue ( 255)
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static uint8 ucDeveloperDataMuxChannelDS = cStatusRdcDeveloperDataLesen_MuxChannelDefValue;
 
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 static void GetStatusRdcDevDataLesen_Ch0DS(Rte_Instance self, uint8* pucData);
 static void GetStatusRdcDevDataLesen_Ch1DS(Rte_Instance self, uint8* pucData);
 static void GetStatusRdcDevDataLesen_Ch2DS(Rte_Instance self, uint8* pucData);
@@ -42,8 +92,7 @@ static void GetStatusRdcDevDataLesen_Ch14DS(uint8* pucData);
 static void GetStatusRdcDevDataLesen_Ch15DS(uint8* pucData);
 static void GetStatusRdcDevDataLesen_Ch16DS(uint8* pucData);
 
-void GetStatusRdcDeveloperDataLesenDS(Rte_Instance self, uint8* pucData)
-{
+void GetStatusRdcDeveloperDataLesenDS(Rte_Instance self, uint8* pucData){
    switch(ucDeveloperDataMuxChannelDS){
   case cStatusRdcDeveloperDataLesen_MuxChannel0:
     GetStatusRdcDevDataLesen_Ch0DS(self, pucData);
@@ -119,8 +168,7 @@ void GetStatusRdcDeveloperDataLesenDS(Rte_Instance self, uint8* pucData)
    }
 }
 
-uint8 ucPutDeveloperDataMuxChannelDS(uint8 ucMuxChannel)
-{
+uint8 ucPutDeveloperDataMuxChannelDS(uint8 ucMuxChannel){
    uint8 ucRetVal;
 
    if(ucMuxChannel < cStatusRdcDeveloperDataLesen_MuxChannelMaxValue){
@@ -140,8 +188,7 @@ uint8 ucGetDeveloperDataMuxChannelDS(void)
    return ucDeveloperDataMuxChannelDS;
 }
 
-static void GetStatusRdcDevDataLesen_Ch0DS(Rte_Instance self, uint8* pucData)
-{
+static void GetStatusRdcDevDataLesen_Ch0DS(Rte_Instance self, uint8* pucData){
    uint32 ulDWord;
    uint16 ushWord;
 
@@ -216,8 +263,7 @@ static void GetStatusRdcDevDataLesen_Ch1DS(Rte_Instance self, uint8* pucData){
   pucData[20] = 0xFF;
 }
 
-static void GetStatusRdcDevDataLesen_Ch2DS(Rte_Instance self, uint8* pucData)
-{
+static void GetStatusRdcDevDataLesen_Ch2DS(Rte_Instance self, uint8* pucData){
    uint8               ucData[cAnzRad];
   WarnConfigArrayType aucCb;
 
@@ -275,8 +321,7 @@ static void GetStatusRdcDevDataLesen_Ch2DS(Rte_Instance self, uint8* pucData)
   pucData[20] = 0xFF;
 }
 
-static void GetStatusRdcDevDataLesen_Ch3DS(uint8* pucData)
-{
+static void GetStatusRdcDevDataLesen_Ch3DS(uint8* pucData){
    uint8  ucLoop;
    uint16 ushWord;
 
@@ -301,8 +346,7 @@ static void GetStatusRdcDevDataLesen_Ch3DS(uint8* pucData)
    }
 }
 
-static void GetStatusRdcDevDataLesen_Ch4DS(uint8* pucData)
-{
+static void GetStatusRdcDevDataLesen_Ch4DS(uint8* pucData){
    uint8 ucLoop;
 
   pucData[0] = cStatusRdcDeveloperDataLesen_MuxChannel4;
@@ -330,8 +374,7 @@ static void GetStatusRdcDevDataLesen_Ch4DS(uint8* pucData)
   pucData[20] = 0xFF;
 }
 
-static void GetStatusRdcDevDataLesen_Ch5DS(uint8* pucData)
-{
+static void GetStatusRdcDevDataLesen_Ch5DS(uint8* pucData){
    uint8  ucLoop;
    uint8  ucByte;
    uint16 ushWord;
@@ -356,8 +399,7 @@ static void GetStatusRdcDevDataLesen_Ch5DS(uint8* pucData)
   pucData[20] = 0xFF;
 }
 
-static void GetStatusRdcDevDataLesen_Ch6DS(uint8* pucData)
-{
+static void GetStatusRdcDevDataLesen_Ch6DS(uint8* pucData){
    uint8 ucLoop;
   pucData[0] = cStatusRdcDeveloperDataLesen_MuxChannel6;
 
@@ -379,8 +421,7 @@ static void GetStatusRdcDevDataLesen_Ch6DS(uint8* pucData)
    }
 }
 
-static void GetStatusRdcDevDataLesen_Ch7DS(uint8* pucData)
-{
+static void GetStatusRdcDevDataLesen_Ch7DS(uint8* pucData){
    uint8  ucLoop;
    uint16 ushWord;
 
@@ -404,8 +445,7 @@ static void GetStatusRdcDevDataLesen_Ch7DS(uint8* pucData)
   pucData[20] = 0xFF;
 }
 
-static void GetStatusRdcDevDataLesen_Ch8DS(uint8* pucData)
-{
+static void GetStatusRdcDevDataLesen_Ch8DS(uint8* pucData){
    uint8 ucLoop;
    uint8 ucSetLevel;
    uint8 ucResetLevel;
@@ -424,8 +464,7 @@ static void GetStatusRdcDevDataLesen_Ch8DS(uint8* pucData)
   pucData[20] = 0xFF;
 }
 
-static void GetStatusRdcDevDataLesen_Ch9DS(uint8* pucData)
-{
+static void GetStatusRdcDevDataLesen_Ch9DS(uint8* pucData){
    uint8 ucLoop;
    uint8 ucSetLevel;
    uint8 ucResetLevel;
@@ -444,8 +483,7 @@ static void GetStatusRdcDevDataLesen_Ch9DS(uint8* pucData)
   pucData[20] = 0xFF;
 }
 
-static void GetStatusRdcDevDataLesen_Ch10DS(uint8* pucData)
-{
+static void GetStatusRdcDevDataLesen_Ch10DS(uint8* pucData){
    uint8 ucLoop;
    uint8 ucSetLevel;
    uint8 ucResetLevel;
@@ -464,8 +502,7 @@ static void GetStatusRdcDevDataLesen_Ch10DS(uint8* pucData)
   pucData[20] = 0xFF;
 }
 
-static void GetStatusRdcDevDataLesen_Ch11DS(uint8* pucData)
-{
+static void GetStatusRdcDevDataLesen_Ch11DS(uint8* pucData){
    uint8 ucLoop;
    uint8 ucSetLevel;
    uint8 ucResetLevel;
@@ -484,8 +521,7 @@ static void GetStatusRdcDevDataLesen_Ch11DS(uint8* pucData)
   pucData[20] = 0xFF;
 }
 
-static void GetStatusRdcDevDataLesen_Ch12DS(uint8* pucData)
-{
+static void GetStatusRdcDevDataLesen_Ch12DS(uint8* pucData){
    uint8  ucLoop;
    uint32 ulDWord;
    uint16 ushWord;
@@ -516,8 +552,7 @@ static void GetStatusRdcDevDataLesen_Ch12DS(uint8* pucData)
   pucData[20] = 0xFF;
 }
 
-static void GetStatusRdcDevDataLesen_Ch13DS(uint8* pucData)
-{
+static void GetStatusRdcDevDataLesen_Ch13DS(uint8* pucData){
    uint8  ucLoop;
    uint16 ushWord;
    uint32 ulDWord;
@@ -548,8 +583,7 @@ static void GetStatusRdcDevDataLesen_Ch13DS(uint8* pucData)
   pucData[20] = 0xFF;
 }
 
-static void GetStatusRdcDevDataLesen_Ch14DS(uint8* pucData)
-{
+static void GetStatusRdcDevDataLesen_Ch14DS(uint8* pucData){
   pucData[0] = cStatusRdcDeveloperDataLesen_MuxChannel14;
 
   pucData[1] = 0x00;
@@ -673,3 +707,8 @@ static void GetStatusRdcDevDataLesen_Ch16DS(uint8* pucData){
   pucData[19] = 0xffu;
   pucData[20] = 0xffu;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
+

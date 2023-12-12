@@ -1,3 +1,28 @@
+/******************************************************************************/
+/* File   : HS_Inaktivereignis.c                                              */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "HS_InaktivereignisX.h"
 
 #include "DatamanagerX.h"
@@ -10,31 +35,54 @@
 
 #ifndef TESSY
 #ifdef WIN32
-    #include "assert.h"
+#include "assert.h"
 #endif
 #endif
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
 #define cErrorNoAction  0x00
 #define cErrorNotActive 0x01
 #define cErrorUnknown   0x03
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
 typedef struct{
-   uint8 ucStatDatumText[8];
-   uint8 ucStatUhrzeitText[8];
+   uint8  ucStatDatumText[8];
+   uint8  ucStatUhrzeitText[8];
    uint32 ulStatKilometerstandWert;
-   uint8 ucStatInternerFehlercode;
-   uint8 ucStatZaehlerInaktivWert;
+   uint8  ucStatInternerFehlercode;
+   uint8  ucStatZaehlerInaktivWert;
 }tHsInaktivereignisType;
 
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static strIeFiFo tIEFifo[cMaxSizeIeFiFo];
 
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 static uint8 SaveInaktivereignisDS(Rte_Instance self, uint8 ucErrorCode);
-static void IeFiFoShiftDS(Rte_Instance self);
+static void  IeFiFoShiftDS(Rte_Instance self);
 
-static uint8 SaveInaktivereignisDS(Rte_Instance self, uint8 ucErrorCode)
-{
-  Rdci_UHRZEIT_DATUM_Type timeDate;
-  Rdci_MILE_KM_Type mileKm;
+static uint8 SaveInaktivereignisDS(Rte_Instance self, uint8 ucErrorCode){
+   Rdci_UHRZEIT_DATUM_Type timeDate;
+   Rdci_MILE_KM_Type mileKm;
    uint8 cTempBuffer[9];
    uint8 cData[cSizeInaktivereignis];
    uint8 i;
@@ -43,10 +91,9 @@ static uint8 SaveInaktivereignisDS(Rte_Instance self, uint8 ucErrorCode)
    uint8 ucCounterInactive;
 
 #ifndef TESSY
-    #ifdef WIN32
-
+#ifdef WIN32
       assert(sizeof(ImpTypeArrayDcm_RdcHsInaktivereignisReadDataType) == (3 * cSizeInaktivereignis));
-    #endif
+#endif
 #endif
 
    ucCounterInactive = GetHsInaktivereignis_1_CounterEE(self);
@@ -133,12 +180,10 @@ static uint8 SaveInaktivereignisDS(Rte_Instance self, uint8 ucErrorCode)
    }
 
    ucRetVal = 0;
-
    return ucRetVal;
 }
 
-void ReadInaktivereignisDS(Rte_Instance self, uint8* paucData)
-{
+void ReadInaktivereignisDS(Rte_Instance self, uint8* paucData){
    uint8 i;
 
    for(i = 0; i < cSizeInaktivereignis; i++){
@@ -154,13 +199,11 @@ void ReadInaktivereignisDS(Rte_Instance self, uint8* paucData)
    }
 }
 
-void InitIeFiFoDS(Rte_Instance self)
-{
+void InitIeFiFoDS(Rte_Instance self){
   GetIeFiFoFromNvmEE(self, tIEFifo);
 }
 
-void IeFiFoWriteEntryDS(Rte_Instance self, uint8 ucErrorNumber)
-{
+void IeFiFoWriteEntryDS(Rte_Instance self, uint8 ucErrorNumber){
    uint8 i = 0;
 
   while ((tIEFifo[i].ucErrorNumber != cIeFiFoEmpty) && (i < cMaxSizeIeFiFo)){
@@ -179,8 +222,7 @@ void IeFiFoWriteEntryDS(Rte_Instance self, uint8 ucErrorNumber)
    }
 }
 
-static void IeFiFoShiftDS(Rte_Instance self)
-{
+static void IeFiFoShiftDS(Rte_Instance self){
    uint8 i;
 
    for(i = 0; i < (cMaxSizeIeFiFo - 1); i++){
@@ -241,11 +283,11 @@ void ProcessIeFiFoDS(Rte_Instance self){
        break;
    }
 
-   if(ucErrorStatus == cErrorUnknown){
+   if(cErrorUnknown == ucErrorStatus){
     IeFiFoShiftDS(self);
    }
    else{
-      if(tIEFifo[0].ucIeSent == 0){
+      if(0 == tIEFifo[0].ucIeSent){
       (void)SaveInaktivereignisDS(self, tIEFifo[0].ucErrorNumber);
       tIEFifo[0].ucIeSent = 1;
       PutIeFiFoToNvmEE(self, tIEFifo);
@@ -273,4 +315,8 @@ uint8 GetCurrentInactiveReasonDS(void){
       return tIEFifo[0].ucErrorNumber;
    }
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

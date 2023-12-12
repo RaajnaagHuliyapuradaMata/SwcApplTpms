@@ -1,3 +1,28 @@
+/******************************************************************************/
+/* File   : RdcErfsEcoServices.c                                              */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "RdcErfsEcoServicesX.h"
 
 #include "ERFS_X.h"
@@ -11,8 +36,34 @@
 #include "InfotyreX.h"
 #include "SeasRcpAdjX.h"
 
-void GetStatusRdcErfsEcoTabLesenDS(uint8* pucData)
-{
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+void GetStatusRdcErfsEcoTabLesenDS(uint8* pucData){
    uint8 ucElement;
    uint8 ucMember;
    uint8 ucOffset,ucIndex;
@@ -36,8 +87,7 @@ void GetStatusRdcErfsEcoTabLesenDS(uint8* pucData)
 
 }
 
-void GetStatusRdcErfsAktReifenEcoLesenDS(Rte_Instance self, uint8* pucData)
-{
+void GetStatusRdcErfsAktReifenEcoLesenDS(Rte_Instance self, uint8* pucData){
    uint8 ucCurIndex,ucSuIndex, ucWiIndex;
    uint8 ucPtrIndex;
 
@@ -190,8 +240,7 @@ void GetStatusRdcErfsAktReifenEcoLesenDS(Rte_Instance self, uint8* pucData)
 
 }
 
-void GetStatusRdcErfsAktReifenLesenDS(Rte_Instance self, uint8* pucData)
-{
+void GetStatusRdcErfsAktReifenLesenDS(Rte_Instance self, uint8* pucData){
    uint8 ucElement;
    uint8 ucIndex;
 
@@ -314,8 +363,7 @@ void GetStatusRdcErfsAktReifenLesenDS(Rte_Instance self, uint8* pucData)
 
 }
 
-uint8 ucPutSteuernRdcErfsEcoAktReifenposVorgebenDS(Rte_Instance self, const uint8* pucData)
-{
+uint8 ucPutSteuernRdcErfsEcoAktReifenposVorgebenDS(Rte_Instance self, const uint8* pucData){
    uint8 Position,i;
    uint8 Index = 0;
    uint8 ucRet = cRetOk;
@@ -374,8 +422,7 @@ uint8 ucPutSteuernRdcErfsEcoAktReifenposVorgebenDS(Rte_Instance self, const uint
    return(ucRet);
 }
 
-uint8 ucPutSteuernRdcErfsEcoNeueReifenVorgebenDS(Rte_Instance self, const uint8* pucData)
-{
+uint8 ucPutSteuernRdcErfsEcoNeueReifenVorgebenDS(Rte_Instance self, const uint8* pucData){
    uint8 ucRet = cRetOk;
 
    PutErfsEcoNeuerReifenEE(self, &pucData[1]);
@@ -383,8 +430,7 @@ uint8 ucPutSteuernRdcErfsEcoNeueReifenVorgebenDS(Rte_Instance self, const uint8*
    return(ucRet);
 }
 
-uint8 ucPutSteuernRdcErfsEcoReifentabelleVorgebenDS(Rte_Instance self, const uint8* pucData, const uint8 ucElement)
-{
+uint8 ucPutSteuernRdcErfsEcoReifentabelleVorgebenDS(Rte_Instance self, const uint8* pucData, const uint8 ucElement){
    uint8 ucRet = cRetOk;
 
    if(ucElement <= TYRE_LIST_MAX_ELEMENTS){
@@ -396,4 +442,8 @@ uint8 ucPutSteuernRdcErfsEcoReifentabelleVorgebenDS(Rte_Instance self, const uin
 
    return(ucRet);
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

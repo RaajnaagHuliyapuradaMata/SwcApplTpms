@@ -18,7 +18,7 @@
 #define COMSTACKTYPE_SW_MINOR_VERSION       (0u)
 #define COMSTACKTYPE_SW_PATCH_VERSION       (0u)
 
-#define COMSTACKTYPE_VENDOR_ID              (30u)
+#define COMSTACKTYPE_VENDOR_ID              (1u)
 
 #define NTFRSLT_OK                        0x00
 #define NTFRSLT_E_NOT_OK                  0x01

@@ -1,3 +1,28 @@
+/******************************************************************************/
+/* File   : HS_Warnereignis.c                                                 */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "HS_WarnereignisX.h"
 
 #include "DatamanagerX.h"
@@ -16,10 +41,13 @@
 
 #ifndef TESSY
 #ifdef WIN32
-    #include "assert.h"
+#include "assert.h"
 #endif
 #endif
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
 #define cGroupMask_A  (uint32)0xfU
 #define cGroupMask_B  (uint32)0xf0U
 #define cGroupMask_C  (uint32)0xf00U
@@ -40,6 +68,25 @@
 #define cEventTypeWeich 2
 #define cMaxNrOfWarningGroups    8
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static uint32 ulLastWSB = 0xffffffffU;
 static uint8  ucLastWarnOut = 0xffU;
 static uint32 ulMileage0_We1 = 0;
@@ -52,6 +99,9 @@ static uint32 ulMileage0_We3 = 0;
 static uint32 ulMileage100_We3 = 0;
 static uint32 ulMileage160_We3 = 0;
 
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 static uint8 ucCheckWarningGroup(uint32 ulBitsOld, uint32 ulBitsNew, uint32 ulGroupMask, uint8 ucDirection);
 static uint8 ucNoOfActivePreWarningsDS(void);
 static uint8 SaveWarnereignisDS(Rte_Instance self, uint8 ucPos, uint8 ucWarningType);
@@ -70,14 +120,12 @@ static void WriteWarnereignis_1_DS(Rte_Instance self, const uint8* aucData, uint
 static void ShiftMileageDS(uint8 ucEventNumber);
 static uint8 ucFindFirstBitInLoNibbleDS(uint8 ucByte);
 
-void InitFastaWarnEventsDS(Rte_Instance self)
-{
+void InitFastaWarnEventsDS(Rte_Instance self){
    ulLastWSB = GETulWarnOutTM();
    ucLastWarnOut = ucGetWarnOutStateBT(self);
 }
 
-void ProcessFastaWarnEventsDS(Rte_Instance self)
-{
+void ProcessFastaWarnEventsDS(Rte_Instance self){
    uint32 ulWSB;
    uint8  ucWarnOut;
    uint8  ucPosition;
@@ -98,69 +146,49 @@ void ProcessFastaWarnEventsDS(Rte_Instance self)
    }
 
    if(ucWarnOut != ucLastWarnOut){
-
       ucPosition = ucCheckWarningGroup( (uint32) ucLastWarnOut, (uint32) ucWarnOut, cMaskLoNibble, cFindBitSet);
-
       if(ucPosition < cMaxLR){
-
       ucWarningType = ucCheckWarningGroup( (uint32) ucLastWarnOut, (uint32) ucWarnOut, cMaskHiNibble, cFindBitSet);
-
       if(ucWarningType == 0){
-
         (void)SaveWarnereignisDS(self, ucPosition, cEventTypePanne);
       }
       else if(ucWarningType == 1){
-
        (void) SaveWarnereignisDS(self, ucPosition, cEventTypeWarn);
       }
       else{
-
           if((ucWarnOut & cBtWsBreakTirePw) == cBtWsBreakTirePw){
-
           (void) SaveWarnereignisDS(self, ucPosition, cEventTypePanne);
         }
         else{
-
           (void) SaveWarnereignisDS(self, ucPosition, cEventTypeWarn);
         }
       }
       }
       else{
-
       ucWarningType = ucCheckWarningGroup( (uint32) ucLastWarnOut, (uint32) ucWarnOut, cMaskHiNibble, cFindBitSet);
-
       if(ucWarningType == 0){
-
         ucPosition = ucFindFirstBitInLoNibbleDS( (ucWarnOut & cMaskLoNibble));
-
         (void) SaveWarnereignisDS(self, ucPosition, cEventTypePanne);
       }
       else if(ucWarningType == 1){
-
         ucPosition = ucFindFirstBitInLoNibbleDS( (ucWarnOut & cMaskLoNibble));
-
         (void) SaveWarnereignisDS(self, ucPosition, cEventTypeWarn);
       }
       else{
-
       }
       }
-
       ucLastWarnOut = ucWarnOut;
    }
 
    if(ulWSB != ulLastWSB){
-
       ucPosition = ucCheckWarningGroup(ulLastWSB, ulWSB, cGroupMask_D, cFindBitSet);
       if(ucPosition < cMaxLR){
       (void) SaveWarnereignisWeichDS(self, ucPosition);
       }
-
       ulGroupsToCheck[0] = cGroupMask_A;
       ulGroupsToCheck[1] = cGroupMask_B;
       ulGroupsToCheck[2] = cGroupMask_C;
       ucNoOfGroupsToCheck = 3;
-
       ucPosition = cMaxLR;
     i = 0;
     while ( (ucPosition == cMaxLR) && (i < ucNoOfGroupsToCheck)){
@@ -173,13 +201,11 @@ void ProcessFastaWarnEventsDS(Rte_Instance self)
         i++;
       }
       }
-
       ulLastWSB = ulWSB;
    }
 }
 
-static uint8 ucCheckWarningGroup(uint32 ulBitsOld, uint32 ulBitsNew, uint32 ulGroupMask, uint8 ucDirection)
-{
+static uint8 ucCheckWarningGroup(uint32 ulBitsOld, uint32 ulBitsNew, uint32 ulGroupMask, uint8 ucDirection){
    uint8  ucGroupNew;
    uint8  ucGroupOld;
    uint8  ucSetBits;
@@ -218,16 +244,14 @@ static uint8 ucCheckWarningGroup(uint32 ulBitsOld, uint32 ulBitsNew, uint32 ulGr
    return ucRetVal;
 }
 
-static uint8 ucNoOfActivePreWarningsDS(void)
-{
+static uint8 ucNoOfActivePreWarningsDS(void){
    uint8 ucRetVal;
    ucRetVal = (uint8)((ulLastWSB >> 12) & (uint32)0x0f);
    ucRetVal = ucNrOfBitSet8(ucRetVal);
    return ucRetVal;
 }
 
-static uint8 SaveWarnereignisDS(Rte_Instance self, uint8 ucPos, uint8 ucWarningType)
-{
+static uint8 SaveWarnereignisDS(Rte_Instance self, uint8 ucPos, uint8 ucWarningType){
   Rdci_UHRZEIT_DATUM_Type timeDate;
   Rdci_MILE_KM_Type mileKm;
    uint8 cTempBuffer[9];
@@ -241,14 +265,12 @@ static uint8 SaveWarnereignisDS(Rte_Instance self, uint8 ucPos, uint8 ucWarningT
    uint8 ucCounterWarn;
 
 #ifndef TESSY
-    #ifdef WIN32
-
-    assert(sizeof(ImpTypeArrayDcm_RdcHsWarnereignis1ReadDataType) == cNvmRdciDiagBlock1HsWarn_1_Size);
-    #endif
+#ifdef WIN32
+   assert(sizeof(ImpTypeArrayDcm_RdcHsWarnereignis1ReadDataType) == cNvmRdciDiagBlock1HsWarn_1_Size);
+#endif
 #endif
 
    ucCounterWarn = GetHsWarnereignis_1_CounterEE(self);
-
    if(ucCounterWarn == 0xff){
       ucCounterWarn = 1;
    }
@@ -256,16 +278,13 @@ static uint8 SaveWarnereignisDS(Rte_Instance self, uint8 ucPos, uint8 ucWarningT
       ucCounterWarn++;
    }
    else{}
-
    if(ucWarningType == cEventTypePanne){
       ucTemp = cSecondaryRdciPannenwarnung;
    }
    else{
       ucTemp = cSecondaryRdciDruckwarnung;
    }
-
    SetSecondaryErrorSCD(ucTemp);
-
    if(bGetBitBetriebszustandBZ(cZO_FINISH) == FALSE){
       ucPosType = 4;
    }
@@ -275,7 +294,6 @@ static uint8 SaveWarnereignisDS(Rte_Instance self, uint8 ucPos, uint8 ucWarningT
    else{
       ucPosType = 0;
    }
-
    switch(ucPos){
       case cWheelPos_FL:
     SecondaryDtcFiFoWriteEntrySCD(ucTemp, RDC_TAB_POSITION_SENSOR_FL<<ucPosType);
@@ -412,8 +430,7 @@ static uint8 SaveWarnereignisDS(Rte_Instance self, uint8 ucPos, uint8 ucWarningT
    return ucRetVal;
 }
 
-void CountDrivenKilometersWithWarningDS(Rte_Instance self)
-{
+void CountDrivenKilometersWithWarningDS(Rte_Instance self){
    uint16 ushSpeed;
    uint8  ucSpeed;
    static uint8 ucSpeedState = 0;
@@ -430,7 +447,6 @@ void CountDrivenKilometersWithWarningDS(Rte_Instance self)
    SaveHighestSpeedWithActiveWarningDS(self, ucSpeed);
 
    switch(ucSpeedState){
-
       case (uint8)0:
       if(ushSpeed > 0){
       ulMileage0_We1 = GETulMileKmEE(self);
@@ -485,64 +501,50 @@ void CountDrivenKilometersWithWarningDS(Rte_Instance self)
    }
 }
 
-void ReadWarnereignis_1_DS(Rte_Instance self, uint8* paucData)
-{
+void ReadWarnereignis_1_DS(Rte_Instance self, uint8* paucData){
    uint8 i;
-
    for(i=0; i<cNvmRdciDiagBlock1HsWarn_1_Size; i++){
     paucData[i] = GetHsWarnereignis_1_EE(self, i);
    }
 }
 
-void ReadWarnereignis_2_DS(Rte_Instance self, uint8* paucData)
-{
+void ReadWarnereignis_2_DS(Rte_Instance self, uint8* paucData){
    uint8 i;
-
    for(i=0; i<cNvmRdciDiagBlock1HsWarn_1_Size; i++){
     paucData[i] = GetHsWarnereignis_2_EE(self, i);
    }
 }
 
-void ReadWarnereignis_3_DS(Rte_Instance self, uint8* paucData)
-{
+void ReadWarnereignis_3_DS(Rte_Instance self, uint8* paucData){
    uint8 i;
-
    for(i=0; i<cNvmRdciDiagBlock1HsWarn_1_Size; i++){
     paucData[i] = GetHsWarnereignis_3_EE(self, i);
    }
 }
 
-static void WriteWarnereignis_1_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize)
-{
+static void WriteWarnereignis_1_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize){
    uint8 i;
-
    for(i=0; i<ucSize; i++){
     PutHsWarnereignis_1_EE(self, aucData[i], i, cSAVE_ON_SHUTDOWN);
    }
 }
 
-static void WriteWarnereignis_2_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize)
-{
+static void WriteWarnereignis_2_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize){
    uint8 i;
-
    for(i=0; i<ucSize; i++){
     PutHsWarnereignis_2_EE(self, aucData[i], i, cSAVE_ON_SHUTDOWN);
    }
 }
 
-static void WriteWarnereignis_3_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize)
-{
+static void WriteWarnereignis_3_DS(Rte_Instance self, const uint8* aucData, uint8 ucSize){
    uint8 i;
-
    for(i=0; i<ucSize; i++){
     PutHsWarnereignis_3_EE(self, aucData[i], i, cSAVE_ON_SHUTDOWN);
    }
 }
 
-static void ShiftMileageDS(uint8 ucEventNumber)
-{
+static void ShiftMileageDS(uint8 ucEventNumber){
    switch(ucEventNumber){
-
       case (uint8)2:
       ulMileage0_We3 = ulMileage0_We2;
       ulMileage100_We3 = ulMileage100_We2;
@@ -560,8 +562,7 @@ static void ShiftMileageDS(uint8 ucEventNumber)
    }
 }
 
-static boolean bWarnereignis1ActiveDS(Rte_Instance self)
-{
+static boolean bWarnereignis1ActiveDS(Rte_Instance self){
    boolean bRetVal = FALSE;
    if(GetWe1ZomSlotEE(self) != 255){
     bRetVal = TRUE;
@@ -569,8 +570,7 @@ static boolean bWarnereignis1ActiveDS(Rte_Instance self)
    return bRetVal;
 }
 
-static boolean bWarnereignis2ActiveDS(Rte_Instance self)
-{
+static boolean bWarnereignis2ActiveDS(Rte_Instance self){
    boolean bRetVal = FALSE;
    if(GetWe2ZomSlotEE(self) != 255){
     bRetVal = TRUE;
@@ -578,8 +578,7 @@ static boolean bWarnereignis2ActiveDS(Rte_Instance self)
    return bRetVal;
 }
 
-static boolean bWarnereignis3ActiveDS(Rte_Instance self)
-{
+static boolean bWarnereignis3ActiveDS(Rte_Instance self){
    boolean bRetVal = FALSE;
    if(GetWe3ZomSlotEE(self) != 255){
     bRetVal = TRUE;
@@ -587,17 +586,14 @@ static boolean bWarnereignis3ActiveDS(Rte_Instance self)
    return bRetVal;
 }
 
-static void SaveHighestSpeedWithActiveWarningDS(Rte_Instance self, uint8 ucVMax)
-{
+static void SaveHighestSpeedWithActiveWarningDS(Rte_Instance self, uint8 ucVMax){
    uint8 ucData[cNvmRdciDiagBlock1HsWarn_1_Size];
-
    if(bWarnereignis1ActiveDS(self) == TRUE){
       ReadWarnereignis_1_DS(self, ucData);
       if(ucVMax > ucData[57]){
       ucData[57] = ucVMax;
       WriteWarnereignis_1_DS(self, ucData, sizeof(ucData));
       }
-
    }
 
    if(bWarnereignis2ActiveDS(self) == TRUE){
@@ -606,9 +602,7 @@ static void SaveHighestSpeedWithActiveWarningDS(Rte_Instance self, uint8 ucVMax)
       ucData[57] = ucVMax;
       WriteWarnereignis_2_DS(self, ucData, sizeof(ucData));
       }
-
    }
-
    if(bWarnereignis3ActiveDS(self) == TRUE){
       ReadWarnereignis_3_DS(self, ucData);
       if(ucVMax > ucData[57]){
@@ -618,8 +612,7 @@ static void SaveHighestSpeedWithActiveWarningDS(Rte_Instance self, uint8 ucVMax)
    }
 }
 
-static void CumulateKilometers_0_to_100_DS(Rte_Instance self)
-{
+static void CumulateKilometers_0_to_100_DS(Rte_Instance self){
    uint32  ulDiff;
    uint8   ucData[cNvmRdciDiagBlock1HsWarn_1_Size];
    uint16  ushTemp;
@@ -661,8 +654,7 @@ static void CumulateKilometers_0_to_100_DS(Rte_Instance self)
    }
 }
 
-static void CumulateKilometers_100_to_160_DS(Rte_Instance self)
-{
+static void CumulateKilometers_100_to_160_DS(Rte_Instance self){
    uint32  ulDiff;
    uint8   ucData[cNvmRdciDiagBlock1HsWarn_1_Size];
    uint16  ushTemp;
@@ -704,8 +696,7 @@ static void CumulateKilometers_100_to_160_DS(Rte_Instance self)
    }
 }
 
-static void CumulateKilometers_160_to_max_DS(Rte_Instance self)
-{
+static void CumulateKilometers_160_to_max_DS(Rte_Instance self){
    uint32  ulDiff;
    uint8   ucData[cNvmRdciDiagBlock1HsWarn_1_Size];
    uint16  ushTemp;
@@ -747,8 +738,7 @@ static void CumulateKilometers_160_to_max_DS(Rte_Instance self)
    }
 }
 
-static uint8 SaveWarnereignisWeichDS(Rte_Instance self, uint8 ucPos)
-{
+static uint8 SaveWarnereignisWeichDS(Rte_Instance self, uint8 ucPos){
   Rdci_UHRZEIT_DATUM_Type timeDate;
   Rdci_MILE_KM_Type mileKm;
    uint8 cTempBuffer[9];
@@ -763,10 +753,9 @@ static uint8 SaveWarnereignisWeichDS(Rte_Instance self, uint8 ucPos)
    uint8 ucCounterWarnWeich;
 
 #ifndef TESSY
-    #ifdef WIN32
-
-    assert(sizeof(ImpTypeArrayDcm_RdcHsWarnereignisWeich1ReadDataType) == cNvmRdciDiagBlock1HsWeich_1_Size);
-    #endif
+#ifdef WIN32
+   assert(sizeof(ImpTypeArrayDcm_RdcHsWarnereignisWeich1ReadDataType) == cNvmRdciDiagBlock1HsWeich_1_Size);
+#endif
 #endif
 
    ucCounterWarnWeich = GetHsWarnereignisWeich_1_CounterEE(self);
@@ -778,15 +767,11 @@ static uint8 SaveWarnereignisWeichDS(Rte_Instance self, uint8 ucPos)
       ucCounterWarnWeich++;
    }
    else{}
-
    SetSecondaryErrorSCD(cSecondaryRdciBefuellhinweis);
-
    if(ucNoOfActivePreWarningsDS() > 1){
     SecondaryDtcFiFoWriteEntrySCD(cSecondaryRdciBefuellhinweis, RDC_TAB_POSITION_SENSOR_NO_POS);
    }
-
    else{
-
       if(bGetBitBetriebszustandBZ(cZO_FINISH) == FALSE){
       ucPosType = 4;
       }
@@ -942,38 +927,31 @@ static uint8 SaveWarnereignisWeichDS(Rte_Instance self, uint8 ucPos)
    return ucRetVal;
 }
 
-void ReadWarnereignisWeich_1_DS(Rte_Instance self, uint8* aucData)
-{
+void ReadWarnereignisWeich_1_DS(Rte_Instance self, uint8* aucData){
    uint8* pData = (uint8*)(&aucData[0]);
    uint8 i;
-
    for(i=0; i<cNvmRdciDiagBlock1HsWeich_1_Size; i++){
     pData[i] = GetHsWarnereignisWeich_1_EE(self, i);
    }
 }
 
-void ReadWarnereignisWeich_2_DS(Rte_Instance self, uint8* aucData)
-{
+void ReadWarnereignisWeich_2_DS(Rte_Instance self, uint8* aucData){
    uint8* pData = (uint8*)(&aucData[0]);
    uint8 i;
-
    for(i=0; i<cNvmRdciDiagBlock1HsWeich_1_Size; i++){
     pData[i] = GetHsWarnereignisWeich_2_EE(self, i);
    }
 }
 
-void ReadWarnereignisWeich_3_DS(Rte_Instance self, uint8* aucData)
-{
+void ReadWarnereignisWeich_3_DS(Rte_Instance self, uint8* aucData){
    uint8* pData = (uint8*)(&aucData[0]);
    uint8 i;
-
    for(i=0; i<cNvmRdciDiagBlock1HsWeich_1_Size; i++){
     pData[i] = GetHsWarnereignisWeich_3_EE(self, i);
    }
 }
 
-static uint8 SaveWarnereignisRuecknahmeDS(Rte_Instance self, uint8 ucPos)
-{
+static uint8 SaveWarnereignisRuecknahmeDS(Rte_Instance self, uint8 ucPos){
   Rdci_UHRZEIT_DATUM_Type timeDate;
   Rdci_MILE_KM_Type mileKm;
    uint8 cTempBuffer[9];
@@ -988,10 +966,9 @@ static uint8 SaveWarnereignisRuecknahmeDS(Rte_Instance self, uint8 ucPos)
    uint8 ucCounterWarnRuecknahme;
 
 #ifndef TESSY
-    #ifdef WIN32
-
-      assert(sizeof(ImpTypeArrayDcm_RdcHsWarnereignisRuecknahmeReadDataType) == cNvmRdciDiagBlock1HsWRueck_Size);
-    #endif
+#ifdef WIN32
+   assert(sizeof(ImpTypeArrayDcm_RdcHsWarnereignisRuecknahmeReadDataType) == cNvmRdciDiagBlock1HsWRueck_Size);
+#endif
 #endif
 
    ucCounterWarnRuecknahme = GetHsWarnereignisRuecknahmeCounterEE(self);
@@ -1002,9 +979,7 @@ static uint8 SaveWarnereignisRuecknahmeDS(Rte_Instance self, uint8 ucPos)
       ucCounterWarnRuecknahme++;
    }
    else{}
-
    SetSecondaryErrorSCD(cSecondaryRdciWarnruecknahme);
-
    if(bGetBitBetriebszustandBZ(cZO_FINISH) == FALSE){
       ucPosType = 4;
    }
@@ -1160,20 +1135,16 @@ static uint8 SaveWarnereignisRuecknahmeDS(Rte_Instance self, uint8 ucPos)
    return ucRetVal;
 }
 
-void ReadWarnereignisRuecknahmeDS(Rte_Instance self, uint8* paucData)
-{
+void ReadWarnereignisRuecknahmeDS(Rte_Instance self, uint8* paucData){
    uint8 i;
-
    for(i=0; i<cNvmRdciDiagBlock1HsWRueck_Size; i++){
     paucData[i] = GetHsWarnereignisRuecknahmeEE(self, i);
    }
 }
 
-static uint8 ucFindFirstBitInLoNibbleDS(uint8 ucByte)
-{
+static uint8 ucFindFirstBitInLoNibbleDS(uint8 ucByte){
    uint8 ucLoop;
    uint8 ucRet = 4;
-
    if(ucByte > 0){
       for(ucLoop = 0; ((ucRet == 4) && (ucLoop < 4)); ucLoop++){
       if((ucByte & (uint8) (1 << ucLoop)) != 0){
@@ -1181,6 +1152,10 @@ static uint8 ucFindFirstBitInLoNibbleDS(uint8 ucByte)
       }
       }
    }
-
    return ucRet;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
+

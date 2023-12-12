@@ -1,17 +1,47 @@
 #ifndef EeWarnStatusBlockX_h
 #define EeWarnStatusBlockX_h
+/******************************************************************************/
+/* File   : EeWarnStatusBlockX.h                                              */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "TSS_StdX.h"
 #include "Rte_CtApHufTpmsSWC.h"
 #include "USWarn_ifX.h"
 #include "InitializationX.h"
 #include "TAmbFiltX.h"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
 typedef struct WarnStatusNvmBlock{
    uint8                 ucInitialize;
    uint8                 ucWS;
@@ -31,6 +61,25 @@ typedef struct WarnStatusNvmBlock{
    uint32                ulCoolingCaptTime;
 }tWarnStatusNvmBlockType;
 
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 extern void                   InitWarnStatusBlockEE(Rte_Instance self);
 extern void                   SetWarnStatusBlockUpdateFlagEE(void);
 extern boolean                bGetWarnStatusBlockUpdateFlagEE(void);
@@ -77,4 +126,8 @@ extern void                   PUTulCoolingCaptTimeEE(Rte_Instance self, uint32 x
 }
 #endif
 
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 #endif
+
