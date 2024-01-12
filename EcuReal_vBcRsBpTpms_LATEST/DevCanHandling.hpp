@@ -1,39 +1,76 @@
+#pragma once
+/******************************************************************************/
+/* File   : DevCanHandling.hpp                                                */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
 
-
-#ifndef DevCanHandling_H
-#define DevCanHandling_H
-
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "SwcApplTpms_DevCanMessages.hpp"
 #include "SwcApplTpms_DevCanMesReqInterfaces.hpp"
 #include "iTpms_Interface.hpp"
 
 #include "global.hpp"
 
-//! Check CAN debug reason and call the corresponding function.
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 extern void DCH_CheckCanDebugRequest(const Type_SwcApplTpms_stMessageCan* CanDebugRequestMsg);
-
-//! Create and send a response message for CAN debug configuration
 extern void DCH_GetCanDebugResponseData(Type_SwcApplTpms_stMessageCan* CanDebugResponseMsg);
-
-//! Get a Multiplex ID number as parameter for which the status has to be checked and according to it enabled or disabled will be set.
 extern uint8 DCH_MultiplexMsgGetActiveStatus(uint8 ui8_MultiplexNr);
-
-//! Check if continuous APC data reading, also after auto-localization is finished, is enabled to be read.
 extern boolean DCH_IsContinousAPCReadingActive(void);
-
-//! Init the global variables and structures from the module.
 extern void DCH_Init(void);
-
-//! Return the CAN debug Configuration Status
 extern boolean DCH_IsCanDebugEnabled(void);
-
-//! Return the Developer Mode Configuration Status, if active forward all RF telegrams to TPMS module.
 extern boolean DCH_IsDeveloperModeActive(void);
-
 extern uint8 DCH_SubmultiplexConfigGetStatus(void);
 
 #pragma PRQA_NO_SIDE_EFFECTS DCH_IsContinousAPCReadingActive
 #pragma PRQA_NO_SIDE_EFFECTS DCH_IsCanDebugEnabled
 #pragma PRQA_NO_SIDE_EFFECTS DCH_SubmultiplexConfigGetStatus
 
-#endif
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
+

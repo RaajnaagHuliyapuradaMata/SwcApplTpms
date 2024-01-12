@@ -1,5 +1,3 @@
-
-
 #ifndef HUF_DTC_IF_HEADER_
 #define HUF_DTC_IF_HEADER_
 

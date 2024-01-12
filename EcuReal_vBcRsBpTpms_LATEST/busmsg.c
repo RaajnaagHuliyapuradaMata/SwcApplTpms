@@ -1,3 +1,28 @@
+/******************************************************************************/
+/* File   : busmsg.c                                                          */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "Std_Types.hpp"
 
 #include "iTpms_Interface.hpp"
@@ -15,12 +40,34 @@
 #include "SwcApplTpms_DTC_If.hpp"
 #include "WallocX.hpp"
 
-#define TEXTFLAGS_INVALID        ( (boolean) FALSE )
-#define RDKACTIVE_INVALID        ( (boolean) FALSE )
-#define AXLE_IMBALANCE_UNKNOWN    0x00U
-#define AXLE_IMBALANCE_ABSENT     0x01U
-#define AXLE_IMBALANCE_PRESENT    0x02U
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define TEXTFLAGS_INVALID                                      ((boolean) FALSE)
+#define RDKACTIVE_INVALID                                      ((boolean) FALSE)
+#define AXLE_IMBALANCE_UNKNOWN                                             0x00U
+#define AXLE_IMBALANCE_ABSENT                                              0x01U
+#define AXLE_IMBALANCE_PRESENT                                             0x02U
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 STATIC uint8 ucTyreTemperature[BUSMSG_NUMBER_OF_TYRES];
 STATIC uint8 ucTyrePressUncomp[BUSMSG_NUMBER_OF_TYRES];
 STATIC uint8 ucTyreWarning[BUSMSG_NUMBER_OF_TYRES];
@@ -31,6 +78,9 @@ STATIC boolean bTyreValidHL;
 STATIC boolean bTyreValidHR;
 STATIC boolean bTextFlags[BUSMSG_NUMBER_OF_TEXTFLAGS];
 
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 static boolean GETbNoWarnPartSurv (const uint8 ucPos);
 static void BusMsgCheckWarningsFrontLeft(void);
 static void BusMsgCheckWarningsFrontRight(void);
@@ -894,3 +944,8 @@ static uint8 BusMsgDetermineErrCounter(void){
    }
    return ucReErrCount;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
+

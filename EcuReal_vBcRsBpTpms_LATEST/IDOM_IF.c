@@ -1,3 +1,28 @@
+/******************************************************************************/
+/* File   : IDOM_IF.c                                                         */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "Std_Types.hpp"
 
 #include "Tpms_Rte_Data_Type.hpp"
@@ -9,8 +34,34 @@
 #include "state_fzzX.hpp"
 #include "statisticsX.hpp"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static uint16 ushAlarmTimeInSec;
 
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 void StartIDOMAlarm(
    uint16 ushNrOfCurFF){
    if(((ushNrOfCurFF + ushAlarmTimeInSec) >= ushMaxTimeWithoutMsgInSec) && (ushNrOfCurFF < ushMaxTimeWithoutMsgInSec)){
@@ -56,10 +107,10 @@ void GetIDOMInput(
             i);
       }
    }
-   pIDOMInput->ucApplState = (unsigned char)bGetBitFahrzeugzustandFZZ(
+   pIDOMInput->u8ApplState = (unsigned char)bGetBitFahrzeugzustandFZZ(
       cRS_VTHRES);
-   pIDOMInput->ushMaxFFCtVal = usMaxFF;
-   pIDOMInput->ushCurBaseLevel = GetBaseLevel();
+   pIDOMInput->u16MaxFFCtVal = usMaxFF;
+   pIDOMInput->u16CurBaseLevel = GetBaseLevel();
 }
 
 uint16 GetParaOffset(void){
@@ -69,3 +120,8 @@ uint16 GetParaOffset(void){
 uint16 GetParaOverlaps(void){
    return ((uint16)GETucOffsetOverlapsGXeEE());
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
+

@@ -1,5 +1,29 @@
 #define STATEMANAGER_C
+/******************************************************************************/
+/* File   : statemanager.c                                                    */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
 
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "Std_Types.hpp"
 
 #include "Tpms_Rte_Data_Type.hpp"
@@ -31,6 +55,9 @@
 #include "SwcApplTpms_DevCanMesReqInterfaces.hpp"
 #include "SwcApplTpms_LearnEOL.hpp"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
 #define MAX_CNT_VALUE_TO_RESET_ERR    35U
 #define cCallsFor10Minutes 3000U
 #define c10MinutesBCMTime 600000U
@@ -38,9 +65,27 @@
 #define c8MinutesBCMTime 480000U
 #define c1MinuteBCMTime 60000U
 #define cTPMSCyclicCallPeriod 200U
-
 #define cEvalSpeedValueMissingThreshold   (uint16) 0x0A8CU
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static uint8 ucWheelPos = cRadPosUndef;
 static uint8 ucHistSlot = cAnzRad;
 static uint8 ucMinutenCnt;
@@ -55,8 +100,12 @@ static uint8 aucPosRecCounter[cAnzRad] = {
    0,
    0,
    0,
-   0};
+   0
+};
 
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 void CountPositionReception(
    uint8 ucRecWheelPos);
 
@@ -1584,4 +1633,8 @@ static void ucControlCyclicCallPeriod(
          U8_ECU_NOT_DEFECT);
    }
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

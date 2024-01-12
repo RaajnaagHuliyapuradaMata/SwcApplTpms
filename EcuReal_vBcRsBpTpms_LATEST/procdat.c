@@ -1,3 +1,28 @@
+/******************************************************************************/
+/* File   : procdat.c                                                         */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "Std_Types.hpp"
 
 #include "global.hpp"
@@ -15,13 +40,23 @@
 #include "SwcApplTpms_DevCanMesReqInterfaces.hpp"
 #include "busmsgX.hpp"
 
-#define TIME_1S_OVER  ( (uint8) 1 )
-#define NR_OF_SURPRESSED_TELEGRAMS    ((uint8) 5U )
-#define OVER_TEMPERATURE_VALUE        ((uint8) 0xF7U )
-#define ONE_BAR_PRESSURE              ((uint16) 40U )
-#define LOWEST_ATMOSPHERIC_PRESS      ((uint8) 22U )
-#define HIGHEST_ATMOSPHERIC_PRESS     ((uint8) 44U )
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define TIME_1S_OVER                  ((uint8)    1U)
+#define NR_OF_SURPRESSED_TELEGRAMS    ((uint8)    5U)
+#define OVER_TEMPERATURE_VALUE        ((uint8) 0xF7U)
+#define ONE_BAR_PRESSURE              ((uint16)  40U)
+#define LOWEST_ATMOSPHERIC_PRESS      ((uint8)   22U)
+#define HIGHEST_ATMOSPHERIC_PRESS     ((uint8)   44U)
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
 typedef struct{
    uint32 ulID;
    uint8 ucPressure;
@@ -31,6 +66,17 @@ typedef struct{
    uint16 ushSensorDefect;
 }tREDATAPREPROC_DECL;
 
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static tPreBuf tReDataPD;
 static tRxRotatSBuf tWs_RxRotatSBuf[12];
 static uint8 ucRotatSTelIndexPut;
@@ -58,15 +104,20 @@ static tREDATAPREPROC_DECL tReDataPreProcPD = {
 
 uint8 ucRotatSTelIndexGet;
 
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 static uint16 ushCalcAKPressurePD(
    uint8 ucRawPres,
-   uint8* pucPhyPres);
+   uint8* pucPhyPres
+);
+
 static uint16 ushCalcAKTemperaturePD(
    uint8 ucRawTemp,
-   sint8* pscPhyTemp);
+   sint8* pscPhyTemp
+);
 
-void InitPD(
-   void){
+void InitPD(void){
    uint8 ucLoop;
    ReloadSTATISTICS();
    ucRecEventPD = 0;
@@ -912,4 +963,8 @@ void DCM_InvIf_RawRfTelGetValue(
 uint8 DCM_InvIf_AllReceivedTelegGetValue(void){
    return U8_AllReceivedTelegCnt;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 
