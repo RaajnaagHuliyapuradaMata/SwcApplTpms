@@ -1,3 +1,28 @@
+/******************************************************************************/
+/* File   : USCS.c                                                            */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "Std_Types.hpp"
 
 #include "iTpms_Interface.hpp"
@@ -8,26 +33,51 @@
 #include "USCS.hpp"
 #include "WnTypePar.hpp"
 
-#define ucTSollDefc 20U
-#define ushPMinInMBar 1500U
-#define ushPSollDefInMBar 1800U
-#define ucPMinDefc (unsigned char) 60U
-#define ucPSollDefc (unsigned char) 72U
-#define ushMSollDefc (unsigned short) 391U
-#define ucPwarmDefc ucPSollDefc
-#define ushPMinInMBarUS 1400U
-#define ushPSollDefInMBarUS 1800U
-#define ucPMinDefUSc  (unsigned char) 56U
-#define ucPSollDefUSc (unsigned char) 72U
-#define ushMSollDefUSc (unsigned short) 391U
-#define ushPMinXLInMBar 1600U
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define ucTSollDefc          20U
+#define ushPMinInMBar        1500U
+#define ushPSollDefInMBar    1800U
+#define ucPMinDefc           (unsigned char)  60U
+#define ucPSollDefc          (unsigned char)  72U
+#define ushMSollDefc         (unsigned short) 391U
+#define ucPwarmDefc          ucPSollDefc
+#define ushPMinInMBarUS      1400U
+#define ushPSollDefInMBarUS  1800U
+#define ucPMinDefUSc         (unsigned char)  56U
+#define ucPSollDefUSc        (unsigned char)  72U
+#define ushMSollDefUSc       (unsigned short) 391U
+#define ushPMinXLInMBar      1600U
 #define ushPMinSollXLInMBarc 2000U
-#define ucPMinXLc  (unsigned char) 64U
-#define ucPMinSollXLc  (unsigned char) 80U
-#define ushMSollDefXLc (unsigned short) 419U
+#define ucPMinXLc            (unsigned char)  64U
+#define ucPMinSollXLc        (unsigned char)  80U
+#define ushMSollDefXLc       (unsigned short) 419U
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
 union CDA tCDA;
 
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 unsigned char ucGetPMinCS(
    void){
    return (tCDA.tCalTab.ucPMinAbs);
@@ -201,3 +251,8 @@ void PutPwarmCS(
       tCDA.tCalTab.aucPWarm[ucIdX] = (Pwarm);
    }
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
+

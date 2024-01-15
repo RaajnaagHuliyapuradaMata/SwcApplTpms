@@ -1,3 +1,28 @@
+/******************************************************************************/
+/* File   : SwcApplTpms_CAN_If.c                                              */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "Std_Types.hpp"
 
 #include "iTpms_Interface.hpp"
@@ -14,13 +39,38 @@
 #include "State_FzzX.hpp"
 #include "DevCanHandling.hpp"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
 #define RE_TEMP_OFFSET_CAN                                                   50U
 #define RE_TEMP_INVALID_HUF                                        ((sint8)0x7F)
 #define E_OK                                                                  0U
 #define E_NOT_OK                                                              1U
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static uint8 m_ucWheelIndexTire;
 
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 static void CheckDbgReqMsgData(        const Type_SwcApplTpms_stMessageCan* spCAN_Message);
 static void GenNextDebugMsgData(             Type_SwcApplTpms_stMessageCan* spCAN_Message);
 static void GenDebugResMsgData(              Type_SwcApplTpms_stMessageCan* spCAN_Message);
@@ -179,4 +229,8 @@ static void GenHmiTemperatureRefPresMsgData(
    l_sHMIData.sHMI_Temperature_RefPres.ucRP_RR = U8_RefPres;
    *spCAN_Message = l_sHMIData.sMsgsBytes;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

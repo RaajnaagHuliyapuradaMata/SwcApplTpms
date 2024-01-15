@@ -1,3 +1,28 @@
+/******************************************************************************/
+/* File   : statistics.c                                                      */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "Std_Types.hpp"
 
 #include "iTpms_Interface.hpp"
@@ -15,9 +40,31 @@
 #include "SwcApplTpms_DevCanMesReqInterfaces.hpp"
 #include "SwcApplTpms_DTC_If.hpp"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
 const uint8 cAccMeasInt1a = 3;
 const uint8 cAccMeasInt1b = 60;
 
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static uint16 ushGutEmpfCntSTATISTICS[cAnzRad];
 static uint16 ushMissedCntSTATISTICS[cAnzRad];
 static uint16 usFolgeAusfallCntSTATISTICS[cAnzRad];
@@ -27,6 +74,9 @@ static uint8 ucMarkReceivedDatagram = 0;
 static uint8 ucStatisticActive;
 static uint8 ucMissingErrCnt = 4;
 
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 static void CalcAusbeuteSTATISTICS(
    uint8 ucSlot);
 static void PUTbWUFDActive(
@@ -497,4 +547,8 @@ boolean bGetPossibleRfInterf(
    }
    return bTmpReturn;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

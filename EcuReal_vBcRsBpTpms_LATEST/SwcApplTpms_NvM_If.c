@@ -31,7 +31,7 @@
 #include "SwcApplTpms_NvM.hpp"
 #include "SwcApplTpms_NvM_If.hpp"
 
-#define cFAHRZEUG_FAEHRT      ((uint16) 0x0004) //TBD: Move to defines and bin check?
+#define cFAHRZEUG_FAEHRT      ((uint16) 0x0004)
 
 #include "CfgSwcApplTpms_Warning.hpp"
 #include "walloc_if.hpp"

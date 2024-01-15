@@ -1,3 +1,28 @@
+/******************************************************************************/
+/* File   : SwcApplTpms\USWarn.c                                              */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "Std_Types.hpp"
 
 #include "USWarnX.hpp"
@@ -12,6 +37,71 @@
 #include "SwcApplTpms_CAN_If.hpp"
 #include "SwcApplTpms_NvM_If.hpp"
 
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define cMaiden 0x00
+#define cInitialized  0x01
+#define cInitSingleId 0x03
+
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+const unsigned char ucBitNoc[ucSumWEc] = {
+      1
+   ,  2
+   ,  4
+   ,  8
+};
+
+cSTATIC const unsigned char ucClearIdWarningc = 0x01;
+cSTATIC const unsigned char ucClearWarningc   = 0x10;
+cSTATIC const unsigned char ucParaWritec      = 0x20;
+cSTATIC const unsigned char ucEuroCodec       = 0x00;
+cSTATIC const unsigned char ucXLc             = 0x40;
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+static  unsigned char aucFrikBitWN[8];
+cSTATIC unsigned char aucWarnBitsWN[8];
+cSTATIC unsigned char ucWarnStateWN;
+
+cSTATIC union WDA{
+   unsigned char ucByte[(unsigned char)sizeof(struct WD)];
+   struct WD tWD;
+}tWDA;
+
+#ifdef pb_DebugWarnLevels_030203
+struct Cmp{
+   unsigned char ucPMinDR;
+   unsigned char ucAxImb;
+   unsigned char ucDHW;
+   unsigned char ucHiP;
+   unsigned char ucEuF;
+};
+
+cSTATIC union U{
+   struct Cmp tCmp;
+   unsigned char ucByte[(unsigned char)sizeof(struct Cmp)];
+} tU;
+#endif
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 static unsigned char bGetX8BitWM(
    const unsigned char* ptByte,
    unsigned char ucBitNo);
@@ -32,46 +122,6 @@ static unsigned char ucUSWDiagService(
    unsigned char* ptData);
 static unsigned char ucGenWNVector(
    const unsigned char* ptData);
-
-const unsigned char ucBitNoc[ucSumWEc ] = {
-   1,
-   2,
-   4,
-   8};
-
-cSTATIC const unsigned char ucClearIdWarningc = 0x01;
-cSTATIC const unsigned char ucClearWarningc = 0x10;
-cSTATIC const unsigned char ucParaWritec = 0x20;
-cSTATIC unsigned char ucWarnStateWN;
-
-#define cMaiden 0x00
-#define cInitialized  0x01
-#define cInitSingleId 0x03
-
-cSTATIC const unsigned char ucEuroCodec = 0x00;
-cSTATIC const unsigned char ucXLc = 0x40;
-cSTATIC unsigned char aucWarnBitsWN[8];
-static unsigned char aucFrikBitWN[8];
-
-cSTATIC union WDA{
-   unsigned char ucByte[(unsigned char)sizeof(struct WD)];
-   struct WD tWD;
-} tWDA;
-
-#ifdef pb_DebugWarnLevels_030203
-struct Cmp{
-   unsigned char ucPMinDR;
-   unsigned char ucAxImb;
-   unsigned char ucDHW;
-   unsigned char ucHiP;
-   unsigned char ucEuF;
-};
-
-cSTATIC union U{
-   struct Cmp tCmp;
-   unsigned char ucByte[(unsigned char)sizeof(struct Cmp)];
-} tU;
-#endif
 
 unsigned char ucSetWarnBitWN(
    unsigned char ucIdX,
@@ -693,4 +743,8 @@ uint8 DCM_InvIf_PminDRWarnSetThresholdGetValue(
    void){
    return tU.tCmp.ucPMinDR;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

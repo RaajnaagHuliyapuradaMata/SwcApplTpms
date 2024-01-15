@@ -1,10 +1,33 @@
+#pragma once
+/******************************************************************************/
+/* File   : SwcApplTpms_Rte.hpp                                               */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
 
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 
-#ifndef HUF_RTE_HEADER_
-#define HUF_RTE_HEADER_
-
-#include "SwcApplTpms_Rte_Type.hpp"
-
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
 #define STATIC   static
 
 # ifndef Off
@@ -64,17 +87,39 @@
 
 #define CU16_NVM_ALL_CATEG_CONSISTENT       (uint16)(((uint16)1<<NVM_MAX_CATEGORYS)-1)
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
 struct struct_BCM_Version
 {
    uint8 ucaBCM_Version[5];
   uint8 ucaBCM_Date[12];
 };
 
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
 extern const struct struct_Version     g_sHufVersion;
 extern const struct struct_BCM_Version g_sBCMVersion;
 
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 extern tsEnv_Data g_sEnv_Data;
 
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 extern void    Init_Huf_Common(void);
 extern void    Huf_SWC_Basic_Timer(void);
 extern uint8   GetNextWheelIndex(uint8 *ucpWheelIndex);
@@ -130,5 +175,7 @@ extern void    Nop(void);
 
 extern void    ReadReDataFromRingBuffer_iBTCM(const tsWS_RxDataIn* spRxDataIn);
 
-#endif
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

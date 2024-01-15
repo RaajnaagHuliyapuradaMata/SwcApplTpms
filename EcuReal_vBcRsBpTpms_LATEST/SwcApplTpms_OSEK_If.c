@@ -1,3 +1,28 @@
+/******************************************************************************/
+/* File   : SwcApplTpms_OSEK_If.c                                             */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "Std_Types.hpp"
 
 #include "iTpms_Interface.hpp"
@@ -6,8 +31,11 @@
 #include "StatemanagerX.hpp"
 #include "SwcApplTpms_LearnEOL.hpp"
 
-#define EtWUFailDet                0x01U
-#define EtStatemanager             0x02U
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define EtWUFailDet             0x01U
+#define EtStatemanager          0x02U
 #define MAX_ALARMS              0x08U
 #define AlActivateWUFD          0x00U
 #define AlDeactivateWUFD        0x01U
@@ -28,6 +56,13 @@
 #define EvMinuteCnt             ((uint16)0x0100U)
 #define EvMissedRXCnt           ((uint16)0x0200U)
 
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
 struct struct_OS_Alarms{
    boolean bAlarmState;
    uint16 uiStartTime;
@@ -35,6 +70,17 @@ struct struct_OS_Alarms{
    uint16 uiSecCnt;
 };
 
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
 static struct struct_OS_Alarms m_sOsAlarms[MAX_ALARMS];
 static uint16 m_uiEvExceedVThres;
 static uint16 m_uiEvUnderrunVThres;
@@ -47,6 +93,9 @@ static uint16 m_uiEvIDOMTimeout;
 static uint16 m_uiEvMinuteCnt;
 static uint16 m_uiEvMissedRXCnt;
 
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 static void SwcIf_TASK_EtWUFailDet(
    void);
 static void SwcIf_TASK_EtStatemanager(
@@ -506,4 +555,8 @@ boolean GetAlarmAlMinuteCntOS(
       pushAlarmTicks);
    return bRetVal;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

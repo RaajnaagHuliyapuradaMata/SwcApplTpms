@@ -1,6 +1,33 @@
-#ifndef HUF_NVM_HEADER_
-#define HUF_NVM_HEADER_
+#pragma once
+/******************************************************************************/
+/* File   : SwcApplTpms_NvM.hpp                                               */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
 
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
 #define NVM_CATEGORY_01                  0U
 #define NVM_CATEGORY_02                  1U
 #define NVM_CATEGORY_03                  2U
@@ -202,10 +229,35 @@
                                     NVM_CAT10_IDX03_REAL_SIZE + \
                                     NVM_CAT10_IDX04_REAL_SIZE  )
 
-void ReadBlock2Member(uint8 ui8Categ, uint8 ui8Member, uint8 * pui8Target);
-void WriteMember2Blocks(uint8 ui8Categ, uint8 ui8Member, uint8 * pui8Target);
-void InitEEAll(void);
-void EE_InconsistencyHandling(uint16 uiNvmCategoryConsistence);
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
 
-#endif
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+extern void ReadBlock2Member         (uint8 ui8Categ, uint8 ui8Member, uint8 * pui8Target);
+extern void WriteMember2Blocks       (uint8 ui8Categ, uint8 ui8Member, uint8 * pui8Target);
+extern void InitEEAll                (void);
+extern void EE_InconsistencyHandling (uint16 uiNvmCategoryConsistence);
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

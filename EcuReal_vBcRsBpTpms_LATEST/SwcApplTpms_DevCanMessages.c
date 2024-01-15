@@ -1,3 +1,28 @@
+/******************************************************************************/
+/* File   : SwcApplTpms_DevCanMessages.c                                      */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "Std_Types.hpp"
 
 #include "SwcApplTpms_DevCanMessages.hpp"
@@ -6,39 +31,26 @@
 #include "DevCanHandling.hpp"
 
 #include "global.hpp"
-#include "WallocX.hpp"    // for ucGetZOMPosOfID(u32) function
-#include "SwcApplTpms_NvM_If.hpp" // for GETbHfIntLatchEE() function
-#include "USCS.hpp"       // for ucGetPSollCS() function
+#include "WallocX.hpp"
+#include "SwcApplTpms_NvM_If.hpp"
+#include "USCS.hpp"
 
-static boolean bo_StructSystemMultiLast;      //!< boolean set if last multiplex value from the system multiplexes was sent
-static uint8 u8_EnvReadCnt;                   //!< position of the read enviroment data vector
-static uint8 u8_SysReadCnt;                   //!< position of the read system data vector
-static uint8 u8_EnvWriteCnt;                  //!< position of the write enviroment data vector
-static uint8 u8_SysWriteCnt;                  //!< position of the write system data vector
-
-static uint8 DCM_U8_EventDataMaxMultiplexNr;  //!< stores the biggest multiplex number from from the event multiplexes
-static uint8 DCM_U8_SystemDataMaxMultiplexNr; //!<
-
-static Type_SwcApplTpms_stMessageCan S_HufEnvMsgBuf[DCM_MAX_SIZE_ENV_BUF];       // Queue containing debug messages to be sent
-static Type_SwcApplTpms_stMessageCan S_HufSysMsgBuf[DCM_MAX_SIZE_SYS_BUF];       // Queue containing debug messages to be sent
-static DCM_StructMultiplexMessageIDs DCM_S_MultiplexMessageIDs;
-
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
 #define DCM__MAXSIZE_U8_BUFFER     250U
-#define DMC__HISTORY_POSITION_0    0x00U  //!< History position 0
-#define DMC__HISTORY_POSITION_1    0x01U  //!< History position 1
-#define DMC__HISTORY_POSITION_2    0x02U  //!< History position 2
-#define DMC__HISTORY_POSITION_3    0x03U  //!< History position 3
-
-#define DMC__ZOM_POSITION_0       0x00U   //!< ZOM position 0
-#define DMC__ZOM_POSITION_1       0x01U   //!< ZOM position 1
-#define DMC__ZOM_POSITION_2       0x02U   //!< ZOM position 2
-#define DMC__ZOM_POSITION_3       0x03U   //!< ZOM position 3
-#define DMC__ZOM_POSITION_4       0x04U   //!< ZOM position 4
-#define DMC__ZOM_POSITION_5       0x05U   //!< ZOM position 5
-#define DMC__ZOM_POSITION_6       0x06U   //!< ZOM position 6
-#define DMC__ZOM_POSITION_7       0x07U   //!< ZOM position 7
-
-//! defines to access easier (with a shorter path) each multiplex ID
+#define DMC__HISTORY_POSITION_0    0x00U
+#define DMC__HISTORY_POSITION_1    0x01U
+#define DMC__HISTORY_POSITION_2    0x02U
+#define DMC__HISTORY_POSITION_3    0x03U
+#define DMC__ZOM_POSITION_0       0x00U
+#define DMC__ZOM_POSITION_1       0x01U
+#define DMC__ZOM_POSITION_2       0x02U
+#define DMC__ZOM_POSITION_3       0x03U
+#define DMC__ZOM_POSITION_4       0x04U
+#define DMC__ZOM_POSITION_5       0x05U
+#define DMC__ZOM_POSITION_6       0x06U
+#define DMC__ZOM_POSITION_7       0x07U
 #define StructAccesMultiplex_00     DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_00.Struct_MessageMultiplex_00
 #define StructAccesMultiplex_01     DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_01.Struct_MessageMultiplex_01
 #define StructAccesMultiplex_02     DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_02.Struct_MessageMultiplex_02
@@ -84,80 +96,33 @@ static DCM_StructMultiplexMessageIDs DCM_S_MultiplexMessageIDs;
 #define StructAccesMultiplex_46     DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_46.Struct_MessageMultiplex_46
 #define StructAccesMultiplex_47     DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_47.Struct_MessageMultiplex_47
 
-#define DCM__BUFFER_READ_START_MSG4     5U    // RF buffer read start position, to be after ID
-#define DCM__BUFFER_READ_LENGTH_MSG4             7U    // how much from buffer to be read
-#define DCM__BUFFER_READ_START_MSG5     12U   // RF buffer read start position, to be after ID
-#define DCM__BUFFER_READ_LENGTH_MSG5             4U    // how much from buffer to be read
+#define DCM__BUFFER_READ_START_MSG4     5U
+#define DCM__BUFFER_READ_LENGTH_MSG4             7U
+#define DCM__BUFFER_READ_START_MSG5     12U
+#define DCM__BUFFER_READ_LENGTH_MSG5             4U
 
 #ifdef NVM_DEBUG
 #define DCM_SYSTEM_MULTIPLEX_SIZE   16U
 #else
 #define DCM_SYSTEM_MULTIPLEX_SIZE   15U
 #endif
+
 #ifdef DEBUG_AUTOLOCATION
 #define DCM_EVENT_MULTIPLEX_SIZE    20U
 #else
 #define DCM_EVENT_MULTIPLEX_SIZE    8U
 #endif
 
-//! system functions
-static void DCM_SystemDataPutToQueue(void);
-static void DCM_PutSystemData2Buffer(Type_SwcApplTpms_stMessageCan S_SysDataMultiplex);
-static void DCM_SystemDataGetFromBuffer(Type_SwcApplTpms_stMessageCan* tHufDisplay);
-static void DCM_StoreMaxMultiplexSystemNr(uint8 U8_CurrentMultiplexNr);
+#define DCM_SIZEOF_EVENT_MULTIPLEXES      SIZE_ARRAY(DCM_AS_ConfigureEventMultiplexMsg, DCM_Struct_MultiplexDataType)
+#define DCM_SIZEOF_SYSTEM_MULTIPLEXES     SIZE_ARRAY(DCM_AS_ConfigureSystemMultiplexMsg, DCM_Struct_MultiplexDataType)
 
-//! event functions
-static void DCM_EventDataPutToQueue(void);
-static void DCM_PutEventData2Buffer(Type_SwcApplTpms_stMessageCan S_EnvDataMultiplex);
-static boolean DCM_EventDataGetFromBuffer(Type_SwcApplTpms_stMessageCan* tHufDisplay);
-static void DCM_StoreMaxMultiplexEventNr(uint8 U8_CurrentMultiplexNr);
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
 
-//! Static multiplex ID messages building functions prototypes
-static void DCM_MessageUpdateMultiplex_00(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_01(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_02(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_03(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_04(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_05(uint8 U8_CfgArrPosition);
-
-#ifdef DEBUG_AUTOLOCATION
-static void DCM_MessageUpdateMultiplex_06(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_07(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_08(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_09(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_10(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_11(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_12(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_13(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_14(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_15(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_16(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_17(uint8 U8_CfgArrPosition);
-#endif
-
-static void DCM_MessageUpdateMultiplex_20(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_21(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_22(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_23(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_24(uint8 U8_CfgArrPosition);
-
-#ifdef NVM_DEBUG
-static void DCM_MessageUpdateMultiplex_25(uint8 U8_CfgArrPosition);
-#endif
-
-static void DCM_MessageUpdateMultiplex_30(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_31(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_32(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_33(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_40(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_41(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_42(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_43(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_44(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_45(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_46(uint8 U8_CfgArrPosition);
-static void DCM_MessageUpdateMultiplex_47(uint8 U8_CfgArrPosition);
-
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
 typedef enum{
   DCM__E_EventMultiType
    ,  DCM__E_SystemMultiType
@@ -170,6 +135,9 @@ typedef struct{
   const tBuildMsg DCM_pfnBuildMsg;
 }DCM_Struct_MultiplexDataType;
 
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
 static const DCM_Struct_MultiplexDataType DCM_AS_ConfigureEventMultiplexMsg[DCM_EVENT_MULTIPLEX_SIZE] = {
   {DCM_MULTIPLEX_0,   &DCM_MessageUpdateMultiplex_00     }
    ,  {DCM_MULTIPLEX_1,   &DCM_MessageUpdateMultiplex_01     }
@@ -216,34 +184,94 @@ static const DCM_Struct_MultiplexDataType DCM_AS_ConfigureSystemMultiplexMsg[DCM
    ,  {DCM_MULTIPLEX_47,  &DCM_MessageUpdateMultiplex_47     },
 };
 
-#define DCM_SIZEOF_EVENT_MULTIPLEXES      SIZE_ARRAY(DCM_AS_ConfigureEventMultiplexMsg, DCM_Struct_MultiplexDataType)
-#define DCM_SIZEOF_SYSTEM_MULTIPLEXES     SIZE_ARRAY(DCM_AS_ConfigureSystemMultiplexMsg, DCM_Struct_MultiplexDataType)
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+static boolean bo_StructSystemMultiLast;
+static uint8 u8_EnvReadCnt;
+static uint8 u8_SysReadCnt;
+static uint8 u8_EnvWriteCnt;
+static uint8 u8_SysWriteCnt;
+static uint8 DCM_U8_EventDataMaxMultiplexNr;
+static uint8 DCM_U8_SystemDataMaxMultiplexNr;
+static Type_SwcApplTpms_stMessageCan S_HufEnvMsgBuf[DCM_MAX_SIZE_ENV_BUF];
+static Type_SwcApplTpms_stMessageCan S_HufSysMsgBuf[DCM_MAX_SIZE_SYS_BUF];
+static DCM_StructMultiplexMessageIDs DCM_S_MultiplexMessageIDs;
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+static void DCM_SystemDataPutToQueue(void);
+static void DCM_PutSystemData2Buffer(Type_SwcApplTpms_stMessageCan S_SysDataMultiplex);
+static void DCM_SystemDataGetFromBuffer(Type_SwcApplTpms_stMessageCan* tHufDisplay);
+static void DCM_StoreMaxMultiplexSystemNr(uint8 U8_CurrentMultiplexNr);
+static void DCM_EventDataPutToQueue(void);
+static void DCM_PutEventData2Buffer(Type_SwcApplTpms_stMessageCan S_EnvDataMultiplex);
+static boolean DCM_EventDataGetFromBuffer(Type_SwcApplTpms_stMessageCan* tHufDisplay);
+static void DCM_StoreMaxMultiplexEventNr(uint8 U8_CurrentMultiplexNr);
+static void DCM_MessageUpdateMultiplex_00(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_01(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_02(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_03(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_04(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_05(uint8 U8_CfgArrPosition);
+
+#ifdef DEBUG_AUTOLOCATION
+static void DCM_MessageUpdateMultiplex_06(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_07(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_08(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_09(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_10(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_11(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_12(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_13(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_14(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_15(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_16(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_17(uint8 U8_CfgArrPosition);
+#endif
+
+static void DCM_MessageUpdateMultiplex_20(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_21(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_22(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_23(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_24(uint8 U8_CfgArrPosition);
+
+#ifdef NVM_DEBUG
+static void DCM_MessageUpdateMultiplex_25(uint8 U8_CfgArrPosition);
+#endif
+
+static void DCM_MessageUpdateMultiplex_30(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_31(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_32(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_33(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_40(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_41(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_42(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_43(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_44(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_45(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_46(uint8 U8_CfgArrPosition);
+static void DCM_MessageUpdateMultiplex_47(uint8 U8_CfgArrPosition);
 
 static uint8 DCM_AU8_EventMultiplexActiveStatus[DCM_SIZEOF_EVENT_MULTIPLEXES];
-
 static uint8 DCM_AU8_SystemMultiplexActiveStatus[DCM_SIZEOF_SYSTEM_MULTIPLEXES];
-
 static Type_SwcApplTpms_stMessageCan DCM_S_LastEventDataReceivedOnMultiplex[DCM_SIZEOF_EVENT_MULTIPLEXES];
-
 static Type_SwcApplTpms_stMessageCan DCM_S_LastSystemDataReceivedOnMultiplex[DCM_SIZEOF_SYSTEM_MULTIPLEXES];
 
-static void DCM_MessageUpdateMultiplex_00(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_00(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_00.u8_MultiplexID = DCM_MULTIPLEX_0;
   DCM_InvIf_RFTimeStampGetValue(&StructAccesMultiplex_00.u8_RFTelegramTimeStamp[0]);
   DCM_InvIf_LastRxIDGetValue(&StructAccesMultiplex_00.u8_IDLastRF[0]);
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_00.MessageMultiplex_00;
 }
 
-static void DCM_MessageUpdateMultiplex_01(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_01(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_01.u8_MultiplexID = DCM_MULTIPLEX_1;
-  //StructAccesMultiplex_01.u8_AbsTicsOverflowCntFL = DCM_InvIf_AbsTicsOverflow_FL_GetCntValue();
-  //StructAccesMultiplex_01.u8_AbsTicsOverflowCntFR = DCM_InvIf_AbsTicsOverflow_FR_GetCntValue();
-  //StructAccesMultiplex_01.u8_AbsTicsOverflowCntRL = DCM_InvIf_AbsTicsOverflow_RL_GetCntValue();
-  //StructAccesMultiplex_01.u8_AbsTicsOverflowCntRR = DCM_InvIf_AbsTicsOverflow_RR_GetCntValue();
-
   StructAccesMultiplex_01.u8_PositionRecCntFL = DCM_InvIf_WheelPosReceptionCounter(0);
   StructAccesMultiplex_01.u8_PositionRecCntFR = DCM_InvIf_WheelPosReceptionCounter(1);
   StructAccesMultiplex_01.u8_PositionRecCntRL = DCM_InvIf_WheelPosReceptionCounter(2);
@@ -252,25 +280,24 @@ static void DCM_MessageUpdateMultiplex_01(uint8 U8_CfgArrPosition)
 #ifdef DEBUG_AUTOLOCATION
   DCM_InvIf_ulDebugRfTimeStampGetValue(&StructAccesMultiplex_01.u8_ulDebugRfTimeStamp[0]);
 #endif
+
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_01.MessageMultiplex_01;
 }
 
-static void DCM_MessageUpdateMultiplex_02(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_02(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_02.u8_MultiplexID = DCM_MULTIPLEX_2;
   StructAccesMultiplex_02.u8_AbsLinCntFL = DCM_InvIf_AbsLinGetCntValueFL();
   StructAccesMultiplex_02.u8_AbsLinCntFR = DCM_InvIf_AbsLinGetCntValueFR();
   StructAccesMultiplex_02.u8_AbsLinCntRL = DCM_InvIf_AbsLinGetCntValueRL();
   StructAccesMultiplex_02.u8_AbsLinCntRR = DCM_InvIf_AbsLinGetCntValueRR();
 #ifdef DEBUG_AUTOLOCATION
-  //DCM_InvIf_ulAbsTimeStampPreviousGetValue(&StructAccesMultiplex_02.u8_ulTimePreviousfromPutABS[0]);                                // RST Debug Timestamps: hier ersten Wert der ABS Matrix rein
   DCM_InvIf_ulAbsTimeStampGetOldestValue(&StructAccesMultiplex_02.u8_ulTimePreviousfromPutABS[0]);
 #endif
+
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_02.MessageMultiplex_02;
 }
 
-static void DCM_MessageUpdateMultiplex_03(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_03(uint8 U8_CfgArrPosition){
   uint8 U8_ZomPositionCurrentID;
   U8_ZomPositionCurrentID = DCM_InvIf_ZomPosCurrIDGetValue();
   StructAccesMultiplex_03.u8_MultiplexID = DCM_MULTIPLEX_3;
@@ -280,161 +307,121 @@ static void DCM_MessageUpdateMultiplex_03(uint8 U8_CfgArrPosition)
   StructAccesMultiplex_03.u8_AbsCorrCntRR = DCM_InvIf_AbsCorrGetCntValueRR(U8_ZomPositionCurrentID);
   StructAccesMultiplex_03.u8_AbsLinAngleFL = DCM_InvIf_AbsLinAngle_FL_GetHistoryValue();
   StructAccesMultiplex_03.u8_AbsLinAngleFR = DCM_InvIf_AbsLinAngle_FR_GetHistoryValue();
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_03.MessageMultiplex_03;
 }
 
-static void DCM_MessageUpdateMultiplex_04(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_04(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_04.u8_MultiplexID = DCM_MULTIPLEX_4;
   DCM_InvIf_RawRfTelGetValue( DCM__BUFFER_READ_START_MSG4, DCM__BUFFER_READ_LENGTH_MSG4, &StructAccesMultiplex_04.u8_RfTelByteValue[0]);
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_04.MessageMultiplex_04;
 }
 
-static void DCM_MessageUpdateMultiplex_05(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_05(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_05.u8_MultiplexID = DCM_MULTIPLEX_5;
   DCM_InvIf_RawRfTelGetValue( DCM__BUFFER_READ_START_MSG5, DCM__BUFFER_READ_LENGTH_MSG5, &StructAccesMultiplex_05.u8_RfTelByteValue[0]);
 
 #ifdef DEBUG_AUTOLOCATION
-  // RST Debug: replace these values by skipped telegrams counters
-  //StructAccesMultiplex_05.u8_ucABSRef_0_0 = DCM_InvIf_ucABSReffromZOM(DMC__ZOM_POSITION_0, 0);
-  //StructAccesMultiplex_05.u8_ucABSRef_0_1 = DCM_InvIf_ucABSReffromZOM(DMC__ZOM_POSITION_0, 1);
   StructAccesMultiplex_05.u8_ucABSRef_0_0 = DCM_InvIf_GetNumberOfE7withInvalidTs();
   StructAccesMultiplex_05.u8_ucABSRef_0_1 = DCM_InvIf_GetNumberOfE7withOutdatedTs();
-
   StructAccesMultiplex_05.u8_ucABSRef_0_2 = DCM_InvIf_ucABSReffromZOM(DMC__ZOM_POSITION_0, 2);
 #endif
+
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_05.MessageMultiplex_05;
 }
 
 #ifdef DEBUG_AUTOLOCATION
-
-static void DCM_MessageUpdateMultiplex_06(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_06(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_06.u8_MultiplexID = DCM_MULTIPLEX_6;
-
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_0, 0,&StructAccesMultiplex_06.u8_ushMVdN_0_0[0]);
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_0, 1,&StructAccesMultiplex_06.u8_ushMVdN_0_1[0]);
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_0, 2,&StructAccesMultiplex_06.u8_ushMVdN_0_2[0]);
   StructAccesMultiplex_06.u8_ucABSRef_0_3 = DCM_InvIf_ucABSReffromZOM(DMC__ZOM_POSITION_0,3);
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_06.MessageMultiplex_06;
 }
 
-static void DCM_MessageUpdateMultiplex_07(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_07(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_07.u8_MultiplexID = DCM_MULTIPLEX_7;
-
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_0, 3,&StructAccesMultiplex_07.u8_ushMVdN_0_3[0]);
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_1, 0,&StructAccesMultiplex_07.u8_ushMVdN_1_0[0]);
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_1, 1,&StructAccesMultiplex_07.u8_ushMVdN_1_1[0]);
   StructAccesMultiplex_07.u8_ucABSRef_1_0 = DCM_InvIf_ucABSReffromZOM(DMC__ZOM_POSITION_1, 0);
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_07.MessageMultiplex_07;
 }
 
-static void DCM_MessageUpdateMultiplex_08(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_08(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_08.u8_MultiplexID = DCM_MULTIPLEX_8;
-
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_1, 2,&StructAccesMultiplex_08.u8_ushMVdN_1_2[0]);
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_1, 3,&StructAccesMultiplex_08.u8_ushMVdN_1_3[0]);
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_2, 0,&StructAccesMultiplex_08.u8_ushMVdN_2_0[0]);
   StructAccesMultiplex_08.u8_ucABSRef_1_1 = DCM_InvIf_ucABSReffromZOM(DMC__ZOM_POSITION_1, 1);
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_08.MessageMultiplex_08;
 }
 
-static void DCM_MessageUpdateMultiplex_09(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_09(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_09.u8_MultiplexID = DCM_MULTIPLEX_9;
-
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_2, 1,&StructAccesMultiplex_09.u8_ushMVdN_2_1[0]);
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_2, 2,&StructAccesMultiplex_09.u8_ushMVdN_2_2[0]);
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_2, 3,&StructAccesMultiplex_09.u8_ushMVdN_2_3[0]);
   StructAccesMultiplex_09.u8_ucABSRef_1_2 = DCM_InvIf_ucABSReffromZOM(DMC__ZOM_POSITION_1, 2);
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_09.MessageMultiplex_09;
 }
 
-static void DCM_MessageUpdateMultiplex_10(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_10(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_10.u8_MultiplexID = DCM_MULTIPLEX_10;
-
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_3, 0,&StructAccesMultiplex_10.u8_ushMVdN_3_0[0]);
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_3, 1,&StructAccesMultiplex_10.u8_ushMVdN_3_1[0]);
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_3, 2,&StructAccesMultiplex_10.u8_ushMVdN_3_2[0]);
   StructAccesMultiplex_10.u8_ucABSRef_1_3 = DCM_InvIf_ucABSReffromZOM(DMC__ZOM_POSITION_1, 3);
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_10.MessageMultiplex_10;
 }
 
-static void DCM_MessageUpdateMultiplex_11(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_11(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_11.u8_MultiplexID = DCM_MULTIPLEX_11;
-
   DCM_InvIf_ushMVdNfromZOM(DMC__ZOM_POSITION_3, 3,&StructAccesMultiplex_11.u8_ushMVdN_3_3[0]);
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_0, 0,&StructAccesMultiplex_11.u8_ushMVdN2_0_0[0]);
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_0, 1,&StructAccesMultiplex_11.u8_ushMVdN2_0_1[0]);
   StructAccesMultiplex_11.u8_ucABSRef_2_0 = DCM_InvIf_ucABSReffromZOM(DMC__ZOM_POSITION_2, 0);
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_11.MessageMultiplex_11;
 }
 
-static void DCM_MessageUpdateMultiplex_12(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_12(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_12.u8_MultiplexID = DCM_MULTIPLEX_12;
-
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_0, 2,&StructAccesMultiplex_12.u8_ushMVdN2_0_2[0]);
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_0, 3,&StructAccesMultiplex_12.u8_ushMVdN2_0_3[0]);
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_1, 0,&StructAccesMultiplex_12.u8_ushMVdN2_1_0[0]);
   StructAccesMultiplex_12.u8_ucABSRef_2_1 = DCM_InvIf_ucABSReffromZOM(DMC__ZOM_POSITION_2, 1);
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_12.MessageMultiplex_12;
 }
 
-static void DCM_MessageUpdateMultiplex_13(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_13(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_13.u8_MultiplexID = DCM_MULTIPLEX_13;
-
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_1, 1,&StructAccesMultiplex_13.u8_ushMVdN2_1_1[0]);
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_1, 2,&StructAccesMultiplex_13.u8_ushMVdN2_1_2[0]);
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_1, 3,&StructAccesMultiplex_13.u8_ushMVdN2_1_3[0]);
   StructAccesMultiplex_13.u8_ucABSRef_2_2 = DCM_InvIf_ucABSReffromZOM(DMC__ZOM_POSITION_2, 2);
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_13.MessageMultiplex_13;
 }
 
-static void DCM_MessageUpdateMultiplex_14(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_14(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_14.u8_MultiplexID = DCM_MULTIPLEX_14;
-
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_2, 0,&StructAccesMultiplex_14.u8_ushMVdN2_2_0[0]);
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_2, 1,&StructAccesMultiplex_14.u8_ushMVdN2_2_1[0]);
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_2, 2,&StructAccesMultiplex_14.u8_ushMVdN2_2_2[0]);
   StructAccesMultiplex_14.u8_ucABSRef_2_3 = DCM_InvIf_ucABSReffromZOM(DMC__ZOM_POSITION_2, 3);
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_14.MessageMultiplex_14;
 }
 
-static void DCM_MessageUpdateMultiplex_15(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_15(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_15.u8_MultiplexID = DCM_MULTIPLEX_15;
-
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_2, 3,&StructAccesMultiplex_15.u8_ushMVdN2_2_3[0]);
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_3, 0,&StructAccesMultiplex_15.u8_ushMVdN2_3_0[0]);
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_3, 1,&StructAccesMultiplex_15.u8_ushMVdN2_3_1[0]);
   StructAccesMultiplex_15.u8_ucABSRef_3_0 = DCM_InvIf_ucABSReffromZOM(DMC__ZOM_POSITION_3, 0);
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_15.MessageMultiplex_15;
 }
 
-static void DCM_MessageUpdateMultiplex_16(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_16(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_16.u8_MultiplexID = DCM_MULTIPLEX_16;
-
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_3, 2,&StructAccesMultiplex_16.u8_ushMVdN2_3_2[0]);
   DCM_InvIf_ushMVdN2fromZOM(DMC__ZOM_POSITION_3, 3,&StructAccesMultiplex_16.u8_ushMVdN2_3_3[0]);
   StructAccesMultiplex_16.u8_ucABSRef_3_1 = DCM_InvIf_ucABSReffromZOM(DMC__ZOM_POSITION_3, 1);
@@ -444,25 +431,18 @@ static void DCM_MessageUpdateMultiplex_16(uint8 U8_CfgArrPosition)
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_16.MessageMultiplex_16;
 }
 
-static void DCM_MessageUpdateMultiplex_17(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_17(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_17.u8_MultiplexID = DCM_MULTIPLEX_17;
-
   StructAccesMultiplex_17.u8_ucAlgoTelEvtCnt_0 = DCM_InvIf_ucAlgoTelEvtCntfromZOM(DMC__ZOM_POSITION_0);
   StructAccesMultiplex_17.u8_ucAlgoTelEvtCnt_1 = DCM_InvIf_ucAlgoTelEvtCntfromZOM(DMC__ZOM_POSITION_1);
   StructAccesMultiplex_17.u8_ucAlgoTelEvtCnt_2 = DCM_InvIf_ucAlgoTelEvtCntfromZOM(DMC__ZOM_POSITION_2);
   StructAccesMultiplex_17.u8_ucAlgoTelEvtCnt_3 = DCM_InvIf_ucAlgoTelEvtCntfromZOM(DMC__ZOM_POSITION_3);
-
-  //DCM_InvIf_ulAbsTimeStampNextGetValue(&StructAccesMultiplex_17.u8_ulTimeNextfromPutABS[0]);                          //RST Debug Timestamps: hier letzten Wert der ABS Matrix rein
   DCM_InvIf_ulAbsTimeStampGetNewestValue(&StructAccesMultiplex_17.u8_ulTimeNextfromPutABS[0]);
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_17.MessageMultiplex_17;
 }
-
 #endif
 
-static void DCM_MessageUpdateMultiplex_20(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_20(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_20.u8_MultiplexID = DCM_MULTIPLEX_20;
   StructAccesMultiplex_20.u8_PressAmbient =  DCM_InvIf_PressAmbientGetValue();
   StructAccesMultiplex_20.u8_TempAmbient = DCM_InvIf_TempAmbientGetValue();
@@ -472,12 +452,10 @@ static void DCM_MessageUpdateMultiplex_20(uint8 U8_CfgArrPosition)
   StructAccesMultiplex_20.u8_WheelPosCurrID = DCM_InvIf_WheelPosCurrIDGetValue();
   StructAccesMultiplex_20.u8_AbsLinAngleRL = DCM_InvIf_AbsLinAngle_RL_GetHistoryValue();
   StructAccesMultiplex_20.u8_AbsLinAngleRR = DCM_InvIf_AbsLinAngle_RR_GetHistoryValue();
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_20.MessageMultiplex_20;
 }
 
-static void DCM_MessageUpdateMultiplex_21(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_21(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_21.u8_MultiplexID = DCM_MULTIPLEX_21;
   StructAccesMultiplex_21.u8_RxRSSIRawValue = DCM_InvIf_RawRSSIGetValue();
   StructAccesMultiplex_21.u8_TelTypeCurrID = DCM_InvIf_TelTypeCurrIDGetValue();
@@ -485,12 +463,10 @@ static void DCM_MessageUpdateMultiplex_21(uint8 U8_CfgArrPosition)
   StructAccesMultiplex_21.s8_TempLastRx = DCM_InvIf_TempLastRxIDGetValue();
   DCM_InvIf_RxStatusFieldGetValue(&StructAccesMultiplex_21.u8_RxStatusFields[0]);
   StructAccesMultiplex_21.u8_RecEvent = DCM_InvIf_RecEventGetCntValue();
-
   DCM_S_LastEventDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_21.MessageMultiplex_21;
 }
 
-static void DCM_MessageUpdateMultiplex_22(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_22(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_22.u8_MultiplexID = DCM_MULTIPLEX_22;
   StructAccesMultiplex_22.u8_NoiseLevel = DCM_InvIf_NoiseLevelGetValue();
   StructAccesMultiplex_22.u8_TPMSStateMsbits = (uint8)(0x00FFu & (DCM_InvIf_TPMSStateGetStatus()>>8 ) );
@@ -501,12 +477,10 @@ static void DCM_MessageUpdateMultiplex_22(uint8 U8_CfgArrPosition)
   StructAccesMultiplex_22.u4_StopEventCnt = (uint8)(0x0Fu & DCM_InvIf_StopEventsGetCntValue() );
   StructAccesMultiplex_22.u4_VehiculeStatus = (uint8)(0x0Fu & DCM_InvIf_VehicleStatusGetValue() );
   StructAccesMultiplex_22.u8_PressRefCurrID = DCM_InvIf_PressRefCurrIDGetValue();
-
   DCM_S_LastSystemDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_22.MessageMultiplex_22;
 }
 
-static void DCM_MessageUpdateMultiplex_23(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_23(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_23.u8_MultiplexID = DCM_MULTIPLEX_23;
   StructAccesMultiplex_23.u4_TempWarnStatus = (uint8)(0x0Fu & DCM_InvIf_TempWarnGetStatus() );
   StructAccesMultiplex_23.u1_RFJammerStatus = (uint8)(0x01u & DCM_InvIf_RfJammerGetStatus() );
@@ -516,12 +490,10 @@ static void DCM_MessageUpdateMultiplex_23(uint8 U8_CfgArrPosition)
   StructAccesMultiplex_23.u8_tCmp_FT = (uint8)(0xFFu & DCM_InvIf_FTWarnSetThresholdGetValue() );
   StructAccesMultiplex_23.u8_tCmp_HardTDR = (uint8)(0xFFu & DCM_InvIf_HardTDRWarnSetThresholdGetValue() );
   StructAccesMultiplex_23.u8_DebugAllocType = (uint8)(0xFFu & DCM_InvIf_DebugAllocType());
-
   DCM_S_LastSystemDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_23.MessageMultiplex_23;
 }
 
-static void DCM_MessageUpdateMultiplex_24(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_24(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_24.u8_MultiplexID = DCM_MULTIPLEX_24;
   StructAccesMultiplex_24.u8_tCmp_HiP = DCM_InvIf_HiPWarnSetThresholdGetValue();
   StructAccesMultiplex_24.u8_tCmp_LowP = DCM_InvIf_LowPWarnSetThresholdGetValue();
@@ -532,9 +504,7 @@ static void DCM_MessageUpdateMultiplex_24(uint8 U8_CfgArrPosition)
 }
 
 #ifdef NVM_DEBUG
-
-static void DCM_MessageUpdateMultiplex_25(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_25(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_25.u8_MultiplexID = DCM_MULTIPLEX_25;
   DCM_InvIf_NvmBlockConsistence(&StructAccesMultiplex_25.u8_NvM_uiNvmBlockConsistence[0]);
   StructAccesMultiplex_25.u8_NvM_WriteReturn = DCM_InvIf_NvmWriteResult();
@@ -545,127 +515,103 @@ static void DCM_MessageUpdateMultiplex_25(uint8 U8_CfgArrPosition)
 }
 #endif
 
-static void DCM_MessageUpdateMultiplex_30(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_30(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_30.u8_MultiplexID = DCM_MULTIPLEX_30;
   DCM_InvIf_HistoryIDReadValue( DMC__HISTORY_POSITION_0, &StructAccesMultiplex_30.u8_HistoryID0[0]);
   DCM_InvIf_HistoryWPReadValue(DMC__HISTORY_POSITION_0, &StructAccesMultiplex_30.u8_HistoryWP0);
   StructAccesMultiplex_30.u8_NoRxCntHistoryID0 = DCM_InvIf_RecepMissedGetCntValue(DMC__HISTORY_POSITION_0);
   DCM_InvIf_WarnVectReadHistoryStatus(DMC__HISTORY_POSITION_0, &StructAccesMultiplex_30.u8_WarnVeCtorHist0);
-
   DCM_S_LastSystemDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_30.MessageMultiplex_30;
 }
 
-static void DCM_MessageUpdateMultiplex_31(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_31(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_31.u8_MultiplexID = DCM_MULTIPLEX_31;
   DCM_InvIf_HistoryIDReadValue( DMC__HISTORY_POSITION_1, &StructAccesMultiplex_31.u8_HistoryID1[0]);
   DCM_InvIf_HistoryWPReadValue(DMC__HISTORY_POSITION_1, &StructAccesMultiplex_31.u8_HistoryWP1);
   StructAccesMultiplex_31.u8_NoRxCntHistoryID1 = DCM_InvIf_RecepMissedGetCntValue(DMC__HISTORY_POSITION_1);
   DCM_InvIf_WarnVectReadHistoryStatus(DMC__HISTORY_POSITION_1, &StructAccesMultiplex_31.u8_WarnVeCtorHist1);
-
   DCM_S_LastSystemDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_31.MessageMultiplex_31;
 }
 
-static void DCM_MessageUpdateMultiplex_32(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_32(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_32.u8_MultiplexID = DCM_MULTIPLEX_32;
   DCM_InvIf_HistoryIDReadValue( DMC__HISTORY_POSITION_2, &StructAccesMultiplex_32.u8_HistoryID2[0]);
   DCM_InvIf_HistoryWPReadValue(DMC__HISTORY_POSITION_2, &StructAccesMultiplex_32.u8_HistoryWP2);
   StructAccesMultiplex_32.u8_NoRxCntHistoryID2 = DCM_InvIf_RecepMissedGetCntValue(DMC__HISTORY_POSITION_2);
   DCM_InvIf_WarnVectReadHistoryStatus(DMC__HISTORY_POSITION_2, &StructAccesMultiplex_32.u8_WarnVeCtorHist2);
-
   DCM_S_LastSystemDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_32.MessageMultiplex_32;
 }
 
-static void DCM_MessageUpdateMultiplex_33(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_33(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_33.u8_MultiplexID = DCM_MULTIPLEX_33;
   DCM_InvIf_HistoryIDReadValue( DMC__HISTORY_POSITION_3, &StructAccesMultiplex_33.u8_HistoryID3[0]);
   DCM_InvIf_HistoryWPReadValue(DMC__HISTORY_POSITION_3, &StructAccesMultiplex_33.u8_HistoryWP3);
   StructAccesMultiplex_33.u8_NoRxCntHistoryID3 = DCM_InvIf_RecepMissedGetCntValue(DMC__HISTORY_POSITION_3);
   DCM_InvIf_WarnVectReadHistoryStatus(DMC__HISTORY_POSITION_3, &StructAccesMultiplex_33.u8_WarnVeCtorHist3);
-
   DCM_S_LastSystemDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_33.MessageMultiplex_33;
 }
 
-static void DCM_MessageUpdateMultiplex_40(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_40(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_40.u8_MultiplexID = DCM_MULTIPLEX_40;
   DCM_InvIf_ZomWuIDGetFromMemory(DMC__ZOM_POSITION_0, &StructAccesMultiplex_40.u8_ZomWuID0[0]);
   StructAccesMultiplex_40.u8_ZomAutolocStatus0 = DCM_InvIf_ZomStatusGetFromMemory(DMC__ZOM_POSITION_0);
   StructAccesMultiplex_40.u8_ZomTelCnt0 = DCM_InvIf_ZomTelCntGetFromMemory(DMC__ZOM_POSITION_0);
-
   DCM_S_LastSystemDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_40.MessageMultiplex_40;
 }
 
-static void DCM_MessageUpdateMultiplex_41(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_41(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_41.u8_MultiplexID = DCM_MULTIPLEX_41;
   DCM_InvIf_ZomWuIDGetFromMemory(DMC__ZOM_POSITION_1, &StructAccesMultiplex_41.u8_ZomWuID1[0]);
   StructAccesMultiplex_41.u8_ZomAutolocStatus1 = DCM_InvIf_ZomStatusGetFromMemory(DMC__ZOM_POSITION_1);
   StructAccesMultiplex_41.u8_ZomTelCnt1 = DCM_InvIf_ZomTelCntGetFromMemory(DMC__ZOM_POSITION_1);
-
   DCM_S_LastSystemDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_41.MessageMultiplex_41;
 }
 
-static void DCM_MessageUpdateMultiplex_42(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_42(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_42.u8_MultiplexID = DCM_MULTIPLEX_42;
   DCM_InvIf_ZomWuIDGetFromMemory(DMC__ZOM_POSITION_2, &StructAccesMultiplex_42.u8_ZomWuID2[0]);
   StructAccesMultiplex_42.u8_ZomAutolocStatus2 = DCM_InvIf_ZomStatusGetFromMemory(DMC__ZOM_POSITION_2);
   StructAccesMultiplex_42.u8_ZomTelCnt2 = DCM_InvIf_ZomTelCntGetFromMemory(DMC__ZOM_POSITION_2);
-
   DCM_S_LastSystemDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_42.MessageMultiplex_42;
 }
 
-static void DCM_MessageUpdateMultiplex_43(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_43(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_43.u8_MultiplexID = DCM_MULTIPLEX_43;
   DCM_InvIf_ZomWuIDGetFromMemory(DMC__ZOM_POSITION_3, &StructAccesMultiplex_43.u8_ZomWuID3[0]);
   StructAccesMultiplex_43.u8_ZomAutolocStatus3 = DCM_InvIf_ZomStatusGetFromMemory(DMC__ZOM_POSITION_3);
   StructAccesMultiplex_43.u8_ZomTelCnt3 = DCM_InvIf_ZomTelCntGetFromMemory(DMC__ZOM_POSITION_3);
-
   DCM_S_LastSystemDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_43.MessageMultiplex_43;
 }
 
-static void DCM_MessageUpdateMultiplex_44(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_44(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_44.u8_MultiplexID = DCM_MULTIPLEX_44;
   DCM_InvIf_ZomWuIDGetFromMemory(DMC__ZOM_POSITION_4, &StructAccesMultiplex_44.u8_ZomWuID4[0]);
   StructAccesMultiplex_44.u8_ZomAutolocStatus4 = DCM_InvIf_ZomStatusGetFromMemory(DMC__ZOM_POSITION_4);
   StructAccesMultiplex_44.u8_ZomTelCnt4 = DCM_InvIf_ZomTelCntGetFromMemory(DMC__ZOM_POSITION_4);
-
   DCM_S_LastSystemDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_44.MessageMultiplex_44;
 }
 
-static void DCM_MessageUpdateMultiplex_45(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_45(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_45.u8_MultiplexID = DCM_MULTIPLEX_45;
   DCM_InvIf_ZomWuIDGetFromMemory(DMC__ZOM_POSITION_5, &StructAccesMultiplex_45.u8_ZomWuID5[0]);
   StructAccesMultiplex_45.u8_ZomAutolocStatus5 = DCM_InvIf_ZomStatusGetFromMemory(DMC__ZOM_POSITION_5);
   StructAccesMultiplex_45.u8_ZomTelCnt5 = DCM_InvIf_ZomTelCntGetFromMemory(DMC__ZOM_POSITION_5);
-
   DCM_S_LastSystemDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_45.MessageMultiplex_45;
 }
 
-static void DCM_MessageUpdateMultiplex_46(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_46(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_46.u8_MultiplexID = DCM_MULTIPLEX_46;
   DCM_InvIf_ZomWuIDGetFromMemory(DMC__ZOM_POSITION_6, &StructAccesMultiplex_46.u8_ZomWuID6[0]);
   StructAccesMultiplex_46.u8_ZomAutolocStatus6 = DCM_InvIf_ZomStatusGetFromMemory(DMC__ZOM_POSITION_6);
   StructAccesMultiplex_46.u8_ZomTelCnt6 = DCM_InvIf_ZomTelCntGetFromMemory(DMC__ZOM_POSITION_6);
-
   DCM_S_LastSystemDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_46.MessageMultiplex_46;
 }
 
-static void DCM_MessageUpdateMultiplex_47(uint8 U8_CfgArrPosition)
-{
+static void DCM_MessageUpdateMultiplex_47(uint8 U8_CfgArrPosition){
   StructAccesMultiplex_47.u8_MultiplexID = DCM_MULTIPLEX_47;
   DCM_InvIf_ZomWuIDGetFromMemory(DMC__ZOM_POSITION_7, &StructAccesMultiplex_47.u8_ZomWuID7[0]);
   StructAccesMultiplex_47.u8_ZomAutolocStatus7 = DCM_InvIf_ZomStatusGetFromMemory(DMC__ZOM_POSITION_7);
   StructAccesMultiplex_47.u8_ZomTelCnt7 = DCM_InvIf_ZomTelCntGetFromMemory(DMC__ZOM_POSITION_7);
-
   DCM_S_LastSystemDataReceivedOnMultiplex[U8_CfgArrPosition] = DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_47.MessageMultiplex_47;
 }
 
@@ -675,17 +621,13 @@ void DCM_EventDataUpdateOnRx(void){
 
 static void DCM_EventDataPutToQueue(void){
   uint8 U8_LocalCnt;
-  if((0u != DCH_IsCanDebugEnabled()) && (0u != DCH_SubmultiplexConfigGetStatus()))
-  {
-   for( U8_LocalCnt = 0; U8_LocalCnt < DCM_SIZEOF_EVENT_MULTIPLEXES; U8_LocalCnt++ )
-   {
-      DCM_AS_ConfigureEventMultiplexMsg[U8_LocalCnt].DCM_pfnBuildMsg(U8_LocalCnt);   // update multiplex message value
-    //  DCM_PutEventData2Buffer(*((Type_SwcApplTpms_stMessageCan*)(&DCM_S_MultiplexMessageIDs.DCM_S_MultiPlexMess_00.MessageMultiplex_00 + (U8_LocalCnt * sizeof(Type_SwcApplTpms_stMessageCan)))));   // store multiplex message
+  if((0u != DCH_IsCanDebugEnabled()) && (0u != DCH_SubmultiplexConfigGetStatus())){
+   for( U8_LocalCnt = 0; U8_LocalCnt < DCM_SIZEOF_EVENT_MULTIPLEXES; U8_LocalCnt++ ){
+      DCM_AS_ConfigureEventMultiplexMsg[U8_LocalCnt].DCM_pfnBuildMsg(U8_LocalCnt);
       DCM_PutEventData2Buffer( DCM_S_LastEventDataReceivedOnMultiplex[U8_LocalCnt]);
    }
   }
   else{
-    // do nothing, can debug disabled
   }
 }
 
@@ -695,16 +637,13 @@ void DCM_CyclicDebugSystemDataUpdate(void){
 
 static void DCM_SystemDataPutToQueue(void){
   uint8 U8_LocalCnt;
-  if((0u != DCH_IsCanDebugEnabled()) && (0u != DCH_SubmultiplexConfigGetStatus()))
-  {
-   for( U8_LocalCnt = 0; U8_LocalCnt < DCM_SIZEOF_SYSTEM_MULTIPLEXES; U8_LocalCnt++ )
-   {
-      DCM_AS_ConfigureSystemMultiplexMsg[U8_LocalCnt].DCM_pfnBuildMsg(U8_LocalCnt);   // update multiplex message value
+  if((0u != DCH_IsCanDebugEnabled()) && (0u != DCH_SubmultiplexConfigGetStatus())){
+   for( U8_LocalCnt = 0; U8_LocalCnt < DCM_SIZEOF_SYSTEM_MULTIPLEXES; U8_LocalCnt++ ){
+      DCM_AS_ConfigureSystemMultiplexMsg[U8_LocalCnt].DCM_pfnBuildMsg(U8_LocalCnt);
       DCM_PutSystemData2Buffer( DCM_S_LastSystemDataReceivedOnMultiplex[U8_LocalCnt]);
    }
   }
   else{
-    // do nothing, can debug disabled
   }
 }
 
@@ -720,19 +659,15 @@ uint8 DCM_InvIf_TempWarnGetStatus(void){
   return (uint8)(GETucReHeatUpStatusEE() & (uint8)0x0F);
 }
 
-static void DCM_StoreMaxMultiplexEventNr(uint8 U8_CurrentMultiplexNr)
-{
-  if( DCM_U8_EventDataMaxMultiplexNr < U8_CurrentMultiplexNr )
-  {
+static void DCM_StoreMaxMultiplexEventNr(uint8 U8_CurrentMultiplexNr){
+  if( DCM_U8_EventDataMaxMultiplexNr < U8_CurrentMultiplexNr ){
     DCM_U8_EventDataMaxMultiplexNr = U8_CurrentMultiplexNr;
   }
   else{}
 }
 
-static void DCM_StoreMaxMultiplexSystemNr(uint8 U8_CurrentMultiplexNr)
-{
-  if( DCM_U8_SystemDataMaxMultiplexNr < U8_CurrentMultiplexNr )
-  {
+static void DCM_StoreMaxMultiplexSystemNr(uint8 U8_CurrentMultiplexNr){
+  if( DCM_U8_SystemDataMaxMultiplexNr < U8_CurrentMultiplexNr ){
     DCM_U8_SystemDataMaxMultiplexNr = U8_CurrentMultiplexNr;
   }
   else{}
@@ -747,129 +682,90 @@ void DCM_InitCanDebug(void){
   u8_SysReadCnt = 0;
   u8_SysWriteCnt = 0;
   bo_StructSystemMultiLast = FALSE;
-  //StructureCnt = sizeof(DCM_StructMultiplexMessageIDs);
 
-  for( ArrayCnt = 0; ArrayCnt < sizeof(DCM_StructMultiplexMessageIDs); ArrayCnt++)
-  {
+  for( ArrayCnt = 0; ArrayCnt < sizeof(DCM_StructMultiplexMessageIDs); ArrayCnt++){
     *((uint8*)&DCM_S_MultiplexMessageIDs + ArrayCnt) = 0;
   }
-
-  for( ArrayCnt = 0; ArrayCnt< SIZE_ARRAY(S_HufSysMsgBuf, Type_SwcApplTpms_stMessageCan); ArrayCnt++ )
-  {
-   for( StructureCnt = 0; StructureCnt < sizeof(Type_SwcApplTpms_stMessageCan); StructureCnt++ )
-   {
+  for( ArrayCnt = 0; ArrayCnt< SIZE_ARRAY(S_HufSysMsgBuf, Type_SwcApplTpms_stMessageCan); ArrayCnt++ ){
+   for( StructureCnt = 0; StructureCnt < sizeof(Type_SwcApplTpms_stMessageCan); StructureCnt++ ){
       *((uint8*)&S_HufSysMsgBuf[ArrayCnt] + StructureCnt ) = 0;
    }
   }
-  for( ArrayCnt = 0; ArrayCnt < SIZE_ARRAY(S_HufEnvMsgBuf, Type_SwcApplTpms_stMessageCan); ArrayCnt++ )
-  {
-   for( StructureCnt = 0; StructureCnt < sizeof(Type_SwcApplTpms_stMessageCan); StructureCnt++ )
-   {
+  for( ArrayCnt = 0; ArrayCnt < SIZE_ARRAY(S_HufEnvMsgBuf, Type_SwcApplTpms_stMessageCan); ArrayCnt++ ){
+   for( StructureCnt = 0; StructureCnt < sizeof(Type_SwcApplTpms_stMessageCan); StructureCnt++ ){
       *((uint8*)&S_HufEnvMsgBuf[ArrayCnt] + StructureCnt ) = 0;
    }
   }
 }
 
-static void DCM_PutEventData2Buffer(Type_SwcApplTpms_stMessageCan S_EnvDataMultiplex)
-{
-  if(FALSE != DCH_MultiplexMsgGetActiveStatus(S_EnvDataMultiplex.ucData0))
-  {
-    // check for overflow
-   if(u8_EnvWriteCnt >= DCM_MAX_SIZE_ENV_BUF)
-   {
+static void DCM_PutEventData2Buffer(Type_SwcApplTpms_stMessageCan S_EnvDataMultiplex){
+  if(FALSE != DCH_MultiplexMsgGetActiveStatus(S_EnvDataMultiplex.ucData0)){
+   if(u8_EnvWriteCnt >= DCM_MAX_SIZE_ENV_BUF){
       u8_EnvWriteCnt = 0;
    }
-
     DCM_StoreMaxMultiplexEventNr(S_EnvDataMultiplex.ucData0);
-
     S_HufEnvMsgBuf[u8_EnvWriteCnt] = S_EnvDataMultiplex;
    u8_EnvWriteCnt++;
-
   }
-  else{// don't put it in buffer and don't transmit
+  else{
   }
 }
 
-static void DCM_PutSystemData2Buffer(Type_SwcApplTpms_stMessageCan S_SysDataMultiplex)
-{
-  if(FALSE != DCH_MultiplexMsgGetActiveStatus(S_SysDataMultiplex.ucData0))
-  {
-    // check for overflow
-   if(u8_SysWriteCnt >= DCM_MAX_SIZE_SYS_BUF)
-   {
+static void DCM_PutSystemData2Buffer(Type_SwcApplTpms_stMessageCan S_SysDataMultiplex){
+  if(FALSE != DCH_MultiplexMsgGetActiveStatus(S_SysDataMultiplex.ucData0)){
+   if(u8_SysWriteCnt >= DCM_MAX_SIZE_SYS_BUF){
       u8_SysWriteCnt = 0;
    }
-
     DCM_StoreMaxMultiplexSystemNr(S_SysDataMultiplex.ucData0);
     S_HufSysMsgBuf[u8_SysWriteCnt] = S_SysDataMultiplex;
    u8_SysWriteCnt++;
 
   }
-  else{// don't put it in buffer and don't transmit
+  else{
   }
 }
 
-void DCM_DataToTransmitOnCAN(Type_SwcApplTpms_stMessageCan* spCAN_Message)
-{
-  if( FALSE != bo_StructSystemMultiLast)
-  {
+void DCM_DataToTransmitOnCAN(Type_SwcApplTpms_stMessageCan* spCAN_Message){
+  if( FALSE != bo_StructSystemMultiLast){
    boolean EventDataReturnValue;
-    // event multiplexes not finished, send them
     EventDataReturnValue = DCM_EventDataGetFromBuffer(spCAN_Message);
-
-   if(FALSE == EventDataReturnValue)
-   { // some kind of overflow error
-      // send system specific multiplexes
+   if(FALSE == EventDataReturnValue){
       DCM_SystemDataGetFromBuffer(spCAN_Message);
    }
   }
-  else{ // not last system, don't interrupt
-    // send system specific multiplexes
+  else{
     DCM_SystemDataGetFromBuffer(spCAN_Message);
   }
 }
 
-static boolean DCM_EventDataGetFromBuffer(Type_SwcApplTpms_stMessageCan* tHufDisplay)
-{
+static boolean DCM_EventDataGetFromBuffer(Type_SwcApplTpms_stMessageCan* tHufDisplay){
   boolean ucRet;
 
-  if(u8_EnvWriteCnt != u8_EnvReadCnt)
-  {
-    // check for overflow
-   if(u8_EnvReadCnt >= DCM_MAX_SIZE_ENV_BUF)
-   {
+  if(u8_EnvWriteCnt != u8_EnvReadCnt){
+   if(u8_EnvReadCnt >= DCM_MAX_SIZE_ENV_BUF){
       u8_EnvReadCnt = 0;
    }
    else{
    }
-
     *tHufDisplay = S_HufEnvMsgBuf[u8_EnvReadCnt];
-
    u8_EnvReadCnt++;
-
    ucRet = TRUE;
   }
-  else // if(u8_EnvWriteCnt != u8_EnvReadCnt)
+  else
   {
    ucRet = FALSE;
   }
-
   return ucRet;
 }
 
-static void DCM_SystemDataGetFromBuffer(Type_SwcApplTpms_stMessageCan* tHufDisplay)
-{
-
-  // check for overflow
-  if(u8_SysReadCnt >= DCM_MAX_SIZE_SYS_BUF)
-  {
+static void DCM_SystemDataGetFromBuffer(Type_SwcApplTpms_stMessageCan* tHufDisplay){
+  if(u8_SysReadCnt >= DCM_MAX_SIZE_SYS_BUF){
    u8_SysReadCnt = 0;
   }
 
   *tHufDisplay = S_HufSysMsgBuf[u8_SysReadCnt];
 
-  if( DCM_U8_SystemDataMaxMultiplexNr == S_HufSysMsgBuf[u8_SysReadCnt].ucData0)
-  {
+  if( DCM_U8_SystemDataMaxMultiplexNr == S_HufSysMsgBuf[u8_SysReadCnt].ucData0){
    bo_StructSystemMultiLast = TRUE;
   }
   else{
@@ -878,4 +774,8 @@ static void DCM_SystemDataGetFromBuffer(Type_SwcApplTpms_stMessageCan* tHufDispl
 
   u8_SysReadCnt++;
 }
+
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
 

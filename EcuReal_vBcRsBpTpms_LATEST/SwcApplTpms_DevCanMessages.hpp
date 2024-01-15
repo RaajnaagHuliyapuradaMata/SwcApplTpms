@@ -1,19 +1,42 @@
+#pragma once
+/******************************************************************************/
+/* File   : SwcApplTpms_DevCanMessages.hpp                                    */
+/*                                                                            */
+/* Author : Raajnaag HULIYAPURADA MATA                                        */
+/*                                                                            */
+/* License / Warranty / Terms and Conditions                                  */
+/*                                                                            */
+/* Everyone is permitted to copy and distribute verbatim copies of this lice- */
+/* nse document, but changing it is not allowed. This is a free, copyright l- */
+/* icense for software and other kinds of works. By contrast, this license is */
+/* intended to guarantee your freedom to share and change all versions of a   */
+/* program, to make sure it remains free software for all its users. You have */
+/* certain responsibilities, if you distribute copies of the software, or if  */
+/* you modify it: responsibilities to respect the freedom of others.          */
+/*                                                                            */
+/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/*                                                                            */
+/* Always refer latest software version from:                                 */
+/* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
+/*                                                                            */
+/******************************************************************************/
 
-
-#ifndef Huf_DevCanMessages_H
-#define Huf_DevCanMessages_H
-
+/******************************************************************************/
+/* #INCLUDES                                                                  */
+/******************************************************************************/
 #include "Tpms_Rte_Data_Type.hpp"
 #include "iTpms_Interface.hpp"
 
-#define SIZE_ARRAY(ARRAY_SIZE, STRUCT_SIZE)   (uint8) ( sizeof(ARRAY_SIZE) / sizeof(STRUCT_SIZE) ) // get the size of an array of structures
-
-#define DCM_MAX_SIZE_ENV_BUF 248U //  with 8 multiplex ID for Event there can be stored 31 complete packages
+/******************************************************************************/
+/* #DEFINES                                                                   */
+/******************************************************************************/
+#define SIZE_ARRAY(ARRAY_SIZE, STRUCT_SIZE)   (uint8) (sizeof(ARRAY_SIZE) / sizeof(STRUCT_SIZE))
+#define DCM_MAX_SIZE_ENV_BUF 248U
 
 #ifdef NVM_DEBUG
-#define DCM_MAX_SIZE_SYS_BUF  16U //  with 16 multiplex ID for System there can be stored 1 complete package
+#define DCM_MAX_SIZE_SYS_BUF  16U
 #else
-#define DCM_MAX_SIZE_SYS_BUF  15U //  with 15 multiplex ID for System there can be stored 1 complete package
+#define DCM_MAX_SIZE_SYS_BUF  15U
 #endif
 
 #define DCM_MULTIPLEX_0     0U
@@ -57,104 +80,82 @@
 #define DCM_MULTIPLEX_46   46U
 #define DCM_MULTIPLEX_47   47U
 
-//typedef uint8 DCM_HufCanMessageByte;
-//
-//typedef struct
-//{
-//  DCM_HufCanMessageByte Byte0;
-//  DCM_HufCanMessageByte Byte1;
-//  DCM_HufCanMessageByte Byte2;
-//  DCM_HufCanMessageByte Byte3;
-//  DCM_HufCanMessageByte Byte4;
-//  DCM_HufCanMessageByte Byte5;
-//  DCM_HufCanMessageByte Byte6;
-//  DCM_HufCanMessageByte Byte7;
-//}DCM_HufCanMessage;
+/******************************************************************************/
+/* MACROS                                                                     */
+/******************************************************************************/
 
-typedef union
-{
+/******************************************************************************/
+/* TYPEDEFS                                                                   */
+/******************************************************************************/
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_00;
-  struct DCM_S_MultiplexMessage_00
-  {
+  struct DCM_S_MultiplexMessage_00{
    uint8 u8_MultiplexID;
    uint8 u8_RFTelegramTimeStamp[3];
    uint8 u8_IDLastRF[4];
   }Struct_MessageMultiplex_00;
 }DCM_U_MultiplexMessage_00;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_01;
-  struct DCM_S_MultiplexMessage_01
-  {
-   uint8 u8_MultiplexID;                // byte 0
-    //uint8 u8_AbsTicsOverflowCntFL;       // byte 1
-    //uint8 u8_AbsTicsOverflowCntFR;       // byte 2
-    //uint8 u8_AbsTicsOverflowCntRL;       // byte 3
-    //uint8 u8_AbsTicsOverflowCntRR;       // byte 4
-
-   uint8 u8_PositionRecCntFL;       // byte 1
-   uint8 u8_PositionRecCntFR;       // byte 2
-   uint8 u8_PositionRecCntRL;       // byte 3
-   uint8 u8_PositionRecCntRR;       // byte 4
+  struct DCM_S_MultiplexMessage_01{
+   uint8 u8_MultiplexID;
+   uint8 u8_PositionRecCntFL;
+   uint8 u8_PositionRecCntFR;
+   uint8 u8_PositionRecCntRL;
+   uint8 u8_PositionRecCntRR;
 
 #ifdef DEBUG_AUTOLOCATION
    uint8 u8_ulDebugRfTimeStamp[3];
 #else
-   uint8 u8_ReservedM1B7[3];            // byte 5-7
+   uint8 u8_ReservedM1B7[3];
 #endif
   }Struct_MessageMultiplex_01;
 }DCM_U_MultiplexMessage_01;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_02;
-  struct DCM_S_MultiplexMessage_02
-  {
+  struct DCM_S_MultiplexMessage_02{
    uint8 u8_MultiplexID;
    uint8 u8_AbsLinCntFL;
    uint8 u8_AbsLinCntFR;
    uint8 u8_AbsLinCntRL;
    uint8 u8_AbsLinCntRR;
+
 #ifdef DEBUG_AUTOLOCATION
    uint8 u8_ulTimePreviousfromPutABS[3];
 #else
-   uint8 u8_ReservedM2B5_7[3];            // byte 5-7
+   uint8 u8_ReservedM2B5_7[3];
 #endif
+
   }Struct_MessageMultiplex_02;
 }DCM_U_MultiplexMessage_02;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_03;
-  struct DCM_S_MultiplexMessage_03
-  {
+  struct DCM_S_MultiplexMessage_03{
    uint8 u8_MultiplexID;
-   uint8 u8_AbsCorrCntFL;              // Correlation counter for wheel position FL of last valid sensor ID        ECU_C_Sum_Corr_FL
-   uint8 u8_AbsCorrCntFR;              // Correlation counter for wheel position FR of last valid sensor ID        ECU_C_Sum_Corr_FR
-   uint8 u8_AbsCorrCntRL;              // Correlation counter for wheel position RL of last valid sensor ID        ECU_C_Sum_Corr_RL
-   uint8 u8_AbsCorrCntRR;              // Correlation counter for wheel position RR of last valid sensor ID        ECU_C_Sum_Corr_RR
+   uint8 u8_AbsCorrCntFL;
+   uint8 u8_AbsCorrCntFR;
+   uint8 u8_AbsCorrCntRL;
+   uint8 u8_AbsCorrCntRR;
    uint8 u8_ReservedM3B5;
-   uint8 u8_AbsLinAngleFL;           // Linearized reception angle in ABS tics FL for specific correlation telegrams         ECU_Hist_ABS_FL
-   uint8 u8_AbsLinAngleFR;           // Linearized reception angle in ABS tics FR for specific correlation telegrams         ECU_Hist_ABS_FR
+   uint8 u8_AbsLinAngleFL;
+   uint8 u8_AbsLinAngleFR;
   }Struct_MessageMultiplex_03;
 }DCM_U_MultiplexMessage_03;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_04;
-  struct DCM_S_MultiplexMessage_04
-  {
+  struct DCM_S_MultiplexMessage_04{
    uint8 u8_MultiplexID;
    uint8 u8_RfTelByteValue[7];
   }Struct_MessageMultiplex_04;
 }DCM_U_MultiplexMessage_04;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_05;
-  struct DCM_S_MultiplexMessage_05
-  {
+  struct DCM_S_MultiplexMessage_05{
    uint8 u8_MultiplexID;
    uint8 u8_RfTelByteValue[4];
 #ifdef DEBUG_AUTOLOCATION
@@ -168,12 +169,9 @@ typedef union
 }DCM_U_MultiplexMessage_05;
 
 #ifdef DEBUG_AUTOLOCATION
-
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_06;
-  struct DCM_S_MultiplexMessage_06
-  {
+  struct DCM_S_MultiplexMessage_06{
    uint8 u8_MultiplexID;
    uint8 u8_ushMVdN_0_0[2];
    uint8 u8_ushMVdN_0_1[2];
@@ -182,11 +180,9 @@ typedef union
   }Struct_MessageMultiplex_06;
 }DCM_U_MultiplexMessage_06;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_07;
-  struct DCM_S_MultiplexMessage_07
-  {
+  struct DCM_S_MultiplexMessage_07{
    uint8 u8_MultiplexID;
    uint8 u8_ushMVdN_0_3[2];
    uint8 u8_ushMVdN_1_0[2];
@@ -195,11 +191,9 @@ typedef union
   }Struct_MessageMultiplex_07;
 }DCM_U_MultiplexMessage_07;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_08;
-  struct DCM_S_MultiplexMessage_08
-  {
+  struct DCM_S_MultiplexMessage_08{
    uint8 u8_MultiplexID;
    uint8 u8_ushMVdN_1_2[2];
    uint8 u8_ushMVdN_1_3[2];
@@ -208,11 +202,9 @@ typedef union
   }Struct_MessageMultiplex_08;
 }DCM_U_MultiplexMessage_08;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_09;
-  struct DCM_S_MultiplexMessage_09
-  {
+  struct DCM_S_MultiplexMessage_09{
    uint8 u8_MultiplexID;
    uint8 u8_ushMVdN_2_1[2];
    uint8 u8_ushMVdN_2_2[2];
@@ -221,11 +213,9 @@ typedef union
   }Struct_MessageMultiplex_09;
 }DCM_U_MultiplexMessage_09;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_10;
-  struct DCM_S_MultiplexMessage_10
-  {
+  struct DCM_S_MultiplexMessage_10{
    uint8 u8_MultiplexID;
    uint8 u8_ushMVdN_3_0[2];
    uint8 u8_ushMVdN_3_1[2];
@@ -234,11 +224,9 @@ typedef union
   }Struct_MessageMultiplex_10;
 }DCM_U_MultiplexMessage_10;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_11;
-  struct DCM_S_MultiplexMessage_11
-  {
+  struct DCM_S_MultiplexMessage_11{
    uint8 u8_MultiplexID;
    uint8 u8_ushMVdN_3_3[2];
    uint8 u8_ushMVdN2_0_0[2];
@@ -247,11 +235,9 @@ typedef union
   }Struct_MessageMultiplex_11;
 }DCM_U_MultiplexMessage_11;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_12;
-  struct DCM_S_MultiplexMessage_12
-  {
+  struct DCM_S_MultiplexMessage_12{
    uint8 u8_MultiplexID;
    uint8 u8_ushMVdN2_0_2[2];
    uint8 u8_ushMVdN2_0_3[2];
@@ -260,11 +246,9 @@ typedef union
   }Struct_MessageMultiplex_12;
 }DCM_U_MultiplexMessage_12;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_13;
-  struct DCM_S_MultiplexMessage_13
-  {
+  struct DCM_S_MultiplexMessage_13{
    uint8 u8_MultiplexID;
    uint8 u8_ushMVdN2_1_1[2];
    uint8 u8_ushMVdN2_1_2[2];
@@ -273,11 +257,9 @@ typedef union
   }Struct_MessageMultiplex_13;
 }DCM_U_MultiplexMessage_13;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_14;
-  struct DCM_S_MultiplexMessage_14
-  {
+  struct DCM_S_MultiplexMessage_14{
    uint8 u8_MultiplexID;
    uint8 u8_ushMVdN2_2_0[2];
    uint8 u8_ushMVdN2_2_1[2];
@@ -286,11 +268,9 @@ typedef union
   }Struct_MessageMultiplex_14;
 }DCM_U_MultiplexMessage_14;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_15;
-  struct DCM_S_MultiplexMessage_15
-  {
+  struct DCM_S_MultiplexMessage_15{
    uint8 u8_MultiplexID;
    uint8 u8_ushMVdN2_2_3[2];
    uint8 u8_ushMVdN2_3_0[2];
@@ -299,11 +279,9 @@ typedef union
   }Struct_MessageMultiplex_15;
 }DCM_U_MultiplexMessage_15;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_16;
-  struct DCM_S_MultiplexMessage_16
-  {
+  struct DCM_S_MultiplexMessage_16{
    uint8 u8_MultiplexID;
    uint8 u8_ushMVdN2_3_2[2];
    uint8 u8_ushMVdN2_3_3[2];
@@ -313,11 +291,9 @@ typedef union
   }Struct_MessageMultiplex_16;
 }DCM_U_MultiplexMessage_16;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_17;
-  struct DCM_S_MultiplexMessage_17
-  {
+  struct DCM_S_MultiplexMessage_17{
    uint8 u8_MultiplexID;
    uint8 u8_ucAlgoTelEvtCnt_0;
    uint8 u8_ucAlgoTelEvtCnt_1;
@@ -329,35 +305,33 @@ typedef union
 
 #endif
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_20;
-  struct DCM_S_MultiplexMessage_20
-  {
-   bitfield u8_MultiplexID : 8;          // byte 0
-   bitfield u8_PressAmbient : 8;         // byte 1     Ambient pressure provided by vehicle CAN         VEH_P_ambient
-   bitfield u8_TempAmbient : 8;          // byte 2     Ambient temperature provided by vehicle CAN        VEH_T_Ambient
-   bitfield u8_SpeedVehicleMsbits : 8;   // byte 3
+  struct DCM_S_MultiplexMessage_20{
+   bitfield u8_MultiplexID : 8;
+   bitfield u8_PressAmbient : 8;
+   bitfield u8_TempAmbient : 8;
+   bitfield u8_SpeedVehicleMsbits : 8;
+
 #ifdef _WINDLL
-   bitfield u4_ZomCurrIDPosition : 4;    // byte 4, bits 0-3
-   bitfield u2_ReservedM20B4b4_5 : 2;    // byte 4, bits 4-5
-   bitfield u2_SpeedVehicleLsbits : 2;   // byte 4, bits 6-7
+   bitfield u4_ZomCurrIDPosition : 4;
+   bitfield u2_ReservedM20B4b4_5 : 2;
+   bitfield u2_SpeedVehicleLsbits : 2;
 #else
-   bitfield u4_ZomCurrIDPosition : 4;    // byte 4, bits 0-3
-   bitfield u2_ReservedM20B4b4_5 : 2;    // byte 4, bits 4-5
-   bitfield u2_SpeedVehicleLsbits : 2;   // byte 4, bits 6-7
+   bitfield u4_ZomCurrIDPosition : 4;
+   bitfield u2_ReservedM20B4b4_5 : 2;
+   bitfield u2_SpeedVehicleLsbits : 2;
 #endif
-   bitfield u8_WheelPosCurrID : 8;       // byte 5
-   bitfield u8_AbsLinAngleRL : 8;        // byte 6
-   bitfield u8_AbsLinAngleRR : 8;        // byte 7
+
+   bitfield u8_WheelPosCurrID : 8;
+   bitfield u8_AbsLinAngleRL : 8;
+   bitfield u8_AbsLinAngleRR : 8;
   }Struct_MessageMultiplex_20;
 }DCM_U_MultiplexMessage_20;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_21;
-  struct DCM_S_MultiplexMessage_21
-  {
+  struct DCM_S_MultiplexMessage_21{
    uint8 u8_MultiplexID;
    uint8 u8_RxRSSIRawValue;
    uint8 u8_TelTypeCurrID;
@@ -368,67 +342,62 @@ typedef union
   }Struct_MessageMultiplex_21;
 }DCM_U_MultiplexMessage_21;
 
-// system
-
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_22;
-  struct DCM_S_MultiplexMessage_22
-  {
-   bitfield u8_MultiplexID : 8;        // byte 0
-   bitfield u8_NoiseLevel : 8;         // byte 1
-   bitfield u8_TPMSStateMsbits : 8;    // byte 2
-   bitfield u8_TPMSStateLsbits : 8;    // byte 3
-   bitfield u8_WAllocTimeoutCnt : 8;   // byte 4
-#ifdef _WINDLL
-   bitfield u4_RevGearCnt : 4;         // byte 5, bits 0-3
-   bitfield u4_AbsResetCnt : 4;        // byte 5, bits 4-7
-   bitfield u4_VehiculeStatus : 4;     // byte 6, bits 0-3
-   bitfield u4_StopEventCnt : 4;       // byte 6, bit 4-7
-#else
-   bitfield u4_RevGearCnt : 4;         // byte 5, bits 0-3
-   bitfield u4_AbsResetCnt : 4;        // byte 5, bits 4-7
-   bitfield u4_VehiculeStatus : 4;     // byte 6, bits 0-3
-   bitfield u4_StopEventCnt : 4;       // byte 6, bit 4-7
-#endif //_WINDLL
+  struct DCM_S_MultiplexMessage_22{
+   bitfield u8_MultiplexID : 8;
+   bitfield u8_NoiseLevel : 8;
+   bitfield u8_TPMSStateMsbits : 8;
+   bitfield u8_TPMSStateLsbits : 8;
+   bitfield u8_WAllocTimeoutCnt : 8;
 
-   bitfield u8_PressRefCurrID : 8;     // byte 7
+#ifdef _WINDLL
+   bitfield u4_RevGearCnt : 4;
+   bitfield u4_AbsResetCnt : 4;
+   bitfield u4_VehiculeStatus : 4;
+   bitfield u4_StopEventCnt : 4;
+#else
+   bitfield u4_RevGearCnt : 4;
+   bitfield u4_AbsResetCnt : 4;
+   bitfield u4_VehiculeStatus : 4;
+   bitfield u4_StopEventCnt : 4;
+#endif
+
+   bitfield u8_PressRefCurrID : 8;
   }Struct_MessageMultiplex_22;
 }DCM_U_MultiplexMessage_22;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_23;
-  struct DCM_S_MultiplexMessage_23
-  {
+  struct DCM_S_MultiplexMessage_23{
    bitfield u8_MultiplexID : 8;
+
 #ifdef _WINDLL
-   bitfield u3_ReservedM23B1b0_2 : 3;  // byte 1, bit 0-2
-   bitfield u1_RFJammerStatus : 1;     // byte 1, bit 3
-   bitfield u4_TempWarnStatus : 4;     // byte 1, bit 4-7
+   bitfield u3_ReservedM23B1b0_2 : 3;
+   bitfield u1_RFJammerStatus : 1;
+   bitfield u4_TempWarnStatus : 4;
 #else
-   bitfield u3_ReservedM23B1b0_2 : 3;  // byte 1, bit 0-2
-   bitfield u1_RFJammerStatus : 1;     // byte 1, bit 3
-   bitfield u4_TempWarnStatus : 4;     // byte 1, bit 4-7
+   bitfield u3_ReservedM23B1b0_2 : 3;
+   bitfield u1_RFJammerStatus : 1;
+   bitfield u4_TempWarnStatus : 4;
 #endif
-   bitfield u8_tCmp_AxImb : 8;             // byte 2
-   bitfield u8_tCmp_DHW : 8;               // byte 3
-   bitfield u8_tCmp_EuF : 8;               // byte 4
-   bitfield u8_tCmp_FT : 8;                // byte 5
-   bitfield u8_tCmp_HardTDR : 8;           // byte 6
-   bitfield u8_DebugAllocType : 8;         // byte 7
+
+   bitfield u8_tCmp_AxImb : 8;
+   bitfield u8_tCmp_DHW : 8;
+   bitfield u8_tCmp_EuF : 8;
+   bitfield u8_tCmp_FT : 8;
+   bitfield u8_tCmp_HardTDR : 8;
+   bitfield u8_DebugAllocType : 8;
   }Struct_MessageMultiplex_23;
 }DCM_U_MultiplexMessage_23;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_24;
-  struct DCM_S_MultiplexMessage_24
-  {
+  struct DCM_S_MultiplexMessage_24{
    uint8 u8_MultiplexID;
-   uint8 u8_tCmp_HiP;              // byte 1
-   uint8 u8_tCmp_LowP;             // byte 2
-   uint8 u8_tCmp_PminDR;           // byte 3
+   uint8 u8_tCmp_HiP;
+   uint8 u8_tCmp_LowP;
+   uint8 u8_tCmp_PminDR;
    uint8 u8_ReservedM24B4_6[2];
    uint8 u8_VehDirection;
    uint8 u8_AllRecEventCnt;
@@ -436,16 +405,13 @@ typedef union
 }DCM_U_MultiplexMessage_24;
 
 #ifdef NVM_DEBUG
-
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_25;
-  struct DCM_S_MultiplexMessage_25
-  {
+  struct DCM_S_MultiplexMessage_25{
    uint8 u8_MultiplexID;
-   uint8 u8_NvM_uiNvmBlockConsistence[2];              // byte 1 and 2
-   uint8 u8_NvM_WriteReturn;             // byte 3
-   uint8 u8_NvM_ReadReturn;           // byte 4
+   uint8 u8_NvM_uiNvmBlockConsistence[2];
+   uint8 u8_NvM_WriteReturn;
+   uint8 u8_NvM_ReadReturn;
    uint8 u8_NvM_ucABSTicksFrontAx;
    uint8 u8_NvM_ucABSTicksRearAx;
    uint8 u8_Reserved;
@@ -454,11 +420,9 @@ typedef union
 
 #endif
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_30;
-  struct DCM_S_MultiplexMessage_30
-  {
+  struct DCM_S_MultiplexMessage_30{
    uint8 u8_MultiplexID;
    uint8 u8_HistoryID0[4];
    uint8 u8_HistoryWP0;
@@ -467,11 +431,9 @@ typedef union
   }Struct_MessageMultiplex_30;
 }DCM_U_MultiplexMessage_30;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_31;
-  struct DCM_S_MultiplexMessage_31
-  {
+  struct DCM_S_MultiplexMessage_31{
    uint8 u8_MultiplexID;
    uint8 u8_HistoryID1[4];
    uint8 u8_HistoryWP1;
@@ -480,11 +442,9 @@ typedef union
   }Struct_MessageMultiplex_31;
 }DCM_U_MultiplexMessage_31;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_32;
-  struct DCM_S_MultiplexMessage_32
-  {
+  struct DCM_S_MultiplexMessage_32{
    uint8 u8_MultiplexID;
    uint8 u8_HistoryID2[4];
    uint8 u8_HistoryWP2;
@@ -493,11 +453,9 @@ typedef union
   }Struct_MessageMultiplex_32;
 }DCM_U_MultiplexMessage_32;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_33;
-  struct DCM_S_MultiplexMessage_33
-  {
+  struct DCM_S_MultiplexMessage_33{
    uint8 u8_MultiplexID;
    uint8 u8_HistoryID3[4];
    uint8 u8_HistoryWP3;
@@ -506,11 +464,9 @@ typedef union
   }Struct_MessageMultiplex_33;
 }DCM_U_MultiplexMessage_33;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_40;
-  struct DCM_S_MultiplexMessage_40
-  {
+  struct DCM_S_MultiplexMessage_40{
    uint8 u8_MultiplexID;
    uint8 u8_ZomWuID0[4];
    uint8 u8_ZomAutolocStatus0;
@@ -519,11 +475,9 @@ typedef union
   }Struct_MessageMultiplex_40;
 }DCM_U_MultiplexMessage_40;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_41;
-  struct DCM_S_MultiplexMessage_41
-  {
+  struct DCM_S_MultiplexMessage_41{
    uint8 u8_MultiplexID;
    uint8 u8_ZomWuID1[4];
    uint8 u8_ZomAutolocStatus1;
@@ -532,11 +486,9 @@ typedef union
   }Struct_MessageMultiplex_41;
 }DCM_U_MultiplexMessage_41;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_42;
-  struct DCM_S_MultiplexMessage_42
-  {
+  struct DCM_S_MultiplexMessage_42{
    uint8 u8_MultiplexID;
    uint8 u8_ZomWuID2[4];
    uint8 u8_ZomAutolocStatus2;
@@ -545,11 +497,9 @@ typedef union
   }Struct_MessageMultiplex_42;
 }DCM_U_MultiplexMessage_42;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_43;
-  struct DCM_S_MultiplexMessage_43
-  {
+  struct DCM_S_MultiplexMessage_43{
    uint8 u8_MultiplexID;
    uint8 u8_ZomWuID3[4];
    uint8 u8_ZomAutolocStatus3;
@@ -558,11 +508,9 @@ typedef union
   }Struct_MessageMultiplex_43;
 }DCM_U_MultiplexMessage_43;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_44;
-  struct DCM_S_MultiplexMessage_44
-  {
+  struct DCM_S_MultiplexMessage_44{
    uint8 u8_MultiplexID;
    uint8 u8_ZomWuID4[4];
    uint8 u8_ZomAutolocStatus4;
@@ -571,11 +519,9 @@ typedef union
   }Struct_MessageMultiplex_44;
 }DCM_U_MultiplexMessage_44;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_45;
-  struct DCM_S_MultiplexMessage_45
-  {
+  struct DCM_S_MultiplexMessage_45{
    uint8 u8_MultiplexID;
    uint8 u8_ZomWuID5[8];
    uint8 u8_ZomAutolocStatus5;
@@ -584,11 +530,9 @@ typedef union
   }Struct_MessageMultiplex_45;
 }DCM_U_MultiplexMessage_45;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_46;
-  struct DCM_S_MultiplexMessage_46
-  {
+  struct DCM_S_MultiplexMessage_46{
    uint8 u8_MultiplexID;
    uint8 u8_ZomWuID6[4];
    uint8 u8_ZomAutolocStatus6;
@@ -597,11 +541,9 @@ typedef union
   }Struct_MessageMultiplex_46;
 }DCM_U_MultiplexMessage_46;
 
-typedef union
-{
+typedef union{
   Type_SwcApplTpms_stMessageCan MessageMultiplex_47;
-  struct DCM_S_MultiplexMessage_47
-  {
+  struct DCM_S_MultiplexMessage_47{
    uint8 u8_MultiplexID;
    uint8 u8_ZomWuID7[4];
    uint8 u8_ZomAutolocStatus7;
@@ -610,7 +552,6 @@ typedef union
   }Struct_MessageMultiplex_47;
 }DCM_U_MultiplexMessage_47;
 
-//Structure which keep the whole multiplex messages Event + System
 typedef struct{
   DCM_U_MultiplexMessage_00 DCM_S_MultiPlexMess_00;
   DCM_U_MultiplexMessage_01 DCM_S_MultiPlexMess_01;
@@ -618,6 +559,7 @@ typedef struct{
   DCM_U_MultiplexMessage_03 DCM_S_MultiPlexMess_03;
   DCM_U_MultiplexMessage_04 DCM_S_MultiPlexMess_04;
   DCM_U_MultiplexMessage_05 DCM_S_MultiPlexMess_05;
+
 #ifdef DEBUG_AUTOLOCATION
   DCM_U_MultiplexMessage_06 DCM_S_MultiPlexMess_06;
   DCM_U_MultiplexMessage_07 DCM_S_MultiPlexMess_07;
@@ -632,14 +574,17 @@ typedef struct{
   DCM_U_MultiplexMessage_16 DCM_S_MultiPlexMess_16;
   DCM_U_MultiplexMessage_17 DCM_S_MultiPlexMess_17;
 #endif
+
   DCM_U_MultiplexMessage_20 DCM_S_MultiPlexMess_20;
   DCM_U_MultiplexMessage_21 DCM_S_MultiPlexMess_21;
   DCM_U_MultiplexMessage_22 DCM_S_MultiPlexMess_22;
   DCM_U_MultiplexMessage_23 DCM_S_MultiPlexMess_23;
   DCM_U_MultiplexMessage_24 DCM_S_MultiPlexMess_24;
+
 #ifdef NVM_DEBUG
   DCM_U_MultiplexMessage_25 DCM_S_MultiPlexMess_25;
 #endif
+
   DCM_U_MultiplexMessage_30 DCM_S_MultiPlexMess_30;
   DCM_U_MultiplexMessage_31 DCM_S_MultiPlexMess_31;
   DCM_U_MultiplexMessage_32 DCM_S_MultiPlexMess_32;
@@ -654,11 +599,27 @@ typedef struct{
   DCM_U_MultiplexMessage_47 DCM_S_MultiPlexMess_47;
 }DCM_StructMultiplexMessageIDs;
 
-// extern functions
+/******************************************************************************/
+/* CONSTS                                                                     */
+/******************************************************************************/
 
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
 extern void DCM_DataToTransmitOnCAN(Type_SwcApplTpms_stMessageCan* spCAN_Message);
 extern void DCM_CyclicDebugSystemDataUpdate(void);
 extern void DCM_EventDataUpdateOnRx(void);
 extern void DCM_InitCanDebug(void);
 
-#endif
+/******************************************************************************/
+/* EOF                                                                        */
+/******************************************************************************/
+
