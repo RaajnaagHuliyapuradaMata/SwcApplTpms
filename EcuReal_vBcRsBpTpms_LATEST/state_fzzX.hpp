@@ -81,10 +81,14 @@ extern uint8   GETucDirectionFZZ           (void);
 #endif
 
 extern boolean bGetBitFahrzeugzustandFZZ   (uint16 ushBitMask);
+#ifndef CfgProject_dSwitchReSim
 #pragma PRQA_NO_SIDE_EFFECTS bGetBitFahrzeugzustandFZZ
+#endif
 
 extern uint16  ushGetFahrzeugzustandFZZ    (uint16 ushBitMask);
+#ifndef CfgProject_dSwitchReSim
 #pragma PRQA_NO_SIDE_EFFECTS ushGetFahrzeugzustandFZZ
+#endif
 
 /******************************************************************************/
 /* EOF                                                                        */

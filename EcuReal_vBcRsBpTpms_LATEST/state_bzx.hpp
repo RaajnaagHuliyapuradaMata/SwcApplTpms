@@ -75,10 +75,14 @@ extern void    ClearBitBetriebszustandBZ (uint16 ushBitMask);
 extern void    EvVehicleSpeedChangedBZ   (uint16 ushNewVehicleSpeed);
 
 extern boolean bGetBitBetriebszustandBZ  (uint16 ushBitMask);
+#ifndef CfgProject_dSwitchReSim
 #pragma PRQA_NO_SIDE_EFFECTS bGetBitBetriebszustandBZ
+#endif
 
 extern uint16  ushGetBetriebszustandBZ   (uint16 ushBitMask);
+#ifndef CfgProject_dSwitchReSim
 #pragma PRQA_NO_SIDE_EFFECTS ushGetBetriebszustandBZ
+#endif
 
 /******************************************************************************/
 /* EOF                                                                        */

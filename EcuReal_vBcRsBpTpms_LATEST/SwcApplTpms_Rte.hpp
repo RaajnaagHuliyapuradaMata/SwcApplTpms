@@ -94,10 +94,9 @@
 /******************************************************************************/
 /* TYPEDEFS                                                                   */
 /******************************************************************************/
-struct struct_BCM_Version
-{
+struct struct_BCM_Version{
    uint8 ucaBCM_Version[5];
-  uint8 ucaBCM_Date[12];
+   uint8 ucaBCM_Date[12];
 };
 
 
@@ -144,7 +143,7 @@ extern uint8   GetSystem_Data_Reserved01(void);
 extern uint8   GetSystem_Data_Reserved02(void);
 extern sint8   Calc_Real_AK_Temperature(uint8 ucAk_TempInfo);
 extern void    SetEventEvDiagEvalOS(void);
-#endif //BUILD_WITH_UNUSED_FUNCTION
+#endif
 
 extern void    Init_OSEK(void);
 extern void    SwcIf_OSEK_MainTask(uint8 ucSystemSeconds);
@@ -169,10 +168,8 @@ extern void    CancelAlarmAlMissedRxCntOS(void);
 extern boolean GetAlarmAlZOTimeOS(uint16 *pushAlarmTicks);
 extern boolean GetAlarmAlIDOMOS(uint16 *pushAlarmTicks);
 extern boolean GetAlarmAlMinuteCntOS(uint16 *pushAlarmTicks);
-
 extern void    Breakpoint(void);
 extern void    Nop(void);
-
 extern void    ReadReDataFromRingBuffer_iBTCM(const tsWS_RxDataIn* spRxDataIn);
 
 /******************************************************************************/

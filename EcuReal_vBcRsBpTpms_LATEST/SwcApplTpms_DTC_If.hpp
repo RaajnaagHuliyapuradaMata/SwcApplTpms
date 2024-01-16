@@ -30,26 +30,26 @@
 /******************************************************************************/
 /* #DEFINES                                                                   */
 /******************************************************************************/
-#define cDTC_IS_CLEARED                 0x00U
-#define cDTC_WAS_DELETED_TROUGH_DIAG    0x01U
-#define cDTC_STATE_CHANGED              0x02U
-#define cERROR_CODE_INACTIVE          (uint8)0xFF
+#define cDTC_IS_CLEARED                         0x00U
+#define cDTC_WAS_DELETED_TROUGH_DIAG            0x01U
+#define cDTC_STATE_CHANGED                      0x02U
+#define cERROR_CODE_INACTIVE                    (uint8)0xFF
 #define cZO_ERR_BCM_INTERNAL_FAULT              (uint8)E_TPMS_ERROR_NOT_FUNCTIONING_DUE_TO_ECU_INTERNAL_FAULT
 #define cZO_ERR_NO_QUALIFIED_SENSOR_SIGNALS     (uint8)E_TPMS_ERROR_NO_QUALIFIED_SENSOR_SIGNALS
 #define cZuWenigRadsensoren                     cERROR_CODE_INACTIVE
 #define cRadzuordnungNichtMoeglich              cERROR_CODE_INACTIVE
 #define cZO_ERR_DETECT_TO0_MANY_SENSORS         (uint8)E_TPMS_ERROR_DETECTED_TOO_MANY_SENSORS
-#define U8_ECU_NOT_DEFECT             ((uint8)0x00)
-#define U8_ECU_DEFECT_FAULT_BIT_SET   ((uint8)0x01)
-#define U8_ECU_DEFECT_CYCLIC_TASK     ((uint8)0x02)
+#define U8_ECU_NOT_DEFECT                       ((uint8)0x00)
+#define U8_ECU_DEFECT_FAULT_BIT_SET             ((uint8)0x01)
+#define U8_ECU_DEFECT_CYCLIC_TASK               ((uint8)0x02)
 #define cCANSpeedSignalInvalidError             (uint8)E_TPMS_ERROR_WS_MISSING_DURING_CONTINUOUS_INVALID_SPEED
 
 #ifdef DETECT_SYMC_WALLOC_DTC
-#define cZO_ERR_AXIS_LOCATION                 (uint8)E_TPMS_ERROR_AXLE_LOCATE_FAIL
-#define cZO_ERR_SIDE_LOCATION                 cERROR_CODE_INACTIVE
-#define cZO_ERR_FAILED_TRIES                  (uint8)E_TPMS_ERROR_AUTOLOCATION_FAILED
+#define cZO_ERR_AXIS_LOCATION                   (uint8)E_TPMS_ERROR_AXLE_LOCATE_FAIL
+#define cZO_ERR_SIDE_LOCATION                   cERROR_CODE_INACTIVE
+#define cZO_ERR_FAILED_TRIES                    (uint8)E_TPMS_ERROR_AUTOLOCATION_FAILED
 #else
-#define cZO_ERR_AXIS_LOCATION                 (uint8)E_TPMS_ERROR_AXLE_LOCATE_FAIL
+#define cZO_ERR_AXIS_LOCATION                   (uint8)E_TPMS_ERROR_AXLE_LOCATE_FAIL
 #endif
 
 #define cZO_ERR_WS_BATTERY_LOW_FL               (uint8)E_TPMS_ERROR_WS_LIFE_TIME_FL_CNT_LOW
@@ -113,7 +113,6 @@
 #define cTempKeinEmpfang                        cERROR_CODE_INACTIVE
 #define cZO_ERR_WS_OVERTEMPERATURE_XX           cERROR_CODE_INACTIVE
 
-
 /******************************************************************************/
 /* MACROS                                                                     */
 /******************************************************************************/
@@ -139,17 +138,19 @@ extern uint8 DTC_StatusOfDTC;
 /******************************************************************************/
 /* FUNCTIONS                                                                  */
 /******************************************************************************/
-extern void Init_DTC(void);
-extern void SetCurrentErrorERR(uint8 ucCurrentExtErrorIndex);
-extern void ResetCurrentErrorERR(uint8 ucCurrentExtErrorIndex);
-extern void DeleteCurrentErrorERR(uint8 ucCurrentExtErrorIndex);
-extern void DTC_SetDTCActiveStatus(uint8 u8DTCToSet);
-extern void DTC_DeleteDTCActiveStatus(uint8 u8DTCToDelete);
-extern void DTC_SaveActiveStatustoEE(void);
-extern void DTC_RestoreActiveStatusfromEE(void);
+extern void Init_DTC                      (void);
+extern void SetCurrentErrorERR            (uint8 ucCurrentExtErrorIndex);
+extern void ResetCurrentErrorERR          (uint8 ucCurrentExtErrorIndex);
+extern void DeleteCurrentErrorERR         (uint8 ucCurrentExtErrorIndex);
+extern void DTC_SetDTCActiveStatus        (uint8 u8DTCToSet);
+extern void DTC_DeleteDTCActiveStatus     (uint8 u8DTCToDelete);
+extern void DTC_SaveActiveStatustoEE      (void);
+extern void DTC_RestoreActiveStatusfromEE (void);
 
-extern boolean DTC_GetActiveStatusOfDTC(uint8 u8DTCNumber);
+extern boolean DTC_GetActiveStatusOfDTC   (uint8 u8DTCNumber);
+#ifndef CfgProject_dSwitchReSim
 #pragma PRQA_NO_SIDE_EFFECTS DTC_GetActiveStatusOfDTC
+#endif
 
 /******************************************************************************/
 /* EOF                                                                        */

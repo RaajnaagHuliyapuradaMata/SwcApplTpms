@@ -68,14 +68,18 @@ extern void CntWUDefectRD(uint8 ZomPos);
 extern void ResetWUDefectRD(uint8 ZomPos);
 
 extern uint8 GetWUDefectRD(uint8 ZomPos);
+#ifndef CfgProject_dSwitchReSim
 #pragma PRQA_NO_SIDE_EFFECTS GetWUDefectRD
+#endif
 
 #ifdef js_ReHighTemperatureDiag_230312
 extern void CntWUHighTempRD(uint8 ZomPos);
 extern void ResetWUHighTempRD(uint8 ZomPos);
 
 extern uint8 GetWUHighTempRD(uint8 ZomPos);
+#ifndef CfgProject_dSwitchReSim
 #pragma PRQA_NO_SIDE_EFFECTS GetWUHighTempRD
+#endif
 #endif
 
 extern void CntWULowLifeTimeRD(uint8 ZomPos);
@@ -83,8 +87,8 @@ extern void ResetWULowLifeTimeRD(uint8 ZomPos);
 extern void ResetWULowLifeTimeCounter(uint8 ZomPos);
 
 extern uint8 GetWULowLifeTimeRD(uint8 ZomPos);
+#ifndef CfgProject_dSwitchReSim
 #pragma PRQA_NO_SIDE_EFFECTS GetWULowLifeTimeRD
-
 #endif
 
 /******************************************************************************/

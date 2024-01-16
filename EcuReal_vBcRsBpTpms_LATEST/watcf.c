@@ -1,13 +1,13 @@
-#define WATCF_C
-
 #include "Std_Types.hpp"
 
 #include "iTpms_Interface.hpp"
 #include "SwcApplTpms_Rte.hpp"
-#include "watcf.hpp"
+#include "tss_stdx.hpp"
 #include "watcfX.hpp"
 #include "state_fzzX.hpp"
 #include "wallocX.hpp"
+
+uint8 ucAlZOTimeTicks;
 
 void InitWATCF(
    void){
