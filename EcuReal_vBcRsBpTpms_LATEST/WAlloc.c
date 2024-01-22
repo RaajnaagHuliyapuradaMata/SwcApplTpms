@@ -103,17 +103,9 @@ static boolean bCheckIfNewTelAllowed(
    unsigned char ucIx);
 static void CheckAndMarkNewIdER(
    unsigned char ucIx);
-static boolean bGetZomPotentStatusOfID(
-   unsigned char ucIx);
-
-#pragma PRQA_NO_SIDE_EFFECTS bGetZomPotentStatusOfID
-static boolean bGetZomOwnStatusOfID(
-   unsigned char ucIx);
-#pragma PRQA_NO_SIDE_EFFECTS bGetZomOwnStatusOfID
-
-static unsigned char ucGetHistoryState(
-   void);
-#pragma PRQA_NO_SIDE_EFFECTS ucGetHistoryState
+static boolean bGetZomPotentStatusOfID(unsigned char ucIx);
+static boolean bGetZomOwnStatusOfID(unsigned char ucIx);
+static unsigned char ucGetHistoryState(void);
 
 static void SetWActiveState(
    unsigned char ucVal);

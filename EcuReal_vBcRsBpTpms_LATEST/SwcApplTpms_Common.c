@@ -13,7 +13,7 @@
 /* certain responsibilities, if you distribute copies of the software, or if  */
 /* you modify it: responsibilities to respect the freedom of others.          */
 /*                                                                            */
-/* All rights reserved. Copyright © 1982 Raajnaag HULIYAPURADA MATA           */
+/* All rights reserved. Copyright ï¿½ 1982 Raajnaag HULIYAPURADA MATA           */
 /*                                                                            */
 /* Always refer latest software version from:                                 */
 /* https://github.com/RaajnaagHuliyapuradaMata?tab=repositories               */
@@ -73,6 +73,13 @@
 /******************************************************************************/
 /* TYPEDEFS                                                                   */
 /******************************************************************************/
+typedef struct{
+   boolean bPlacardValid;
+   uint8   ucTpmsIndication;
+   uint8   ucReserved01;
+   uint8   ucReserved02;
+}struct_System;
+
 #ifdef BUILD_WITH_UNUSED_DATA
 struct struct_RE_Data{
    uint32 ulID;
@@ -85,77 +92,67 @@ struct struct_RE_Data{
    uint8  ucWheelDir;
 };
 
-struct  struct_sBitfeld_BZ{
-  bitfield bEigenradHist    :1;
-  bitfield bZugeordnetHist  :1;
-  bitfield bEigenrad        :1;
-  bitfield bZugeordnet      :1;
-  bitfield bBestaetigt      :1;
-  bitfield bXdaCanOn        :1;
-  bitfield bSystemActive    :1;
-  bitfield UnusedBit8       :1;
-  bitfield UnusedBit7       :1;
-  bitfield UnusedBit6       :1;
-  bitfield UnusedBit5       :1;
-  bitfield UnusedBit4       :1;
-  bitfield UnusedBit3       :1;
-  bitfield UnusedBit2       :1;
-  bitfield UnusedBit1       :1;
-  bitfield UnusedBit0       :1;
+struct struct_sBitfeld_BZ{
+   bitfield bEigenradHist      : 1;
+   bitfield bZugeordnetHist    : 1;
+   bitfield bEigenrad          : 1;
+   bitfield bZugeordnet        : 1;
+   bitfield bBestaetigt        : 1;
+   bitfield bXdaCanOn          : 1;
+   bitfield bSystemActive      : 1;
+   bitfield UnusedBit8         : 1;
+   bitfield UnusedBit7         : 1;
+   bitfield UnusedBit6         : 1;
+   bitfield UnusedBit5         : 1;
+   bitfield UnusedBit4         : 1;
+   bitfield UnusedBit3         : 1;
+   bitfield UnusedBit2         : 1;
+   bitfield UnusedBit1         : 1;
+   bitfield UnusedBit0         : 1;
 };
 
-struct  struct_sBitfeld_FZZ{
-  bitfield bMotor_laeuft     :1;
-  bitfield bLiftAchseUp      :1;
-  bitfield bLiftaxleAvailable:1;
-  bitfield bAntUeberStromAkt :1;
-  bitfield bAntUeberSpgAkt   :1;
-  bitfield bSw_Kl15          :1;
-  bitfield bFzg_faehrt       :1;
-  bitfield bCan0_BusOff      :1;
-  bitfield bUnusedbit7       :1;
-  bitfield bUnusedBit6       :1;
-  bitfield bUnusedBit5       :1;
-  bitfield bUnusedBit4       :1;
-  bitfield bUnusedBit3       :1;
-  bitfield bUnusedBit2       :1;
-  bitfield bUnusedBit1       :1;
-  bitfield bUnusedBit0       :1;
-};
-
-struct struct_System{
-  boolean bPlacardValid;
-  uint8 ucTpmsIndication;
-  uint8 ucReserved01;
-  uint8 ucReserved02;
+struct struct_sBitfeld_FZZ{
+   bitfield bMotor_laeuft      : 1;
+   bitfield bLiftAchseUp       : 1;
+   bitfield bLiftaxleAvailable : 1;
+   bitfield bAntUeberStromAkt  : 1;
+   bitfield bAntUeberSpgAkt    : 1;
+   bitfield bSw_Kl15           : 1;
+   bitfield bFzg_faehrt        : 1;
+   bitfield bCan0_BusOff       : 1;
+   bitfield bUnusedbit7        : 1;
+   bitfield bUnusedBit6        : 1;
+   bitfield bUnusedBit5        : 1;
+   bitfield bUnusedBit4        : 1;
+   bitfield bUnusedBit3        : 1;
+   bitfield bUnusedBit2        : 1;
+   bitfield bUnusedBit1        : 1;
+   bitfield bUnusedBit0        : 1;
 };
 
 typedef struct{
-  bitfield bUnused00             :1;
-  bitfield bUnused01             :1;
-  bitfield bUnused02             :1;
-  bitfield bUnused03             :1;
-  bitfield VBatLowTxOff          :1;
-  bitfield VBatLowDtc            :1;
-  bitfield WUDefect              :1;
-  bitfield WUFailed              :1;
-
-  bitfield RAMError              :1;
-  bitfield ROMError              :1;
-  bitfield HfRecDemErr           :1;
-  bitfield HfRecRssiErr          :1;
-  bitfield StopVDiag             :1;
-  bitfield VBatSuspect           :1;
-  bitfield VBatLow               :1;
-  bitfield VBatHigh              :1;
+   bitfield bUnused00          : 1;
+   bitfield bUnused01          : 1;
+   bitfield bUnused02          : 1;
+   bitfield bUnused03          : 1;
+   bitfield VBatLowTxOff       : 1;
+   bitfield VBatLowDtc         : 1;
+   bitfield WUDefect           : 1;
+   bitfield WUFailed           : 1;
+   bitfield RAMError           : 1;
+   bitfield ROMError           : 1;
+   bitfield HfRecDemErr        : 1;
+   bitfield HfRecRssiErr       : 1;
+   bitfield StopVDiag          : 1;
+   bitfield VBatSuspect        : 1;
+   bitfield VBatLow            : 1;
+   bitfield VBatHigh           : 1;
 }tBitfeldDI;
 
 typedef struct{
-  tBitfeldDI      b;
+   tBitfeldDI b;
 }tDIAG;
-
 #endif
-
 
 /******************************************************************************/
 /* CONSTS                                                                     */
@@ -186,10 +183,10 @@ const unsigned char aucCRC2fTab[] = {
 /******************************************************************************/
 /* OBJECTS                                                                    */
 /******************************************************************************/
-static struct struct_System m_sSystem;
-static uint16 m_uiSystemTicks_ms;
-static uint8  m_ucSystemTicks_sec;
-static uint8  m_ucSystemTicks_min;
+static struct_System m_sSystem;
+static uint16        m_uiSystemTicks_ms;
+static uint8         m_ucSystemTicks_sec;
+static uint8         m_ucSystemTicks_min;
 
 #ifdef BUILD_WITH_UNUSED_DATA
 static tDIAG tDiagnoseDI;
@@ -198,17 +195,17 @@ static tDIAG tDiagnoseDI;
 /******************************************************************************/
 /* FUNCTIONS                                                                  */
 /******************************************************************************/
-       void    Init_Huf_Common(void);
-       void    Huf_SWC_Basic_Timer(void);
-       uint8   GetNextWheelIndex(uint8 *ucpWheelIndex);
-static uint8   CalcCrc8(const uint8 ui8BasePtr[], uint8 ui8BufLen);
-       uint8   GetSystem_Data_MalfunctionBulb(void);
+       void  Init_Huf_Common                (void);
+       void  Huf_SWC_Basic_Timer            (void);
+       uint8 GetNextWheelIndex              (      uint8* ucpWheelIndex);
+static uint8 CalcCrc8                       (const uint8  ui8BasePtr[], uint8 ui8BufLen);
+       uint8 GetSystem_Data_MalfunctionBulb (void);
 
 #ifdef BUILD_WITH_UNUSED_FUNCTION
        void    PUTbWUDefectDI(boolean bWUDefect);
        void    PUTbWUFailedDI(boolean bWUFailed);
-       void    INCREMENT(uint8 *ucValue, uint8 ucThreshold);
-       void    DECREMENT(uint8 *ucValue, uint8 ucThreshold);
+       void    INCREMENT(uint8* ucValue, uint8 ucThreshold);
+       void    DECREMENT(uint8* ucValue, uint8 ucThreshold);
        boolean HufIf_CheckCRC8(const uint8 *pucAkTel);
        uint8   GetSystem_Data_TpmsIndication(void);
        boolean GetSystem_Data_PacardValuesValid(void);
@@ -217,7 +214,7 @@ static void    SetSystem_Data_Reserved01(uint8 ucData);
 static void    SetSystem_Data_Reserved02(uint8 ucData);
        uint8   GetSystem_Data_Reserved02(void);
        sint8   Calc_Real_AK_Temperature(uint8 ucAk_TempInfo);
-#endif //BUILD_WITH_UNUSED_FUNCTION
+#endif
 
 void Init_Huf_Common(void){
    Init_OSEK();
@@ -226,8 +223,8 @@ void Init_Huf_Common(void){
    m_ucSystemTicks_min = 0U;
 
 #ifdef BUILD_WITH_UNUSED_FUNCTION
-   m_sSystem.bPlacardValid = TRUE;
-   m_sSystem.ucTpmsIndication   = 0x00U;
+   m_sSystem.bPlacardValid    = TRUE;
+   m_sSystem.ucTpmsIndication = 0x00U;
    SetSystem_Data_Reserved01(0x00U);
    SetSystem_Data_Reserved02(0x00U);
 #endif
@@ -260,7 +257,7 @@ void DECREMENT(uint8 *ucValue,uint8 ucThreshold){
     (*ucValue) = ucThreshold;
   }
 }
-#endif //BUILD_WITH_UNUSED_FUNCTION
+#endif
 
 void Huf_SWC_Basic_Timer(void){
 #ifdef HUF_DEBUG
@@ -398,7 +395,7 @@ uint8 GetNextWheelIndex(uint8 *ucpWheelIndex){
   }
   return(l_ucIsoPos);
 }
-#endif // BUILD_WITH_UNUSED_FUNCTION
+#endif
 
 static uint8 CalcCrc8(const uint8 ui8BasePtr[], uint8 ui8BufLen){
    uint8 l_ucLauf, ui8CRCReg = (uint8) 0xAA;

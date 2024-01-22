@@ -175,14 +175,14 @@ extern unsigned char  WAInit                                (void);
 extern unsigned char  ucLearnID                             (struct InputWA* ptInputWA);
 extern unsigned char  ucWATO                                (void);
 extern unsigned char  ucGetColOfID                          (unsigned long* pt2ID);
-extern unsigned char  ucGetWPOfCol                          (unsigned char ucIx);
-extern unsigned long  ulGetID                               (unsigned char ucIx);
+extern unsigned char  ucGetWPOfCol                          (unsigned char  ucIx);
+extern unsigned long  ulGetID                               (unsigned char  ucIx);
 extern uint8          ucSetID                               (uint32* pt2ID, uint8* pt2Pos);
-extern unsigned char  ucGetIndexOfHistoryWP                 (unsigned char ucWPNumber);
-extern unsigned char  ucGetZOMWP                            (unsigned char ucIx);
-extern unsigned char  ucSetHistory                          (unsigned char ucType);
+extern unsigned char  ucGetIndexOfHistoryWP                 (unsigned char  ucWPNumber);
+extern unsigned char  ucGetZOMWP                            (unsigned char  ucIx);
+extern unsigned char  ucSetHistory                          (unsigned char  ucType);
 extern void           AlignZOM                              (unsigned short ushERSlot);
-extern void           ClearZOM                              (unsigned char ucIx);
+extern void           ClearZOM                              (unsigned char  ucIx);
 extern void           SetWAModeFix                          (void);
 extern void           SetWAModeLearn                        (void);
 extern unsigned char* GETpucStartAdrWP                      (void);
@@ -192,26 +192,10 @@ extern void           IncrHistProtectTimer                  (void);
 extern void           WALLOC_UpdateTelegramSkipTimer        (void);
 extern unsigned char  WALLOC_ucGetMinSpeedAutoLearnStart    (void);
 extern unsigned char  ucCheckPotentialErInZom               (void);
-
-extern unsigned long ulGetZOMID(unsigned char ucIx);
-#ifndef CfgProject_dSwitchReSim
-#pragma PRQA_NO_SIDE_EFFECTS ulGetZOMID
-#endif
-
-extern unsigned char ucGetProbeCt(unsigned char ucIx);
-#ifndef CfgProject_dSwitchReSim
-#pragma PRQA_NO_SIDE_EFFECTS ucGetProbeCt
-#endif
-
-extern unsigned short ushGetMeanRssiSum(unsigned char ucIx);
-#ifndef CfgProject_dSwitchReSim
-#pragma PRQA_NO_SIDE_EFFECTS ushGetMeanRssiSum
-#endif
-
-extern boolean bGetHistProtecTimeOver(void);
-#ifndef CfgProject_dSwitchReSim
-#pragma PRQA_NO_SIDE_EFFECTS bGetHistProtecTimeOver
-#endif
+extern unsigned long  ulGetZOMID                            (unsigned char ucIx);
+extern unsigned char  ucGetProbeCt                          (unsigned char ucIx);
+extern unsigned short ushGetMeanRssiSum                     (unsigned char ucIx);
+extern boolean        bGetHistProtecTimeOver                (void);
 
 #ifdef FPA
 extern void RebuildABSRef         (unsigned char ucWP, unsigned char ucABSTicksOneRevol, unsigned char ucCorrectionValue);

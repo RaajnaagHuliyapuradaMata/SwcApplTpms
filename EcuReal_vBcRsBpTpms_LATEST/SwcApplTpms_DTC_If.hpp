@@ -138,19 +138,15 @@ extern uint8 DTC_StatusOfDTC;
 /******************************************************************************/
 /* FUNCTIONS                                                                  */
 /******************************************************************************/
-extern void Init_DTC                      (void);
-extern void SetCurrentErrorERR            (uint8 ucCurrentExtErrorIndex);
-extern void ResetCurrentErrorERR          (uint8 ucCurrentExtErrorIndex);
-extern void DeleteCurrentErrorERR         (uint8 ucCurrentExtErrorIndex);
-extern void DTC_SetDTCActiveStatus        (uint8 u8DTCToSet);
-extern void DTC_DeleteDTCActiveStatus     (uint8 u8DTCToDelete);
-extern void DTC_SaveActiveStatustoEE      (void);
-extern void DTC_RestoreActiveStatusfromEE (void);
-
-extern boolean DTC_GetActiveStatusOfDTC   (uint8 u8DTCNumber);
-#ifndef CfgProject_dSwitchReSim
-#pragma PRQA_NO_SIDE_EFFECTS DTC_GetActiveStatusOfDTC
-#endif
+extern void    Init_DTC                      (void);
+extern void    SetCurrentErrorERR            (uint8 ucCurrentExtErrorIndex);
+extern void    ResetCurrentErrorERR          (uint8 ucCurrentExtErrorIndex);
+extern void    DeleteCurrentErrorERR         (uint8 ucCurrentExtErrorIndex);
+extern void    DTC_SetDTCActiveStatus        (uint8 u8DTCToSet);
+extern void    DTC_DeleteDTCActiveStatus     (uint8 u8DTCToDelete);
+extern void    DTC_SaveActiveStatustoEE      (void);
+extern void    DTC_RestoreActiveStatusfromEE (void);
+extern boolean DTC_GetActiveStatusOfDTC      (uint8 u8DTCNumber);
 
 /******************************************************************************/
 /* EOF                                                                        */

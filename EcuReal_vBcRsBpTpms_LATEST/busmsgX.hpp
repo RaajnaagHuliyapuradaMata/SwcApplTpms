@@ -99,11 +99,7 @@ extern boolean BusMsgGetTyrePressValidHL   (void);
 extern void    BusMsgPutTyrePressValidHR   (boolean bstate);
 extern boolean BusMsgGetTyrePressValidHR   (void);
 extern void    BusMsgPutTextflag           (uint8 ucId, boolean bstate);
-
 extern boolean BusMsgGetTextflag           (uint8 ucId);
-#ifndef CfgProject_dSwitchReSim
-#pragma PRQA_NO_SIDE_EFFECTS BusMsgGetTextflag
-#endif
 
 /******************************************************************************/
 /* EOF                                                                        */

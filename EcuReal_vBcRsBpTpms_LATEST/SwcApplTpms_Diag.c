@@ -85,7 +85,7 @@ typedef struct{
 /******************************************************************************/
 /* OBJECTS                                                                    */
 /******************************************************************************/
-static uint8 DIAG__ReqCallback_ReadWSNr01                               tsTPMSDiag_Data *PS_MsgContext);
+static uint8 DIAG__ReqCallback_ReadWSNr01                               (tsTPMSDiag_Data *PS_MsgContext);
 static uint8 DIAG__ReqCallback_ReadWSNr02                               (tsTPMSDiag_Data *PS_MsgContext);
 static uint8 DIAG__ReqCallback_ReadWSNr03                               (tsTPMSDiag_Data *PS_MsgContext);
 static uint8 DIAG__ReqCallback_ReadWSNr04                               (tsTPMSDiag_Data *PS_MsgContext);
@@ -554,20 +554,17 @@ static uint8 DIAG__ReqCallback_WriteAdditionalPressureOfMinimumPressure(tsTPMSDi
   uint8 U8_VarCodMinPressThres;
   uint8 U8_LowLimitOfPMIN;
   uint8 U8_HighLimitOfPMIN = 0xD6;
-  U16_RespLenght = 0;
-  U8_VarCodMinPressThres   = ( PS_MsgContext->pucReqData[0] );
-  if(GETucVarCodLegislationEE() == E_EU_KO_LEG){
-          U8_LowLimitOfPMIN = u8_EU_MinPrs_digits;
-  }
-  else if(GETucVarCodLegislationEE() == E_US_LEG_NON_EXTRA_LOAD_TIRES){
-          U8_LowLimitOfPMIN = u8_US_NonExtra_MinPrs_digits;
-  }
-  else if(GETucVarCodLegislationEE() == E_US_LEG_EXTRA_LOAD_TIRES){
-          U8_LowLimitOfPMIN = u8_US_Extra_MinPrs_digits;
-  }
-  else
-          U8_LowLimitOfPMIN = u8_PRC_MinPrs_digits;
-  }
+
+  U16_RespLenght         = 0;
+  U8_VarCodMinPressThres = (PS_MsgContext->pucReqData[0]);
+
+   switch(GETucVarCodLegislationEE()){
+      case E_EU_KO_LEG:                   U8_LowLimitOfPMIN = u8_EU_MinPrs_digits;          break;
+      case E_US_LEG_NON_EXTRA_LOAD_TIRES: U8_LowLimitOfPMIN = u8_US_NonExtra_MinPrs_digits; break;
+      case E_US_LEG_EXTRA_LOAD_TIRES:     U8_LowLimitOfPMIN = u8_US_Extra_MinPrs_digits;    break;
+      default:                            U8_LowLimitOfPMIN = u8_PRC_MinPrs_digits;         break;
+   }
+
   if((U8_VarCodMinPressThres >= U8_LowLimitOfPMIN) && (U8_VarCodMinPressThres <= U8_HighLimitOfPMIN)){
       DIAG__PutMinPressThresEE( &U8_VarCodMinPressThres );
       if(ucPutPMinCS(U8_VarCodMinPressThres, 0) > 0){

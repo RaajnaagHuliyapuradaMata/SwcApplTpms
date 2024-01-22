@@ -138,81 +138,6 @@ typedef struct{
 /******************************************************************************/
 /* CONSTS                                                                     */
 /******************************************************************************/
-static const DCM_Struct_MultiplexDataType DCM_AS_ConfigureEventMultiplexMsg[DCM_EVENT_MULTIPLEX_SIZE] = {
-  {DCM_MULTIPLEX_0,   &DCM_MessageUpdateMultiplex_00     }
-   ,  {DCM_MULTIPLEX_1,   &DCM_MessageUpdateMultiplex_01     }
-   ,  {DCM_MULTIPLEX_2,   &DCM_MessageUpdateMultiplex_02     }
-   ,  {DCM_MULTIPLEX_3,   &DCM_MessageUpdateMultiplex_03     }
-   ,  {DCM_MULTIPLEX_4,   &DCM_MessageUpdateMultiplex_04     }
-   ,  {DCM_MULTIPLEX_5,   &DCM_MessageUpdateMultiplex_05     },
-#ifdef DEBUG_AUTOLOCATION
-  {DCM_MULTIPLEX_6,   &DCM_MessageUpdateMultiplex_06     }
-   ,  {DCM_MULTIPLEX_7,   &DCM_MessageUpdateMultiplex_07     }
-   ,  {DCM_MULTIPLEX_8,   &DCM_MessageUpdateMultiplex_08     }
-   ,  {DCM_MULTIPLEX_9,   &DCM_MessageUpdateMultiplex_09     }
-   ,  {DCM_MULTIPLEX_10,  &DCM_MessageUpdateMultiplex_10     }
-   ,  {DCM_MULTIPLEX_11,  &DCM_MessageUpdateMultiplex_11     }
-   ,  {DCM_MULTIPLEX_12,  &DCM_MessageUpdateMultiplex_12     }
-   ,  {DCM_MULTIPLEX_13,  &DCM_MessageUpdateMultiplex_13     }
-   ,  {DCM_MULTIPLEX_14,  &DCM_MessageUpdateMultiplex_14     }
-   ,  {DCM_MULTIPLEX_15,  &DCM_MessageUpdateMultiplex_15     }
-   ,  {DCM_MULTIPLEX_16,  &DCM_MessageUpdateMultiplex_16     }
-   ,  {DCM_MULTIPLEX_17,  &DCM_MessageUpdateMultiplex_17     },
-#endif
-  {DCM_MULTIPLEX_20,  &DCM_MessageUpdateMultiplex_20     }
-   ,  {DCM_MULTIPLEX_21,  &DCM_MessageUpdateMultiplex_21     },
-};
-
-static const DCM_Struct_MultiplexDataType DCM_AS_ConfigureSystemMultiplexMsg[DCM_SYSTEM_MULTIPLEX_SIZE] = {
-  {DCM_MULTIPLEX_22,  &DCM_MessageUpdateMultiplex_22     }
-   ,  {DCM_MULTIPLEX_23,  &DCM_MessageUpdateMultiplex_23     }
-   ,  {DCM_MULTIPLEX_24,  &DCM_MessageUpdateMultiplex_24     },
-#ifdef NVM_DEBUG
-  {DCM_MULTIPLEX_25,  &DCM_MessageUpdateMultiplex_25     },
-#endif
-  {DCM_MULTIPLEX_30,  &DCM_MessageUpdateMultiplex_30     }
-   ,  {DCM_MULTIPLEX_31,  &DCM_MessageUpdateMultiplex_31     }
-   ,  {DCM_MULTIPLEX_32,  &DCM_MessageUpdateMultiplex_32     }
-   ,  {DCM_MULTIPLEX_33,  &DCM_MessageUpdateMultiplex_33     }
-   ,  {DCM_MULTIPLEX_40,  &DCM_MessageUpdateMultiplex_40     }
-   ,  {DCM_MULTIPLEX_41,  &DCM_MessageUpdateMultiplex_41     }
-   ,  {DCM_MULTIPLEX_42,  &DCM_MessageUpdateMultiplex_42     }
-   ,  {DCM_MULTIPLEX_43,  &DCM_MessageUpdateMultiplex_43     }
-   ,  {DCM_MULTIPLEX_44,  &DCM_MessageUpdateMultiplex_44     }
-   ,  {DCM_MULTIPLEX_45,  &DCM_MessageUpdateMultiplex_45     }
-   ,  {DCM_MULTIPLEX_46,  &DCM_MessageUpdateMultiplex_46     }
-   ,  {DCM_MULTIPLEX_47,  &DCM_MessageUpdateMultiplex_47     },
-};
-
-/******************************************************************************/
-/* PARAMS                                                                     */
-/******************************************************************************/
-
-/******************************************************************************/
-/* OBJECTS                                                                    */
-/******************************************************************************/
-static boolean bo_StructSystemMultiLast;
-static uint8 u8_EnvReadCnt;
-static uint8 u8_SysReadCnt;
-static uint8 u8_EnvWriteCnt;
-static uint8 u8_SysWriteCnt;
-static uint8 DCM_U8_EventDataMaxMultiplexNr;
-static uint8 DCM_U8_SystemDataMaxMultiplexNr;
-static Type_SwcApplTpms_stMessageCan S_HufEnvMsgBuf[DCM_MAX_SIZE_ENV_BUF];
-static Type_SwcApplTpms_stMessageCan S_HufSysMsgBuf[DCM_MAX_SIZE_SYS_BUF];
-static DCM_StructMultiplexMessageIDs DCM_S_MultiplexMessageIDs;
-
-/******************************************************************************/
-/* FUNCTIONS                                                                  */
-/******************************************************************************/
-static void DCM_SystemDataPutToQueue(void);
-static void DCM_PutSystemData2Buffer(Type_SwcApplTpms_stMessageCan S_SysDataMultiplex);
-static void DCM_SystemDataGetFromBuffer(Type_SwcApplTpms_stMessageCan* tHufDisplay);
-static void DCM_StoreMaxMultiplexSystemNr(uint8 U8_CurrentMultiplexNr);
-static void DCM_EventDataPutToQueue(void);
-static void DCM_PutEventData2Buffer(Type_SwcApplTpms_stMessageCan S_EnvDataMultiplex);
-static boolean DCM_EventDataGetFromBuffer(Type_SwcApplTpms_stMessageCan* tHufDisplay);
-static void DCM_StoreMaxMultiplexEventNr(uint8 U8_CurrentMultiplexNr);
 static void DCM_MessageUpdateMultiplex_00(uint8 U8_CfgArrPosition);
 static void DCM_MessageUpdateMultiplex_01(uint8 U8_CfgArrPosition);
 static void DCM_MessageUpdateMultiplex_02(uint8 U8_CfgArrPosition);
@@ -257,6 +182,82 @@ static void DCM_MessageUpdateMultiplex_44(uint8 U8_CfgArrPosition);
 static void DCM_MessageUpdateMultiplex_45(uint8 U8_CfgArrPosition);
 static void DCM_MessageUpdateMultiplex_46(uint8 U8_CfgArrPosition);
 static void DCM_MessageUpdateMultiplex_47(uint8 U8_CfgArrPosition);
+
+static const DCM_Struct_MultiplexDataType DCM_AS_ConfigureEventMultiplexMsg[DCM_EVENT_MULTIPLEX_SIZE] = {
+      {DCM_MULTIPLEX_0,   &DCM_MessageUpdateMultiplex_00}
+   ,  {DCM_MULTIPLEX_1,   &DCM_MessageUpdateMultiplex_01}
+   ,  {DCM_MULTIPLEX_2,   &DCM_MessageUpdateMultiplex_02}
+   ,  {DCM_MULTIPLEX_3,   &DCM_MessageUpdateMultiplex_03}
+   ,  {DCM_MULTIPLEX_4,   &DCM_MessageUpdateMultiplex_04}
+   ,  {DCM_MULTIPLEX_5,   &DCM_MessageUpdateMultiplex_05}
+#ifdef DEBUG_AUTOLOCATION
+   ,  {DCM_MULTIPLEX_6,   &DCM_MessageUpdateMultiplex_06}
+   ,  {DCM_MULTIPLEX_7,   &DCM_MessageUpdateMultiplex_07}
+   ,  {DCM_MULTIPLEX_8,   &DCM_MessageUpdateMultiplex_08}
+   ,  {DCM_MULTIPLEX_9,   &DCM_MessageUpdateMultiplex_09}
+   ,  {DCM_MULTIPLEX_10,  &DCM_MessageUpdateMultiplex_10}
+   ,  {DCM_MULTIPLEX_11,  &DCM_MessageUpdateMultiplex_11}
+   ,  {DCM_MULTIPLEX_12,  &DCM_MessageUpdateMultiplex_12}
+   ,  {DCM_MULTIPLEX_13,  &DCM_MessageUpdateMultiplex_13}
+   ,  {DCM_MULTIPLEX_14,  &DCM_MessageUpdateMultiplex_14}
+   ,  {DCM_MULTIPLEX_15,  &DCM_MessageUpdateMultiplex_15}
+   ,  {DCM_MULTIPLEX_16,  &DCM_MessageUpdateMultiplex_16}
+   ,  {DCM_MULTIPLEX_17,  &DCM_MessageUpdateMultiplex_17}
+#endif
+   ,  {DCM_MULTIPLEX_20,  &DCM_MessageUpdateMultiplex_20}
+   ,  {DCM_MULTIPLEX_21,  &DCM_MessageUpdateMultiplex_21}
+};
+
+static const DCM_Struct_MultiplexDataType DCM_AS_ConfigureSystemMultiplexMsg[DCM_SYSTEM_MULTIPLEX_SIZE] = {
+      {DCM_MULTIPLEX_22,  &DCM_MessageUpdateMultiplex_22}
+   ,  {DCM_MULTIPLEX_23,  &DCM_MessageUpdateMultiplex_23}
+   ,  {DCM_MULTIPLEX_24,  &DCM_MessageUpdateMultiplex_24}
+#ifdef NVM_DEBUG
+   ,  {DCM_MULTIPLEX_25,  &DCM_MessageUpdateMultiplex_25}
+#endif
+   ,  {DCM_MULTIPLEX_30,  &DCM_MessageUpdateMultiplex_30}
+   ,  {DCM_MULTIPLEX_31,  &DCM_MessageUpdateMultiplex_31}
+   ,  {DCM_MULTIPLEX_32,  &DCM_MessageUpdateMultiplex_32}
+   ,  {DCM_MULTIPLEX_33,  &DCM_MessageUpdateMultiplex_33}
+   ,  {DCM_MULTIPLEX_40,  &DCM_MessageUpdateMultiplex_40}
+   ,  {DCM_MULTIPLEX_41,  &DCM_MessageUpdateMultiplex_41}
+   ,  {DCM_MULTIPLEX_42,  &DCM_MessageUpdateMultiplex_42}
+   ,  {DCM_MULTIPLEX_43,  &DCM_MessageUpdateMultiplex_43}
+   ,  {DCM_MULTIPLEX_44,  &DCM_MessageUpdateMultiplex_44}
+   ,  {DCM_MULTIPLEX_45,  &DCM_MessageUpdateMultiplex_45}
+   ,  {DCM_MULTIPLEX_46,  &DCM_MessageUpdateMultiplex_46}
+   ,  {DCM_MULTIPLEX_47,  &DCM_MessageUpdateMultiplex_47}
+};
+
+/******************************************************************************/
+/* PARAMS                                                                     */
+/******************************************************************************/
+
+/******************************************************************************/
+/* OBJECTS                                                                    */
+/******************************************************************************/
+static Type_SwcApplTpms_stMessageCan S_HufEnvMsgBuf[DCM_MAX_SIZE_ENV_BUF];
+static Type_SwcApplTpms_stMessageCan S_HufSysMsgBuf[DCM_MAX_SIZE_SYS_BUF];
+static DCM_StructMultiplexMessageIDs DCM_S_MultiplexMessageIDs;
+static uint8                         u8_EnvReadCnt;
+static uint8                         u8_SysReadCnt;
+static uint8                         u8_EnvWriteCnt;
+static uint8                         u8_SysWriteCnt;
+static uint8                         DCM_U8_EventDataMaxMultiplexNr;
+static uint8                         DCM_U8_SystemDataMaxMultiplexNr;
+static boolean                       bo_StructSystemMultiLast;
+
+/******************************************************************************/
+/* FUNCTIONS                                                                  */
+/******************************************************************************/
+static void DCM_SystemDataPutToQueue(void);
+static void DCM_PutSystemData2Buffer(Type_SwcApplTpms_stMessageCan S_SysDataMultiplex);
+static void DCM_SystemDataGetFromBuffer(Type_SwcApplTpms_stMessageCan* tHufDisplay);
+static void DCM_StoreMaxMultiplexSystemNr(uint8 U8_CurrentMultiplexNr);
+static void DCM_EventDataPutToQueue(void);
+static void DCM_PutEventData2Buffer(Type_SwcApplTpms_stMessageCan S_EnvDataMultiplex);
+static boolean DCM_EventDataGetFromBuffer(Type_SwcApplTpms_stMessageCan* tHufDisplay);
+static void DCM_StoreMaxMultiplexEventNr(uint8 U8_CurrentMultiplexNr);
 
 static uint8 DCM_AU8_EventMultiplexActiveStatus[DCM_SIZEOF_EVENT_MULTIPLEXES];
 static uint8 DCM_AU8_SystemMultiplexActiveStatus[DCM_SIZEOF_SYSTEM_MULTIPLEXES];
